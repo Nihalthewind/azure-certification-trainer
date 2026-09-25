@@ -93,3 +93,10 @@ Les 286 questions AZ-305 affichent désormais un bloc **Contexte pédagogique** 
 - Le menu Faiblesses a été retiré.
 - Le diagnostic des domaines faibles est intégré à « Maîtrise par domaine » sur le tableau de bord.
 - Les domaines sont triés du plus faible au plus maîtrisé, avec un bouton pour travailler directement le domaine choisi.
+
+
+## v2.0.6
+
+- Bouton EN ⇄ FR à côté de ÉDITION 2026.
+- Traduction dynamique français / anglais sans modifier les questions sources.
+- Préférence de langue mémorisée localement.

@@ -146,6 +146,13 @@ node controle_qualite.js
 
 ## Historique condensé des versions
 
+### v2.0.6 - Traduction EN / FR
+
+- bouton **EN ⇄ FR** ajouté à côté de **ÉDITION 2026** ;
+- traduction à la volée de l’anglais vers le français ;
+- retour à la version originale anglaise en un clic ;
+- langue choisie mémorisée localement.
+
 ### v2.0.5 - Maîtrise par domaine
 - Suppression du menu **Faiblesses**.
 - Diagnostic des faiblesses intégré directement à **Maîtrise par domaine**.
@@ -186,5 +193,5 @@ node controle_qualite.js
 
 ---
 
-**Version actuelle : v2.0.5**  
+**Version actuelle : v2.0.6**  
 **Édition : 2026**
