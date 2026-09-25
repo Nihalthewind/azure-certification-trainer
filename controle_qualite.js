@@ -56,7 +56,7 @@ for(const cfg of [cfg104,cfg305].filter(Boolean)){
   for(const id of cfg.exam.caseStudyIds||[])ok(bankIds.has(id),`${cfg.code}: case id absent ${id}`);
 }
 const html=fs.readFileSync(path.join(root,'OUVRIR_FORMATIONS.html'),'utf8');
-for(const id of ['trainingSelect','importTrainingButton','manageTrainingButton','focusButton','focusMenuButton','caseContext','compactButton','resetExamButton','examHistoryButton','historyCount','questionNavigatorButton'])ok(html.includes(`id="${id}"`),`HTML: #${id} absent`);
+for(const id of ['trainingSelect','importTrainingButton','manageTrainingButton','focusMenuButton','settingsButton','settingsPanel','caseContext','compactButton','resetExamButton','questionNavigatorButton','examHistoryPanel'])ok(html.includes(`id="${id}"`),`HTML: #${id} absent`);
 ok(/<html\s+lang="en"/.test(html),'HTML: langue source non déclarée en anglais');
 ok(!/notranslate/i.test(html),'HTML: traduction navigateur bloquée');
 for(const script of ['questions.js','az305_questions.js','formations.js','importer.js','atelier.js'])ok(html.includes(`src="${script}"`),`HTML: script ${script} absent`);
@@ -69,6 +69,8 @@ ok(/root\.states/.test(app),'Progression par formation absente');
 ok(/autoScorable!==false/.test(app),'Examen: exclusion auto-évaluation absente');
 ok(/state\.examFocus/.test(app),'Focus global absent');
 ok(/examHistory/.test(app),'Historique des examens absent');
+ok(!html.includes('id="examHistoryButton"'),'Historique examens encore présent dans le menu latéral');
+ok(/data-dashboard-history/.test(html),'Accès historique depuis le dashboard absent');
 ok(/openQuestionNavigator/.test(app),'Navigation libre des questions absente');
 ok(/state\.examHistory\.unshift/.test(app),'Enregistrement des examens terminés absent');
 if(failures.length){console.error(`ECHEC: ${failures.length} anomalie(s)`);for(const f of failures)console.error(' - '+f);process.exit(1);} 
