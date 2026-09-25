@@ -49,7 +49,7 @@ Pour les formats visuels non convertibles automatiquement, le client utilise l'a
 - Focus disponible dans tous les modes depuis l'en-tête et le menu.
 - Compact et Reset dans l'examen blanc.
 - Recherche et filtres par domaine.
-- Révision espacée, erreurs, progression locale et export JSON.
+- Erreurs, mode Faiblesses, progression locale et export JSON.
 - Thèmes clair/sombre.
 - Traduction navigateur EN -> FR non bloquée.
 - **Historique des examens** par formation : date, score, durée et résultat par domaine pour chaque nouvel examen terminé.
@@ -74,8 +74,8 @@ Les 286 questions AZ-305 affichent désormais un bloc **Contexte pédagogique** 
 ## Version 2.0 - apprentissage personnalisé
 
 - Tableau de bord de progression par certification.
-- Mode Faiblesses basé sur les erreurs, révisions dues et domaines les moins maîtrisés.
-- Répétition espacée conservée (J+1 / J+3 / J+7 / J+14 / J+30).
+- Mode Faiblesses basé sur les erreurs et les domaines les moins maîtrisés.
+- Répétition espacée retirée : le parcours est optimisé pour une formation ponctuelle.
 - Favoris et notes personnelles par question.
 - Signalements locaux de contenu à vérifier.
 - Export ET import de progression JSON.
