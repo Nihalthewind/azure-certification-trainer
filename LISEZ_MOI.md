@@ -87,3 +87,9 @@ Les 286 questions AZ-305 affichent désormais un bloc **Contexte pédagogique** 
 - Historique examens retire du menu lateral : ouvrir la carte "Examens" ou le graphique d'historique depuis le Tableau de bord.
 - Focus, theme, import/gestion des formations, sauvegarde/restauration et installation regroupes dans le bouton Parametres en bas a gauche.
 - Le bouton Parametres reste disponible en mode Focus pour pouvoir en sortir.
+
+
+## v2.0.5
+- Le menu Faiblesses a été retiré.
+- Le diagnostic des domaines faibles est intégré à « Maîtrise par domaine » sur le tableau de bord.
+- Les domaines sont triés du plus faible au plus maîtrisé, avec un bouton pour travailler directement le domaine choisi.

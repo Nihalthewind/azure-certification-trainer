@@ -73,3 +73,15 @@ html[data-theme=light]{color-scheme:light;--bg:#f4f6fa;--rail:#fff;--panel:#fff;
 .focus-mode .settings-button .settings-label,.focus-mode .settings-button .settings-chevron{display:none}
 .focus-mode .settings-panel{left:0;right:auto;bottom:56px;width:230px}
 @media(max-width:830px){.rail-bottom{display:block!important;position:fixed;left:12px;bottom:12px;z-index:90;margin:0;padding:0;border:0;background:transparent}.settings-button{width:44px;height:44px;min-height:44px;padding:0;justify-content:center;border-radius:12px;background:var(--panel)}.settings-button .settings-label,.settings-button .settings-chevron{display:none}.settings-panel{left:0;right:auto;bottom:54px;width:230px}.rail{padding-bottom:12px}}
+
+/* v2.0.5 - La logique Faiblesses est intégrée au dashboard Maîtrise par domaine. */
+.domain-stat-action{padding:10px 0;border-bottom:1px solid var(--border)}
+.domain-stat-action:last-child{border-bottom:0;padding-bottom:0}
+.domain-stat-head,.domain-stat-foot{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.domain-stat-score{display:flex;align-items:center;gap:8px}
+.domain-strength{font-style:normal;font-size:8px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--subtle);border:1px solid var(--border);border-radius:999px;padding:3px 7px;background:var(--surface)}
+.domain-strength.is-weak{color:#f0bc45;border-color:color-mix(in srgb,#f0bc45 42%,var(--border))}
+.domain-stat-foot small{min-width:0}
+.domain-train-button{border:1px solid var(--border);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 10px;font-size:9px;font-weight:800;white-space:nowrap;cursor:pointer}
+.domain-train-button:hover{border-color:var(--accent);color:var(--accent)}
+@media(max-width:640px){.domain-stat-foot{align-items:flex-end}.domain-stat-score{gap:5px}.domain-strength{display:none}}
