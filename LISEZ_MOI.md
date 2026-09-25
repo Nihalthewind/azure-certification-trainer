@@ -69,3 +69,16 @@ Le contrôle vérifie les 568 questions AZ-104, les 286 questions AZ-305, les id
 ## AZ-305 - contexte des corrections
 
 Les 286 questions AZ-305 affichent désormais un bloc **Contexte pédagogique** après validation. Lorsqu’une explication détaillée existe dans le PDF source, elle est conservée séparément dans **Détail du support source**.
+
+
+## Version 2.0 - apprentissage personnalisé
+
+- Tableau de bord de progression par certification.
+- Mode Faiblesses basé sur les erreurs, révisions dues et domaines les moins maîtrisés.
+- Répétition espacée conservée (J+1 / J+3 / J+7 / J+14 / J+30).
+- Favoris et notes personnelles par question.
+- Signalements locaux de contenu à vérifier.
+- Export ET import de progression JSON.
+- Questions marquées pendant l'examen et temps moyen enregistré dans l'historique.
+- PWA installable depuis GitHub Pages avec cache hors ligne.
+- Version applicative : v2.0.0.

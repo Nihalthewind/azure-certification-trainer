@@ -1,0 +1,18 @@
+{
+  "name": "Azure Certification Trainer",
+  "short_name": "Azure Trainer",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1120",
+  "theme_color": "#0b1120",
+  "description": "Parcours de préparation Azure AZ-104 et AZ-305",
+  "icons": [
+    {
+      "src": "assets/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
