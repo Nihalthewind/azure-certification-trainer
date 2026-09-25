@@ -146,6 +146,13 @@ node controle_qualite.js
 
 ## Historique condensé des versions
 
+### v2.0.7 - Traduction intégrée sans bandeau
+
+- Le sélecteur EN / FR reste dans l'en-tête de l'application.
+- Suppression visuelle du bandeau et des fenêtres Google Translate.
+- Le changement de langue ne décale plus la page et conserve le design natif.
+- Renforcement du nettoyage du cache de traduction côté navigateur.
+
 ### v2.0.6 - Traduction EN / FR
 
 - bouton **EN ⇄ FR** ajouté à côté de **ÉDITION 2026** ;
@@ -193,5 +200,5 @@ node controle_qualite.js
 
 ---
 
-**Version actuelle : v2.0.6**  
+**Version actuelle : v2.0.7**  
 **Édition : 2026**

@@ -95,7 +95,7 @@ Les 286 questions AZ-305 affichent désormais un bloc **Contexte pédagogique** 
 - Les domaines sont triés du plus faible au plus maîtrisé, avec un bouton pour travailler directement le domaine choisi.
 
 
-## v2.0.6
+## v2.0.7
 
 - Bouton EN ⇄ FR à côté de ÉDITION 2026.
 - Traduction dynamique français / anglais sans modifier les questions sources.
