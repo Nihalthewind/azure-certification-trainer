@@ -1,84 +1,190 @@
-# Azure Certification Trainer · 24 septembre 2026
+# Azure Certification Trainer
 
-## Démarrer
+Plateforme web de préparation aux certifications Microsoft Azure, actuellement dédiée à **AZ-104** et **AZ-305**.
 
-1. Décompressez toute l'archive dans un même dossier.
-2. Ouvrez **OUVRIR_FORMATIONS.html** dans Chrome ou Edge. `OUVRIR_AZ104.html` reste présent pour compatibilité et ouvre le même client.
-3. Choisissez la formation dans le sélecteur en haut du menu : **AZ-104** ou **AZ-305**.
-
-La progression, les erreurs, les révisions et les examens sont séparés par formation. Les questions restent dans leur langue source (anglais) et la traduction du navigateur vers le français reste disponible.
+Le projet fonctionne en **HTML / CSS / JavaScript statique**, peut être hébergé sur **GitHub Pages** et conserve la progression localement dans le navigateur.
 
 ## Formations intégrées
 
-### AZ-104
+### AZ-104 - Azure Administrator
+- **568 questions**.
+- Base de connaissances complète.
+- Questions QCM, Oui/Non, listes et fiches question/réponse.
+- Examen blanc : **48 questions / 100 minutes**.
+- Étude de cas intégrée.
 
-- 568 questions.
-- Base de connaissances, Révision, Erreurs et Examen blanc.
-- Examen : 48 questions, 100 minutes, étude de cas de 4 questions et une question à contextes multiples.
-- Les 404 fiches Q/R restent répondables, y compris celles qui nécessitent une saisie lorsqu'aucun distracteur fiable n'existe dans la source.
+### AZ-305 - Azure Solutions Architect
+- **286 questions**.
+- QCM, HOTSPOT, DRAG DROP et études de cas.
+- Illustrations d'énoncé et de correction conservées lorsque nécessaires.
+- Contexte pédagogique affiché après validation.
+- Examen blanc : **48 questions / 100 minutes**.
 
-### AZ-305
+## Fonctionnalités principales
 
-- 286 questions extraites du PDF fourni.
-- 183 questions avec choix textuels, 42 formats visuels automatiquement évaluables et 61 formats visuels en auto-évaluation.
-- 125 questions utilisent une illustration d'énoncé et 103 une illustration de correction.
-- Les HOTSPOT, DRAG DROP et études de cas sont conservés. Quand une correction visuelle ne peut pas être convertie proprement en champs interactifs, le client demande d'abord une réponse libre puis révèle l'illustration de correction.
-- Examen de pratique : 48 questions, 100 minutes, avec une étude de cas de 5 questions issue du corpus. Ce réglage est propre à AZ-305 et peut évoluer indépendamment d'AZ-104.
+- **Tableau de bord** par certification.
+- **Maîtrise par domaine** avec tri des domaines du plus faible au plus maîtrisé.
+- Bouton **Travailler / Découvrir** directement depuis chaque domaine.
+- **Base de connaissances** avec recherche et filtres.
+- **Erreurs** : reprise des questions réellement ratées.
+- **Toutes les questions** : navigation directe dans l'ensemble de la banque.
+  - `★` : question en favori.
+  - `⚑` : question signalée.
+- **Favoris** par question.
+- **Notes personnelles** par question.
+- **Signalement** d'une question : réponse douteuse, contenu obsolète, explication incorrecte, image manquante, etc.
+- **Historique des examens** accessible depuis le Dashboard.
+- Navigation libre entre les **48 questions** pendant un examen.
+- Marquage **À revoir** pendant l'examen.
+- Résultats et statistiques par domaine.
+- **Focus** et thème **Sombre / Clair**.
+- Traduction navigateur **anglais -> français** non bloquée.
+- **Export / import des données utilisateur** au format JSON.
+- **PWA installable** avec `manifest.webmanifest` et Service Worker.
 
-Les réponses AZ-305 reproduisent le document fourni ; elles n'ont pas été silencieusement remplacées par des réponses externes.
+## Menu simplifié
 
-## Importer une future formation
+Le menu principal est volontairement limité au parcours d'apprentissage :
 
-Dans le menu, cliquez sur **Importer une formation**. Le client accepte :
+- Tableau de bord
+- Base de connaissances
+- Erreurs
+- Examen blanc
+- Domaines
 
-- **JSON** : recommandé pour un import complet et reproductible ;
-- **CSV** : colonnes de type `question`, `A`, `B`, `C`, `D`, `reponse`, `domain`, `explication` ;
-- **TXT** : format textuel de type `Question #... Topic ...` / `Correct Answer:` ;
-- **PDF** : extraction client-side des questions textuelles de type ExamTopics.
+Les fonctions secondaires sont regroupées sous **⚙ Paramètres** en bas à gauche :
 
-Après analyse, choisissez **Créer une nouvelle formation** ou **Ajouter / mettre à jour** une formation existante. Les banques importées sont enregistrées dans **IndexedDB** sur l'appareil ; elles ne sont pas envoyées vers un serveur par ce client.
+- Focus
+- Sombre / Clair
+- Export / import des données
+- Gestion / import des formations
+- Installation de l'application
 
-### Limite de l'import PDF
+## Données et progression
 
-Le parseur PDF charge PDF.js depuis un CDN au moment de l'import. Une connexion Internet est donc nécessaire pour **importer un nouveau PDF**. Les banques AZ-104 et AZ-305 déjà intégrées, ainsi que les imports JSON/CSV/TXT, restent utilisables sans ce chargement.
+La progression reste **locale au navigateur** :
 
-Pour les formats visuels non convertibles automatiquement, le client utilise l'auto-évaluation plutôt que d'inventer des choix ou une correction.
+- progression AZ-104 et AZ-305 séparée ;
+- erreurs ;
+- favoris ;
+- notes ;
+- signalements ;
+- historique des examens ;
+- préférences utilisateur.
 
-## Fonctions conservées
+Une mise à jour du site via GitHub Pages ne supprime normalement pas ces données tant que le domaine et les clés de stockage restent identiques.
 
-- Focus disponible dans tous les modes depuis l'en-tête et le menu.
-- Compact et Reset dans l'examen blanc.
-- Recherche et filtres par domaine.
-- Erreurs, mode Faiblesses, progression locale et export JSON.
-- Thèmes clair/sombre.
-- Traduction navigateur EN -> FR non bloquée.
-- **Historique des examens** par formation : date, score, durée et résultat par domaine pour chaque nouvel examen terminé.
-- **Toutes les questions** : navigateur direct vers l’ensemble de la banque ; pendant un examen, le même bouton permet de sauter librement entre les 48 questions de la session.
+Pour changer de PC ou de navigateur, utiliser **Exporter mes données** puis **Importer mes données**.
+
+## Hébergement GitHub Pages
+
+Point d'entrée principal :
+
+```text
+index.html
+```
+
+Le dépôt peut être publié directement avec GitHub Pages depuis :
+
+```text
+Branch : main
+Folder : / (root)
+```
+
+Après une mise à jour, GitHub Pages redéploie automatiquement le site.
+
+### Mise à jour depuis PowerShell
+
+```powershell
+git add -A
+git commit -m "Azure Certification Trainer - mise a jour"
+git pull --rebase origin main
+git push origin main
+```
+
+Si Opera/Chrome affiche encore une ancienne version après déploiement :
+
+```text
+Ctrl + Shift + R
+```
+
+En dernier recours : DevTools -> Application -> Storage -> Clear site data.
+
+## Fichiers principaux
+
+```text
+index.html               Interface principale GitHub Pages
+OUVRIR_FORMATIONS.html   Point d'entrée alternatif
+OUVRIR_AZ104.html        Compatibilité ancienne version
+atelier.css              Styles
+atelier.js               Moteur principal
+formations.js            Configuration des formations
+questions.js             Banque AZ-104
+az305_questions.js       Banque AZ-305
+importer.js              Import de formations
+controle_qualite.js      Contrôles de cohérence
+manifest.webmanifest     Configuration PWA
+service-worker.js        Cache PWA
+assets/                  Illustrations et ressources
+```
 
 ## Contrôle qualité
 
-Exécutez :
+Pour lancer les contrôles locaux :
 
 ```bash
 node controle_qualite.js
 ```
 
-Le contrôle vérifie les 568 questions AZ-104, les 286 questions AZ-305, les identifiants, les mécanismes de réponse, les images référencées, les paramètres d'examen, le catalogue multi-formations et la présence de l'importeur.
+État actuel :
 
-`AUDIT_INTEGRAL.csv` reste l'audit détaillé historique de la banque AZ-104. `RAPPORT_DE_REVISION.md` résume la migration multi-formations et les limites connues.
-## AZ-305 - contexte des corrections
+- **568 questions AZ-104** ;
+- **286 questions AZ-305** ;
+- identifiants uniques ;
+- assets référencés contrôlés ;
+- examens configurés sur 48 questions / 100 minutes.
 
-Les 286 questions AZ-305 affichent désormais un bloc **Contexte pédagogique** après validation. Lorsqu’une explication détaillée existe dans le PDF source, elle est conservée séparément dans **Détail du support source**.
+## Historique condensé des versions
 
+### v2.0.5 - Maîtrise par domaine
+- Suppression du menu **Faiblesses**.
+- Diagnostic des faiblesses intégré directement à **Maîtrise par domaine**.
+- Domaines triés du plus faible au plus maîtrisé.
+- Actions **Travailler / Découvrir** directement depuis le Dashboard.
 
-## Version 2.0 - apprentissage personnalisé
+### v2.0.4 - Hotfix démarrage
+- Correction d'un crash JavaScript provoqué par un bouton absent dans certaines versions HTML.
+- Initialisation rendue tolérante aux éléments optionnels.
+- Évite qu'un décalage HTML/JS bloque le chargement des banques.
 
-- Tableau de bord de progression par certification.
-- Mode Faiblesses basé sur les erreurs et les domaines les moins maîtrisés.
-- Répétition espacée retirée : le parcours est optimisé pour une formation ponctuelle.
-- Favoris et notes personnelles par question.
-- Signalements locaux de contenu à vérifier.
-- Export ET import de progression JSON.
-- Questions marquées pendant l'examen et temps moyen enregistré dans l'historique.
-- PWA installable depuis GitHub Pages avec cache hors ligne.
-- Version applicative : v2.0.0.
+### v2.0.3 - Menu épuré
+- Historique des examens retiré du menu latéral et accessible depuis le Dashboard.
+- Focus, thème, sauvegarde, import et installation regroupés sous **⚙ Paramètres**.
+- Menu latéral simplifié.
+
+### v2.0.2 - Interactions questions
+- Suppression du bouton **Je ne sais pas**.
+- Correction du bouton **Note**.
+- Correction du bouton **Drapeau / signalement**.
+- Affichage `★` et `⚑` dans **Toutes les questions**.
+
+### v2.0.0 - Plateforme d'apprentissage
+- Tableau de bord.
+- Historique des examens.
+- Navigation complète dans les banques.
+- Favoris, notes et signalements.
+- Export / import de progression.
+- PWA et versioning.
+- Support multi-formations AZ-104 / AZ-305.
+
+## Remarques
+
+- Les questions restent dans leur langue source lorsque cela est pertinent.
+- Les corrections AZ-305 provenant du support source ne sont pas remplacées silencieusement par des réponses externes.
+- Les formats visuels impossibles à convertir proprement restent en auto-évaluation plutôt que d'inventer une réponse.
+- Le dépôt étant public lorsqu'il est utilisé avec GitHub Pages gratuit, ne jamais y stocker de mots de passe, tokens, clés API ou données internes sensibles.
+
+---
+
+**Version actuelle : v2.0.5**  
+**Édition : 2026**
