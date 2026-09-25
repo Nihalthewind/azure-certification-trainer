@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0b1120">
+  <title>Azure Certification Trainer · 2026</title>
+  <link rel="stylesheet" href="atelier.css">
+</head>
+<body>
+  <div class="layout" id="app" hidden>
+    <aside class="rail" aria-label="Navigation principale">
+      <div class="brand"><div class="brand-icon" id="brandIcon">AZ</div><div><strong id="brandTitle">Azure Trainer</strong><small id="brandSubtitle">Certifications Azure · 2026</small></div></div>
+      <label class="training-switcher"><span>FORMATION</span><select id="trainingSelect" aria-label="Choisir une formation"></select></label>
+      <div class="rail-group"><span class="rail-heading">PARCOURS</span>
+        <button class="rail-link active" data-mode="study"><span>◈</span> Base de connaissances <b id="studyCount"></b></button>
+        <button class="rail-link" data-mode="review"><span>↻</span> Révision <b id="dueCount"></b></button>
+        <button class="rail-link" data-mode="mistakes"><span>✕</span> Erreurs <b id="wrongCount"></b></button>
+        <button class="rail-link" data-mode="exam"><span>◷</span> Examen blanc <b id="examCount"></b></button>
+        <button class="rail-link" id="examHistoryButton" type="button"><span>▤</span> Historique examens <b id="historyCount">0</b></button>
+      </div>
+      <div class="rail-group" id="domainNav"><span class="rail-heading">DOMAINES</span></div>
+      <div class="rail-bottom"><p>Progression séparée pour chaque formation et enregistrée sur cet appareil.</p><button id="focusMenuButton" class="rail-secondary" type="button">⊞ &nbsp; Mode Focus</button><button id="themeButton" class="rail-secondary" title="Basculer entre le thème sombre et clair">◐ &nbsp; Sombre / Clair</button><button id="importTrainingButton" class="rail-secondary">＋ &nbsp; Importer une formation</button><button id="manageTrainingButton" class="rail-secondary">▦ &nbsp; Gérer les formations</button><button id="exportButton" class="rail-secondary">⇩ &nbsp; Exporter ma progression</button><input id="importFileInput" type="file" accept=".pdf,.json,.csv,.txt,application/pdf,application/json,text/csv,text/plain" hidden></div>
+    </aside>
+    <div class="content">
+      <header class="topbar"><div class="eyebrow" id="topEyebrow">PRÉPARATION INDÉPENDANTE</div><div class="top-actions"><button id="focusButton" class="soft-button top-focus-button" type="button" aria-pressed="false" title="Afficher uniquement l’espace de travail">Focus</button><span class="edition" id="editionLabel">ÉDITION 2026</span><button id="mobileTheme" class="icon-button" title="Changer de thème" aria-label="Changer de thème">◐</button></div></header>
+      <main>
+        <section class="hero"><div><div class="hero-kicker"><span class="dot"></span> <span id="heroKicker">LA BASE COMPLÈTE</span></div><h1 id="heroTitle">Comprendre Azure.<br><em>Retenir l’essentiel.</em></h1><p id="heroDescription"></p></div><div class="hero-metric"><strong id="bankCount">—</strong><span>questions disponibles</span><div class="metric-line"></div><small><b id="exerciseCount">—</b> évaluables automatiquement · <b id="knowledgeCount">—</b> fiches / auto-évaluation</small></div></section>
+        <div class="strip"><div class="strip-item"><span>PARCOURS</span><b id="modeLabel">Base complète</b></div><div class="strip-item"><span>POSITION</span><b id="position">—</b></div><div class="strip-item"><span>RÉUSSITE · QUESTIONS</span><b id="mastery">—</b></div><div class="strip-item"><span>À REVOIR</span><b id="dueMetric">0</b></div></div>
+        <section class="workspace" aria-label="Espace de révision"><div class="workbar"><div><h2 id="workTitle">Votre parcours</h2><p id="workSubtitle">Choisissez un domaine ou poursuivez votre progression.</p></div><div class="workbar-controls"><label class="search-wrap"><span>⌕</span><input id="search" type="search" autocomplete="off" placeholder="Service, mot clé, numéro…" aria-label="Rechercher une question"></label><button id="resetFilter" class="soft-button" title="Tous les domaines">Tous les domaines</button><button id="questionNavigatorButton" class="soft-button navigator-button" type="button" title="Accéder directement à toutes les questions">☷ Toutes les questions</button><div id="examControls" class="exam-controls" hidden><button id="compactButton" class="soft-button" type="button" aria-pressed="false" title="Réduire les espacements de l’examen">Compact</button><button id="resetExamButton" class="soft-button reset-exam-button" type="button" title="Recommencer cet examen">↺ Reset examen</button></div></div></div>
+          <div id="domainPills" class="domain-pills" aria-label="Choisir un domaine"></div>
+          <div class="progress-track" role="progressbar" aria-label="Avancement de la sélection" aria-valuemin="0" aria-valuemax="100"><div id="progress"></div></div>
+          <div id="empty" class="empty" hidden><div class="empty-icon">◇</div><h2>Rien dans cette sélection</h2><p>Essayez un autre domaine ou revenez à l’apprentissage.</p><button class="primary-button" id="showAll">Voir toutes les questions</button></div>
+          <article class="question-card" id="questionCard"><div class="card-header"><div class="card-meta"><span class="topic-pill" id="topicPill">DOMAINE</span><span id="questionId">—</span></div><span class="status-pill" id="statusPill">À découvrir</span></div>
+            <div class="question-main"><div class="question-index" id="questionIndex">QUESTION 01</div><h2 id="questionTitle">Chargement de la base…</h2><div id="caseContext"></div><div id="questionPrompt" class="prompt"></div><div id="figures" class="figures"></div><div id="answerNote" class="answer-note"></div><div id="choices" class="choices"></div><div id="feedback" class="feedback" hidden></div></div>
+            <div class="card-footer"><div class="footer-left"><button id="prev" class="soft-button">← Précédent</button><button id="next" class="soft-button">Suivant →</button></div><div class="footer-right"><button id="skip" class="soft-button">Je ne sais pas</button><button id="submit" class="primary-button" disabled>Valider la réponse</button></div></div></article>
+          <div class="after-card"><span id="shortcutHelp">Raccourcis : 1–9 choisir · ← → naviguer · Entrée valider</span><span id="sessionClock"></span></div>
+        </section>
+        <footer class="footer" id="footerText"></footer>
+      </main>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="modal" class="modal-backdrop" hidden><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button id="modalClose" class="modal-close" aria-label="Fermer">×</button><div class="eyebrow" id="modalEyebrow">AZURE TRAINER</div><h2 id="modalTitle">Résultats</h2><div id="modalBody"></div><button id="modalAction" class="primary-button">Continuer</button></div></div>
+  <script src="questions.js"></script><script src="az305_questions.js"></script><script src="formations.js"></script><script src="importer.js"></script><script src="atelier.js"></script>
+</body>
+</html>
