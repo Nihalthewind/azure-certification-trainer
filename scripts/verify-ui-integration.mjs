@@ -21,7 +21,7 @@ function expect(condition, message) {
   if (!condition) failures.push(message);
 }
 
-const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss, firstRunCss, appShellProductionCss, uxPolishCss] = await Promise.all([
+const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss, firstRunCss, appShellProductionCss, uxPolishCss, azureFluentCss, manifestText] = await Promise.all([
   text('index.html'),
   text('atelier.js'),
   text('src/ui/ui.css'),
@@ -30,6 +30,8 @@ const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss, firstRunCs
   text('src/ui/patterns/first-run-experience/first-run-experience.css'),
   text('src/ui/integration/app-shell-production.css'),
   text('src/ui/integration/ux-polish.css'),
+  text('src/ui/integration/azure-fluent.css'),
+  text('manifest.webmanifest'),
 ]);
 
 expect(indexHtml.includes('href="src/ui/ui.css"'), 'index.html does not load src/ui/ui.css');
@@ -66,7 +68,7 @@ expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade pro
 expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
 expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
 expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
-expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint14"), 'Service worker cache was not bumped for Sprint 14');
+expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint14-1"), 'Service worker cache was not bumped for Sprint 14');
 expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
 expect(serviceWorker.includes("'./src/ui/components/icon-button/icon-button.js'"), 'Service worker does not cache IconButton');
 expect(serviceWorker.includes("'./src/ui/components/feedback-panel/feedback-panel.js'"), 'Service worker does not cache FeedbackPanel');
@@ -232,4 +234,22 @@ expect(uxPolishCss.includes('@media (forced-colors: active)'), 'UX polish does n
 expect(uxPolishCss.includes("html[data-theme='dark']") && uxPolishCss.includes("html[data-theme='light']"), 'UX polish was not reviewed for both themes');
 expect(uxPolishCss.includes('env(safe-area-inset-bottom)'), 'Mobile controls do not account for safe-area insets');
 
-console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, Sprint 14 UX polish + accessibility guardrails covered).`);
+
+expect(uiCss.includes("./integration/azure-fluent.css"), 'ui.css does not load Azure Fluent visual direction');
+expect(serviceWorker.includes("'./src/ui/integration/azure-fluent.css'"), 'Service worker does not cache Azure Fluent CSS');
+expect(azureFluentCss.includes('--fluent-cyan') && azureFluentCss.includes('--fluent-azure'), 'Azure Fluent palette is incomplete');
+expect(azureFluentCss.includes("html[data-theme='dark']") && azureFluentCss.includes("html[data-theme='light']"), 'Azure Fluent layer does not cover both themes');
+expect(indexHtml.includes('id="installAppButton"') && !indexHtml.includes('id="installAppButton" class="ui-button ui-button--secondary ui-button--small" hidden'), 'Install action is still hidden in Settings');
+expect(indexHtml.includes('id="installStatus"'), 'Settings does not expose PWA install status');
+expect(indexHtml.includes('apple-touch-icon'), 'PWA has no Apple touch icon metadata');
+expect(atelier.includes("window.addEventListener('appinstalled'"), 'PWA install completion is not tracked');
+expect(atelier.includes('function updateInstallUi()'), 'PWA install UI is not stateful');
+expect(!atelier.includes('registration.unregister()'), 'Local development still unregisters the Service Worker and blocks install QA');
+expect(serviceWorker.includes("const LOCAL_DEV=['localhost','127.0.0.1']"), 'Service Worker has no network-only local development mode');
+expect(serviceWorker.includes("'./assets/app-icon-192.png'") && serviceWorker.includes("'./assets/app-icon-512.png'"), 'PWA icons are not cached');
+const manifest = JSON.parse(manifestText);
+expect(manifest.display === 'standalone', 'Web app manifest is not standalone');
+expect(manifest.start_url === './' && manifest.scope === './', 'Web app manifest start_url/scope are incompatible with GitHub Pages');
+expect(Array.isArray(manifest.icons) && manifest.icons.some(icon => icon.sizes === '192x192') && manifest.icons.some(icon => icon.sizes === '512x512'), 'Web app manifest lacks installable icon sizes');
+
+console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, Sprint 14.1 Azure Fluent + PWA install flow covered).`);

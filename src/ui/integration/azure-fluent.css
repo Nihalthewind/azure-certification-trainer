@@ -1,0 +1,324 @@
+/*
+ * Sprint 14.1 — Azure Fluent visual direction.
+ *
+ * Visual reference: cool Windows/Azure surfaces, cyan/blue light, soft depth,
+ * rounded panes and restrained translucency. This remains an application UI:
+ * contrast and hierarchy take priority over decorative 3D effects.
+ */
+:root {
+  --fluent-cyan: #08c7e8;
+  --fluent-azure: #078fdf;
+  --fluent-blue: #1269dc;
+  --fluent-glow: color-mix(in srgb, var(--fluent-cyan) 22%, transparent);
+  --fluent-line: color-mix(in srgb, var(--color-accent) 24%, var(--color-border));
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+}
+
+html[data-theme='light'] {
+  --bg: #e9f1fc;
+  --rail: rgba(248, 252, 255, .86);
+  --panel: rgba(255, 255, 255, .82);
+  --card: #f8fbff;
+  --surface: #edf5ff;
+  --border: #c7d8ec;
+  --ink: #15283f;
+  --muted: #526b87;
+  --subtle: #768da8;
+  --accent: #078fca;
+  --accent-ink: #ffffff;
+  --good: #0b8e69;
+  --bad: #c33d59;
+  --shadow: 0 18px 46px rgba(47, 83, 128, .11), 0 2px 8px rgba(47, 83, 128, .05);
+  --color-overlay: rgba(33, 58, 91, .42);
+}
+
+html[data-theme='dark'] {
+  --bg: #071421;
+  --rail: rgba(9, 25, 40, .92);
+  --panel: rgba(13, 31, 49, .88);
+  --card: #10253a;
+  --surface: #142b43;
+  --border: #29445f;
+  --ink: #f3f9ff;
+  --muted: #abc0d7;
+  --subtle: #7e9ab7;
+  --accent: #27c8e8;
+  --accent-ink: #032332;
+  --good: #62ddb0;
+  --bad: #ff8fa2;
+  --shadow: 0 22px 60px rgba(0, 7, 17, .33), 0 2px 10px rgba(0, 7, 17, .18);
+  --color-overlay: rgba(1, 8, 18, .72);
+}
+
+body {
+  background:
+    radial-gradient(circle at 88% -10%, color-mix(in srgb, var(--fluent-cyan) 12%, transparent), transparent 34rem),
+    radial-gradient(circle at 8% 104%, color-mix(in srgb, var(--fluent-blue) 8%, transparent), transparent 30rem),
+    var(--color-background);
+}
+
+/* Frosted shell: close to the supplied Windows/Azure reference without
+   sacrificing legibility or making every surface transparent. */
+.app-shell-production > .rail {
+  border-right-color: color-mix(in srgb, var(--color-border) 82%, white 18%);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--fluent-cyan) 5%, transparent), transparent 32%),
+    var(--color-rail);
+  backdrop-filter: blur(22px) saturate(1.08);
+}
+
+.app-shell-production .topbar {
+  background: color-mix(in srgb, var(--color-background) 78%, transparent);
+  backdrop-filter: blur(24px) saturate(1.12);
+}
+
+html[data-theme='light'] .app-shell-production > .rail,
+html[data-theme='light'] .app-shell-production .topbar {
+  box-shadow: 1px 0 0 rgba(255, 255, 255, .72), 12px 0 42px rgba(55, 91, 137, .05);
+}
+
+.app-shell-production .brand-icon {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, white 34%, var(--fluent-azure));
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.26), transparent 42%),
+    linear-gradient(145deg, var(--fluent-cyan), var(--fluent-azure) 62%, var(--fluent-blue));
+  color: white;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.42),
+    inset 0 -10px 22px rgba(0,77,166,.12),
+    0 9px 22px color-mix(in srgb, var(--fluent-azure) 24%, transparent);
+}
+
+.app-shell-production .training-switcher select,
+.search-wrap,
+.ui-workspace-toolbar__search,
+.navigator-search,
+.ui-question-navigator__search {
+  border-color: color-mix(in srgb, var(--color-border) 82%, var(--color-accent) 18%);
+  background: color-mix(in srgb, var(--color-panel) 76%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 20%, transparent);
+}
+
+.app-shell-production .rail-link.ui-navigation-item,
+.app-shell-production .settings-button {
+  border-radius: 13px;
+}
+
+.app-shell-production .rail-link.ui-navigation-item:hover,
+.app-shell-production .settings-button:hover {
+  border-color: color-mix(in srgb, var(--color-accent) 20%, var(--color-border));
+  background: color-mix(in srgb, var(--color-accent) 7%, var(--color-panel));
+}
+
+.app-shell-production .rail-link.ui-navigation-item.active,
+.app-shell-production .settings-button.is-active {
+  border-color: color-mix(in srgb, var(--color-accent) 30%, var(--color-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--fluent-cyan) 13%, var(--color-panel)), color-mix(in srgb, var(--fluent-azure) 7%, var(--color-surface)));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 23%, transparent),
+    0 8px 24px color-mix(in srgb, var(--fluent-azure) 8%, transparent);
+}
+
+.app-shell-production .rail-link.ui-navigation-item.active::before {
+  width: 4px;
+  height: 22px;
+  background: linear-gradient(180deg, var(--fluent-cyan), var(--fluent-azure));
+  box-shadow: 0 0 14px var(--fluent-glow);
+}
+
+/* Floating panes — same visual family for pages, questions and dialogs. */
+.app-shell-production :where(
+  .dash-card,
+  .dashboard-panel,
+  .production-settings-group,
+  .production-exam-hero,
+  .production-score-card,
+  .question-card
+),
+.ui-question-card,
+.ui-modal,
+.ui-empty-state {
+  border-color: color-mix(in srgb, var(--color-border) 86%, var(--color-accent) 14%);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, white 5%, transparent), transparent 44%),
+    var(--color-panel);
+  box-shadow: var(--shadow);
+}
+
+html[data-theme='light'] .app-shell-production :where(
+  .dash-card,
+  .dashboard-panel,
+  .production-settings-group,
+  .production-exam-hero,
+  .production-score-card,
+  .question-card
+),
+html[data-theme='light'] :where(.ui-question-card, .ui-modal, .ui-empty-state) {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.84),
+    0 18px 46px rgba(50, 84, 126, .09),
+    0 2px 7px rgba(50, 84, 126, .04);
+}
+
+.app-shell-production .dash-card::after {
+  width: 3px;
+  background: linear-gradient(180deg, var(--fluent-cyan), var(--fluent-azure));
+}
+
+/* Primary actions use the cyan → Azure blue depth visible in the reference. */
+.ui-button--primary,
+.primary-button {
+  border-color: color-mix(in srgb, var(--fluent-azure) 74%, var(--fluent-cyan));
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.18), transparent 48%),
+    linear-gradient(135deg, var(--fluent-cyan), var(--fluent-azure) 64%, var(--fluent-blue));
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.28),
+    0 9px 24px color-mix(in srgb, var(--fluent-azure) 22%, transparent);
+}
+
+.ui-button--primary:hover:not(:disabled),
+.primary-button:hover:not(:disabled) {
+  filter: saturate(1.05) brightness(1.035);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.34),
+    0 11px 28px color-mix(in srgb, var(--fluent-azure) 28%, transparent);
+}
+
+.ui-button--secondary,
+.soft-button,
+.language-toggle {
+  border-color: color-mix(in srgb, var(--color-border) 80%, var(--color-accent) 20%);
+  background: color-mix(in srgb, var(--color-panel) 84%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 14%, transparent);
+}
+
+/* Answer panes get a slightly softer, more tactile shape. */
+.ui-answer-option,
+.choice,
+.statement,
+.ui-page-answer {
+  border-radius: 15px;
+  border-color: color-mix(in srgb, var(--color-border) 86%, var(--color-accent) 14%);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, white 3%, transparent), transparent 52%),
+    var(--color-card);
+}
+
+.ui-answer-option:hover:not(:disabled),
+.choice:hover:not(:disabled),
+.ui-page-answer:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--color-accent) 48%, var(--color-border));
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-card));
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--fluent-azure) 8%, transparent);
+}
+
+/* Cyan progress line as the main motion cue. */
+.progress-track > div,
+.mini-track > i,
+.ui-page-progress-row__fill,
+.ui-page-linear-progress span {
+  background: linear-gradient(90deg, var(--fluent-cyan), var(--fluent-azure));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--fluent-cyan) 18%, transparent);
+}
+
+.topic-pill,
+.production-kicker,
+.ui-badge[data-tone='accent'],
+.ui-badge--accent {
+  border-color: color-mix(in srgb, var(--color-accent) 32%, var(--color-border));
+  background: color-mix(in srgb, var(--color-accent) 10%, var(--color-panel));
+}
+
+/* Installation deserves to be discoverable rather than a hidden PWA detail. */
+.production-setting-row--install {
+  margin: 10px -6px;
+  padding: 14px 12px;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 24%, var(--color-border));
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 92% -10%, color-mix(in srgb, var(--fluent-cyan) 17%, transparent), transparent 14rem),
+    linear-gradient(135deg, color-mix(in srgb, var(--fluent-cyan) 7%, var(--color-panel)), var(--color-panel));
+}
+
+.production-setting-row--install .ui-button {
+  flex: 0 0 auto;
+}
+
+.install-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  color: var(--color-accent);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.install-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.install-status[data-state='installed'] { color: var(--color-success); }
+.install-status[data-state='manual'] { color: var(--color-text-subtle); }
+
+/* Modals receive the same glass/depth logic. */
+.ui-modal-backdrop {
+  background: color-mix(in srgb, var(--color-overlay) 86%, transparent);
+  backdrop-filter: blur(12px) saturate(.9);
+}
+
+.ui-modal {
+  overflow: hidden;
+}
+
+.ui-modal__header {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 5%, var(--color-panel)), var(--color-panel));
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .app-shell-production :where(.dash-card, .dashboard-panel, .production-settings-group),
+  .ui-answer-option,
+  .choice {
+    transition:
+      border-color var(--motion-normal) var(--easing-standard),
+      box-shadow var(--motion-normal) var(--easing-standard),
+      transform var(--motion-normal) var(--easing-standard),
+      background-color var(--motion-normal) var(--easing-standard);
+  }
+
+  .app-shell-production .dash-card:hover,
+  .app-shell-production .dashboard-panel-action:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 920px) {
+  .app-shell-production > .rail {
+    background: color-mix(in srgb, var(--color-rail) 94%, transparent);
+    box-shadow: 0 8px 28px color-mix(in srgb, #00152b 10%, transparent);
+  }
+}
+
+@media (forced-colors: active) {
+  .ui-button--primary,
+  .primary-button,
+  .production-setting-row--install {
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+}

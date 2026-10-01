@@ -4,16 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
-  <meta name="theme-color" content="#0b1120">
+  <meta id="themeColorMeta" name="theme-color" content="#071421">
   <meta name="description" content="Azure Certification Trainer · AZ-104 / AZ-305">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/app-icon-192.png">
   <title>Azure Certification Trainer · 2026</title>
   <link rel="stylesheet" href="atelier.css">
   <link rel="stylesheet" href="src/ui/ui.css">
 </head>
 <body>
-  <a class="ui-skip-link" href="#mainContent">Aller au contenu</a>
   <div class="layout ui-app-shell app-shell-production" id="app" data-density="balanced" hidden>
     <aside class="rail ui-app-shell__rail" aria-label="Navigation principale">
       <div class="brand ui-app-shell__brand"><div class="brand-icon ui-app-shell__brand-mark" id="brandIcon">AZ</div><div class="ui-app-shell__brand-copy"><strong id="brandTitle">Azure Trainer</strong><small id="brandSubtitle">Certifications Azure · 2026</small></div></div>
@@ -33,7 +36,7 @@
     </aside>
     <div class="content">
       <header class="topbar ui-app-shell__topbar"><div class="ui-app-shell__page-heading"><span class="eyebrow" id="topEyebrow">ENTRAÎNEMENT</span><strong id="topPageTitle">Base de connaissances</strong></div><div class="top-actions ui-app-shell__top-actions"><span class="edition" id="editionLabel">ÉDITION 2026</span><button id="languageToggle" class="language-toggle" type="button" translate="no" aria-pressed="false" title="Traduire en français">EN <span aria-hidden="true">⇄</span> FR</button><div id="google_translate_element" class="translate-engine" aria-hidden="true"></div></div></header>
-      <main class="ui-app-shell__main production-main" id="mainContent" tabindex="-1">
+      <main class="ui-app-shell__main production-main">
         <section class="hero hero--compact"><div><div class="hero-kicker"><span class="dot"></span> <span id="heroKicker">AZURE CERTIFICATION TRAINER</span></div><h1 id="heroTitle">Azure Certification Trainer</h1><p id="heroDescription" hidden></p></div><div class="hero-metric"><strong id="bankCount">—</strong><span>questions disponibles</span><div class="metric-line"></div><small><b id="exerciseCount">—</b> évaluables automatiquement · <b id="knowledgeCount">—</b> fiches / auto-évaluation</small></div></section>
         <div class="strip"><div class="strip-item"><span>PARCOURS</span><b id="modeLabel">Base complète</b></div><div class="strip-item"><span>POSITION</span><b id="position">—</b></div><div class="strip-item"><span>RÉUSSITE · QUESTIONS</span><b id="mastery">—</b></div><div class="strip-item"><span>ERREURS ACTIVES</span><b id="dueMetric">0</b></div></div>
         <section id="dashboard" class="dashboard ui-production-page" hidden aria-label="Tableau de bord">
@@ -100,7 +103,7 @@
             <section class="production-settings-group">
               <div class="production-settings-group-head"><h3>Application</h3><p>Installation et informations de version.</p></div>
               <div class="production-settings-group-body">
-                <div class="production-setting-row"><div><strong>Installer l’application</strong><p>Ajoutez Azure Trainer comme application sur cet appareil.</p></div><button id="installAppButton" class="ui-button ui-button--secondary ui-button--small" hidden>Installer</button></div>
+                <div class="production-setting-row production-setting-row--install"><div><strong>Installer l’application</strong><p id="installSettingDescription">Ajoutez Azure Trainer comme application sur cet appareil.</p><span id="installStatus" class="install-status" data-state="checking">Vérification…</span></div><button id="installAppButton" class="ui-button ui-button--primary ui-button--small" type="button">Installer</button></div>
                 <div class="production-setting-row"><div><strong>Version</strong><p>Version actuellement chargée.</p></div><small class="version-label production-version-label" id="versionLabel">v2.0.7</small></div>
               </div>
             </section>
@@ -120,7 +123,7 @@
       </main>
     </div>
   </div>
-  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <div id="modal" class="modal-backdrop ui-modal-backdrop" hidden><div class="modal ui-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalBody" tabindex="-1" data-kind="default" data-size="medium"><header class="ui-modal__header"><div class="ui-modal__header-copy"><div class="eyebrow ui-modal__eyebrow" id="modalEyebrow">AZURE TRAINER</div><h2 id="modalTitle">Résultats</h2></div><button id="modalClose" class="modal-close ui-modal__close" type="button" aria-label="Fermer">×</button></header><div id="modalBody" class="ui-modal__body"></div><footer class="ui-modal__footer"><button id="modalAction" class="ui-button ui-button--primary ui-button--medium"><span class="ui-button__label">Continuer</span></button></footer></div></div>
   <script src="questions.js"></script><script src="az305_questions.js"></script><script src="formations.js"></script><script src="importer.js"></script><script src="atelier.js"></script>
 </body>
