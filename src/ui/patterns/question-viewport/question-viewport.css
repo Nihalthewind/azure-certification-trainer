@@ -1,0 +1,72 @@
+/*
+ * QuestionViewport
+ *
+ * Makes the question workspace adapt to the browser viewport while keeping
+ * long content in the normal page flow. The same pattern is used by Storybook
+ * and the production application.
+ */
+
+.ui-question-viewport {
+  width: 100%;
+  min-width: 0;
+}
+
+/* The production app marks the body while a question session is visible. */
+body.question-session-active main {
+  max-width: none;
+}
+
+.ui-question-viewport > .question-card,
+.ui-question-viewport > .ui-question-card {
+  width: 100%;
+  max-width: none;
+  min-height: calc(100dvh - 28px);
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-question-viewport .question-main,
+.ui-question-viewport .ui-question-card__main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ui-question-viewport .prompt,
+.ui-question-viewport .ui-question-card__question {
+  max-width: none;
+  max-height: none;
+  overflow: visible;
+}
+
+.ui-question-viewport .card-footer,
+.ui-question-viewport .ui-question-card__footer {
+  margin-top: auto;
+}
+
+/* Keep the controls readable on very wide monitors without re-constraining
+ * the question itself to the historical 1280 px page width. */
+body.question-session-active .workbar,
+body.question-session-active .domain-pills,
+body.question-session-active .progress-track,
+body.question-session-active .after-card {
+  width: 100%;
+}
+
+@media (max-width: 830px) {
+  .ui-question-viewport > .question-card,
+  .ui-question-viewport > .ui-question-card {
+    min-height: calc(100dvh - 18px);
+  }
+}
+
+@media (max-width: 600px) {
+  body.question-session-active main {
+    padding-inline: 12px;
+  }
+
+  .ui-question-viewport > .question-card,
+  .ui-question-viewport > .ui-question-card {
+    min-height: calc(100dvh - 12px);
+    border-radius: 14px;
+  }
+}
