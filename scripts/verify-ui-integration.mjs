@@ -21,7 +21,7 @@ function expect(condition, message) {
   if (!condition) failures.push(message);
 }
 
-const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss, firstRunCss, appShellProductionCss] = await Promise.all([
+const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss, firstRunCss, appShellProductionCss, uxPolishCss] = await Promise.all([
   text('index.html'),
   text('atelier.js'),
   text('src/ui/ui.css'),
@@ -29,6 +29,7 @@ const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss, firstRunCs
   text('src/ui/patterns/workspace-toolbar/workspace-toolbar.css'),
   text('src/ui/patterns/first-run-experience/first-run-experience.css'),
   text('src/ui/integration/app-shell-production.css'),
+  text('src/ui/integration/ux-polish.css'),
 ]);
 
 expect(indexHtml.includes('href="src/ui/ui.css"'), 'index.html does not load src/ui/ui.css');
@@ -65,7 +66,7 @@ expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade pro
 expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
 expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
 expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
-expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint13"), 'Service worker cache was not bumped for Sprint 10');
+expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint14"), 'Service worker cache was not bumped for Sprint 14');
 expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
 expect(serviceWorker.includes("'./src/ui/components/icon-button/icon-button.js'"), 'Service worker does not cache IconButton');
 expect(serviceWorker.includes("'./src/ui/components/feedback-panel/feedback-panel.js'"), 'Service worker does not cache FeedbackPanel');
@@ -219,4 +220,16 @@ expect(appShellProductionCss.includes('.rail-link-label {'), 'Production navigat
 expect(appShellProductionCss.includes('width: auto;'), 'Production navigation labels still inherit the legacy fixed span width');
 expect(appShellProductionCss.includes('#domainNav .rail-link > span:first-child'), 'Domain number styling still targets every span and can truncate labels');
 
-console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, Sprint 10 onboarding + compact header + Focus discoverability regressions covered).`);
+expect(indexHtml.includes('class="ui-skip-link"'), 'Production has no keyboard skip link');
+expect(indexHtml.includes('id="mainContent" tabindex="-1"'), 'Main content is not a skip-link target');
+expect(indexHtml.includes('aria-live="polite" aria-atomic="true"'), 'Toast status is not announced atomically');
+expect(uiCss.includes("./integration/ux-polish.css"), 'ui.css does not load Sprint 14 UX polish');
+expect(serviceWorker.includes("'./src/ui/integration/ux-polish.css'"), 'Service worker does not cache Sprint 14 UX polish');
+expect(uxPolishCss.includes(':focus-visible'), 'UX polish has no visible keyboard focus guardrail');
+expect(uxPolishCss.includes('@media (pointer: coarse)'), 'UX polish has no coarse-pointer target sizing');
+expect(uxPolishCss.includes('@media (prefers-reduced-motion: reduce)'), 'UX polish does not respect reduced motion');
+expect(uxPolishCss.includes('@media (forced-colors: active)'), 'UX polish does not support forced colors');
+expect(uxPolishCss.includes("html[data-theme='dark']") && uxPolishCss.includes("html[data-theme='light']"), 'UX polish was not reviewed for both themes');
+expect(uxPolishCss.includes('env(safe-area-inset-bottom)'), 'Mobile controls do not account for safe-area insets');
+
+console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, Sprint 14 UX polish + accessibility guardrails covered).`);

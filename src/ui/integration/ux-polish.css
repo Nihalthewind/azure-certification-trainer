@@ -1,0 +1,353 @@
+/*
+ * Sprint 14 — UX polish and accessibility guardrails.
+ *
+ * This layer is intentionally loaded last. It does not replace component
+ * styling; it normalizes interaction states shared by the legacy runtime and
+ * the Design System while the migration is still incremental.
+ */
+
+:root {
+  --ux-focus-ring: color-mix(in srgb, var(--color-focus) 92%, white 8%);
+  --ux-focus-halo: color-mix(in srgb, var(--color-focus) 18%, transparent);
+  --ux-control-min: 38px;
+  --ux-reading-width: 86ch;
+}
+
+html[data-theme='dark'] {
+  --ux-hover-surface: color-mix(in srgb, var(--color-accent) 7%, var(--color-surface));
+  --ux-elevated-border: color-mix(in srgb, var(--color-border) 88%, var(--color-accent) 12%);
+}
+
+html[data-theme='light'] {
+  --ux-hover-surface: color-mix(in srgb, var(--color-accent) 5%, var(--color-panel));
+  --ux-elevated-border: color-mix(in srgb, var(--color-border) 82%, #5f7898 18%);
+}
+
+/* Keyboard users should always know where they are. */
+:where(
+  .app-shell-production .rail-link,
+  .app-shell-production .settings-button,
+  .language-toggle,
+  .soft-button,
+  .primary-button,
+  .domain-pills button,
+  .question-jump,
+  .ui-question-navigator__item,
+  .ui-modal__close,
+  #modal .modal-close,
+  summary,
+  input,
+  select,
+  textarea,
+  a
+):focus-visible {
+  outline: 3px solid var(--ux-focus-ring);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px var(--ux-focus-halo);
+}
+
+:where(.search-wrap, .ui-workspace-toolbar__search, .navigator-search, .ui-question-navigator__search):focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--ux-focus-halo);
+}
+
+/* Skip navigation is invisible until it is useful. */
+.ui-skip-link {
+  position: fixed;
+  z-index: 1000;
+  top: 10px;
+  left: 10px;
+  transform: translateY(calc(-100% - 20px));
+  padding: 9px 13px;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-panel);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow);
+  font: 800 12px/1 var(--font-family-body);
+  text-decoration: none;
+}
+
+.ui-skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* Coherent disabled and busy affordances across old and new controls. */
+:where(button, input, select, textarea):disabled,
+[aria-disabled='true'] {
+  cursor: not-allowed;
+}
+
+:where(button, .ui-button, .ui-icon-button)[aria-busy='true'] {
+  cursor: progress;
+}
+
+/* Give click/tap feedback without making the UI feel animated for its own sake. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  :where(
+    .app-shell-production .rail-link,
+    .app-shell-production .settings-button,
+    .language-toggle,
+    .soft-button,
+    .domain-pills button,
+    .question-jump,
+    .ui-question-navigator__item,
+    .ui-modal__close,
+    #modal .modal-close
+  ) {
+    transition:
+      color var(--motion-fast) var(--easing-standard),
+      background-color var(--motion-fast) var(--easing-standard),
+      border-color var(--motion-fast) var(--easing-standard),
+      box-shadow var(--motion-fast) var(--easing-standard),
+      transform var(--motion-fast) var(--easing-standard);
+  }
+
+  :where(.soft-button, .domain-pills button, .language-toggle):hover:not(:disabled) {
+    border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
+    background: var(--ux-hover-surface);
+  }
+}
+
+/* Reading comfort: the card can be wide while long prose keeps a useful measure. */
+.ui-question-viewport :where(.prompt, .ui-question-card__question),
+.ui-feedback-panel :where(.ui-feedback-panel__context p, .ui-feedback-panel__details p, .ui-feedback-panel__provenance) {
+  max-width: var(--ux-reading-width);
+  text-wrap: pretty;
+}
+
+.ui-question-card__question,
+.app-shell-production .dashboard-head h2,
+.app-shell-production .production-page-head h2,
+.ui-modal__header h2 {
+  text-wrap: balance;
+}
+
+/* Make active navigation unmistakable in both themes without increasing noise. */
+.app-shell-production .rail-link.ui-navigation-item.active,
+.app-shell-production .settings-button.is-active,
+.ui-navigation-item.is-active {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+
+html[data-theme='light'] .app-shell-production .rail-link.ui-navigation-item.active,
+html[data-theme='light'] .app-shell-production .settings-button.is-active,
+html[data-theme='light'] .ui-navigation-item.is-active {
+  border-color: color-mix(in srgb, var(--color-accent) 34%, var(--color-border));
+}
+
+html[data-theme='dark'] .app-shell-production .rail-link.ui-navigation-item.active,
+html[data-theme='dark'] .app-shell-production .settings-button.is-active,
+html[data-theme='dark'] .ui-navigation-item.is-active {
+  background: color-mix(in srgb, var(--color-accent) 10%, var(--color-surface));
+}
+
+/* Modal actions remain reachable on short screens and respect device safe areas. */
+.ui-modal__footer {
+  padding-bottom: max(14px, env(safe-area-inset-bottom));
+}
+
+.ui-modal__body {
+  scrollbar-gutter: stable;
+}
+
+/* Toasts should not fight the mobile browser chrome. */
+.toast {
+  bottom: max(22px, calc(12px + env(safe-area-inset-bottom)));
+}
+
+/* Touch devices get comfortable targets without making desktop UI oversized. */
+@media (pointer: coarse) {
+  :root { --ux-control-min: 44px; }
+
+  .ui-button--small,
+  .ui-button--medium,
+  .soft-button,
+  .primary-button,
+  .language-toggle,
+  .domain-pills button,
+  .app-shell-production .rail-link.ui-navigation-item,
+  .app-shell-production .settings-button {
+    min-height: var(--ux-control-min);
+  }
+
+  .ui-icon-button--small,
+  .ui-icon-button--medium,
+  .ui-modal__close,
+  #modal .modal-close {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 760px) {
+  .toast {
+    right: 12px;
+    left: 12px;
+    max-width: none;
+  }
+
+  .app-shell-production .production-main {
+    padding-bottom: max(30px, calc(20px + env(safe-area-inset-bottom)));
+  }
+
+  .ui-question-card__question,
+  .ui-question-viewport .prompt {
+    max-width: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .ui-modal__footer {
+    gap: 7px;
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .ui-modal__footer > .ui-button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .navigator-legend {
+    gap: 6px 10px;
+  }
+}
+
+/* Respect OS accessibility preferences even if legacy CSS adds transitions. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+
+  :where(
+    .ui-skip-link,
+    .toast,
+    .app-shell-production *,
+    .ui-modal *,
+    .ui-question-navigator *,
+    .ui-question-card *,
+    .ui-feedback-panel *
+  ) {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* Windows High Contrast / forced colors must preserve state boundaries. */
+@media (forced-colors: active) {
+  :where(
+    .ui-button,
+    .ui-icon-button,
+    .ui-navigation-item,
+    .app-shell-production .rail-link,
+    .ui-answer-option,
+    .question-jump,
+    .ui-question-navigator__item,
+    .ui-modal,
+    .ui-empty-state
+  ) {
+    border: 1px solid CanvasText;
+  }
+
+  :where(
+    .ui-button,
+    .ui-icon-button,
+    .ui-navigation-item,
+    .app-shell-production .rail-link,
+    .ui-answer-option,
+    .question-jump,
+    .ui-question-navigator__item,
+    .ui-modal__close,
+    input,
+    select,
+    textarea,
+    a
+  ):focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 3px;
+  }
+}
+
+/* Storybook review board for the UX quality gate. */
+.ux-review-board {
+  min-height: 100vh;
+  padding: clamp(22px, 4vw, 48px);
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-body);
+}
+
+.ux-review-board__inner {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 16px;
+}
+
+.ux-review-board__header {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 8px;
+}
+
+.ux-review-board__header span {
+  color: var(--color-accent);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+
+.ux-review-board__header h1 {
+  margin: 0;
+  font: 850 clamp(28px, 5vw, 44px)/1 var(--font-family-display);
+  letter-spacing: -.055em;
+}
+
+.ux-review-board__header p {
+  max-width: 720px;
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.ux-review-board__panel {
+  padding: 18px;
+  border: 1px solid var(--ux-elevated-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-panel);
+}
+
+.ux-review-board__panel h2 {
+  margin: 0 0 12px;
+  font: 800 14px/1.3 var(--font-family-display);
+}
+
+.ux-review-board__row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ux-review-board__field {
+  min-width: min(320px, 100%);
+  display: grid;
+  gap: 6px;
+}
+
+.ux-review-board__field span {
+  color: var(--color-text-subtle);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.ux-review-board__field input {
+  min-height: 42px;
+  padding: 8px 11px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font: inherit;
+}
