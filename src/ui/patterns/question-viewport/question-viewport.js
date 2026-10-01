@@ -41,3 +41,39 @@ export function scrollQuestionIntoView({
 export function scrollQuestionAfterRender(options = {}) {
   requestAnimationFrame(() => scrollQuestionIntoView(options));
 }
+
+export function scrollFeedbackIntoView({
+  selector = '#feedback .ui-feedback-panel, #feedback',
+  offset = 68,
+  smooth = false,
+} = {}) {
+  const feedback = document.querySelector(selector);
+  if (!feedback || feedback.hidden) return false;
+
+  const rect = feedback.getBoundingClientRect();
+  const top = Math.max(0, window.scrollY + rect.top - Number(offset || 0));
+  const html = document.documentElement;
+  const previous = html.style.scrollBehavior;
+
+  html.style.scrollBehavior = smooth ? previous : 'auto';
+  window.scrollTo({
+    top,
+    left: window.scrollX,
+    behavior: smooth ? 'smooth' : 'auto',
+  });
+
+  if (!smooth) {
+    requestAnimationFrame(() => {
+      html.style.scrollBehavior = previous;
+    });
+  }
+  return true;
+}
+
+export function scrollFeedbackAfterRender(options = {}) {
+  // Two frames guarantee that the newly-created feedback panel has its final
+  // dimensions before we frame it in the viewport.
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => scrollFeedbackIntoView(options));
+  });
+}

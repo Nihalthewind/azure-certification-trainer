@@ -1,5 +1,6 @@
 .ui-feedback-panel {
   --feedback-tone: var(--color-info);
+  scroll-margin-top: 68px;
   margin-top: var(--space-6);
   padding: var(--space-6);
   border: 1px solid var(--color-border);

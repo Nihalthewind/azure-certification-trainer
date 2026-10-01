@@ -70,3 +70,9 @@ body.question-session-active .after-card {
     border-radius: 14px;
   }
 }
+
+/* A correction becomes the next reading target after validation. */
+.ui-question-viewport .ui-feedback-panel,
+.ui-question-viewport #feedback {
+  scroll-margin-top: 68px;
+}

@@ -41,6 +41,10 @@ expect(atelier.includes("openOnboarding({force:true})"), 'Revoir l’introductio
 expect(atelier.includes("setTimeout(()=>openOnboarding(),120)"), 'First-run onboarding is not scheduled after application startup');
 expect(firstRunCss.includes('backdrop-filter: blur(16px)'), 'FirstRunExperience does not blur/fade the background');
 expect(firstRunCss.includes('prefers-reduced-motion'), 'FirstRunExperience does not respect reduced motion');
+expect(atelier.includes('scrollFeedbackAfterRender:questionViewport.scrollFeedbackAfterRender'), 'Feedback auto-framing is not exposed through the Design System bridge');
+expect(atelier.includes('UI.scrollFeedbackAfterRender?.()'), 'Answer submission does not auto-frame the correction');
+expect(firstRunCss.includes('grid-template-rows: auto minmax(0, 1fr) auto auto'), 'Onboarding panel does not keep a stable action area');
+expect(firstRunCss.includes('min-width: 154px'), 'Onboarding primary CTA does not reserve a stable width');
 expect(indexHtml.includes('aria-pressed="false"'), 'Direct Focus action does not expose a pressed state');
 expect(indexHtml.includes('id="submit" class="ui-button ui-button--primary ui-button--medium"'), 'Submit button is not using the Design System Button classes');
 expect(indexHtml.includes('id="prev" class="ui-button ui-button--secondary ui-button--medium"'), 'Previous button is not using the Design System Button classes');
@@ -57,7 +61,7 @@ expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade pro
 expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
 expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
 expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
-expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint10"), 'Service worker cache was not bumped for Sprint 10');
+expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint10-1"), 'Service worker cache was not bumped for Sprint 10');
 expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
 expect(serviceWorker.includes("'./src/ui/components/icon-button/icon-button.js'"), 'Service worker does not cache IconButton');
 expect(serviceWorker.includes("'./src/ui/components/feedback-panel/feedback-panel.js'"), 'Service worker does not cache FeedbackPanel');

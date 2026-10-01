@@ -199,13 +199,22 @@ export function createFirstRunExperience({
     accent.textContent = step.accent;
     accent.hidden = !step.accent;
     stepCounter.textContent = `${stepIndex + 1} / ${items.length}`;
-    previous.hidden = stepIndex === 0;
+    const atStart = stepIndex === 0;
+    previous.style.visibility = atStart ? 'hidden' : 'visible';
+    previous.disabled = atStart;
+    previous.tabIndex = atStart ? -1 : 0;
+    previous.setAttribute('aria-hidden', String(atStart));
     next.querySelector('.ui-button__label').textContent = stepIndex === items.length - 1 ? 'Commencer' : 'Continuer →';
     next.setAttribute('aria-label', stepIndex === items.length - 1 ? 'Terminer l’introduction et commencer' : 'Continuer l’introduction');
     renderFeatures(step.content);
     renderProgress();
     root.dataset.step = String(stepIndex + 1);
-    queueMicrotask(() => next.focus({ preventScroll: true }));
+
+    // Keep the user's pointer and viewport stable. The CTA stays in exactly
+    // the same place instead of refocusing/recentering on every step.
+    if (atStart && document.activeElement === previous) {
+      next.focus({ preventScroll: true });
+    }
   }
 
   function finish(skipped) {
