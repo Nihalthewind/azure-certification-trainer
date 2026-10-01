@@ -22,3 +22,5 @@
 @import './patterns/app-shell/app-shell.css';
 
 @import './pages/trainer-pages/trainer-pages.css';
+
+@import './integration/app-shell-production.css';

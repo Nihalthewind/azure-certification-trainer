@@ -1,0 +1,821 @@
+/*
+ * Sprint 12 — AppShell production migration.
+ * This file intentionally overrides the historical shell without deleting
+ * legacy CSS. All colors use semantic tokens so dark/light remain equivalent.
+ */
+
+.app-shell-production {
+  --ui-shell-rail-width: 248px;
+  --ui-shell-topbar-height: 60px;
+  --ui-shell-gutter: clamp(20px, 3vw, 32px);
+  min-height: 100dvh;
+  grid-template-columns: var(--ui-shell-rail-width) minmax(0, 1fr);
+  background: var(--color-background);
+}
+
+.app-shell-production > .rail {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  width: auto;
+  height: 100dvh;
+  gap: 22px;
+  padding: 22px 14px 16px;
+  border-right: 1px solid var(--color-border);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 4%, transparent), transparent 28%),
+    var(--color-rail);
+  overflow: auto;
+}
+
+html[data-theme="dark"] .app-shell-production > .rail {
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--color-accent) 5%, transparent);
+}
+
+html[data-theme="light"] .app-shell-production > .rail {
+  box-shadow: 10px 0 32px rgba(34, 58, 86, .035);
+}
+
+.app-shell-production .brand {
+  gap: 11px;
+  padding: 0 8px;
+}
+
+.app-shell-production .brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  font-size: 13px;
+  letter-spacing: -.05em;
+}
+
+.app-shell-production .brand strong {
+  font-size: 15px;
+}
+
+.app-shell-production .brand small {
+  margin-top: 3px;
+  font-size: 9px;
+}
+
+.app-shell-production .training-switcher {
+  gap: 5px;
+  padding: 0;
+}
+
+.app-shell-production .training-switcher > span {
+  padding-left: 10px;
+  font-size: 8px;
+}
+
+.app-shell-production .training-switcher select {
+  min-height: 48px;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-panel) 84%, transparent);
+  font-size: 10px;
+}
+
+.app-shell-production .rail-group {
+  gap: 4px;
+}
+
+.app-shell-production .rail-heading {
+  padding: 0 9px 7px;
+  font-size: 8px;
+  letter-spacing: .15em;
+}
+
+.app-shell-production .rail-link.ui-navigation-item {
+  position: relative;
+  width: 100%;
+  min-height: 42px;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.app-shell-production .rail-link.ui-navigation-item::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 50%;
+  width: 3px;
+  height: 18px;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  transform: translateY(-50%);
+}
+
+.app-shell-production .rail-link.ui-navigation-item:hover {
+  border-color: color-mix(in srgb, var(--color-border) 74%, transparent);
+  background: color-mix(in srgb, var(--color-surface) 78%, transparent);
+  color: var(--color-text-primary);
+}
+
+.app-shell-production .rail-link.ui-navigation-item.active {
+  border-color: color-mix(in srgb, var(--color-accent) 20%, var(--color-border));
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+  color: var(--color-text-primary);
+}
+
+.app-shell-production .rail-link.ui-navigation-item.active::before {
+  background: var(--color-accent);
+}
+
+.app-shell-production .rail-link-icon {
+  width: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-subtle);
+  font-size: 16px;
+}
+
+.app-shell-production .rail-link.active .rail-link-icon {
+  color: var(--color-accent);
+}
+
+.app-shell-production .rail-link-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-shell-production .rail-link b {
+  min-width: 24px;
+  margin: 0;
+  padding: 2px 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-panel) 72%, transparent);
+  color: var(--color-text-subtle);
+  font-size: 9px;
+  text-align: center;
+}
+
+.app-shell-production #domainNav {
+  gap: 2px;
+}
+
+.app-shell-production #domainNav .rail-link {
+  min-height: 34px;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  padding: 5px 9px;
+  border-radius: 9px;
+  font-size: 9px;
+}
+
+.app-shell-production #domainNav .rail-link > span {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  font-size: 8px;
+  font-weight: 850;
+}
+
+.app-shell-production .rail-bottom {
+  position: static;
+  margin-top: auto;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--color-border);
+  background: transparent;
+}
+
+.app-shell-production .settings-button {
+  width: 100%;
+  min-height: 38px;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 9px;
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  box-shadow: none;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.app-shell-production .settings-button:hover,
+.app-shell-production .settings-button.is-active {
+  border-color: color-mix(in srgb, var(--color-accent) 24%, var(--color-border));
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-panel));
+  color: var(--color-accent);
+}
+
+.app-shell-production .content {
+  min-width: 0;
+}
+
+.app-shell-production .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 70;
+  height: var(--ui-shell-topbar-height);
+  padding: 0 var(--ui-shell-gutter);
+  background: color-mix(in srgb, var(--color-background) 88%, transparent);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(16px);
+}
+
+.app-shell-production .ui-app-shell__page-heading {
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.app-shell-production .ui-app-shell__page-heading .eyebrow {
+  flex: 0 0 auto;
+  font-size: 8px;
+  letter-spacing: .14em;
+}
+
+.app-shell-production #topPageTitle {
+  overflow: hidden;
+  color: var(--color-text-primary);
+  font: 800 12px/1.2 var(--font-family-display);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-shell-production .edition,
+.app-shell-production .language-toggle {
+  min-height: 28px;
+  padding: 4px 9px;
+  border-radius: var(--radius-pill);
+  font-size: 8px;
+}
+
+.app-shell-production .production-main {
+  width: 100%;
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: calc(var(--ui-shell-gutter) * .85) var(--ui-shell-gutter) calc(var(--ui-shell-gutter) * 1.25);
+}
+
+.app-shell-production .hero,
+.app-shell-production .strip {
+  display: none !important;
+}
+
+.app-shell-production .ui-production-page {
+  width: 100%;
+}
+
+.app-shell-production .dashboard,
+.app-shell-production .production-overview {
+  padding: 0 0 24px;
+}
+
+.app-shell-production .dashboard-head,
+.app-shell-production .production-page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 0 0 22px;
+}
+
+.app-shell-production .dashboard-head h2,
+.app-shell-production .production-page-head h2 {
+  margin: 7px 0 0;
+  font: 850 clamp(24px, 3vw, 34px)/1.08 var(--font-family-display);
+  letter-spacing: -.045em;
+}
+
+.app-shell-production .dashboard-head p,
+.app-shell-production .production-page-head p {
+  max-width: 700px;
+  margin: 7px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.app-shell-production .dashboard-grid {
+  gap: 10px;
+}
+
+.app-shell-production .dash-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 118px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--color-accent) 4%, transparent), transparent 58%),
+    var(--color-panel);
+  box-shadow: none;
+}
+
+.app-shell-production .dash-card strong {
+  margin: 0;
+  font-size: clamp(26px, 3vw, 38px);
+}
+
+.app-shell-production .dashboard-panel {
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.app-shell-production .panel-title {
+  min-height: 58px;
+  margin: 0;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-shell-production .panel-title h3 {
+  font-size: 13px;
+}
+
+.app-shell-production .domain-stats,
+.app-shell-production .exam-trend,
+.app-shell-production .review-queue,
+.app-shell-production .favorite-preview {
+  padding: 15px 16px;
+}
+
+.app-shell-production .domain-stat-action {
+  padding: 0;
+}
+
+.app-shell-production .review-item,
+.app-shell-production .favorite-item {
+  background: var(--color-surface);
+}
+
+.app-shell-production .workspace {
+  max-width: none;
+  margin: 0;
+}
+
+.app-shell-production .workbar {
+  align-items: flex-start;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-shell-production .workbar h2 {
+  font-size: clamp(24px, 3vw, 34px);
+}
+
+.app-shell-production .workbar p {
+  max-width: 720px;
+  font-size: 11px;
+}
+
+.app-shell-production .workbar-controls {
+  align-self: center;
+}
+
+.app-shell-production .search-wrap,
+.app-shell-production .soft-button {
+  border-radius: 10px;
+  background: var(--color-panel);
+}
+
+.app-shell-production .domain-pills {
+  margin-top: 0;
+  padding-bottom: 12px;
+}
+
+.app-shell-production .domain-pills button {
+  min-height: 32px;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 9px;
+}
+
+.app-shell-production .progress-track {
+  height: 4px;
+  margin-bottom: 12px;
+}
+
+.app-shell-production .question-card {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+html[data-theme="dark"] .app-shell-production .question-card,
+html[data-theme="dark"] .app-shell-production .dashboard-panel,
+html[data-theme="dark"] .app-shell-production .production-settings-group,
+html[data-theme="dark"] .app-shell-production .production-exam-hero {
+  box-shadow: 0 18px 54px rgba(1, 7, 20, .16);
+}
+
+html[data-theme="light"] .app-shell-production .question-card,
+html[data-theme="light"] .app-shell-production .dashboard-panel,
+html[data-theme="light"] .app-shell-production .production-settings-group,
+html[data-theme="light"] .app-shell-production .production-exam-hero {
+  box-shadow: 0 14px 34px rgba(40, 65, 100, .055);
+}
+
+/* Errors landing page */
+.production-stats {
+  margin-bottom: 14px;
+}
+
+.production-overview-grid {
+  grid-template-columns: 1.45fr .75fr;
+}
+
+.production-review-list .review-item {
+  grid-template-columns: minmax(86px, auto) minmax(0, 1fr) auto;
+}
+
+/* Exam landing page */
+.production-exam-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 14px;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 20%, var(--color-border));
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at 15% 0%, color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 36%),
+    var(--color-panel);
+}
+
+.production-kicker {
+  display: inline-flex;
+  padding: 5px 9px;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 30%, var(--color-border));
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-panel));
+  color: var(--color-accent);
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.production-exam-hero h3 {
+  margin: 14px 0 7px;
+  font: 850 clamp(26px, 4vw, 40px)/1 var(--font-family-display);
+  letter-spacing: -.055em;
+}
+
+.production-exam-hero p {
+  max-width: 640px;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.production-score-card {
+  min-width: 170px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  text-align: right;
+}
+
+.production-score-card span,
+.production-score-card strong,
+.production-score-card small {
+  display: block;
+}
+
+.production-score-card span {
+  color: var(--color-text-subtle);
+  font-size: 8px;
+  font-weight: 850;
+  letter-spacing: .12em;
+}
+
+.production-score-card strong {
+  margin-top: 7px;
+  font: 850 38px/1 var(--font-family-display);
+  letter-spacing: -.06em;
+}
+
+.production-score-card small {
+  margin-top: 6px;
+  color: var(--color-text-secondary);
+  font-size: 8px;
+}
+
+.production-exam-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.production-setting-list,
+.production-history-list {
+  padding: 6px 16px;
+}
+
+.production-setting-item,
+.production-history-item {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 9px;
+}
+
+.production-setting-item:last-child,
+.production-history-item:last-child {
+  border-bottom: 0;
+}
+
+.production-setting-item span,
+.production-history-item span {
+  color: var(--color-text-secondary);
+}
+
+.production-history-item strong {
+  font-size: 11px;
+}
+
+/* Settings full page */
+.production-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.production-settings-group {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-panel);
+}
+
+.production-settings-group-head {
+  padding: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.production-settings-group-head h3 {
+  margin: 0;
+  font: 800 13px/1.3 var(--font-family-display);
+}
+
+.production-settings-group-head p {
+  margin: 4px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 9px;
+}
+
+.production-settings-group-body {
+  padding: 0 16px;
+}
+
+.production-setting-row {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.production-setting-row:last-child {
+  border-bottom: 0;
+}
+
+.production-setting-row > div {
+  min-width: 0;
+}
+
+.production-setting-row strong {
+  display: block;
+  font-size: 10px;
+}
+
+.production-setting-row p {
+  max-width: 430px;
+  margin: 3px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 8.5px;
+  line-height: 1.45;
+}
+
+.production-version-label {
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  font-size: 9px;
+}
+
+/* Focus remains a true shell state. */
+body.focus-mode .app-shell-production {
+  display: block;
+}
+
+body.focus-mode .app-shell-production > .rail {
+  display: none !important;
+}
+
+body.focus-mode .app-shell-production .topbar {
+  height: 48px;
+}
+
+body.focus-mode .app-shell-production .production-main {
+  max-width: 1100px;
+  padding-top: 16px;
+}
+
+body.focus-mode .app-shell-production .workbar-copy {
+  display: none;
+}
+
+body.focus-mode .app-shell-production .workbar {
+  position: sticky;
+  top: 48px;
+  z-index: 55;
+  min-height: 48px;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  padding: 7px 0 9px;
+  background: color-mix(in srgb, var(--color-background) 92%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+@media (max-width: 1000px) {
+  .app-shell-production .production-overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 920px) {
+  .app-shell-production {
+    display: block;
+  }
+
+  .app-shell-production > .rail {
+    position: relative;
+    width: 100%;
+    height: auto;
+    gap: 10px;
+    padding: 12px 14px;
+    overflow: visible;
+  }
+
+  .app-shell-production > .rail > .brand,
+  .app-shell-production > .rail > .training-switcher,
+  .app-shell-production #domainNav {
+    display: none;
+  }
+
+  .app-shell-production .app-shell-primary-nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .app-shell-production .app-shell-primary-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .app-shell-production .app-shell-primary-nav .rail-heading {
+    display: none;
+  }
+
+  .app-shell-production .app-shell-primary-nav .rail-link {
+    width: auto;
+    flex: 0 0 auto;
+    grid-template-columns: 20px auto auto;
+  }
+
+  .app-shell-production .app-shell-primary-nav .rail-link::before {
+    display: none;
+  }
+
+  .app-shell-production .rail-bottom {
+    position: static;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .app-shell-production .settings-button {
+    width: auto;
+    min-height: 42px;
+    grid-template-columns: 20px auto;
+    padding: 8px 10px;
+    border: 1px solid transparent;
+    background: transparent;
+  }
+
+  .app-shell-production > .rail {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .app-shell-production .app-shell-primary-nav {
+    flex: 1 1 auto;
+  }
+
+  .app-shell-production .topbar {
+    position: relative;
+    padding-inline: 16px;
+  }
+
+  .app-shell-production .production-main {
+    padding: 22px 16px 30px;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell-production .dashboard-head,
+  .app-shell-production .production-page-head,
+  .production-exam-hero {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .app-shell-production .dashboard-head > .ui-button,
+  .app-shell-production .production-page-head > .ui-button {
+    width: 100%;
+  }
+
+  .production-exam-grid,
+  .production-settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .production-score-card {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .app-shell-production .workbar-controls {
+    align-self: stretch;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-shell-production .ui-app-shell__page-heading .eyebrow,
+  .app-shell-production .edition {
+    display: none;
+  }
+
+  .app-shell-production .topbar {
+    height: 48px;
+  }
+
+  .app-shell-production .production-main {
+    padding: 18px 14px 28px;
+  }
+
+  .app-shell-production .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .app-shell-production .workbar {
+    align-items: stretch;
+  }
+
+  .app-shell-production .workbar-controls {
+    width: 100%;
+  }
+
+  .app-shell-production .search-wrap {
+    flex: 1 1 100%;
+  }
+
+  .production-setting-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 0;
+  }
+
+  .production-setting-row .ui-button {
+    width: 100%;
+  }
+}

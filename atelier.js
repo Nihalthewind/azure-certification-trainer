@@ -21,7 +21,7 @@
 
   async function loadDesignSystem(){
     try{
-      const [answerOption,badge,iconButton,feedbackPanel,answerState,questionViewport,workspaceToolbar,firstRunExperience]=await Promise.all([
+      const [answerOption,badge,iconButton,feedbackPanel,answerState,questionViewport,workspaceToolbar,firstRunExperience,icons]=await Promise.all([
         import('./src/ui/components/answer-option/answer-option.js'),
         import('./src/ui/components/badge/badge.js'),
         import('./src/ui/components/icon-button/icon-button.js'),
@@ -30,6 +30,7 @@
         import('./src/ui/patterns/question-viewport/question-viewport.js'),
         import('./src/ui/patterns/workspace-toolbar/workspace-toolbar.js'),
         import('./src/ui/patterns/first-run-experience/first-run-experience.js'),
+        import('./src/ui/icons/icons.js'),
       ]);
       UI={
         createAnswerOption:answerOption.createAnswerOption,
@@ -44,8 +45,9 @@
         scrollFeedbackAfterRender:questionViewport.scrollFeedbackAfterRender,
         updateFocusToggle:workspaceToolbar.updateFocusToggle,
         createFirstRunExperience:firstRunExperience.createFirstRunExperience,
+        createIcon:icons.createIcon,
       };
-      document.documentElement.dataset.uiSystem='sprint10-1';
+      document.documentElement.dataset.uiSystem='sprint12';
       return true;
     }catch(error){
       console.warn('Azure Trainer Design System indisponible : retour au rendu historique.',error);
@@ -133,6 +135,114 @@
     $('#trainingSelect').value=cfg.id;
   }
   function releaseSourceUrl(){if(sourceUrl){URL.revokeObjectURL(sourceUrl);sourceUrl=''}}
+
+  function shellMode(){
+    if(mode==='mistakes-session')return'mistakes';
+    if(mode==='exam-home')return'exam';
+    return mode;
+  }
+
+  function updateShellContext(){
+    const current=shellMode();
+    const meta={
+      dashboard:['PILOTAGE','Tableau de bord'],
+      study:['ENTRAÎNEMENT','Base de connaissances'],
+      weakness:['RÉVISION','Session ciblée'],
+      mistakes:['RÉVISION','Erreurs'],
+      exam:['SIMULATION',mode==='exam'?'Examen en cours':'Examen blanc'],
+      settings:['APPLICATION','Paramètres'],
+    }[current]||['PRÉPARATION','Azure Trainer'];
+    const eyebrow=$('#topEyebrow'),title=$('#topPageTitle');
+    if(eyebrow)eyebrow.textContent=meta[0];
+    if(title)title.textContent=meta[1];
+  }
+
+  function enhanceNavigationIcons(){
+    if(!UI.createIcon)return;
+    $$('[data-nav-icon]').forEach(button=>{
+      const slot=button.querySelector('.rail-link-icon,.settings-icon');
+      if(!slot||slot.dataset.iconReady==='1')return;
+      slot.replaceChildren(UI.createIcon(button.dataset.navIcon,{size:button.id==='settingsButton'?17:18}));
+      slot.dataset.iconReady='1';
+    });
+  }
+
+  function renderSettingsPage(){
+    if(mode!=='settings')return;
+    const theme=document.documentElement.dataset.theme||'dark';
+    const description=$('#themeSettingDescription');
+    if(description)description.textContent=theme==='dark'?'Thème sombre actif. Passez en clair pour les environnements lumineux.':'Thème clair actif. Passez en sombre pour réduire la luminance.';
+    const themeButton=$('#themeButton');
+    if(themeButton){
+      const label=themeButton.querySelector('.ui-button__label');
+      if(label)label.textContent=theme==='dark'?'Passer en clair':'Passer en sombre';
+      else themeButton.textContent=theme==='dark'?'Passer en clair':'Passer en sombre';
+    }
+  }
+
+  function renderMistakesPage(){
+    if(mode!=='mistakes')return;
+    const wrong=bank.filter(q=>state.answers[q.id]?.correct===false);
+    const stats=domainStatsData().map(s=>({...s,errors:bank.filter(q=>q.domain===s.id&&state.answers[q.id]?.correct===false).length})).sort((a,b)=>b.errors-a.errors);
+    const weak=stats.find(s=>s.errors>0);
+    $('#mistakesSubtitle').textContent=wrong.length?`${wrong.length} question(s) à reprendre · domaine prioritaire : ${weak?.label||'—'}`:'Aucune erreur active. Vous pouvez continuer votre progression.';
+    $('#mistakesStats').innerHTML=[
+      ['Erreurs actives',wrong.length,wrong.length?'À retravailler':'Aucune erreur'],
+      ['Prioritaires',Math.min(6,wrong.length),wrong.length?'Commencez par les plus récentes':'Rien à traiter'],
+      ['Domaine le plus faible',weak?.label||'—',weak?`${weak.errors} erreur(s)`:'Aucune donnée'],
+      ['Questions maîtrisées',masteredCount(),`${Math.round(masteredCount()/Math.max(1,bank.length)*100)} % de la banque`],
+    ].map(([label,value,detail])=>`<article class="dash-card"><span>${clean(label)}</span><strong>${clean(value)}</strong><small>${clean(detail)}</small></article>`).join('');
+    const queue=[...wrong].sort((a,b)=>(state.answers[b.id]?.ts||0)-(state.answers[a.id]?.ts||0)).slice(0,10);
+    $('#mistakesQueue').innerHTML=queue.length?queue.map(q=>`<button class="review-item" data-mistake-q="${clean(q.id)}"><span>${clean(q.id)}</span><b>${clean(domainTuple(q.domain)?.[1]||q.domain||'')}</b><small>Ouvrir la question</small></button>`).join(''):'<p class="dashboard-empty">Aucune question en erreur pour le moment.</p>';
+    $('#mistakesDomains').innerHTML=stats.filter(s=>s.errors).map(s=>`<div class="domain-stat"><div><span>${clean(s.label)}</span><b>${s.errors}</b></div><div class="mini-track"><i style="width:${Math.min(100,Math.max(8,s.errors/Math.max(1,wrong.length)*100))}%"></i></div><small>${s.errors} erreur(s) active(s) · maîtrise ${s.answered?s.rate:0}%</small></div>`).join('')||'<p class="dashboard-empty">Aucune erreur à répartir.</p>';
+    $$('[data-mistake-q]').forEach(button=>button.onclick=()=>openQuestionById(button.dataset.mistakeQ));
+    const start=$('#startMistakesSessionButton');
+    if(start)start.disabled=!wrong.length;
+  }
+
+  function renderExamLanding(){
+    if(mode!=='exam-home')return;
+    const ec=examConfig(),history=[...(state.examHistory||[])].sort((a,b)=>(b.completedAt||0)-(a.completedAt||0));
+    const active=!!state.exam?.ids?.length,last=history[0];
+    $('#examTrainingBadge').textContent=cfg.code;
+    $('#examSummaryTitle').textContent=`${Math.min(ec.total,autoQuestions.length)} questions · ${ec.durationMinutes} minutes`;
+    $('#examSummaryDescription').textContent=active?'Une session est déjà en cours. Reprenez-la exactement où vous l’avez laissée.':ec.subtitle||'Les réponses sont enregistrées pendant la session. La correction complète est disponible à la fin.';
+    $('#examLastScore').textContent=last?`${last.percent}%`:'—';
+    $('#examLastScoreDetail').textContent=last?`${last.correct}/${last.total} · ${clean(formatDate(last.completedAt))}`:'Aucun examen terminé';
+    $('#examConfiguration').innerHTML=[
+      ['Nombre de questions',Math.min(ec.total,autoQuestions.length)],
+      ['Durée',`${ec.durationMinutes} min`],
+      ['Correction','À la fin'],
+      ['Questions à revoir','Marquage autorisé'],
+      ['Mode compact','Disponible pendant la session'],
+    ].map(([label,value])=>`<div class="production-setting-item"><span>${clean(label)}</span><strong>${clean(value)}</strong></div>`).join('');
+    $('#examLandingHistory').innerHTML=history.length?history.slice(0,3).map(h=>`<div class="production-history-item"><span>${clean(formatDate(h.completedAt))}</span><strong>${h.percent}% · ${h.correct}/${h.total}</strong></div>`).join(''):'<p class="dashboard-empty">Terminez votre premier examen blanc pour afficher l’historique.</p>';
+    const start=$('#startExamButton');
+    if(start){
+      const label=start.querySelector('.ui-button__label');
+      const text=active?'Reprendre l’examen':'Démarrer un examen';
+      if(label)label.textContent=text;else start.textContent=text;
+    }
+  }
+
+  function startMistakesSession(){
+    const wrong=bank.filter(q=>state.answers[q.id]?.correct===false);
+    if(!wrong.length){toast('Aucune erreur active à retravailler.');return}
+    mode='mistakes-session';domain='all';search='';$('#search').value='';cursor=0;list=[];refresh();focusCurrentQuestion({smooth:false});
+  }
+
+  function startOrResumeExam(){
+    if(!state.exam&&!buildExam())return;
+    mode='exam';domain='all';search='';$('#search').value='';cursor=Math.min(state.exam?.index||0,Math.max(0,(state.exam?.ids?.length||1)-1));list=[];
+    if(!timer)timer=setInterval(updateClock,1000);
+    refresh();focusCurrentQuestion({smooth:false});
+  }
+
+  function startFocusFromSettings(){
+    mode='study';domain='all';search='';$('#search').value='';cursor=0;list=[];refresh();
+    requestAnimationFrame(()=>setFocusMode(true,{recenter:true}));
+  }
+
   function activateTraining(id,{resumeExam=false}={}){
     const next=catalog.find(t=>t.id===id)||catalog[0];if(!next)return;
     releaseSourceUrl();cfg=next;bank=Object.freeze([...(cfg.questions||[])]);byId=new Map(bank.map(q=>[q.id,q]));autoQuestions=bank.filter(q=>q.autoScorable!==false);DOMAINS=cfg.domains?.length?cfg.domains:[...new Set(bank.map(q=>q.domain||'Import'))].map((d,i)=>[d,d,String(i+1).padStart(2,'0')]);
@@ -147,11 +257,14 @@
     const wrongN=bank.filter(q=>state.answers[q.id]?.correct===false).length;$('#studyCount').textContent=bank.length;$('#wrongCount').textContent=wrongN;const weakCountEl=$('#weakCount');if(weakCountEl)weakCountEl.textContent=weaknessQuestions().length;$('#dueMetric').textContent=wrongN;$('#dashboardBadge').textContent=wrongN||'';
     const answered=bank.filter(q=>state.answers[q.id]?.done&&typeof state.answers[q.id]?.correct==='boolean');$('#mastery').textContent=answered.length?Math.round(answered.filter(q=>state.answers[q.id].correct).length/answered.length*100)+' %':'—';
     $('#exerciseCount').textContent=autoQuestions.length;$('#knowledgeCount').textContent=bank.length-autoQuestions.length;
-    $$('.rail-link[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
-    $('#domainNav').innerHTML=`<span class="rail-heading">DOMAINES ${clean(cfg.code)}</span>`+DOMAINS.map(([id,label,n])=>{const count=bank.filter(q=>q.domain===id).length;return`<button class="rail-link domain-link ${domain===id?'active':''}" data-domain="${clean(id)}"><span>${clean(n)}</span> ${clean(label)} <b>${count}</b></button>`}).join('');
+    const activeMode=shellMode();
+    $$('.rail-link[data-mode]').forEach(b=>{const active=b.dataset.mode===activeMode;b.classList.toggle('active',active);if(active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+    const settingsButton=$('#settingsButton');if(settingsButton){const active=activeMode==='settings';settingsButton.classList.toggle('is-active',active);if(active)settingsButton.setAttribute('aria-current','page');else settingsButton.removeAttribute('aria-current')}
+    $('#domainNav').innerHTML=`<span class="rail-heading">DOMAINES ${clean(cfg.code)}</span>`+DOMAINS.map(([id,label,n])=>{const count=bank.filter(q=>q.domain===id).length;return`<button class="rail-link ui-navigation-item domain-link ${domain===id&&activeMode==='study'?'active':''}" data-domain="${clean(id)}"><span>${clean(n)}</span><span class="rail-link-label">${clean(label)}</span><b>${count}</b></button>`}).join('');
     $$('.domain-link').forEach(b=>b.onclick=()=>{domain=b.dataset.domain;mode='study';search='';$('#search').value='';cursor=0;refresh()});
     $('#domainPills').innerHTML=`<button class="${domain==='all'?'active':''}" data-filter="all">Tous</button>`+DOMAINS.map(([id,label])=>`<button class="${domain===id?'active':''}" data-filter="${clean(id)}">${clean(label)}</button>`).join('');
     $$('#domainPills button').forEach(b=>b.onclick=()=>{domain=b.dataset.filter;mode='study';cursor=0;list=[];refresh()});$('#domainPills').hidden=mode==='exam';
+    enhanceNavigationIcons();updateShellContext();
   }
   function examConfig(){return{version:1,total:48,durationMinutes:100,allocation:null,caseStudyIds:[],caseRelatedIds:[],multiContext:false,subtitle:'Examen blanc généré depuis la banque',...(cfg.exam||{})}}
   function formatDuration(ms){ms=Math.max(0,Number(ms)||0);const total=Math.floor(ms/1000),h=Math.floor(total/3600),m=Math.floor((total%3600)/60),s=total%60;return h?`${h} h ${String(m).padStart(2,'0')} min`:`${m} min ${String(s).padStart(2,'0')} s`}
@@ -188,13 +301,13 @@
     const ids=[...shuffle(general).slice(0,total-caseStudy.length).map(q=>q.id),...caseStudy.map(q=>q.id)];
     state.exam={version:ec.version,ids,caseStudyIds:caseStudy.map(q=>q.id),multiContextId:multiContext?.id||null,answers:{},drafts:{},flagged:{},index:0,start:now(),duration:ec.durationMinutes*60000};save();return true;
   }
-  function applyExamView(){const active=mode==='exam',focusAvailable=mode!=='dashboard'&&!!list.length,focusActive=focusAvailable&&!!state.examFocus;document.body.classList.toggle('exam-compact',active&&state.examCompact);document.body.classList.toggle('focus-mode',focusActive);$('#examControls').hidden=!active;$('#compactButton').classList.toggle('is-active',active&&state.examCompact);$('#compactButton').setAttribute('aria-pressed',String(active&&state.examCompact));const fm=$('#focusMenuButton');if(fm){fm.disabled=!focusAvailable;fm.classList.toggle('is-active',focusActive);fm.setAttribute('aria-pressed',String(focusActive));fm.textContent=focusActive?'×  Quitter Focus':'⛶  Mode Focus'}const direct=$('#focusToggleButton');if(direct){direct.hidden=!focusAvailable;if(UI.updateFocusToggle)UI.updateFocusToggle(direct,focusActive);else{direct.classList.toggle('is-active',focusActive);direct.setAttribute('aria-pressed',String(focusActive));const label=direct.querySelector('.ui-button__label');if(label)label.textContent=focusActive?'Quitter Focus':'Mode Focus'}}}
-  function setFocusMode(active,{recenter=true}={}){if(mode==='dashboard'||!list.length)return;state.examFocus=!!active;applyExamView();save();if(recenter)UI.scrollQuestionAfterRender?.({smooth:false})}
+  function applyExamView(){const active=mode==='exam',focusAvailable=['study','weakness','mistakes-session','exam'].includes(mode)&&!!list.length,focusActive=focusAvailable&&!!state.examFocus;document.body.classList.toggle('exam-compact',active&&state.examCompact);document.body.classList.toggle('focus-mode',focusActive);$('#examControls').hidden=!active;$('#compactButton').classList.toggle('is-active',active&&state.examCompact);$('#compactButton').setAttribute('aria-pressed',String(active&&state.examCompact));const fm=$('#focusMenuButton');if(fm){const fromSettings=mode==='settings';fm.disabled=!focusAvailable&&!fromSettings;fm.classList.toggle('is-active',focusActive);fm.setAttribute('aria-pressed',String(focusActive));const label=fm.querySelector('.ui-button__label');const text=fromSettings?'Ouvrir en Focus':focusActive?'Quitter Focus':'Mode Focus';if(label)label.textContent=text;else fm.textContent=text}const direct=$('#focusToggleButton');if(direct){direct.hidden=!focusAvailable;if(UI.updateFocusToggle)UI.updateFocusToggle(direct,focusActive);else{direct.classList.toggle('is-active',focusActive);direct.setAttribute('aria-pressed',String(focusActive));const label=direct.querySelector('.ui-button__label');if(label)label.textContent=focusActive?'Quitter Focus':'Mode Focus'}}}
+  function setFocusMode(active,{recenter=true}={}){if(!['study','weakness','mistakes-session','exam'].includes(mode)||!list.length)return;state.examFocus=!!active;applyExamView();save();if(recenter)UI.scrollQuestionAfterRender?.({smooth:false})}
   function toggleFocus(){setFocusMode(!state.examFocus)}
   function resetExam(){if(mode!=='exam'||!state.exam)return;if(window.confirm&&!window.confirm('Recommencer cet examen depuis la question 1 ? Toutes les réponses de cette session seront effacées.'))return;state.exam.answers={};state.exam.drafts={};state.exam.index=0;state.exam.start=now();cursor=0;save();render();const ec=examConfig();toast(`Examen réinitialisé : ${state.exam.ids.length} questions et ${ec.durationMinutes} minutes.`);focusCurrentQuestion({smooth:true})}
-  function selectMode(next){if(next==='exam'){if(!state.exam&&!buildExam())return;mode='exam';domain='all';search='';$('#search').value='';cursor=state.exam.index||0;if(!timer)timer=setInterval(updateClock,1000)}else{mode=next;domain='all';search='';$('#search').value='';cursor=0}list=[];refresh()}
-  function visible(){if(mode==='dashboard')return[];if(mode==='exam')return(state.exam?.ids||[]).map(id=>byId.get(id)).filter(Boolean);let q=bank.filter(x=>domain==='all'||x.domain===domain);if(mode==='weakness')q=weaknessQuestions();if(mode==='mistakes')q=q.filter(x=>state.answers[x.id]?.correct===false);if(search)q=q.filter(x=>norm([x.id,x.category,x.prompt,x.solutionAnswer,x.pedagogicalContext,x.sourceExplanation,...(x.options||[])].join(' ')).includes(norm(search)));return q}
-  function refresh(keepId){const id=keepId||list[cursor]?.id;const dashMode=mode==='dashboard';$('#dashboard').hidden=!dashMode;$('.workspace').hidden=dashMode;$('.hero').hidden=dashMode;$('.strip').hidden=dashMode;if(dashMode){UI.setQuestionSessionActive?.(false);document.body.classList.remove('question-session-active');updateRail();applyExamView();renderDashboard();return}list=visible();UI.setQuestionSessionActive?.(!!list.length);document.body.classList.toggle('question-session-active',!!list.length);if(id&&list.some(q=>q.id===id))cursor=list.findIndex(q=>q.id===id);else if(mode==='study'&&state.lastId&&list.some(q=>q.id===state.lastId))cursor=list.findIndex(q=>q.id===state.lastId);else cursor=Math.min(cursor,Math.max(0,list.length-1));const ec=examConfig();$('#workTitle').textContent=mode==='exam'?`Examen blanc · ${state.exam?.ids?.length||Math.min(ec.total,autoQuestions.length)} questions`:mode==='weakness'?'Travailler mes faiblesses':mode==='mistakes'?'Comprendre ses erreurs':domain==='all'?'Votre parcours':domainTuple(domain)?.[1]||'Votre parcours';$('#workSubtitle').textContent=mode==='exam'?ec.subtitle:mode==='weakness'?'Priorité aux domaines les moins maîtrisés et aux erreurs actives.':mode==='mistakes'?'Un second essai consolide les points délicats.':`${bank.length} questions disponibles pour ${cfg.code}, avec correction et illustrations lorsqu’elles sont présentes.`;$('#modeLabel').textContent={study:'Base complète',weakness:'Faiblesses',mistakes:'Erreurs',exam:'Examen blanc'}[mode];$('#search').disabled=mode==='exam';$('#resetFilter').hidden=mode==='exam';$('#empty').hidden=!!list.length;$('#questionCard').hidden=!list.length;updateRail();applyExamView();render()}
+  function selectMode(next){if(next==='exam'){mode='exam-home';domain='all';search='';$('#search').value='';cursor=0}else if(next==='mistakes'){mode='mistakes';domain='all';search='';$('#search').value='';cursor=0}else{mode=next;domain='all';search='';$('#search').value='';cursor=0}list=[];refresh()}
+  function visible(){if(['dashboard','settings','mistakes','exam-home'].includes(mode))return[];if(mode==='exam')return(state.exam?.ids||[]).map(id=>byId.get(id)).filter(Boolean);let q=bank.filter(x=>domain==='all'||x.domain===domain);if(mode==='weakness')q=weaknessQuestions();if(mode==='mistakes-session')q=q.filter(x=>state.answers[x.id]?.correct===false);if(search)q=q.filter(x=>norm([x.id,x.category,x.prompt,x.solutionAnswer,x.pedagogicalContext,x.sourceExplanation,...(x.options||[])].join(' ')).includes(norm(search)));return q}
+  function refresh(keepId){const id=keepId||list[cursor]?.id;const pageMode=['dashboard','settings','mistakes','exam-home'].includes(mode);$('#dashboard').hidden=mode!=='dashboard';$('#mistakesPage').hidden=mode!=='mistakes';$('#examPage').hidden=mode!=='exam-home';$('#settingsPage').hidden=mode!=='settings';$('.workspace').hidden=pageMode;$('.hero').hidden=true;$('.strip').hidden=true;if(pageMode){UI.setQuestionSessionActive?.(false);document.body.classList.remove('question-session-active');list=[];updateRail();applyExamView();if(mode==='dashboard')renderDashboard();else if(mode==='mistakes')renderMistakesPage();else if(mode==='exam-home')renderExamLanding();else if(mode==='settings')renderSettingsPage();return}list=visible();UI.setQuestionSessionActive?.(!!list.length);document.body.classList.toggle('question-session-active',!!list.length);if(id&&list.some(q=>q.id===id))cursor=list.findIndex(q=>q.id===id);else if(mode==='study'&&state.lastId&&list.some(q=>q.id===state.lastId))cursor=list.findIndex(q=>q.id===state.lastId);else cursor=Math.min(cursor,Math.max(0,list.length-1));const ec=examConfig();$('#workTitle').textContent=mode==='exam'?`Examen blanc · ${state.exam?.ids?.length||Math.min(ec.total,autoQuestions.length)} questions`:mode==='weakness'?'Travailler mes faiblesses':mode==='mistakes-session'?'Session de rattrapage':domain==='all'?'Base de connaissances':domainTuple(domain)?.[1]||'Base de connaissances';$('#workSubtitle').textContent=mode==='exam'?ec.subtitle:mode==='weakness'?'Priorité aux domaines les moins maîtrisés et aux erreurs actives.':mode==='mistakes-session'?'Travaillez uniquement les questions actuellement en erreur.':`${bank.length} questions disponibles pour ${cfg.code}, avec correction et illustrations lorsqu’elles sont présentes.`;$('#modeLabel').textContent={study:'Base complète',weakness:'Faiblesses','mistakes-session':'Erreurs',exam:'Examen blanc'}[mode]||'Base complète';$('#search').disabled=mode==='exam';$('#resetFilter').hidden=mode==='exam';$('#empty').hidden=!!list.length;$('#questionCard').hidden=!list.length;updateRail();applyExamView();render()}
 
   function answerComplete(q,d){if(q.options?.length)return Array.isArray(d.selected)&&d.selected.length>0;const s=q.visualSpec||{};if(s.kind==='yn')return(s.expected||[]).every((_,i)=>typeof d.values?.[i]==='boolean');if(s.kind==='rows')return(s.rows||[]).every((_,i)=>!!String(d.values?.[i]??'').trim());if(s.kind==='self')return!!String(d.text||'').trim();return false}
   function score(q,d){if(q.autoScorable===false)return null;if(q.options?.length){const sel=(d.selected||[]).map(Number),ans=(q.answerIndices||[]).map(Number);return sel.length===ans.length&&sel.every(i=>ans.includes(i))}const s=q.visualSpec||{};if(s.kind==='yn')return(s.expected||[]).every((v,i)=>d.values?.[i]===v);if(s.kind==='rows')return(s.rows||[]).every((r,i)=>normAnswer(d.values?.[i])===normAnswer(r.expected));return null}
@@ -400,14 +513,14 @@
 
   async function boot(){
     await loadDesignSystem();
-    await reloadCatalog();if(!catalog.length){document.body.innerHTML='<p>Aucune formation disponible.</p>';return}$('#app').hidden=false;applyTheme();
+    await reloadCatalog();if(!catalog.length){document.body.innerHTML='<p>Aucune formation disponible.</p>';return}$('#app').hidden=false;applyTheme();enhanceNavigationIcons();
     $$('.rail-link[data-mode]').forEach(b=>b.onclick=()=>selectMode(b.dataset.mode));$('#showAll').onclick=()=>selectMode('study');$('#resetFilter').onclick=()=>{domain='all';refresh()};$('#search').oninput=e=>{search=e.target.value.trim();cursor=0;refresh()};$('#prev').onclick=()=>move(-1);$('#next').onclick=()=>move(1);$('#submit').onclick=()=>submit(false);
     const bind=(selector,event,handler)=>{const el=$(selector);if(el)el[event]=handler;return el};
     updateLanguageToggle();bind('#languageToggle','onclick',toggleInterfaceLanguage);
-    bind('#themeButton','onclick',()=>{root.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme();save()});bind('#exportButton','onclick',exportProgress);bind('#importProgressButton','onclick',()=>$('#progressFileInput')?.click());bind('#progressFileInput','onchange',e=>{const f=e.target.files?.[0];e.target.value='';importProgress(f)});bind('#installAppButton','onclick',installApp);bind('#compactButton','onclick',()=>{state.examCompact=!state.examCompact;applyExamView();save()});bind('#focusMenuButton','onclick',toggleFocus);bind('#focusToggleButton','onclick',toggleFocus);bind('#replayOnboardingButton','onclick',()=>openOnboarding({force:true}));bind('#resetExamButton','onclick',resetExam);const settingsButton=$('#settingsButton'),settingsPanel=$('#settingsPanel');if(settingsButton&&settingsPanel){const setSettings=open=>{settingsPanel.hidden=!open;settingsButton.setAttribute('aria-expanded',String(open));settingsButton.classList.toggle('is-active',open)};settingsButton.onclick=e=>{e.stopPropagation();setSettings(settingsPanel.hidden)};settingsPanel.onclick=e=>e.stopPropagation();document.addEventListener('click',()=>setSettings(false));}
+    bind('#themeButton','onclick',()=>{root.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme();save();renderSettingsPage()});bind('#exportButton','onclick',exportProgress);bind('#importProgressButton','onclick',()=>$('#progressFileInput')?.click());bind('#progressFileInput','onchange',e=>{const f=e.target.files?.[0];e.target.value='';importProgress(f)});bind('#installAppButton','onclick',installApp);bind('#compactButton','onclick',()=>{state.examCompact=!state.examCompact;applyExamView();save()});bind('#focusMenuButton','onclick',()=>mode==='settings'?startFocusFromSettings():toggleFocus());bind('#focusToggleButton','onclick',toggleFocus);bind('#replayOnboardingButton','onclick',()=>openOnboarding({force:true}));bind('#resetExamButton','onclick',resetExam);bind('#settingsButton','onclick',()=>selectMode('settings'));bind('#startMistakesSessionButton','onclick',startMistakesSession);bind('#startExamButton','onclick',startOrResumeExam);
     bind('#trainingSelect','onchange',e=>activateTraining(e.target.value));bind('#favoriteButton','onclick',toggleFavorite);bind('#noteButton','onclick',openNote);bind('#reportButton','onclick',openReport);bind('#flagQuestionButton','onclick',toggleExamFlag);bind('#startWeaknessButton','onclick',()=>selectMode('weakness'));bind('#questionNavigatorButton','onclick',openQuestionNavigator);bind('#importTrainingButton','onclick',()=>$('#importFileInput')?.click());bind('#importFileInput','onchange',e=>{const f=e.target.files?.[0];e.target.value='';importFile(f)});bind('#manageTrainingButton','onclick',manageTrainings);
     $('#modalClose').onclick=closeModal;$('#modalAction').onclick=async()=>{const fn=modalCallback;if(!fn){closeModal();return}try{await fn();closeModal()}catch(e){console.error(e);toast(e.message||'Opération impossible.')}};$('#modal').onclick=e=>{if(e.target.id==='modal')e.stopPropagation()};
-    document.addEventListener('keydown',e=>{if(document.body.classList.contains('ui-first-run-open'))return;if(e.key==='Escape'){const modal=$('#modal');if(modal&&!modal.hidden){closeModal();return}if(state.examFocus){e.preventDefault();setFocusMode(false);return}}if(e.target.closest('input,select,textarea,button'))return;if((e.key==='f'||e.key==='F')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&mode!=='dashboard'&&list.length){e.preventDefault();toggleFocus();return}if(e.key==='ArrowRight'){e.preventDefault();move(1)}else if(e.key==='ArrowLeft'){e.preventDefault();move(-1)}else if(e.key==='Enter'&&!$('#submit').disabled){e.preventDefault();submit()}else if(/^[1-9]$/.test(e.key)&&list[cursor]?.options?.length){$(`#choices [data-choice="${Number(e.key)-1}"]`)?.click()}});
+    document.addEventListener('keydown',e=>{if(document.body.classList.contains('ui-first-run-open'))return;if(e.key==='Escape'){const modal=$('#modal');if(modal&&!modal.hidden){closeModal();return}if(state.examFocus){e.preventDefault();setFocusMode(false);return}}if(e.target.closest('input,select,textarea,button'))return;if((e.key==='f'||e.key==='F')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&['study','weakness','mistakes-session','exam'].includes(mode)&&list.length){e.preventDefault();toggleFocus();return}if(e.key==='ArrowRight'){e.preventDefault();move(1)}else if(e.key==='ArrowLeft'){e.preventDefault();move(-1)}else if(e.key==='Enter'&&!$('#submit').disabled){e.preventDefault();submit()}else if(/^[1-9]$/.test(e.key)&&list[cursor]?.options?.length){$(`#choices [data-choice="${Number(e.key)-1}"]`)?.click()}});
     const startId=catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:'az104',startState=currentState(startId),resume=!!startState.exam?.ids?.length;activateTraining(startId,{resumeExam:resume});checkVersion();setTimeout(()=>openOnboarding(),120);if(interfaceLanguage==='fr')setTimeout(()=>applyInterfaceLanguage('fr',{silent:true}),250);if('serviceWorker'in navigator&&location.protocol.startsWith('http')){const localDev=['localhost','127.0.0.1'].includes(location.hostname);if(localDev)navigator.serviceWorker.getRegistrations().then(registrations=>registrations.forEach(registration=>registration.unregister())).catch(console.warn);else navigator.serviceWorker.register('./service-worker.js').catch(console.warn)}timer=setInterval(updateClock,1000);
   }
   await boot();

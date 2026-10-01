@@ -13,46 +13,99 @@
   <link rel="stylesheet" href="src/ui/ui.css">
 </head>
 <body>
-  <div class="layout" id="app" hidden>
-    <aside class="rail" aria-label="Navigation principale">
-      <div class="brand"><div class="brand-icon" id="brandIcon">AZ</div><div><strong id="brandTitle">Azure Trainer</strong><small id="brandSubtitle">Certifications Azure · 2026</small></div></div>
+  <div class="layout ui-app-shell app-shell-production" id="app" data-density="balanced" hidden>
+    <aside class="rail ui-app-shell__rail" aria-label="Navigation principale">
+      <div class="brand ui-app-shell__brand"><div class="brand-icon ui-app-shell__brand-mark" id="brandIcon">AZ</div><div class="ui-app-shell__brand-copy"><strong id="brandTitle">Azure Trainer</strong><small id="brandSubtitle">Certifications Azure · 2026</small></div></div>
       <label class="training-switcher"><span>FORMATION</span><select id="trainingSelect" aria-label="Choisir une formation"></select></label>
-      <div class="rail-group"><span class="rail-heading">PARCOURS</span>
-        <button class="rail-link" data-mode="dashboard"><span>▦</span> Tableau de bord <b id="dashboardBadge"></b></button>
-        <button class="rail-link active" data-mode="study"><span>◈</span> Base de connaissances <b id="studyCount"></b></button>
-        <button class="rail-link" data-mode="mistakes"><span>✕</span> Erreurs <b id="wrongCount"></b></button>
-        <button class="rail-link" data-mode="exam"><span>◷</span> Examen blanc <b id="examCount"></b></button>
+      <div class="rail-group app-shell-primary-nav"><span class="rail-heading">PARCOURS</span>
+        <button class="rail-link ui-navigation-item" data-mode="dashboard" data-nav-icon="dashboard"><span class="rail-link-icon" aria-hidden="true">▦</span><span class="rail-link-label">Tableau de bord</span><b id="dashboardBadge"></b></button>
+        <button class="rail-link ui-navigation-item active" data-mode="study" data-nav-icon="knowledge"><span class="rail-link-icon" aria-hidden="true">◈</span><span class="rail-link-label">Base de connaissances</span><b id="studyCount"></b></button>
+        <button class="rail-link ui-navigation-item" data-mode="mistakes" data-nav-icon="error"><span class="rail-link-icon" aria-hidden="true">✕</span><span class="rail-link-label">Erreurs</span><b id="wrongCount"></b></button>
+        <button class="rail-link ui-navigation-item" data-mode="exam" data-nav-icon="exam"><span class="rail-link-icon" aria-hidden="true">◷</span><span class="rail-link-label">Examen blanc</span><b id="examCount"></b></button>
       </div>
       <div class="rail-group" id="domainNav"><span class="rail-heading">DOMAINES</span></div>
       <div class="rail-bottom">
-        <button id="settingsButton" class="settings-button" type="button" aria-expanded="false" aria-controls="settingsPanel"><span class="settings-icon">⚙</span><span class="settings-label">Paramètres</span><span class="settings-chevron">⌃</span></button>
-        <div id="settingsPanel" class="settings-panel" hidden>
-          <p>Réglages de l’application</p>
-          <button id="focusMenuButton" class="rail-secondary" type="button">⛶ &nbsp; Mode Focus</button>
-          <button id="replayOnboardingButton" class="rail-secondary" type="button">◎ &nbsp; Revoir l’introduction</button>
-          <button id="themeButton" class="rail-secondary" title="Basculer entre le thème sombre et clair">◐ &nbsp; Sombre / Clair</button>
-          <button id="importTrainingButton" class="rail-secondary">＋ &nbsp; Importer une formation</button>
-          <button id="manageTrainingButton" class="rail-secondary">▦ &nbsp; Gérer les formations</button>
-          <button id="exportButton" class="rail-secondary">⇩ &nbsp; Exporter mes données</button>
-          <button id="importProgressButton" class="rail-secondary">⇧ &nbsp; Importer mes données</button>
-          <button id="installAppButton" class="rail-secondary" hidden>⬇ &nbsp; Installer l’application</button>
-          <small class="version-label" id="versionLabel">v2.0.7</small>
-        </div>
+        <button id="settingsButton" class="settings-button ui-app-shell__settings" type="button" data-nav-icon="settings"><span class="settings-icon rail-link-icon" aria-hidden="true">⚙</span><span class="settings-label">Paramètres</span></button>
         <input id="importFileInput" type="file" accept=".pdf,.json,.csv,.txt,application/pdf,application/json,text/csv,text/plain" hidden>
         <input id="progressFileInput" type="file" accept=".json,application/json" hidden>
       </div>
     </aside>
     <div class="content">
-      <header class="topbar"><div class="eyebrow" id="topEyebrow">PRÉPARATION INDÉPENDANTE</div><div class="top-actions"><span class="edition" id="editionLabel">ÉDITION 2026</span><button id="languageToggle" class="language-toggle" type="button" translate="no" aria-pressed="false" title="Traduire en français">EN <span aria-hidden="true">⇄</span> FR</button><div id="google_translate_element" class="translate-engine" aria-hidden="true"></div></div></header>
-      <main>
+      <header class="topbar ui-app-shell__topbar"><div class="ui-app-shell__page-heading"><span class="eyebrow" id="topEyebrow">ENTRAÎNEMENT</span><strong id="topPageTitle">Base de connaissances</strong></div><div class="top-actions ui-app-shell__top-actions"><span class="edition" id="editionLabel">ÉDITION 2026</span><button id="languageToggle" class="language-toggle" type="button" translate="no" aria-pressed="false" title="Traduire en français">EN <span aria-hidden="true">⇄</span> FR</button><div id="google_translate_element" class="translate-engine" aria-hidden="true"></div></div></header>
+      <main class="ui-app-shell__main production-main">
         <section class="hero hero--compact"><div><div class="hero-kicker"><span class="dot"></span> <span id="heroKicker">AZURE CERTIFICATION TRAINER</span></div><h1 id="heroTitle">Azure Certification Trainer</h1><p id="heroDescription" hidden></p></div><div class="hero-metric"><strong id="bankCount">—</strong><span>questions disponibles</span><div class="metric-line"></div><small><b id="exerciseCount">—</b> évaluables automatiquement · <b id="knowledgeCount">—</b> fiches / auto-évaluation</small></div></section>
         <div class="strip"><div class="strip-item"><span>PARCOURS</span><b id="modeLabel">Base complète</b></div><div class="strip-item"><span>POSITION</span><b id="position">—</b></div><div class="strip-item"><span>RÉUSSITE · QUESTIONS</span><b id="mastery">—</b></div><div class="strip-item"><span>ERREURS ACTIVES</span><b id="dueMetric">0</b></div></div>
-        <section id="dashboard" class="dashboard" hidden aria-label="Tableau de bord">
-          <div class="dashboard-head"><div><div class="hero-kicker"><span class="dot"></span> PILOTAGE</div><h2>Votre progression</h2><p id="dashboardSubtitle">Vue synthétique de votre préparation.</p></div><button id="startWeaknessButton" class="primary-button">Travailler mes faiblesses</button></div>
+        <section id="dashboard" class="dashboard ui-production-page" hidden aria-label="Tableau de bord">
+          <div class="dashboard-head"><div><div class="hero-kicker"><span class="dot"></span> PILOTAGE</div><h2>Votre progression</h2><p id="dashboardSubtitle">Vue synthétique de votre préparation.</p></div><button id="startWeaknessButton" class="ui-button ui-button--primary ui-button--medium">Travailler mes faiblesses</button></div>
           <div class="dashboard-grid" id="dashboardCards"></div>
           <div class="dashboard-panels"><section class="dashboard-panel"><div class="panel-title"><h3>Maîtrise par domaine</h3><span id="weakDomainLabel"></span></div><div id="domainStats" class="domain-stats"></div></section><section class="dashboard-panel dashboard-panel-action" id="examHistoryPanel" data-dashboard-history role="button" tabindex="0" aria-label="Ouvrir l’historique complet des examens"><div class="panel-title"><h3>Historique examens</h3><span>5 derniers · ouvrir</span></div><div id="examTrend" class="exam-trend"></div></section></div>
           <div class="dashboard-panels"><section class="dashboard-panel"><div class="panel-title"><h3>Questions à reprendre</h3><span>erreurs récentes</span></div><div id="reviewQueue" class="review-queue"></div></section><section class="dashboard-panel"><div class="panel-title"><h3>Favoris et notes</h3><span id="favoriteCount"></span></div><div id="favoritePreview" class="favorite-preview"></div></section></div>
         </section>
+
+        <section id="mistakesPage" class="production-overview ui-production-page" hidden aria-label="Erreurs">
+          <div class="production-page-head">
+            <div><div class="hero-kicker"><span class="dot"></span> RÉVISION CIBLÉE</div><h2>Erreurs</h2><p id="mistakesSubtitle">Priorisez les notions qui vous coûtent réellement des points.</p></div>
+            <button id="startMistakesSessionButton" class="ui-button ui-button--primary ui-button--medium">Lancer une session de rattrapage</button>
+          </div>
+          <div id="mistakesStats" class="dashboard-grid production-stats"></div>
+          <div class="dashboard-panels production-overview-grid">
+            <section class="dashboard-panel"><div class="panel-title"><h3>File de reprise</h3><span>triée par priorité</span></div><div id="mistakesQueue" class="review-queue production-review-list"></div></section>
+            <section class="dashboard-panel"><div class="panel-title"><h3>Répartition des erreurs</h3><span>par domaine</span></div><div id="mistakesDomains" class="domain-stats"></div></section>
+          </div>
+        </section>
+
+        <section id="examPage" class="production-overview ui-production-page" hidden aria-label="Examen blanc">
+          <div class="production-page-head">
+            <div><div class="hero-kicker"><span class="dot"></span> SIMULATION</div><h2>Examen blanc</h2><p id="examLandingSubtitle">Préparez une session chronométrée sans correction immédiate.</p></div>
+            <button id="startExamButton" class="ui-button ui-button--primary ui-button--medium">Démarrer un examen</button>
+          </div>
+          <section class="production-exam-hero">
+            <div><span class="production-kicker" id="examTrainingBadge">AZ-104</span><h3 id="examSummaryTitle">48 questions · 100 minutes</h3><p id="examSummaryDescription">Les réponses sont enregistrées pendant la session. La correction complète est disponible à la fin.</p></div>
+            <div class="production-score-card"><span>DERNIER SCORE</span><strong id="examLastScore">—</strong><small id="examLastScoreDetail">Aucun examen terminé</small></div>
+          </section>
+          <div class="dashboard-panels production-exam-grid">
+            <section class="dashboard-panel"><div class="panel-title"><h3>Configuration</h3><span>session</span></div><div id="examConfiguration" class="production-setting-list"></div></section>
+            <section class="dashboard-panel"><div class="panel-title"><h3>Historique récent</h3><span>3 derniers</span></div><div id="examLandingHistory" class="production-history-list"></div></section>
+          </div>
+        </section>
+
+        <section id="settingsPage" class="production-overview ui-production-page" hidden aria-label="Paramètres">
+          <div class="production-page-head">
+            <div><div class="hero-kicker"><span class="dot"></span> APPLICATION</div><h2>Paramètres</h2><p>Apparence, formations, données et installation dans un espace dédié.</p></div>
+          </div>
+          <div class="production-settings-grid">
+            <section class="production-settings-group">
+              <div class="production-settings-group-head"><h3>Apparence</h3><p>Adaptez l’interface à votre façon de travailler.</p></div>
+              <div class="production-settings-group-body">
+                <div class="production-setting-row"><div><strong>Thème</strong><p id="themeSettingDescription">Basculer entre le thème sombre et clair.</p></div><button id="themeButton" class="ui-button ui-button--secondary ui-button--small" title="Basculer entre le thème sombre et clair">Sombre / Clair</button></div>
+                <div class="production-setting-row"><div><strong>Mode Focus</strong><p>Ouvrez directement la Base de connaissances sans éléments secondaires.</p></div><button id="focusMenuButton" class="ui-button ui-button--secondary ui-button--small" type="button">Activer Focus</button></div>
+                <div class="production-setting-row"><div><strong>Introduction</strong><p>Revoyez le parcours d’accueil et les fonctions principales.</p></div><button id="replayOnboardingButton" class="ui-button ui-button--secondary ui-button--small" type="button">Revoir</button></div>
+              </div>
+            </section>
+            <section class="production-settings-group">
+              <div class="production-settings-group-head"><h3>Formations</h3><p>Gérez les banques disponibles sur cet appareil.</p></div>
+              <div class="production-settings-group-body">
+                <div class="production-setting-row"><div><strong>Importer une formation</strong><p>Ajoutez une banque compatible depuis un fichier.</p></div><button id="importTrainingButton" class="ui-button ui-button--secondary ui-button--small">Importer</button></div>
+                <div class="production-setting-row"><div><strong>Gérer les formations</strong><p>Consultez les formations installées et leur version.</p></div><button id="manageTrainingButton" class="ui-button ui-button--secondary ui-button--small">Gérer</button></div>
+              </div>
+            </section>
+            <section class="production-settings-group">
+              <div class="production-settings-group-head"><h3>Données</h3><p>Votre progression reste sous votre contrôle.</p></div>
+              <div class="production-settings-group-body">
+                <div class="production-setting-row"><div><strong>Exporter mes données</strong><p>Sauvegardez progression, favoris, notes et historique.</p></div><button id="exportButton" class="ui-button ui-button--secondary ui-button--small">Exporter</button></div>
+                <div class="production-setting-row"><div><strong>Importer mes données</strong><p>Restaurez une sauvegarde précédemment exportée.</p></div><button id="importProgressButton" class="ui-button ui-button--secondary ui-button--small">Importer</button></div>
+              </div>
+            </section>
+            <section class="production-settings-group">
+              <div class="production-settings-group-head"><h3>Application</h3><p>Installation et informations de version.</p></div>
+              <div class="production-settings-group-body">
+                <div class="production-setting-row"><div><strong>Installer l’application</strong><p>Ajoutez Azure Trainer comme application sur cet appareil.</p></div><button id="installAppButton" class="ui-button ui-button--secondary ui-button--small" hidden>Installer</button></div>
+                <div class="production-setting-row"><div><strong>Version</strong><p>Version actuellement chargée.</p></div><small class="version-label production-version-label" id="versionLabel">v2.0.7</small></div>
+              </div>
+            </section>
+          </div>
+        </section>
+
         <section class="workspace ui-question-viewport" aria-label="Espace de révision"><div class="workbar"><div class="workbar-heading"><div class="workbar-copy"><h2 id="workTitle">Votre parcours</h2><p id="workSubtitle">Choisissez un domaine ou poursuivez votre progression.</p></div><button id="focusToggleButton" class="ui-button ui-button--secondary ui-button--medium workspace-focus-toggle" type="button" aria-pressed="false" title="Activer le mode Focus (F)"><span class="workspace-focus-toggle__icon" aria-hidden="true">⛶</span><span class="ui-button__label">Mode Focus</span></button></div><div class="workbar-controls"><label class="search-wrap"><span>⌕</span><input id="search" type="search" autocomplete="off" placeholder="Service, mot clé, numéro…" aria-label="Rechercher une question"></label><button id="resetFilter" class="soft-button" title="Tous les domaines">Tous les domaines</button><button id="questionNavigatorButton" class="soft-button navigator-button" type="button" title="Accéder directement à toutes les questions">☷ Toutes les questions</button><div id="examControls" class="exam-controls" hidden><button id="compactButton" class="soft-button" type="button" aria-pressed="false" title="Réduire les espacements de l’examen">Compact</button><button id="flagQuestionButton" class="soft-button" type="button" aria-pressed="false" title="Marquer cette question pour révision">☆ À revoir</button><button id="resetExamButton" class="soft-button reset-exam-button" type="button" title="Recommencer cet examen">↺ Reset examen</button></div></div></div>
           <div id="domainPills" class="domain-pills" aria-label="Choisir un domaine"></div>
           <div class="progress-track" role="progressbar" aria-label="Avancement de la sélection" aria-valuemin="0" aria-valuemax="100"><div id="progress"></div></div>
