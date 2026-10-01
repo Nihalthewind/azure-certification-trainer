@@ -1,0 +1,57 @@
+/*
+ * Azure Trainer UI foundations — couche de tokens additive.
+ * Sprint 0 : aucun remplacement massif de l'ancien CSS.
+ * Les composants migrés utiliseront progressivement ces tokens.
+ */
+:root {
+  /* Color semantics — aliases over the existing product palette. */
+  --color-background: var(--bg);
+  --color-rail: var(--rail);
+  --color-panel: var(--panel);
+  --color-card: var(--card);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-text-primary: var(--ink);
+  --color-text-secondary: var(--muted);
+  --color-text-subtle: var(--subtle);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-success: var(--good);
+  --color-error: var(--bad);
+  --color-warning: #f0bc45;
+  --color-info: var(--accent);
+  --color-focus: var(--accent);
+  --color-overlay: rgba(1, 7, 20, 0.72);
+
+  /* Typography. */
+  --font-family-body: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-family-display: 'Manrope', 'DM Sans', system-ui, sans-serif;
+
+  --font-size-xs: 0.625rem;
+  --font-size-sm: 0.75rem;
+  --font-size-md: 0.9375rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2.125rem;
+
+  /* Spacing — 4 px base scale. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Radius. */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  /* Motion. */
+  --motion-fast: 120ms;
+  --motion-normal: 180ms;
+  --easing-standard: ease;
+}

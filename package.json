@@ -1,0 +1,35 @@
+{
+  "name": "azure_certification_trainer_2026",
+  "version": "2.0.7",
+  "description": "Plateforme web de préparation aux certifications Microsoft Azure, actuellement dédiée à **AZ-104** et **AZ-305**.",
+  "main": "atelier.js",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nihalthewind/azure-certification-trainer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Nihalthewind/azure-certification-trainer/issues"
+  },
+  "homepage": "https://github.com/Nihalthewind/azure-certification-trainer#readme",
+  "devDependencies": {
+    "@chromatic-com/storybook": "latest",
+    "@storybook/addon-a11y": "^10.6.1",
+    "@storybook/addon-docs": "^10.6.1",
+    "@storybook/addon-vitest": "^10.6.1",
+    "@storybook/html-vite": "^10.6.1",
+    "@vitest/browser-playwright": "latest",
+    "@vitest/coverage-v8": "latest",
+    "playwright": "latest",
+    "storybook": "^10.6.1",
+    "vite": "^8.3.2",
+    "vitest": "latest"
+  }
+}
