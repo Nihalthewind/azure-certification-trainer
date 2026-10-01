@@ -20,3 +20,5 @@
 
 @import './components/navigation-item/navigation-item.css';
 @import './patterns/app-shell/app-shell.css';
+
+@import './pages/trainer-pages/trainer-pages.css';

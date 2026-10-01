@@ -7,6 +7,7 @@ import { computeQuestionScrollTop } from '../src/ui/patterns/question-viewport/q
 import { getFocusToggleState } from '../src/ui/patterns/workspace-toolbar/workspace-toolbar.js';
 import { defaultFirstRunSteps } from '../src/ui/patterns/first-run-experience/first-run-experience.js';
 import { getAppShellDensity } from '../src/ui/patterns/app-shell/app-shell.js';
+import { trainerPageFactories } from '../src/ui/pages/trainer-pages/trainer-pages.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const failures = [];
@@ -62,7 +63,7 @@ expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade pro
 expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
 expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
 expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
-expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint11"), 'Service worker cache was not bumped for Sprint 10');
+expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint11-1"), 'Service worker cache was not bumped for Sprint 10');
 expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
 expect(serviceWorker.includes("'./src/ui/components/icon-button/icon-button.js'"), 'Service worker does not cache IconButton');
 expect(serviceWorker.includes("'./src/ui/components/feedback-panel/feedback-panel.js'"), 'Service worker does not cache FeedbackPanel');
@@ -102,6 +103,12 @@ expect(uiCss.includes("./components/navigation-item/navigation-item.css"), 'ui.c
 expect(uiCss.includes("./patterns/app-shell/app-shell.css"), 'ui.css does not load AppShell');
 expect(serviceWorker.includes("'./src/ui/components/navigation-item/navigation-item.css'"), 'Service worker does not cache NavigationItem CSS');
 expect(serviceWorker.includes("'./src/ui/patterns/app-shell/app-shell.css'"), 'Service worker does not cache AppShell CSS');
+const requiredPages = ['dashboard', 'study', 'mistakes', 'exam', 'settings'];
+requiredPages.forEach((page) => {
+  expect(typeof trainerPageFactories[page] === 'function', `Missing Storybook page prototype: ${page}`);
+});
+expect(uiCss.includes("./pages/trainer-pages/trainer-pages.css"), 'ui.css does not load the complete page prototypes');
+expect(serviceWorker.includes("'./src/ui/pages/trainer-pages/trainer-pages.css'"), 'Service worker does not cache page prototype CSS');
 
 
 // Regression: a selected wrong answer in a multiple-choice question must be red,
@@ -154,6 +161,7 @@ for (const relativePath of [
   'src/ui/patterns/workspace-toolbar/workspace-toolbar.js',
   'src/ui/patterns/first-run-experience/first-run-experience.js',
   'src/ui/patterns/app-shell/app-shell.js',
+  'src/ui/pages/trainer-pages/trainer-pages.js',
   'src/ui/integration/answer-state.js',
 ]) {
   const source = await text(relativePath);

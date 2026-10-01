@@ -140,7 +140,9 @@ export function createAppShell({
   railFooter.className = 'ui-app-shell__rail-footer';
   const settings = document.createElement('button');
   settings.type = 'button';
-  settings.className = 'ui-app-shell__settings';
+  settings.className = `ui-app-shell__settings${activeMode === 'settings' ? ' is-active' : ''}`;
+  if (activeMode === 'settings') settings.setAttribute('aria-current', 'page');
+  settings.addEventListener('click', () => onNavigate?.('settings'));
   settings.append(createIcon('settings', { size: 17 }));
   const settingsLabel = document.createElement('span');
   settingsLabel.textContent = 'Paramètres';

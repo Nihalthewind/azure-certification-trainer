@@ -199,6 +199,12 @@
   color: var(--color-text-primary);
 }
 
+.ui-app-shell__settings.is-active {
+  border-color: color-mix(in srgb, var(--color-accent) 24%, var(--color-border));
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-panel));
+  color: var(--color-accent);
+}
+
 .ui-app-shell__content {
   min-width: 0;
 }
