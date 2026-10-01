@@ -19,8 +19,13 @@
 @import './integration/legacy-app.css';
 
 @import './components/navigation-item/navigation-item.css';
+@import './components/modal-surface/modal-surface.css';
+@import './components/empty-state/empty-state.css';
+@import './patterns/question-navigator/question-navigator.css';
 @import './patterns/app-shell/app-shell.css';
 
 @import './pages/trainer-pages/trainer-pages.css';
 
 @import './integration/app-shell-production.css';
+
+@import './integration/modal-production.css';

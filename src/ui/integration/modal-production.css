@@ -1,0 +1,171 @@
+/* Sprint 13 — bridge legacy modal content to ModalSurface. */
+#modal .modal {
+  padding: 0;
+  overflow: hidden;
+}
+
+#modal .modal.modal-wide { width: min(980px, 100%); }
+
+#modal .modal-field,
+#modal .note-editor {
+  display: grid;
+  gap: 7px;
+  margin: 0 0 15px;
+}
+
+#modal .modal-field > span,
+#modal .note-editor > span {
+  color: var(--color-text-subtle);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+
+#modal .modal-field input,
+#modal .modal-field select,
+#modal .note-editor textarea {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  padding: 10px 11px;
+  outline: 0;
+}
+
+#modal .note-editor textarea {
+  min-height: 150px;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+#modal .modal-field input:focus,
+#modal .modal-field select:focus,
+#modal .note-editor textarea:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 14%, transparent);
+}
+
+.modal-form-meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: -4px;
+  color: var(--color-text-subtle);
+}
+
+.modal-form-meta p {
+  max-width: 470px;
+  margin: 0;
+  font-size: 9px !important;
+}
+
+.modal-form-meta > span {
+  flex: 0 0 auto;
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.modal-form-callout {
+  margin-bottom: 16px;
+  padding: 12px 13px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.modal-form-callout strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 10px;
+}
+
+.modal-form-callout p { margin: 0; font-size: 9px !important; }
+
+.modal-form-callout--danger {
+  border-color: color-mix(in srgb, var(--color-error) 24%, var(--color-border));
+  background: color-mix(in srgb, var(--color-error) 5%, var(--color-surface));
+}
+
+#modal .import-note {
+  margin: 14px 0 0;
+  padding: 11px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 9px !important;
+}
+
+#modal .report-remove-button {
+  margin-top: 14px;
+  color: var(--color-error);
+}
+
+#modal .result-score {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 4px 0 10px;
+  color: var(--color-success);
+  font: 850 clamp(48px, 8vw, 70px)/1 var(--font-family-display);
+  letter-spacing: -.07em;
+}
+
+#modal .result-score small {
+  color: var(--color-text-secondary);
+  font-size: 24px;
+}
+
+#modal .result-rows {
+  margin: 18px 0 0;
+  border-top: 1px solid var(--color-border);
+}
+
+#modal .result-rows > div {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 10px;
+}
+
+#modal .history-list,
+#modal .manage-list {
+  display: grid;
+  gap: 8px;
+  border: 0;
+}
+
+#modal .history-card,
+#modal .manage-row {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+#modal .history-card { padding: 14px; }
+#modal .manage-row { padding: 12px 13px; }
+
+#modal .history-main strong { color: var(--color-accent); }
+#modal .history-meta span { background: var(--color-panel); }
+
+html[data-theme='light'] #modal .ui-modal {
+  box-shadow: 0 28px 90px rgba(40, 65, 100, .16);
+}
+
+html[data-theme='dark'] #modal .ui-modal {
+  box-shadow: 0 34px 110px rgba(0, 0, 0, .42);
+}
+
+@media (max-width: 600px) {
+  .modal-form-meta { flex-direction: column; gap: 5px; }
+  #modal .history-main { display: grid; gap: 8px; }
+  #modal .history-meta { justify-content: flex-start; }
+}

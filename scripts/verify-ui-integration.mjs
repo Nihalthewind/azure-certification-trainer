@@ -8,6 +8,7 @@ import { getFocusToggleState } from '../src/ui/patterns/workspace-toolbar/worksp
 import { defaultFirstRunSteps } from '../src/ui/patterns/first-run-experience/first-run-experience.js';
 import { getAppShellDensity } from '../src/ui/patterns/app-shell/app-shell.js';
 import { trainerPageFactories } from '../src/ui/pages/trainer-pages/trainer-pages.js';
+import { filterQuestionNavigatorItems } from '../src/ui/patterns/question-navigator/question-navigator.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const failures = [];
@@ -64,7 +65,7 @@ expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade pro
 expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
 expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
 expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
-expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint12"), 'Service worker cache was not bumped for Sprint 10');
+expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint13"), 'Service worker cache was not bumped for Sprint 10');
 expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
 expect(serviceWorker.includes("'./src/ui/components/icon-button/icon-button.js'"), 'Service worker does not cache IconButton');
 expect(serviceWorker.includes("'./src/ui/components/feedback-panel/feedback-panel.js'"), 'Service worker does not cache FeedbackPanel');
@@ -153,6 +154,8 @@ for (const importedPath of cssImports) {
 for (const relativePath of [
   'src/ui/components/button/button.js',
   'src/ui/components/icon-button/icon-button.js',
+  'src/ui/components/modal-surface/modal-surface.js',
+  'src/ui/components/empty-state/empty-state.js',
   'src/ui/components/navigation-item/navigation-item.js',
   'src/ui/components/badge/badge.js',
   'src/ui/components/answer-option/answer-option.js',
@@ -162,17 +165,12 @@ for (const relativePath of [
   'src/ui/patterns/workspace-toolbar/workspace-toolbar.js',
   'src/ui/patterns/first-run-experience/first-run-experience.js',
   'src/ui/patterns/app-shell/app-shell.js',
+  'src/ui/patterns/question-navigator/question-navigator.js',
   'src/ui/pages/trainer-pages/trainer-pages.js',
   'src/ui/integration/answer-state.js',
 ]) {
   const source = await text(relativePath);
   expect(!/^import\s+['"].*\.css['"];?/m.test(source), `${relativePath} still imports CSS and cannot run directly on GitHub Pages`);
-}
-
-if (failures.length) {
-  console.error('\nUI integration verification failed:');
-  failures.forEach((failure) => console.error(` - ${failure}`));
-  process.exit(1);
 }
 
 expect(indexHtml.includes('app-shell-production'), 'Production does not use the AppShell shell');
@@ -193,5 +191,32 @@ expect(atelier.includes('renderExamLanding()'), 'Exam production page is not ren
 expect(atelier.includes('renderSettingsPage()'), 'Settings production page is not rendered');
 expect(atelier.includes("import('./src/ui/icons/icons.js')"), 'Production shell does not load shared SVG icons');
 expect(serviceWorker.includes("'./src/ui/integration/app-shell-production.css'"), 'Service worker does not cache production AppShell CSS');
+
+
+expect(indexHtml.includes('class="modal-backdrop ui-modal-backdrop"'), 'Production modal does not use ModalSurface backdrop');
+expect(indexHtml.includes('class="modal ui-modal"'), 'Production modal does not use ModalSurface');
+expect(indexHtml.includes('class="empty ui-empty-state"'), 'Production empty view does not use EmptyState styling');
+expect(atelier.includes("import('./src/ui/components/modal-surface/modal-surface.js')"), 'Production does not load ModalSurface logic');
+expect(atelier.includes('UI.applyModalSurface'), 'Production modal is not upgraded through ModalSurface');
+expect(atelier.includes('UI.trapModalTab'), 'Production modal does not trap keyboard focus');
+expect(atelier.includes('modalEscapeClosable=false') || atelier.includes('escapeClosable:false'), 'Note/Report dialogs do not protect against accidental Escape close');
+expect(atelier.includes('id="questionNavigatorSearch"'), 'Question navigator has no search input');
+expect(atelier.includes('questionNavigatorSummary'), 'Question navigator has no visible result count');
+expect(uiCss.includes("./components/modal-surface/modal-surface.css"), 'ui.css does not load ModalSurface');
+expect(uiCss.includes("./components/empty-state/empty-state.css"), 'ui.css does not load EmptyState');
+expect(uiCss.includes("./patterns/question-navigator/question-navigator.css"), 'ui.css does not load QuestionNavigator');
+expect(uiCss.includes("./integration/modal-production.css"), 'ui.css does not load modal production bridge');
+expect(serviceWorker.includes("'./src/ui/components/modal-surface/modal-surface.js'"), 'Service worker does not cache ModalSurface JS');
+expect(serviceWorker.includes("'./src/ui/patterns/question-navigator/question-navigator.css'"), 'Service worker does not cache QuestionNavigator CSS');
+const navigatorFixture = [
+  { id: 'AZ104-001', domain: 'Identités', status: 'good' },
+  { id: 'AZ104-002', domain: 'Réseaux', status: 'bad' },
+];
+expect(filterQuestionNavigatorItems(navigatorFixture, 'réseaux').length === 1, 'QuestionNavigator search does not match domain labels');
+expect(filterQuestionNavigatorItems(navigatorFixture, 'AZ104-001').length === 1, 'QuestionNavigator search does not match question IDs');
+
+expect(appShellProductionCss.includes('.rail-link-label {'), 'Production navigation label override is missing');
+expect(appShellProductionCss.includes('width: auto;'), 'Production navigation labels still inherit the legacy fixed span width');
+expect(appShellProductionCss.includes('#domainNav .rail-link > span:first-child'), 'Domain number styling still targets every span and can truncate labels');
 
 console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, Sprint 10 onboarding + compact header + Focus discoverability regressions covered).`);

@@ -144,10 +144,17 @@ html[data-theme="light"] .app-shell-production > .rail {
 }
 
 .app-shell-production .rail-link-label {
+  /* Override the historical `.rail-link span { width: 23px; ... }` rule.
+     Labels own the flexible middle column; only the icon keeps a fixed width. */
+  width: auto;
   min-width: 0;
+  flex: 1 1 auto;
   overflow: hidden;
+  text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: inherit;
+  font-size: inherit;
 }
 
 .app-shell-production .rail-link b {
@@ -174,7 +181,7 @@ html[data-theme="light"] .app-shell-production > .rail {
   font-size: 9px;
 }
 
-.app-shell-production #domainNav .rail-link > span {
+.app-shell-production #domainNav .rail-link > span:first-child {
   width: 22px;
   height: 22px;
   display: grid;
@@ -183,6 +190,19 @@ html[data-theme="light"] .app-shell-production > .rail {
   border-radius: 7px;
   font-size: 8px;
   font-weight: 850;
+}
+
+.app-shell-production #domainNav .rail-link > .rail-link-label {
+  width: auto;
+  height: auto;
+  display: block;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  text-align: left;
 }
 
 .app-shell-production .rail-bottom {
