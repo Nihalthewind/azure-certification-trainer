@@ -1,4 +1,3 @@
-import './icon-button.css';
 import { createIcon, iconNames } from '../../icons/icons.js';
 
 const VALID_SIZES = new Set(['small', 'medium']);

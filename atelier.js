@@ -15,6 +15,20 @@
   const staticCatalog=(window.TRAINING_CATALOG||[]).map(x=>({...x,questions:[...(x.questions||[])]}));
   let catalog=[],cfg=null,bank=[],byId=new Map(),autoQuestions=[],DOMAINS=[],state=null;
   let mode='study',domain='all',list=[],cursor=0,search='',timer=null,modalCallback=null,sourceUrl='';
+  let UI={};
+
+  async function loadDesignSystem(){
+    try{
+      const answerOption=await import('./src/ui/components/answer-option/answer-option.js');
+      UI={createAnswerOption:answerOption.createAnswerOption};
+      document.documentElement.dataset.uiSystem='sprint5';
+      return true;
+    }catch(error){
+      console.warn('Azure Trainer Design System indisponible : retour au rendu historique.',error);
+      UI={};
+      return false;
+    }
+  }
 
   function freshState(){return{answers:{},drafts:{},lastId:'',exam:null,examHistory:[],examCompact:false,examFocus:false,favorites:{},notes:{},reports:[],lastVersion:''}}
   function currentState(id){if(!root.states[id])root.states[id]=freshState();return root.states[id]}
@@ -132,7 +146,55 @@
   function answerComplete(q,d){if(q.options?.length)return Array.isArray(d.selected)&&d.selected.length>0;const s=q.visualSpec||{};if(s.kind==='yn')return(s.expected||[]).every((_,i)=>typeof d.values?.[i]==='boolean');if(s.kind==='rows')return(s.rows||[]).every((_,i)=>!!String(d.values?.[i]??'').trim());if(s.kind==='self')return!!String(d.text||'').trim();return false}
   function score(q,d){if(q.autoScorable===false)return null;if(q.options?.length){const sel=d.selected||[],ans=q.answerIndices||[];return sel.length===ans.length&&sel.every(i=>ans.includes(i))}const s=q.visualSpec||{};if(s.kind==='yn')return(s.expected||[]).every((v,i)=>d.values?.[i]===v);if(s.kind==='rows')return(s.rows||[]).every((r,i)=>normAnswer(d.values?.[i])===normAnswer(r.expected));return null}
   function answerChoices(q,r,d){
-    if(q.options?.length){$('#answerNote').textContent=q.multi?'Plusieurs réponses · sélectionnez toutes les réponses correctes':'Une réponse attendue';$('#choices').innerHTML=q.options.map((o,i)=>{let cls='choice';if((d.selected||[]).includes(i))cls+=' selected';if(r&&mode!=='exam'&&typeof r.correct==='boolean'&&q.autoScorable!==false){if((q.answerIndices||[]).includes(i))cls+=' correct';else if((r.selected||[]).includes(i))cls+=' incorrect'}return`<button class="${cls}" data-choice="${i}" aria-pressed="${(d.selected||[]).includes(i)}" ${r?'disabled':''}><span class="choice-letter">${String.fromCharCode(65+i)}</span><span>${clean(o)}</span><span class="choice-check">${r&&mode!=='exam'&&(q.answerIndices||[]).includes(i)?'✓':(d.selected||[]).includes(i)?'●':''}</span></button>`}).join('');$$('#choices [data-choice]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.choice),set=new Set(d.selected||[]);if(q.multi){set.has(i)?set.delete(i):set.add(i)}else{set.clear();set.add(i)}setDraft(q,{selected:[...set]});render()});return}
+    if(q.options?.length){
+      $('#answerNote').textContent=q.multi?'Plusieurs réponses · sélectionnez toutes les réponses correctes':'Une réponse attendue';
+      const choices=$('#choices');
+      const selected=new Set(d.selected||[]);
+
+      if(UI.createAnswerOption){
+        choices.replaceChildren();
+        const safeId=String(q.id||'question').replace(/[^a-z0-9_-]/gi,'-');
+        q.options.forEach((o,i)=>{
+          let optionState='default';
+          if(r&&mode!=='exam'&&typeof r.correct==='boolean'&&q.autoScorable!==false){
+            if((q.answerIndices||[]).includes(i))optionState='correct';
+            else if((r.selected||[]).includes(i))optionState='incorrect';
+          }
+
+          const option=UI.createAnswerOption({
+            id:`app-answer-${safeId}-${i}`,
+            name:`app-answer-${safeId}`,
+            value:String(i),
+            index:i,
+            label:String(o),
+            type:q.multi?'multiple':'single',
+            selected:selected.has(i),
+            state:optionState,
+            locked:!!r,
+            onChange:({checked})=>{
+              if(r)return;
+              const next=new Set(d.selected||[]);
+              if(q.multi){
+                if(checked)next.add(i);else next.delete(i);
+              }else{
+                next.clear();
+                if(checked)next.add(i);
+              }
+              setDraft(q,{selected:[...next]});
+              render();
+            },
+          });
+          option.dataset.choice=String(i);
+          choices.append(option);
+        });
+        return;
+      }
+
+      choices.innerHTML=q.options.map((o,i)=>{let cls='choice';if(selected.has(i))cls+=' selected';if(r&&mode!=='exam'&&typeof r.correct==='boolean'&&q.autoScorable!==false){if((q.answerIndices||[]).includes(i))cls+=' correct';else if((r.selected||[]).includes(i))cls+=' incorrect'}return`<button class="${cls}" data-choice="${i}" aria-pressed="${selected.has(i)}" ${r?'disabled':''}><span class="choice-letter">${String.fromCharCode(65+i)}</span><span>${clean(o)}</span><span class="choice-check">${r&&mode!=='exam'&&(q.answerIndices||[]).includes(i)?'✓':selected.has(i)?'●':''}</span></button>`}).join('');
+      $$('#choices [data-choice]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.choice),set=new Set(d.selected||[]);if(q.multi){set.has(i)?set.delete(i):set.add(i)}else{set.clear();set.add(i)}setDraft(q,{selected:[...set]});render()});
+      return;
+    }
+
     const s=q.visualSpec||{kind:'self'};
     if(s.kind==='self'){$('#answerNote').textContent='Réponse libre · auto-évaluation après révélation de la correction';$('#choices').innerHTML=`<label class="free-answer"><span>Votre réponse</span><textarea id="selfAnswer" rows="4" placeholder="Saisissez votre réponse avant d’afficher la correction" ${r?'disabled':''}>${clean(d.text||'')}</textarea></label>`;const el=$('#selfAnswer');if(el)el.oninput=e=>{setDraft(q,{text:e.target.value});const submit=$("#submit");if(submit)submit.disabled=!e.target.value.trim()};return}
     $('#answerNote').textContent=s.kind==='yn'?'Décidez pour chaque proposition':'Une réponse par ligne';$('#choices').innerHTML=s.kind==='yn'?(s.labels||[]).map((label,i)=>{const value=d.values?.[i];return`<div class="statement"><div>${clean(label)}</div><div class="binary"><button data-row="${i}" data-val="true" class="${value===true?'selected':''} ${r&&mode!=='exam'&&s.expected[i]===true?'correct':''}" ${r?'disabled':''}>Oui</button><button data-row="${i}" data-val="false" class="${value===false?'selected':''} ${r&&mode!=='exam'&&s.expected[i]===false?'correct':''}" ${r?'disabled':''}>Non</button></div></div>`}).join(''):(s.rows||[]).map((row,i)=>{const choices=Array.isArray(row.choices)?row.choices:[],control=choices.length>=2?`<select data-row="${i}" ${r?'disabled':''}><option value="">Choisir…</option>${choices.map(c=>`<option value="${clean(c)}" ${d.values?.[i]===c?'selected':''}>${clean(c)}</option>`).join('')}</select>`:`<input data-row="${i}" type="text" value="${clean(d.values?.[i]||'')}" placeholder="Saisir votre réponse" ${r?'disabled':''}>`;return`<label class="statement"><span>${clean(row.label)}</span>${control}</label>`}).join('');
@@ -185,6 +247,7 @@
   async function manageTrainings(){let imported=[];try{imported=await window.TrainingStore.list()}catch{}$('#modalEyebrow').textContent='FORMATIONS';$('#modalTitle').textContent='Gérer les formations';$('#modalBody').innerHTML=`<div class="manage-list">${catalog.map(t=>`<div class="manage-row"><div><strong>${clean(t.code)}</strong><span>${clean(t.name)} · ${t.questions.length} questions${t.imported?' · importée':' · intégrée'}</span></div>${t.imported?`<button class="soft-button" data-delete-training="${clean(t.id)}">Supprimer l’import</button>`:''}</div>`).join('')}</div><p class="import-note">Supprimer un import restaure la version intégrée si cette formation existe dans le client. La progression locale reste conservée.</p>`;$('#modalAction').textContent='Fermer';modalCallback=null;$('#modal').hidden=false;$$('[data-delete-training]').forEach(b=>b.onclick=async()=>{const id=b.dataset.deleteTraining;if(!window.confirm||window.confirm('Supprimer cette banque importée ?')){await window.TrainingStore.remove(id);await reloadCatalog();activateTraining(catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:'az104');closeModal();toast('Import supprimé.')}})}
 
   async function boot(){
+    await loadDesignSystem();
     await reloadCatalog();if(!catalog.length){document.body.innerHTML='<p>Aucune formation disponible.</p>';return}$('#app').hidden=false;applyTheme();
     $$('.rail-link[data-mode]').forEach(b=>b.onclick=()=>selectMode(b.dataset.mode));$('#showAll').onclick=()=>selectMode('study');$('#resetFilter').onclick=()=>{domain='all';refresh()};$('#search').oninput=e=>{search=e.target.value.trim();cursor=0;refresh()};$('#prev').onclick=()=>move(-1);$('#next').onclick=()=>move(1);$('#submit').onclick=()=>submit(false);
     const bind=(selector,event,handler)=>{const el=$(selector);if(el)el[event]=handler;return el};
@@ -193,7 +256,7 @@
     bind('#trainingSelect','onchange',e=>activateTraining(e.target.value));bind('#favoriteButton','onclick',toggleFavorite);bind('#noteButton','onclick',openNote);bind('#reportButton','onclick',openReport);bind('#flagQuestionButton','onclick',toggleExamFlag);bind('#startWeaknessButton','onclick',()=>selectMode('weakness'));bind('#questionNavigatorButton','onclick',openQuestionNavigator);bind('#importTrainingButton','onclick',()=>$('#importFileInput')?.click());bind('#importFileInput','onchange',e=>{const f=e.target.files?.[0];e.target.value='';importFile(f)});bind('#manageTrainingButton','onclick',manageTrainings);
     $('#modalClose').onclick=closeModal;$('#modalAction').onclick=async()=>{const fn=modalCallback;if(!fn){closeModal();return}try{await fn();closeModal()}catch(e){console.error(e);toast(e.message||'Opération impossible.')}};$('#modal').onclick=e=>{if(e.target.id==='modal')closeModal()};
     document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();return}if(e.target.closest('input,select,textarea,button'))return;if(e.key==='ArrowRight'){e.preventDefault();move(1)}else if(e.key==='ArrowLeft'){e.preventDefault();move(-1)}else if(e.key==='Enter'&&!$('#submit').disabled){e.preventDefault();submit()}else if(/^[1-9]$/.test(e.key)&&list[cursor]?.options?.length){$(`#choices [data-choice="${Number(e.key)-1}"]`)?.click()}});
-    const startId=catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:'az104',startState=currentState(startId),resume=!!startState.exam?.ids?.length;activateTraining(startId,{resumeExam:resume});checkVersion();if(interfaceLanguage==='fr')setTimeout(()=>applyInterfaceLanguage('fr',{silent:true}),250);if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./service-worker.js').catch(console.warn);timer=setInterval(updateClock,1000);
+    const startId=catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:'az104',startState=currentState(startId),resume=!!startState.exam?.ids?.length;activateTraining(startId,{resumeExam:resume});checkVersion();if(interfaceLanguage==='fr')setTimeout(()=>applyInterfaceLanguage('fr',{silent:true}),250);if('serviceWorker'in navigator&&location.protocol.startsWith('http')){const localDev=['localhost','127.0.0.1'].includes(location.hostname);if(localDev)navigator.serviceWorker.getRegistrations().then(registrations=>registrations.forEach(registration=>registration.unregister())).catch(console.warn);else navigator.serviceWorker.register('./service-worker.js').catch(console.warn)}timer=setInterval(updateClock,1000);
   }
   await boot();
 })();

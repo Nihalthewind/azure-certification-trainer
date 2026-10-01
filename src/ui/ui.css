@@ -1,0 +1,15 @@
+/*
+ * Azure Trainer Design System bundle.
+ *
+ * This file is the single CSS entrypoint shared by Storybook and the
+ * production application. Component JavaScript stays browser-native and does
+ * not import CSS, so the same modules can run on GitHub Pages without a build.
+ */
+@import './foundations/tokens.css';
+@import './foundations/foundations.css';
+@import './components/button/button.css';
+@import './components/icon-button/icon-button.css';
+@import './components/badge/badge.css';
+@import './components/answer-option/answer-option.css';
+@import './patterns/question-card/question-card.css';
+@import './integration/legacy-app.css';

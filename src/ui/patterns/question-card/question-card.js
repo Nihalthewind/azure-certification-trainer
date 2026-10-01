@@ -1,4 +1,3 @@
-import './question-card.css';
 import { createBadge } from '../../components/badge/badge.js';
 import { createButton } from '../../components/button/button.js';
 import { createIconButton } from '../../components/icon-button/icon-button.js';

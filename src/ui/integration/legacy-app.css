@@ -1,0 +1,29 @@
+/*
+ * Temporary compatibility layer while the production app is migrated from
+ * the historical DOM/CSS to the Design System one component at a time.
+ * Delete rules from this file as their parent pattern is fully migrated.
+ */
+
+/* Sprint 5: AnswerOption now renders inside the historical .choices grid. */
+.choices .ui-answer-option {
+  width: 100%;
+}
+
+/* Preserve the existing "Compact" exam behaviour for the migrated options. */
+.exam-compact .ui-answer-option {
+  min-height: 44px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.exam-compact .ui-answer-option__letter {
+  width: 25px;
+  height: 25px;
+}
+
+/* The footer still belongs to the legacy QuestionCard during Sprint 5. */
+@media (max-width: 600px) {
+  .card-footer .ui-button {
+    flex: 1 1 0;
+  }
+}

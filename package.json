@@ -4,8 +4,10 @@
   "description": "Plateforme web de préparation aux certifications Microsoft Azure, actuellement dédiée à **AZ-104** et **AZ-305**.",
   "main": "atelier.js",
   "scripts": {
+    "app": "vite --host 127.0.0.1",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "check-ui": "node scripts/verify-ui-integration.mjs"
   },
   "repository": {
     "type": "git",

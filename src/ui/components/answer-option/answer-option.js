@@ -1,4 +1,3 @@
-import './answer-option.css';
 import { createIcon } from '../../icons/icons.js';
 
 const VALID_TYPES = new Set(['single', 'multiple']);

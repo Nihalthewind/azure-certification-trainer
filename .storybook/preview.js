@@ -1,5 +1,5 @@
-import '../src/ui/foundations/tokens.css';
 import '../atelier.css';
+import '../src/ui/ui.css';
 
 const VIEWPORTS = {
   mobile: {

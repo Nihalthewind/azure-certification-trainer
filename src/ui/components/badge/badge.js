@@ -1,4 +1,3 @@
-import './badge.css';
 
 const VALID_TONES = new Set(['neutral', 'accent', 'success', 'error', 'warning']);
 const VALID_SHAPES = new Set(['rounded', 'pill']);

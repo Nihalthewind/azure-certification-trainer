@@ -10,6 +10,7 @@
   <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
   <title>Azure Certification Trainer · 2026</title>
   <link rel="stylesheet" href="atelier.css">
+  <link rel="stylesheet" href="src/ui/ui.css">
 </head>
 <body>
   <div class="layout" id="app" hidden>
@@ -57,7 +58,7 @@
           <div id="empty" class="empty" hidden><div class="empty-icon">◇</div><h2>Rien dans cette sélection</h2><p>Essayez un autre domaine ou revenez à l’apprentissage.</p><button class="primary-button" id="showAll">Voir toutes les questions</button></div>
           <article class="question-card" id="questionCard"><div class="card-header"><div class="card-meta"><span class="topic-pill" id="topicPill">DOMAINE</span><span id="questionId">—</span></div><div class="card-header-actions"><button id="favoriteButton" class="icon-action" type="button" title="Ajouter aux favoris" aria-label="Ajouter aux favoris">☆</button><button id="noteButton" class="icon-action" type="button" title="Ma note" aria-label="Ajouter une note">✎</button><button id="reportButton" class="icon-action" type="button" title="Signaler un problème" aria-label="Signaler un problème">⚑</button><span class="status-pill" id="statusPill">À découvrir</span></div></div>
             <div class="question-main"><div class="question-index" id="questionIndex">QUESTION 01</div><h2 id="questionTitle">Chargement de la base…</h2><div id="caseContext"></div><div id="questionPrompt" class="prompt"></div><div id="figures" class="figures"></div><div id="answerNote" class="answer-note"></div><div id="choices" class="choices"></div><div id="feedback" class="feedback" hidden></div></div>
-            <div class="card-footer"><div class="footer-left"><button id="prev" class="soft-button">← Précédent</button><button id="next" class="soft-button">Suivant →</button></div><div class="footer-right"><button id="submit" class="primary-button" disabled>Valider la réponse</button></div></div></article>
+            <div class="card-footer"><div class="footer-left"><button id="prev" class="ui-button ui-button--secondary ui-button--medium">← Précédent</button><button id="next" class="ui-button ui-button--secondary ui-button--medium">Suivant →</button></div><div class="footer-right"><button id="submit" class="ui-button ui-button--primary ui-button--medium" disabled>Valider la réponse</button></div></div></article>
           <div class="after-card"><span id="shortcutHelp">Raccourcis : 1–9 choisir · ← → naviguer · Entrée valider</span><span id="sessionClock"></span></div>
         </section>
         <footer class="footer" id="footerText"></footer>

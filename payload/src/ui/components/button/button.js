@@ -1,7 +1,15 @@
+import './button.css';
 
 const VALID_VARIANTS = new Set(['primary', 'secondary', 'ghost', 'danger']);
 const VALID_SIZES = new Set(['small', 'medium']);
 
+/**
+ * Crée un bouton du Design System Azure Trainer.
+ *
+ * Le composant reste volontairement sans logique métier : il expose uniquement
+ * une API visuelle et comportementale générique. Les boutons icon-only sont
+ * traités par un composant IconButton distinct au sprint suivant.
+ */
 export function createButton({
   label = 'Action',
   variant = 'secondary',
@@ -10,7 +18,6 @@ export function createButton({
   trailingIcon = '',
   disabled = false,
   loading = false,
-  loadingLabel = 'Chargement...',
   fullWidth = false,
   type = 'button',
   ariaLabel = '',
@@ -36,7 +43,7 @@ export function createButton({
     button.setAttribute('aria-label', ariaLabel);
   }
 
-  if (leadingIcon && !loading) {
+  if (leadingIcon) {
     const icon = document.createElement('span');
     icon.className = 'ui-button__icon';
     icon.setAttribute('aria-hidden', 'true');
@@ -44,16 +51,9 @@ export function createButton({
     button.append(icon);
   }
 
-  if (loading) {
-    const spinner = document.createElement('span');
-    spinner.className = 'ui-button__spinner';
-    spinner.setAttribute('aria-hidden', 'true');
-    button.append(spinner);
-  }
-
   const text = document.createElement('span');
   text.className = 'ui-button__label';
-  text.textContent = loading ? loadingLabel : label;
+  text.textContent = loading ? 'Chargement…' : label;
   button.append(text);
 
   if (trailingIcon && !loading) {
@@ -62,6 +62,13 @@ export function createButton({
     icon.setAttribute('aria-hidden', 'true');
     icon.textContent = trailingIcon;
     button.append(icon);
+  }
+
+  if (loading) {
+    const spinner = document.createElement('span');
+    spinner.className = 'ui-button__spinner';
+    spinner.setAttribute('aria-hidden', 'true');
+    button.prepend(spinner);
   }
 
   if (typeof onClick === 'function') {
