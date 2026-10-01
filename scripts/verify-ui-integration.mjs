@@ -2,6 +2,7 @@ import { readFile, access } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { getAnswerOptionResultState } from '../src/ui/integration/answer-state.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const failures = [];
@@ -25,10 +26,33 @@ expect(indexHtml.includes('href="src/ui/ui.css"'), 'index.html does not load src
 expect(indexHtml.includes('id="submit" class="ui-button ui-button--primary ui-button--medium"'), 'Submit button is not using the Design System Button classes');
 expect(indexHtml.includes('id="prev" class="ui-button ui-button--secondary ui-button--medium"'), 'Previous button is not using the Design System Button classes');
 expect(atelier.includes("import('./src/ui/components/answer-option/answer-option.js')"), 'atelier.js does not dynamically load AnswerOption');
+expect(atelier.includes("import('./src/ui/components/badge/badge.js')"), 'atelier.js does not dynamically load Badge');
+expect(atelier.includes("import('./src/ui/components/icon-button/icon-button.js')"), 'atelier.js does not dynamically load IconButton');
+expect(atelier.includes("import('./src/ui/components/feedback-panel/feedback-panel.js')"), 'atelier.js does not dynamically load FeedbackPanel');
+expect(atelier.includes("import('./src/ui/integration/answer-state.js')"), 'atelier.js does not load answer-state integration');
 expect(atelier.includes('UI.createAnswerOption'), 'atelier.js does not render production choices through AnswerOption');
-expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint5"), 'Service worker cache was not bumped for Sprint 5');
-expect(serviceWorker.includes("'./src/ui/ui.css'"), 'Service worker does not cache the Design System CSS entrypoint');
-expect(serviceWorker.includes("'./src/ui/components/answer-option/answer-option.js'"), 'Service worker does not cache AnswerOption');
+expect(atelier.includes('UI.updateBadge'), 'atelier.js does not upgrade production badges through the Design System');
+expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade production icon actions through the Design System');
+expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
+expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
+expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
+expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint7"), 'Service worker cache was not bumped for Sprint 7');
+expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
+expect(serviceWorker.includes("'./src/ui/components/icon-button/icon-button.js'"), 'Service worker does not cache IconButton');
+expect(serviceWorker.includes("'./src/ui/components/feedback-panel/feedback-panel.js'"), 'Service worker does not cache FeedbackPanel');
+expect(serviceWorker.includes("'./src/ui/integration/answer-state.js'"), 'Service worker does not cache answer-state integration');
+
+// Regression: a selected wrong answer in a multiple-choice question must be red,
+// while correct answers remain green even when the question as a whole is wrong.
+const regression = {
+  answerIndices: [0, 4],
+  selectedIndices: ['0', '1'],
+  reveal: true,
+};
+expect(getAnswerOptionResultState({ ...regression, optionIndex: 0 }) === 'correct', 'Multi-QCM regression: selected correct answer is not marked correct');
+expect(getAnswerOptionResultState({ ...regression, optionIndex: 1 }) === 'incorrect', 'Multi-QCM regression: selected wrong answer is not marked incorrect');
+expect(getAnswerOptionResultState({ ...regression, optionIndex: 2 }) === 'default', 'Multi-QCM regression: untouched distractor should stay neutral');
+expect(getAnswerOptionResultState({ ...regression, optionIndex: 4 }) === 'correct', 'Multi-QCM regression: missed correct answer is not revealed as correct');
 
 const coreMatch = serviceWorker.match(/const CORE=\[(.*?)\];/s);
 if (coreMatch) {
@@ -61,7 +85,9 @@ for (const relativePath of [
   'src/ui/components/icon-button/icon-button.js',
   'src/ui/components/badge/badge.js',
   'src/ui/components/answer-option/answer-option.js',
+  'src/ui/components/feedback-panel/feedback-panel.js',
   'src/ui/patterns/question-card/question-card.js',
+  'src/ui/integration/answer-state.js',
 ]) {
   const source = await text(relativePath);
   expect(!/^import\s+['"].*\.css['"];?/m.test(source), `${relativePath} still imports CSS and cannot run directly on GitHub Pages`);
@@ -73,4 +99,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked).`);
+console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, multi-QCM + modal + navigator + feedback regressions covered).`);

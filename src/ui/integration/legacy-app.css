@@ -27,3 +27,16 @@
     flex: 1 1 0;
   }
 }
+
+/* Sprint 7: the historical #feedback container only hosts FeedbackPanel. */
+.feedback.feedback--design-system {
+  margin-top: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.feedback.feedback--design-system > .ui-feedback-panel {
+  margin-top: 28px;
+}

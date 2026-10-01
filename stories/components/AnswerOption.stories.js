@@ -92,3 +92,18 @@ export const ResultStates = {
   },
   parameters: { controls: { disable: true } },
 };
+
+export const MultipleResultStates = {
+  render: () => {
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'display:grid;gap:10px;width:min(720px,90vw)';
+    wrapper.append(
+      createAnswerOption({ index: 0, label: 'Bonne reponse selectionnee', type: 'multiple', selected: true, state: 'correct', locked: true }),
+      createAnswerOption({ index: 1, label: 'Mauvaise reponse selectionnee', type: 'multiple', selected: true, state: 'incorrect', locked: true }),
+      createAnswerOption({ index: 2, label: 'Distracteur non selectionne', type: 'multiple', selected: false, state: 'default', locked: true }),
+      createAnswerOption({ index: 3, label: 'Bonne reponse non selectionnee', type: 'multiple', selected: false, state: 'correct', locked: true }),
+    );
+    return wrapper;
+  },
+  parameters: { controls: { disable: true } },
+};

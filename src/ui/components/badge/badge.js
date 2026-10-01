@@ -1,9 +1,8 @@
-
 const VALID_TONES = new Set(['neutral', 'accent', 'success', 'error', 'warning']);
 const VALID_SHAPES = new Set(['rounded', 'pill']);
 const VALID_SIZES = new Set(['small', 'medium']);
 
-export function createBadge({
+function applyBadgeState(badge, {
   label = 'Badge',
   tone = 'neutral',
   shape = 'rounded',
@@ -14,7 +13,6 @@ export function createBadge({
   const safeShape = VALID_SHAPES.has(shape) ? shape : 'rounded';
   const safeSize = VALID_SIZES.has(size) ? size : 'small';
 
-  const badge = document.createElement('span');
   badge.className = [
     'ui-badge',
     `ui-badge--${safeTone}`,
@@ -23,9 +21,18 @@ export function createBadge({
   ].join(' ');
   badge.textContent = label;
 
-  if (role) {
-    badge.setAttribute('role', role);
-  }
+  if (role) badge.setAttribute('role', role);
+  else badge.removeAttribute('role');
 
   return badge;
+}
+
+export function createBadge(options = {}) {
+  return applyBadgeState(document.createElement('span'), options);
+}
+
+/** Upgrade an existing badge-like span while preserving its ID. */
+export function updateBadge(badge, options = {}) {
+  if (!(badge instanceof HTMLElement)) return null;
+  return applyBadgeState(badge, options);
 }

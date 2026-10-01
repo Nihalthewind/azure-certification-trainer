@@ -11,5 +11,6 @@
 @import './components/icon-button/icon-button.css';
 @import './components/badge/badge.css';
 @import './components/answer-option/answer-option.css';
+@import './components/feedback-panel/feedback-panel.css';
 @import './patterns/question-card/question-card.css';
 @import './integration/legacy-app.css';
