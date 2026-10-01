@@ -14,4 +14,5 @@
 @import './components/feedback-panel/feedback-panel.css';
 @import './patterns/question-card/question-card.css';
 @import './patterns/question-viewport/question-viewport.css';
+@import './patterns/workspace-toolbar/workspace-toolbar.css';
 @import './integration/legacy-app.css';

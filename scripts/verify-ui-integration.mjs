@@ -4,6 +4,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { getAnswerOptionResultState } from '../src/ui/integration/answer-state.js';
 import { computeQuestionScrollTop } from '../src/ui/patterns/question-viewport/question-viewport.js';
+import { getFocusToggleState } from '../src/ui/patterns/workspace-toolbar/workspace-toolbar.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const failures = [];
@@ -16,15 +17,18 @@ function expect(condition, message) {
   if (!condition) failures.push(message);
 }
 
-const [indexHtml, atelier, uiCss, serviceWorker] = await Promise.all([
+const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss] = await Promise.all([
   text('index.html'),
   text('atelier.js'),
   text('src/ui/ui.css'),
   text('service-worker.js'),
+  text('src/ui/patterns/workspace-toolbar/workspace-toolbar.css'),
 ]);
 
 expect(indexHtml.includes('href="src/ui/ui.css"'), 'index.html does not load src/ui/ui.css');
 expect(indexHtml.includes('class="workspace ui-question-viewport"'), 'Production workspace does not use QuestionViewport');
+expect(indexHtml.includes('id="focusToggleButton"'), 'Production workspace has no direct Focus action');
+expect(indexHtml.includes('aria-pressed="false"'), 'Direct Focus action does not expose a pressed state');
 expect(indexHtml.includes('id="submit" class="ui-button ui-button--primary ui-button--medium"'), 'Submit button is not using the Design System Button classes');
 expect(indexHtml.includes('id="prev" class="ui-button ui-button--secondary ui-button--medium"'), 'Previous button is not using the Design System Button classes');
 expect(atelier.includes("import('./src/ui/components/answer-option/answer-option.js')"), 'atelier.js does not dynamically load AnswerOption');
@@ -33,23 +37,36 @@ expect(atelier.includes("import('./src/ui/components/icon-button/icon-button.js'
 expect(atelier.includes("import('./src/ui/components/feedback-panel/feedback-panel.js')"), 'atelier.js does not dynamically load FeedbackPanel');
 expect(atelier.includes("import('./src/ui/integration/answer-state.js')"), 'atelier.js does not load answer-state integration');
 expect(atelier.includes("import('./src/ui/patterns/question-viewport/question-viewport.js')"), 'atelier.js does not load QuestionViewport integration');
+expect(atelier.includes("import('./src/ui/patterns/workspace-toolbar/workspace-toolbar.js')"), 'atelier.js does not load WorkspaceToolbar integration');
 expect(atelier.includes('UI.createAnswerOption'), 'atelier.js does not render production choices through AnswerOption');
 expect(atelier.includes('UI.updateBadge'), 'atelier.js does not upgrade production badges through the Design System');
 expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade production icon actions through the Design System');
 expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
 expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
 expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
-expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint8"), 'Service worker cache was not bumped for Sprint 8');
+expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint9"), 'Service worker cache was not bumped for Sprint 9');
 expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
 expect(serviceWorker.includes("'./src/ui/components/icon-button/icon-button.js'"), 'Service worker does not cache IconButton');
 expect(serviceWorker.includes("'./src/ui/components/feedback-panel/feedback-panel.js'"), 'Service worker does not cache FeedbackPanel');
 expect(serviceWorker.includes("'./src/ui/integration/answer-state.js'"), 'Service worker does not cache answer-state integration');
 expect(serviceWorker.includes("'./src/ui/patterns/question-viewport/question-viewport.css'"), 'Service worker does not cache QuestionViewport CSS');
 expect(serviceWorker.includes("'./src/ui/patterns/question-viewport/question-viewport.js'"), 'Service worker does not cache QuestionViewport JS');
+expect(serviceWorker.includes("'./src/ui/patterns/workspace-toolbar/workspace-toolbar.css'"), 'Service worker does not cache WorkspaceToolbar CSS');
+expect(serviceWorker.includes("'./src/ui/patterns/workspace-toolbar/workspace-toolbar.js'"), 'Service worker does not cache WorkspaceToolbar JS');
+expect(atelier.includes("bind('#focusToggleButton','onclick',toggleFocus)"), 'Direct Focus action is not bound in production');
+expect(atelier.includes("if(state.examFocus){e.preventDefault();setFocusMode(false);return}"), 'Escape does not exit Focus mode');
+expect(atelier.includes("(e.key==='f'||e.key==='F')"), 'Focus keyboard shortcut is missing');
+expect(workspaceToolbarCss.includes('body.focus-mode .rail'), 'Focus mode does not own AppShell rail visibility');
+expect(workspaceToolbarCss.includes('display: none !important'), 'Focus mode does not hide the rail cleanly');
 expect(!atelier.includes("document.querySelector('.workspace').offsetTop-20"), 'Legacy workspace scroll target is still present');
 expect(atelier.includes('focusCurrentQuestion()'), 'Question navigation does not use the stable QuestionViewport anchor');
 expect(computeQuestionScrollTop({ scrollY: 500, cardTop: 120, offset: 12 }) === 608, 'QuestionViewport scroll target calculation is incorrect');
 expect(computeQuestionScrollTop({ scrollY: 0, cardTop: 5, offset: 12 }) === 0, 'QuestionViewport scroll target must not become negative');
+
+const focusOn = getFocusToggleState(true);
+const focusOff = getFocusToggleState(false);
+expect(focusOn.pressed === true && focusOn.label === 'Quitter Focus', 'Focus toggle active state is inconsistent');
+expect(focusOff.pressed === false && focusOff.label === 'Focus', 'Focus toggle inactive state is inconsistent');
 
 // Regression: a selected wrong answer in a multiple-choice question must be red,
 // while correct answers remain green even when the question as a whole is wrong.
@@ -97,6 +114,7 @@ for (const relativePath of [
   'src/ui/components/feedback-panel/feedback-panel.js',
   'src/ui/patterns/question-card/question-card.js',
   'src/ui/patterns/question-viewport/question-viewport.js',
+  'src/ui/patterns/workspace-toolbar/workspace-toolbar.js',
   'src/ui/integration/answer-state.js',
 ]) {
   const source = await text(relativePath);
@@ -109,4 +127,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, Sprint 8 adaptive viewport + navigation regressions covered).`);
+console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, Sprint 9 Focus UX + WorkspaceToolbar regressions covered).`);
