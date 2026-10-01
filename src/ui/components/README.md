@@ -1,3 +1,18 @@
 # Components
 
-Répertoire réservé au Design System Azure Trainer. Les éléments seront ajoutés pendant les prochains sprints, après validation de leur API et de leurs états dans Storybook.
+Reusable UI primitives for Azure Trainer.
+
+Current components:
+
+- Button
+- IconButton
+- Badge
+
+Next candidates:
+
+- ProgressBar
+- FormField
+- Modal
+- AnswerOption
+
+Rule: components stay free of Azure certification business logic. Product-specific composition belongs in patterns.

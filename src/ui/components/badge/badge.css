@@ -1,0 +1,62 @@
+.ui-badge {
+  --badge-fg: var(--color-text-secondary);
+  --badge-border: var(--color-border);
+  --badge-bg: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid var(--badge-border);
+  background: var(--badge-bg);
+  color: var(--badge-fg);
+  font-family: var(--font-family-body);
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.ui-badge--small {
+  min-height: 24px;
+  padding: 5px 8px;
+  font-size: var(--font-size-xs);
+}
+
+.ui-badge--medium {
+  min-height: 28px;
+  padding: 6px 10px;
+  font-size: var(--font-size-sm);
+}
+
+.ui-badge--rounded {
+  border-radius: 6px;
+}
+
+.ui-badge--pill {
+  border-radius: var(--radius-pill);
+}
+
+.ui-badge--accent {
+  --badge-fg: var(--color-accent);
+  --badge-border: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  --badge-bg: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.ui-badge--success {
+  --badge-fg: var(--color-success);
+  --badge-border: color-mix(in srgb, var(--color-success) 38%, transparent);
+  --badge-bg: color-mix(in srgb, var(--color-success) 8%, transparent);
+}
+
+.ui-badge--error {
+  --badge-fg: var(--color-error);
+  --badge-border: color-mix(in srgb, var(--color-error) 38%, transparent);
+  --badge-bg: color-mix(in srgb, var(--color-error) 8%, transparent);
+}
+
+.ui-badge--warning {
+  --badge-fg: var(--color-warning);
+  --badge-border: color-mix(in srgb, var(--color-warning) 42%, transparent);
+  --badge-bg: color-mix(in srgb, var(--color-warning) 9%, transparent);
+}

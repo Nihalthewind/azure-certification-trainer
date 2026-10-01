@@ -1,0 +1,87 @@
+.ui-icon-button {
+  --icon-button-fg: var(--color-text-secondary);
+  --icon-button-bg: var(--color-surface);
+  --icon-button-border: var(--color-border);
+
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 1px solid var(--icon-button-border);
+  border-radius: var(--radius-sm);
+  background: var(--icon-button-bg);
+  color: var(--icon-button-fg);
+  cursor: pointer;
+  transition:
+    background var(--motion-normal) var(--easing-standard),
+    border-color var(--motion-normal) var(--easing-standard),
+    color var(--motion-normal) var(--easing-standard),
+    transform var(--motion-fast) var(--easing-standard);
+}
+
+.ui-icon-button--small {
+  width: 32px;
+  height: 32px;
+}
+
+.ui-icon-button--medium {
+  width: 38px;
+  height: 38px;
+}
+
+.ui-icon-button:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-text-primary);
+  transform: translateY(-1px);
+}
+
+.ui-icon-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.ui-icon-button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.ui-icon-button.is-active.is-accent {
+  --icon-button-fg: var(--color-accent);
+  --icon-button-border: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+  --icon-button-bg: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+}
+
+.ui-icon-button.is-active.is-danger {
+  --icon-button-fg: var(--color-error);
+  --icon-button-border: color-mix(in srgb, var(--color-error) 52%, var(--color-border));
+  --icon-button-bg: color-mix(in srgb, var(--color-error) 10%, var(--color-surface));
+}
+
+.ui-icon-button.is-active.is-warning {
+  --icon-button-fg: var(--color-warning);
+  --icon-button-border: color-mix(in srgb, var(--color-warning) 55%, var(--color-border));
+  --icon-button-bg: color-mix(in srgb, var(--color-warning) 10%, var(--color-surface));
+}
+
+.ui-icon-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+  transform: none;
+}
+
+.ui-icon-button .ui-icon {
+  display: block;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .ui-icon-button--medium {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-icon-button {
+    transition: none;
+  }
+}
