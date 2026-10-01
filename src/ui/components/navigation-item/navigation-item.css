@@ -1,0 +1,102 @@
+.ui-navigation-item {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-secondary);
+  text-align: left;
+  font-family: var(--font-family-body);
+  font-weight: 700;
+  transition:
+    color var(--motion-fast) var(--easing-standard),
+    background var(--motion-fast) var(--easing-standard),
+    border-color var(--motion-fast) var(--easing-standard);
+}
+
+.ui-navigation-item--medium {
+  min-height: 42px;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.ui-navigation-item--compact {
+  min-height: 36px;
+  padding: 6px 9px;
+  font-size: 11px;
+}
+
+.ui-navigation-item::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 50%;
+  width: 3px;
+  height: 18px;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  transform: translateY(-50%);
+}
+
+.ui-navigation-item:hover:not(:disabled) {
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-surface) 78%, transparent);
+  border-color: color-mix(in srgb, var(--color-border) 74%, transparent);
+}
+
+.ui-navigation-item.is-active {
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+  border-color: color-mix(in srgb, var(--color-accent) 20%, var(--color-border));
+}
+
+.ui-navigation-item.is-active::before {
+  background: var(--color-accent);
+}
+
+.ui-navigation-item__icon {
+  width: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-subtle);
+}
+
+.ui-navigation-item.is-active .ui-navigation-item__icon {
+  color: var(--color-accent);
+}
+
+.ui-navigation-item__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-navigation-item__count {
+  min-width: 24px;
+  padding: 2px 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-subtle);
+  background: color-mix(in srgb, var(--color-panel) 72%, transparent);
+  font-size: 9px;
+  font-weight: 850;
+  text-align: center;
+}
+
+.ui-navigation-item.is-active .ui-navigation-item__count {
+  border-color: color-mix(in srgb, var(--color-accent) 28%, var(--color-border));
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 7%, var(--color-panel));
+}
+
+.ui-navigation-item:disabled {
+  opacity: .48;
+  cursor: default;
+}
