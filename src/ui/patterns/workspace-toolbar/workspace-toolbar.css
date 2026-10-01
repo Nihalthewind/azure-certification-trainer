@@ -7,6 +7,15 @@
 }
 
 .ui-workspace-toolbar__heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 0;
+  flex: 1 1 340px;
+}
+
+.ui-workspace-toolbar__heading-copy {
   min-width: 0;
 }
 
@@ -60,16 +69,47 @@
   font-size: 11px;
 }
 
+.ui-workspace-toolbar__focus,
+.workspace-focus-toggle {
+  white-space: nowrap;
+  border-color: color-mix(in srgb, var(--accent) 48%, var(--border));
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--panel));
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.ui-workspace-toolbar__focus:hover,
+.workspace-focus-toggle:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 13%, var(--panel));
+}
+
 .ui-workspace-toolbar__focus.is-active,
 .workspace-focus-toggle.is-active {
   border-color: var(--accent);
   color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, var(--panel));
+  background: color-mix(in srgb, var(--accent) 14%, var(--panel));
 }
 
-/* Production bridge: the historical .workbar now follows the same behaviour. */
-.workspace-focus-toggle {
-  white-space: nowrap;
+.workbar-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 0;
+  flex: 1 1 360px;
+}
+
+.workbar-copy {
+  min-width: 0;
+}
+
+.workspace-focus-toggle__icon {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1em;
+  font-size: 1.05em;
+  line-height: 1;
 }
 
 /* Focus is a real application state, not a hidden Settings preference. */
@@ -120,7 +160,17 @@ body.focus-mode .workbar {
   backdrop-filter: blur(12px);
 }
 
-body.focus-mode .workbar > div:first-child,
+body.focus-mode .workbar-heading {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+body.focus-mode .workspace-focus-toggle {
+  min-height: 38px;
+  padding-inline: 14px;
+}
+
+body.focus-mode .workbar-copy,
 body.focus-mode .search-wrap,
 body.focus-mode #resetFilter,
 body.focus-mode #questionNavigatorButton,
@@ -175,6 +225,12 @@ body.focus-mode #shortcutHelp {
     flex-direction: column;
   }
 
+  .ui-workspace-toolbar__heading,
+  .workbar-heading {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
   .ui-workspace-toolbar__controls {
     width: 100%;
     justify-content: stretch;
@@ -195,6 +251,8 @@ body.focus-mode #shortcutHelp {
   body.focus-mode .workbar {
     min-height: 46px;
     padding-top: 5px;
+    flex-direction: row;
+    align-items: center;
   }
 
   body.focus-mode .ui-question-viewport > .question-card,

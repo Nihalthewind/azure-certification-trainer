@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { getAnswerOptionResultState } from '../src/ui/integration/answer-state.js';
 import { computeQuestionScrollTop } from '../src/ui/patterns/question-viewport/question-viewport.js';
 import { getFocusToggleState } from '../src/ui/patterns/workspace-toolbar/workspace-toolbar.js';
+import { defaultFirstRunSteps } from '../src/ui/patterns/first-run-experience/first-run-experience.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const failures = [];
@@ -17,17 +18,29 @@ function expect(condition, message) {
   if (!condition) failures.push(message);
 }
 
-const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss] = await Promise.all([
+const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss, firstRunCss] = await Promise.all([
   text('index.html'),
   text('atelier.js'),
   text('src/ui/ui.css'),
   text('service-worker.js'),
   text('src/ui/patterns/workspace-toolbar/workspace-toolbar.css'),
+  text('src/ui/patterns/first-run-experience/first-run-experience.css'),
 ]);
 
 expect(indexHtml.includes('href="src/ui/ui.css"'), 'index.html does not load src/ui/ui.css');
 expect(indexHtml.includes('class="workspace ui-question-viewport"'), 'Production workspace does not use QuestionViewport');
 expect(indexHtml.includes('id="focusToggleButton"'), 'Production workspace has no direct Focus action');
+expect(indexHtml.includes('class="hero hero--compact"'), 'Persistent hero was not converted to the compact product header');
+expect(indexHtml.includes('id="replayOnboardingButton"'), 'Settings does not expose Revoir l’introduction');
+expect(indexHtml.includes('workspace-focus-toggle__icon'), 'Focus action does not expose a visible icon');
+expect(indexHtml.includes('Mode Focus'), 'Focus action is not labelled explicitly');
+expect(atelier.includes("const ONBOARDING_KEY=APP_KEY+'-onboarding-v1'"), 'Onboarding persistence key is missing');
+expect(atelier.includes("import('./src/ui/patterns/first-run-experience/first-run-experience.js')"), 'FirstRunExperience is not loaded by the application');
+expect(atelier.includes("UI.createFirstRunExperience"), 'FirstRunExperience is not exposed through the Design System bridge');
+expect(atelier.includes("openOnboarding({force:true})"), 'Revoir l’introduction is not wired to the onboarding');
+expect(atelier.includes("setTimeout(()=>openOnboarding(),120)"), 'First-run onboarding is not scheduled after application startup');
+expect(firstRunCss.includes('backdrop-filter: blur(16px)'), 'FirstRunExperience does not blur/fade the background');
+expect(firstRunCss.includes('prefers-reduced-motion'), 'FirstRunExperience does not respect reduced motion');
 expect(indexHtml.includes('aria-pressed="false"'), 'Direct Focus action does not expose a pressed state');
 expect(indexHtml.includes('id="submit" class="ui-button ui-button--primary ui-button--medium"'), 'Submit button is not using the Design System Button classes');
 expect(indexHtml.includes('id="prev" class="ui-button ui-button--secondary ui-button--medium"'), 'Previous button is not using the Design System Button classes');
@@ -44,7 +57,7 @@ expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade pro
 expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
 expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
 expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
-expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint9"), 'Service worker cache was not bumped for Sprint 9');
+expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint10"), 'Service worker cache was not bumped for Sprint 10');
 expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
 expect(serviceWorker.includes("'./src/ui/components/icon-button/icon-button.js'"), 'Service worker does not cache IconButton');
 expect(serviceWorker.includes("'./src/ui/components/feedback-panel/feedback-panel.js'"), 'Service worker does not cache FeedbackPanel');
@@ -53,6 +66,8 @@ expect(serviceWorker.includes("'./src/ui/patterns/question-viewport/question-vie
 expect(serviceWorker.includes("'./src/ui/patterns/question-viewport/question-viewport.js'"), 'Service worker does not cache QuestionViewport JS');
 expect(serviceWorker.includes("'./src/ui/patterns/workspace-toolbar/workspace-toolbar.css'"), 'Service worker does not cache WorkspaceToolbar CSS');
 expect(serviceWorker.includes("'./src/ui/patterns/workspace-toolbar/workspace-toolbar.js'"), 'Service worker does not cache WorkspaceToolbar JS');
+expect(serviceWorker.includes("'./src/ui/patterns/first-run-experience/first-run-experience.css'"), 'Service worker does not cache FirstRunExperience CSS');
+expect(serviceWorker.includes("'./src/ui/patterns/first-run-experience/first-run-experience.js'"), 'Service worker does not cache FirstRunExperience JS');
 expect(atelier.includes("bind('#focusToggleButton','onclick',toggleFocus)"), 'Direct Focus action is not bound in production');
 expect(atelier.includes("if(state.examFocus){e.preventDefault();setFocusMode(false);return}"), 'Escape does not exit Focus mode');
 expect(atelier.includes("(e.key==='f'||e.key==='F')"), 'Focus keyboard shortcut is missing');
@@ -66,7 +81,13 @@ expect(computeQuestionScrollTop({ scrollY: 0, cardTop: 5, offset: 12 }) === 0, '
 const focusOn = getFocusToggleState(true);
 const focusOff = getFocusToggleState(false);
 expect(focusOn.pressed === true && focusOn.label === 'Quitter Focus', 'Focus toggle active state is inconsistent');
-expect(focusOff.pressed === false && focusOff.label === 'Focus', 'Focus toggle inactive state is inconsistent');
+expect(focusOff.pressed === false && focusOff.label === 'Mode Focus', 'Focus toggle inactive state is inconsistent');
+expect(focusOff.icon === '⛶' && focusOn.icon === '×', 'Focus toggle visual affordance is inconsistent');
+
+const onboardingSteps = defaultFirstRunSteps({ trainingCode: 'AZ-104', trainingName: 'Azure Administrator' });
+expect(onboardingSteps.length === 3, 'FirstRunExperience must expose exactly three concise onboarding steps');
+expect(onboardingSteps[2]?.title?.includes('concentrer'), 'FirstRunExperience does not teach Focus mode');
+
 
 // Regression: a selected wrong answer in a multiple-choice question must be red,
 // while correct answers remain green even when the question as a whole is wrong.
@@ -115,6 +136,7 @@ for (const relativePath of [
   'src/ui/patterns/question-card/question-card.js',
   'src/ui/patterns/question-viewport/question-viewport.js',
   'src/ui/patterns/workspace-toolbar/workspace-toolbar.js',
+  'src/ui/patterns/first-run-experience/first-run-experience.js',
   'src/ui/integration/answer-state.js',
 ]) {
   const source = await text(relativePath);
@@ -127,4 +149,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, Sprint 9 Focus UX + WorkspaceToolbar regressions covered).`);
+console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, Sprint 10 onboarding + compact header + Focus discoverability regressions covered).`);

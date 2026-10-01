@@ -4,12 +4,14 @@ export function getFocusToggleState(active = false) {
   return active
     ? {
         label: 'Quitter Focus',
-        title: 'Quitter le mode Focus',
+        title: 'Quitter le mode Focus (Échap)',
+        icon: '×',
         pressed: true,
       }
     : {
-        label: 'Focus',
-        title: 'Afficher uniquement la question',
+        label: 'Mode Focus',
+        title: 'Activer le mode Focus (F)',
+        icon: '⛶',
         pressed: false,
       };
 }
@@ -24,6 +26,9 @@ export function updateFocusToggle(button, active = false) {
   const label = button.querySelector('.ui-button__label');
   if (label) label.textContent = state.label;
   else button.textContent = state.label;
+
+  const icon = button.querySelector('.workspace-focus-toggle__icon, .ui-button__icon');
+  if (icon) icon.textContent = state.icon;
 
   return button;
 }
@@ -51,11 +56,27 @@ export function createWorkspaceToolbar({
 
   const heading = document.createElement('div');
   heading.className = 'ui-workspace-toolbar__heading';
+
+  const headingCopy = document.createElement('div');
+  headingCopy.className = 'ui-workspace-toolbar__heading-copy';
   const h2 = document.createElement('h2');
   h2.textContent = title;
   const p = document.createElement('p');
   p.textContent = subtitle;
-  heading.append(h2, p);
+  headingCopy.append(h2, p);
+
+  const focusState = getFocusToggleState(focusActive);
+  const focusButton = createButton({
+    label: focusState.label,
+    leadingIcon: focusState.icon,
+    variant: 'secondary',
+    size: 'medium',
+    onClick: onToggleFocus,
+  });
+  focusButton.classList.add('ui-workspace-toolbar__focus');
+  updateFocusToggle(focusButton, focusActive);
+
+  heading.append(headingCopy, focusButton);
 
   const controls = document.createElement('div');
   controls.className = 'ui-workspace-toolbar__controls';
@@ -90,17 +111,6 @@ export function createWorkspaceToolbar({
     size: 'small',
     onClick: onOpenNavigator,
   }));
-
-  const focusState = getFocusToggleState(focusActive);
-  const focusButton = createButton({
-    label: focusState.label,
-    variant: focusActive ? 'secondary' : 'ghost',
-    size: 'small',
-    onClick: onToggleFocus,
-  });
-  focusButton.classList.add('ui-workspace-toolbar__focus');
-  updateFocusToggle(focusButton, focusActive);
-  controls.append(focusButton);
 
   if (examMode) {
     const examControls = document.createElement('div');

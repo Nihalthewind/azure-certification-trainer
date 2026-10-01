@@ -3,6 +3,7 @@
   const APP_KEY='azure-cert-trainer-2026-v3';
   const APP_VERSION='2.0.7';
   const LEGACY_AZ104_KEY='az104-atelier-2026-progress-v1';
+  const ONBOARDING_KEY=APP_KEY+'-onboarding-v1';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
   const clean=x=>String(x??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const norm=x=>String(x??'').toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
@@ -16,10 +17,11 @@
   let catalog=[],cfg=null,bank=[],byId=new Map(),autoQuestions=[],DOMAINS=[],state=null;
   let mode='study',domain='all',list=[],cursor=0,search='',timer=null,modalCallback=null,sourceUrl='';
   let UI={};
+  let onboardingController=null;
 
   async function loadDesignSystem(){
     try{
-      const [answerOption,badge,iconButton,feedbackPanel,answerState,questionViewport,workspaceToolbar]=await Promise.all([
+      const [answerOption,badge,iconButton,feedbackPanel,answerState,questionViewport,workspaceToolbar,firstRunExperience]=await Promise.all([
         import('./src/ui/components/answer-option/answer-option.js'),
         import('./src/ui/components/badge/badge.js'),
         import('./src/ui/components/icon-button/icon-button.js'),
@@ -27,6 +29,7 @@
         import('./src/ui/integration/answer-state.js'),
         import('./src/ui/patterns/question-viewport/question-viewport.js'),
         import('./src/ui/patterns/workspace-toolbar/workspace-toolbar.js'),
+        import('./src/ui/patterns/first-run-experience/first-run-experience.js'),
       ]);
       UI={
         createAnswerOption:answerOption.createAnswerOption,
@@ -38,8 +41,9 @@
         scrollQuestionIntoView:questionViewport.scrollQuestionIntoView,
         scrollQuestionAfterRender:questionViewport.scrollQuestionAfterRender,
         updateFocusToggle:workspaceToolbar.updateFocusToggle,
+        createFirstRunExperience:firstRunExperience.createFirstRunExperience,
       };
-      document.documentElement.dataset.uiSystem='sprint9';
+      document.documentElement.dataset.uiSystem='sprint10';
       return true;
     }catch(error){
       console.warn('Azure Trainer Design System indisponible : retour au rendu historique.',error);
@@ -51,6 +55,33 @@
   function freshState(){return{answers:{},drafts:{},lastId:'',exam:null,examHistory:[],examCompact:false,examFocus:false,favorites:{},notes:{},reports:[],lastVersion:''}}
   function currentState(id){if(!root.states[id])root.states[id]=freshState();return root.states[id]}
   function save(){try{if(cfg)root.states[cfg.id]=state;localStorage.setItem(APP_KEY,JSON.stringify(root))}catch{toast('Le stockage du navigateur est indisponible. Exportez vos résultats.')}}
+
+  function onboardingCompleted(){try{return localStorage.getItem(ONBOARDING_KEY)==='1'}catch{return false}}
+  function markOnboardingCompleted(){try{localStorage.setItem(ONBOARDING_KEY,'1')}catch{}}
+  function closeOnboarding({remember=true}={}){
+    if(remember)markOnboardingCompleted();
+    onboardingController?.destroy?.();
+    onboardingController=null;
+    document.body.classList.remove('ui-first-run-open');
+  }
+  function openOnboarding({force=false}={}){
+    if(!force&&onboardingCompleted())return false;
+    if(!UI.createFirstRunExperience||!cfg)return false;
+    onboardingController?.destroy?.();
+    const description=cfg.description||cfg.tagline||`Préparez ${cfg.code} avec votre banque de questions et vos outils de progression.`;
+    onboardingController=UI.createFirstRunExperience({
+      trainingCode:cfg.code,
+      trainingName:cfg.name,
+      description,
+      onComplete:()=>closeOnboarding({remember:true}),
+      onSkip:()=>closeOnboarding({remember:true}),
+    });
+    document.body.append(onboardingController.element);
+    document.body.classList.add('ui-first-run-open');
+    requestAnimationFrame(()=>onboardingController?.focus?.());
+    return true;
+  }
+
   function toast(message){const el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(toast.timeout);toast.timeout=setTimeout(()=>el.classList.remove('show'),4500)}
   const LANGUAGE_KEY=APP_KEY+'-language';
   let interfaceLanguage=localStorage.getItem(LANGUAGE_KEY)==='fr'?'fr':'en',translateLoader=null,translateChromeObserver=null;
@@ -91,9 +122,9 @@
     document.title=`${cfg.code} · Azure Certification Trainer`;
     $('#brandTitle').textContent=cfg.code;$('#brandSubtitle').textContent=`${cfg.name} · ${cfg.edition||'2026'}`;
     $('#topEyebrow').textContent=`PRÉPARATION INDÉPENDANTE · ${cfg.code}`;$('#editionLabel').textContent=`ÉDITION ${cfg.edition||'2026'}`;
-    $('#heroKicker').textContent=`LA BASE COMPLÈTE · ${cfg.code}`;
-    const tag=String(cfg.tagline||'Comprendre Azure. Retenir l’essentiel.').split(/(?<=\.)\s+/);$('#heroTitle').innerHTML=`${clean(tag[0]||cfg.code)}${tag[1]?`<br><em>${clean(tag.slice(1).join(' '))}</em>`:''}`;
-    $('#heroDescription').textContent=cfg.description||'';
+    $('#heroKicker').textContent='AZURE CERTIFICATION TRAINER';
+    $('#heroTitle').textContent=`${cfg.code} · ${cfg.name}`;
+    $('#heroDescription').textContent=cfg.description||cfg.tagline||'';
     $('#examCount').textContent=Math.min(cfg.exam?.total||48,autoQuestions.length);
     const source=cfg.source?.url?` Référentiel : <a href="${clean(cfg.source.url)}" target="_blank" rel="noopener noreferrer">${clean(cfg.source.label||cfg.source.url)}</a>.`:` Source : ${clean(cfg.source?.label||'banque importée')}.`;
     $('#footerText').innerHTML=`${bank.length} questions disponibles pour ${clean(cfg.code)}. Les corrections sont conservées selon le document ou les données importées ; les questions visuelles sans correction textuelle utilisent une auto-évaluation après révélation de la correction.${source}`;
@@ -155,7 +186,7 @@
     const ids=[...shuffle(general).slice(0,total-caseStudy.length).map(q=>q.id),...caseStudy.map(q=>q.id)];
     state.exam={version:ec.version,ids,caseStudyIds:caseStudy.map(q=>q.id),multiContextId:multiContext?.id||null,answers:{},drafts:{},flagged:{},index:0,start:now(),duration:ec.durationMinutes*60000};save();return true;
   }
-  function applyExamView(){const active=mode==='exam',focusAvailable=mode!=='dashboard'&&!!list.length,focusActive=focusAvailable&&!!state.examFocus;document.body.classList.toggle('exam-compact',active&&state.examCompact);document.body.classList.toggle('focus-mode',focusActive);$('#examControls').hidden=!active;$('#compactButton').classList.toggle('is-active',active&&state.examCompact);$('#compactButton').setAttribute('aria-pressed',String(active&&state.examCompact));const fm=$('#focusMenuButton');if(fm){fm.disabled=!focusAvailable;fm.classList.toggle('is-active',focusActive);fm.setAttribute('aria-pressed',String(focusActive));fm.textContent=focusActive?'⊟  Quitter Focus':'⊞  Mode Focus'}const direct=$('#focusToggleButton');if(direct){direct.hidden=!focusAvailable;if(UI.updateFocusToggle)UI.updateFocusToggle(direct,focusActive);else{direct.classList.toggle('is-active',focusActive);direct.setAttribute('aria-pressed',String(focusActive));const label=direct.querySelector('.ui-button__label');if(label)label.textContent=focusActive?'Quitter Focus':'Focus'}}}
+  function applyExamView(){const active=mode==='exam',focusAvailable=mode!=='dashboard'&&!!list.length,focusActive=focusAvailable&&!!state.examFocus;document.body.classList.toggle('exam-compact',active&&state.examCompact);document.body.classList.toggle('focus-mode',focusActive);$('#examControls').hidden=!active;$('#compactButton').classList.toggle('is-active',active&&state.examCompact);$('#compactButton').setAttribute('aria-pressed',String(active&&state.examCompact));const fm=$('#focusMenuButton');if(fm){fm.disabled=!focusAvailable;fm.classList.toggle('is-active',focusActive);fm.setAttribute('aria-pressed',String(focusActive));fm.textContent=focusActive?'×  Quitter Focus':'⛶  Mode Focus'}const direct=$('#focusToggleButton');if(direct){direct.hidden=!focusAvailable;if(UI.updateFocusToggle)UI.updateFocusToggle(direct,focusActive);else{direct.classList.toggle('is-active',focusActive);direct.setAttribute('aria-pressed',String(focusActive));const label=direct.querySelector('.ui-button__label');if(label)label.textContent=focusActive?'Quitter Focus':'Mode Focus'}}}
   function setFocusMode(active,{recenter=true}={}){if(mode==='dashboard'||!list.length)return;state.examFocus=!!active;applyExamView();save();if(recenter)UI.scrollQuestionAfterRender?.({smooth:false})}
   function toggleFocus(){setFocusMode(!state.examFocus)}
   function resetExam(){if(mode!=='exam'||!state.exam)return;if(window.confirm&&!window.confirm('Recommencer cet examen depuis la question 1 ? Toutes les réponses de cette session seront effacées.'))return;state.exam.answers={};state.exam.drafts={};state.exam.index=0;state.exam.start=now();cursor=0;save();render();const ec=examConfig();toast(`Examen réinitialisé : ${state.exam.ids.length} questions et ${ec.durationMinutes} minutes.`);focusCurrentQuestion({smooth:true})}
@@ -371,11 +402,11 @@
     $$('.rail-link[data-mode]').forEach(b=>b.onclick=()=>selectMode(b.dataset.mode));$('#showAll').onclick=()=>selectMode('study');$('#resetFilter').onclick=()=>{domain='all';refresh()};$('#search').oninput=e=>{search=e.target.value.trim();cursor=0;refresh()};$('#prev').onclick=()=>move(-1);$('#next').onclick=()=>move(1);$('#submit').onclick=()=>submit(false);
     const bind=(selector,event,handler)=>{const el=$(selector);if(el)el[event]=handler;return el};
     updateLanguageToggle();bind('#languageToggle','onclick',toggleInterfaceLanguage);
-    bind('#themeButton','onclick',()=>{root.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme();save()});bind('#exportButton','onclick',exportProgress);bind('#importProgressButton','onclick',()=>$('#progressFileInput')?.click());bind('#progressFileInput','onchange',e=>{const f=e.target.files?.[0];e.target.value='';importProgress(f)});bind('#installAppButton','onclick',installApp);bind('#compactButton','onclick',()=>{state.examCompact=!state.examCompact;applyExamView();save()});bind('#focusMenuButton','onclick',toggleFocus);bind('#focusToggleButton','onclick',toggleFocus);bind('#resetExamButton','onclick',resetExam);const settingsButton=$('#settingsButton'),settingsPanel=$('#settingsPanel');if(settingsButton&&settingsPanel){const setSettings=open=>{settingsPanel.hidden=!open;settingsButton.setAttribute('aria-expanded',String(open));settingsButton.classList.toggle('is-active',open)};settingsButton.onclick=e=>{e.stopPropagation();setSettings(settingsPanel.hidden)};settingsPanel.onclick=e=>e.stopPropagation();document.addEventListener('click',()=>setSettings(false));}
+    bind('#themeButton','onclick',()=>{root.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme();save()});bind('#exportButton','onclick',exportProgress);bind('#importProgressButton','onclick',()=>$('#progressFileInput')?.click());bind('#progressFileInput','onchange',e=>{const f=e.target.files?.[0];e.target.value='';importProgress(f)});bind('#installAppButton','onclick',installApp);bind('#compactButton','onclick',()=>{state.examCompact=!state.examCompact;applyExamView();save()});bind('#focusMenuButton','onclick',toggleFocus);bind('#focusToggleButton','onclick',toggleFocus);bind('#replayOnboardingButton','onclick',()=>openOnboarding({force:true}));bind('#resetExamButton','onclick',resetExam);const settingsButton=$('#settingsButton'),settingsPanel=$('#settingsPanel');if(settingsButton&&settingsPanel){const setSettings=open=>{settingsPanel.hidden=!open;settingsButton.setAttribute('aria-expanded',String(open));settingsButton.classList.toggle('is-active',open)};settingsButton.onclick=e=>{e.stopPropagation();setSettings(settingsPanel.hidden)};settingsPanel.onclick=e=>e.stopPropagation();document.addEventListener('click',()=>setSettings(false));}
     bind('#trainingSelect','onchange',e=>activateTraining(e.target.value));bind('#favoriteButton','onclick',toggleFavorite);bind('#noteButton','onclick',openNote);bind('#reportButton','onclick',openReport);bind('#flagQuestionButton','onclick',toggleExamFlag);bind('#startWeaknessButton','onclick',()=>selectMode('weakness'));bind('#questionNavigatorButton','onclick',openQuestionNavigator);bind('#importTrainingButton','onclick',()=>$('#importFileInput')?.click());bind('#importFileInput','onchange',e=>{const f=e.target.files?.[0];e.target.value='';importFile(f)});bind('#manageTrainingButton','onclick',manageTrainings);
     $('#modalClose').onclick=closeModal;$('#modalAction').onclick=async()=>{const fn=modalCallback;if(!fn){closeModal();return}try{await fn();closeModal()}catch(e){console.error(e);toast(e.message||'Opération impossible.')}};$('#modal').onclick=e=>{if(e.target.id==='modal')e.stopPropagation()};
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'){const modal=$('#modal');if(modal&&!modal.hidden){closeModal();return}if(state.examFocus){e.preventDefault();setFocusMode(false);return}}if(e.target.closest('input,select,textarea,button'))return;if((e.key==='f'||e.key==='F')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&mode!=='dashboard'&&list.length){e.preventDefault();toggleFocus();return}if(e.key==='ArrowRight'){e.preventDefault();move(1)}else if(e.key==='ArrowLeft'){e.preventDefault();move(-1)}else if(e.key==='Enter'&&!$('#submit').disabled){e.preventDefault();submit()}else if(/^[1-9]$/.test(e.key)&&list[cursor]?.options?.length){$(`#choices [data-choice="${Number(e.key)-1}"]`)?.click()}});
-    const startId=catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:'az104',startState=currentState(startId),resume=!!startState.exam?.ids?.length;activateTraining(startId,{resumeExam:resume});checkVersion();if(interfaceLanguage==='fr')setTimeout(()=>applyInterfaceLanguage('fr',{silent:true}),250);if('serviceWorker'in navigator&&location.protocol.startsWith('http')){const localDev=['localhost','127.0.0.1'].includes(location.hostname);if(localDev)navigator.serviceWorker.getRegistrations().then(registrations=>registrations.forEach(registration=>registration.unregister())).catch(console.warn);else navigator.serviceWorker.register('./service-worker.js').catch(console.warn)}timer=setInterval(updateClock,1000);
+    document.addEventListener('keydown',e=>{if(document.body.classList.contains('ui-first-run-open'))return;if(e.key==='Escape'){const modal=$('#modal');if(modal&&!modal.hidden){closeModal();return}if(state.examFocus){e.preventDefault();setFocusMode(false);return}}if(e.target.closest('input,select,textarea,button'))return;if((e.key==='f'||e.key==='F')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&mode!=='dashboard'&&list.length){e.preventDefault();toggleFocus();return}if(e.key==='ArrowRight'){e.preventDefault();move(1)}else if(e.key==='ArrowLeft'){e.preventDefault();move(-1)}else if(e.key==='Enter'&&!$('#submit').disabled){e.preventDefault();submit()}else if(/^[1-9]$/.test(e.key)&&list[cursor]?.options?.length){$(`#choices [data-choice="${Number(e.key)-1}"]`)?.click()}});
+    const startId=catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:'az104',startState=currentState(startId),resume=!!startState.exam?.ids?.length;activateTraining(startId,{resumeExam:resume});checkVersion();setTimeout(()=>openOnboarding(),120);if(interfaceLanguage==='fr')setTimeout(()=>applyInterfaceLanguage('fr',{silent:true}),250);if('serviceWorker'in navigator&&location.protocol.startsWith('http')){const localDev=['localhost','127.0.0.1'].includes(location.hostname);if(localDev)navigator.serviceWorker.getRegistrations().then(registrations=>registrations.forEach(registration=>registration.unregister())).catch(console.warn);else navigator.serviceWorker.register('./service-worker.js').catch(console.warn)}timer=setInterval(updateClock,1000);
   }
   await boot();
 })();

@@ -15,4 +15,5 @@
 @import './patterns/question-card/question-card.css';
 @import './patterns/question-viewport/question-viewport.css';
 @import './patterns/workspace-toolbar/workspace-toolbar.css';
+@import './patterns/first-run-experience/first-run-experience.css';
 @import './integration/legacy-app.css';

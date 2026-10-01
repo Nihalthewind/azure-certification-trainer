@@ -15,6 +15,7 @@ export const Study = {
   args: {
     title: 'Votre parcours',
     subtitle: '568 questions disponibles pour AZ-104.',
+    focusActive: false,
   },
 };
 
