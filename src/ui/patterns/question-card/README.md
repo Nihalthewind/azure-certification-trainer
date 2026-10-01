@@ -1,19 +1,19 @@
 # QuestionCard
 
-Pattern métier principal d'Azure Trainer.
+Pattern métier qui compose les primitives du Design System pour afficher et traiter une question.
 
-Il compose des composants du Design System (`Badge`, `IconButton`, `Button`) et garde encore
-les choix de réponse en interne. `AnswerOption` sera extrait dans un sprint dédié lorsque
-le contrat de sélection simple/multiple sera stabilisé.
+## Composition
 
-## Responsabilités
+- `Badge` : domaine et statut
+- `IconButton` : favori, note, signalement, à revoir
+- `AnswerOption` : réponse radio/checkbox
+- `Button` : navigation et validation
 
-- métadonnées de la question ;
-- actions secondaires (favori, note, signalement, à revoir) ;
-- hiérarchie question / prompt / réponses ;
-- états de correction ;
-- navigation précédente / suivante ;
-- action principale de validation ;
-- responsive mobile.
+## Règles Sprint 4
 
-La logique métier de score, persistance et navigation de l'application ne doit pas vivre ici.
+- La question elle-même est le titre principal (`h2`).
+- Le choix des réponses est porté par un `fieldset` / `legend`.
+- Le feedback de correction est distinct de l'action personnelle « À revoir ».
+- En mode `training`, l'utilisateur valide explicitement sa réponse.
+- En mode `exam`, la sélection est enregistrée via `onSelect` et le CTA de validation disparaît.
+- Le footer mobile place l'action principale avant la navigation.

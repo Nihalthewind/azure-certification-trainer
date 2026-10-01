@@ -7,12 +7,12 @@ Current components:
 - Button
 - IconButton
 - Badge
+- AnswerOption
 
 Next candidates:
 
 - ProgressBar
 - FormField
 - Modal
-- AnswerOption
 
 Rule: components stay free of Azure certification business logic. Product-specific composition belongs in patterns.

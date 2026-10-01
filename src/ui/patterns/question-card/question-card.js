@@ -2,6 +2,10 @@ import './question-card.css';
 import { createBadge } from '../../components/badge/badge.js';
 import { createButton } from '../../components/button/button.js';
 import { createIconButton } from '../../components/icon-button/icon-button.js';
+import {
+  createAnswerOption,
+  setAnswerOptionSelected,
+} from '../../components/answer-option/answer-option.js';
 
 let questionCardSequence = 0;
 
@@ -20,45 +24,6 @@ function normalizeIndexes(value) {
     : [];
 }
 
-function createAnswerOption({
-  index,
-  label,
-  selected,
-  correct,
-  incorrect,
-  disabled,
-  onClick,
-}) {
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.className = [
-    'ui-question-card__choice',
-    selected ? 'is-selected' : '',
-    correct ? 'is-correct' : '',
-    incorrect ? 'is-incorrect' : '',
-  ].filter(Boolean).join(' ');
-  button.disabled = Boolean(disabled);
-  button.setAttribute('aria-pressed', String(Boolean(selected)));
-
-  const letter = document.createElement('span');
-  letter.className = 'ui-question-card__choice-letter';
-  letter.setAttribute('aria-hidden', 'true');
-  letter.textContent = String.fromCharCode(65 + index);
-
-  const text = document.createElement('span');
-  text.className = 'ui-question-card__choice-label';
-  text.textContent = label;
-
-  const marker = document.createElement('span');
-  marker.className = 'ui-question-card__choice-marker';
-  marker.setAttribute('aria-hidden', 'true');
-  marker.textContent = correct ? '✓' : incorrect ? '×' : selected ? '●' : '';
-
-  button.append(letter, text, marker);
-  if (typeof onClick === 'function') button.addEventListener('click', onClick);
-  return button;
-}
-
 export function createQuestionCard({
   questionId = 'AZ104-DEMO-01',
   topic = 'IDENTITÉ',
@@ -67,7 +32,7 @@ export function createQuestionCard({
   questionNumber = 1,
   totalQuestions = 48,
   category = 'QCM',
-  title = 'Choisissez la bonne réponse',
+  title = '',
   prompt = 'Vous devez sélectionner la réponse qui répond le mieux au besoin décrit.',
   answers = [
     'Première proposition',
@@ -75,12 +40,13 @@ export function createQuestionCard({
     'Troisième proposition',
     'Quatrième proposition',
   ],
-  answerNote = 'Une réponse attendue',
+  answerNote = '1 réponse attendue',
   selectedIndexes = [],
   correctIndexes = [],
   incorrectIndexes = [],
   multi = false,
   locked = false,
+  mode = 'training',
   favorite = false,
   hasNote = false,
   reported = false,
@@ -102,11 +68,14 @@ export function createQuestionCard({
   onNext,
 } = {}) {
   questionCardSequence += 1;
-  const headingId = `ui-question-card-title-${questionCardSequence}`;
+  const instanceId = questionCardSequence;
+  const headingId = `ui-question-card-question-${instanceId}`;
+  const answerGroupName = `ui-question-card-answer-${instanceId}`;
   const statusConfig = STATUS[status] || STATUS.discovery;
+  const isExam = mode === 'exam';
 
   const article = document.createElement('article');
-  article.className = 'ui-question-card';
+  article.className = ['ui-question-card', isExam ? 'is-exam' : ''].filter(Boolean).join(' ');
   article.setAttribute('aria-labelledby', headingId);
 
   const header = document.createElement('header');
@@ -123,6 +92,7 @@ export function createQuestionCard({
 
   const headerActions = document.createElement('div');
   headerActions.className = 'ui-question-card__header-actions';
+  headerActions.setAttribute('role', 'group');
   headerActions.setAttribute('aria-label', 'Actions de la question');
 
   headerActions.append(
@@ -178,80 +148,98 @@ export function createQuestionCard({
   eyebrow.className = 'ui-question-card__eyebrow';
   const totalPart = totalQuestions ? ` / ${totalQuestions}` : '';
   eyebrow.textContent = `QUESTION ${String(questionNumber).padStart(2, '0')}${totalPart} · ${category}`;
+  main.append(eyebrow);
 
-  const heading = document.createElement('h2');
-  heading.id = headingId;
-  heading.className = 'ui-question-card__title';
-  heading.textContent = title;
+  if (title) {
+    const instruction = document.createElement('p');
+    instruction.className = 'ui-question-card__instruction';
+    instruction.textContent = title;
+    main.append(instruction);
+  }
 
-  const promptEl = document.createElement('p');
-  promptEl.className = 'ui-question-card__prompt';
-  promptEl.textContent = prompt;
+  const question = document.createElement('h2');
+  question.id = headingId;
+  question.className = 'ui-question-card__question';
+  question.textContent = prompt;
+  main.append(question);
 
-  const note = document.createElement('div');
-  note.className = 'ui-question-card__answer-note';
-  note.textContent = multi ? 'Plusieurs réponses · sélectionnez toutes les réponses correctes' : answerNote;
-
-  const choices = document.createElement('div');
+  const choices = document.createElement('fieldset');
   choices.className = 'ui-question-card__choices';
-  choices.setAttribute('aria-label', multi ? 'Réponses possibles, choix multiple' : 'Réponses possibles');
+
+  const legend = document.createElement('legend');
+  legend.className = 'ui-question-card__answer-note';
+  legend.textContent = multi
+    ? 'Plusieurs réponses · sélectionnez toutes les réponses correctes'
+    : answerNote;
+  choices.append(legend);
 
   let currentSelected = new Set(normalizeIndexes(selectedIndexes));
   const correct = new Set(normalizeIndexes(correctIndexes));
   const incorrect = new Set(normalizeIndexes(incorrectIndexes));
-  const optionButtons = [];
+  const optionRoots = [];
+  let submit = null;
 
   const syncSelection = () => {
-    optionButtons.forEach((button, index) => {
-      const selected = currentSelected.has(index);
-      button.classList.toggle('is-selected', selected);
-      button.setAttribute('aria-pressed', String(selected));
-      if (!correct.has(index) && !incorrect.has(index)) {
-        const marker = button.querySelector('.ui-question-card__choice-marker');
-        if (marker) marker.textContent = selected ? '●' : '';
-      }
+    optionRoots.forEach((root, index) => {
+      setAnswerOptionSelected(root, currentSelected.has(index));
     });
-    submit.disabled = Boolean(locked || currentSelected.size === 0);
+
+    if (submit) {
+      submit.disabled = Boolean(locked || currentSelected.size === 0);
+    }
+
     if (typeof onSelect === 'function') onSelect([...currentSelected]);
   };
 
   answers.forEach((answer, index) => {
-    const button = createAnswerOption({
+    const optionState = correct.has(index)
+      ? 'correct'
+      : incorrect.has(index)
+        ? 'incorrect'
+        : 'default';
+
+    const option = createAnswerOption({
+      id: `${answerGroupName}-${index}`,
+      name: answerGroupName,
+      value: String(index),
       index,
       label: String(answer),
+      type: multi ? 'multiple' : 'single',
       selected: currentSelected.has(index),
-      correct: correct.has(index),
-      incorrect: incorrect.has(index),
-      disabled: locked,
-      onClick: () => {
+      state: optionState,
+      locked,
+      onChange: ({ checked }) => {
         if (locked) return;
+
         if (multi) {
-          if (currentSelected.has(index)) currentSelected.delete(index);
-          else currentSelected.add(index);
+          if (checked) currentSelected.add(index);
+          else currentSelected.delete(index);
         } else {
-          currentSelected = new Set([index]);
+          currentSelected = checked ? new Set([index]) : new Set();
         }
+
         syncSelection();
       },
     });
-    optionButtons.push(button);
-    choices.append(button);
+
+    optionRoots.push(option);
+    choices.append(option);
   });
 
-  main.append(eyebrow, heading, promptEl, note, choices);
+  main.append(choices);
 
   if (feedbackTone && feedbackTitle) {
     const feedback = document.createElement('section');
     feedback.className = `ui-question-card__feedback is-${feedbackTone}`;
-    feedback.setAttribute('aria-live', 'polite');
+    feedback.setAttribute('role', 'status');
 
     const kicker = document.createElement('div');
     kicker.className = 'ui-question-card__feedback-kicker';
     kicker.textContent = feedbackTone === 'success'
-      ? '✓ BONNE RÉPONSE'
+      ? 'BONNE RÉPONSE'
       : feedbackTone === 'error'
-        ? '↻ À REVOIR'
-        : '◎ CORRECTION';
+        ? 'RÉPONSE INCORRECTE'
+        : 'EXPLICATION';
 
     const feedbackHeading = document.createElement('h3');
     feedbackHeading.textContent = feedbackTitle;
@@ -272,6 +260,7 @@ export function createQuestionCard({
 
   const footerNavigation = document.createElement('div');
   footerNavigation.className = 'ui-question-card__footer-nav';
+  footerNavigation.setAttribute('aria-label', 'Navigation entre les questions');
 
   footerNavigation.append(
     createButton({
@@ -290,15 +279,19 @@ export function createQuestionCard({
     }),
   );
 
-  const submit = createButton({
-    label: submitLabel,
-    variant: 'primary',
-    disabled: locked || currentSelected.size === 0,
-    onClick: onSubmit,
-  });
+  footer.append(footerNavigation);
 
-  footer.append(footerNavigation, submit);
+  if (!isExam) {
+    submit = createButton({
+      label: submitLabel,
+      variant: 'primary',
+      disabled: locked || currentSelected.size === 0,
+      onClick: onSubmit,
+    });
+    submit.classList.add('ui-question-card__submit');
+    footer.append(submit);
+  }
+
   article.append(header, main, footer);
-
   return article;
 }

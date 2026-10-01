@@ -14,14 +14,16 @@ const baseArgs = {
   questionNumber: 12,
   totalQuestions: 48,
   category: 'QCM',
-  title: 'Choisissez la bonne réponse',
+  title: '',
   prompt: 'Vous devez permettre à un administrateur de gérer toutes les ressources d’un groupe de ressources sans lui donner de droits sur les autres groupes. Quelle solution répond au besoin ?',
   answers,
+  answerNote: '1 réponse attendue',
   selectedIndexes: [],
   correctIndexes: [],
   incorrectIndexes: [],
   multi: false,
   locked: false,
+  mode: 'training',
   favorite: false,
   hasNote: false,
   reported: false,
@@ -44,8 +46,10 @@ const meta = {
       control: 'select',
       options: ['discovery', 'mastered', 'retry', 'review', 'exam', 'answered'],
     },
+    mode: { control: 'radio', options: ['training', 'exam'] },
     category: { control: 'text' },
     topic: { control: 'text' },
+    title: { control: 'text' },
     favorite: { control: 'boolean' },
     hasNote: { control: 'boolean' },
     reported: { control: 'boolean' },
@@ -66,15 +70,11 @@ export default meta;
 export const Playground = {};
 
 export const Default = {
-  args: {
-    status: 'discovery',
-  },
+  args: { status: 'discovery' },
 };
 
 export const Selected = {
-  args: {
-    selectedIndexes: [3],
-  },
+  args: { selectedIndexes: [3] },
 };
 
 export const Correct = {
@@ -116,11 +116,11 @@ export const Personalised = {
 
 export const Exam = {
   args: {
+    mode: 'exam',
     status: 'exam',
     statusLabel: 'En cours',
     showReviewAction: true,
     markedForReview: true,
-    submitLabel: 'Enregistrer et avancer',
     selectedIndexes: [3],
   },
 };
@@ -130,7 +130,6 @@ export const MultipleAnswers = {
     questionId: 'AZ104-NET-018',
     topic: 'RÉSEAU',
     category: 'MULTISELECT',
-    title: 'Choisissez les bonnes réponses',
     prompt: 'Vous devez sécuriser l’accès à une ressource Azure tout en limitant son exposition publique. Sélectionnez deux éléments qui peuvent participer à la solution.',
     answers: [
       'Private Endpoint',
@@ -162,7 +161,32 @@ export const Mobile = {
     hasNote: true,
     selectedIndexes: [3],
   },
-  parameters: {
-    viewport: { defaultViewport: 'mobile' },
+  globals: {
+    viewport: { value: 'mobile', isRotated: false },
+  },
+};
+
+export const Tablet = {
+  args: {
+    selectedIndexes: [3],
+  },
+  globals: {
+    viewport: { value: 'tablet', isRotated: false },
+  },
+};
+
+export const MobileIncorrect = {
+  args: {
+    status: 'retry',
+    selectedIndexes: [0],
+    correctIndexes: [3],
+    incorrectIndexes: [0],
+    locked: true,
+    feedbackTone: 'error',
+    feedbackTitle: 'Le rôle doit être attribué au bon scope',
+    feedbackText: 'Le rôle Contributor doit être appliqué directement au groupe de ressources concerné.',
+  },
+  globals: {
+    viewport: { value: 'mobile', isRotated: false },
   },
 };

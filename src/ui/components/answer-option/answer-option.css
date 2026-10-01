@@ -1,0 +1,157 @@
+.ui-answer-option {
+  --answer-border: var(--color-border);
+  --answer-bg: var(--color-card);
+  --answer-accent: var(--color-accent);
+
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 22px;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 54px;
+  padding: 11px 14px;
+  border: 1px solid var(--answer-border);
+  border-radius: var(--radius-sm);
+  background: var(--answer-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-sm);
+  line-height: 1.45;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--motion-normal) var(--easing-standard),
+    background var(--motion-normal) var(--easing-standard),
+    transform var(--motion-fast) var(--easing-standard);
+}
+
+.ui-answer-option:hover:not(.is-disabled):not(.is-locked) {
+  --answer-border: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.ui-answer-option:has(.ui-answer-option__input:focus-visible) {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.ui-answer-option.is-selected {
+  --answer-border: var(--color-accent);
+  --answer-bg: color-mix(in srgb, var(--color-accent) 10%, var(--color-card));
+}
+
+.ui-answer-option.is-correct {
+  --answer-border: var(--color-success);
+  --answer-bg: color-mix(in srgb, var(--color-success) 10%, var(--color-card));
+  --answer-accent: var(--color-success);
+}
+
+.ui-answer-option.is-incorrect {
+  --answer-border: var(--color-error);
+  --answer-bg: color-mix(in srgb, var(--color-error) 9%, var(--color-card));
+  --answer-accent: var(--color-error);
+}
+
+.ui-answer-option.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ui-answer-option.is-locked {
+  cursor: default;
+  transform: none;
+}
+
+.ui-answer-option__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+.ui-answer-option__letter {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+}
+
+.ui-answer-option.is-selected .ui-answer-option__letter,
+.ui-answer-option.is-correct .ui-answer-option__letter,
+.ui-answer-option.is-incorrect .ui-answer-option__letter {
+  border-color: var(--answer-accent);
+  color: var(--answer-accent);
+}
+
+.ui-answer-option__label {
+  min-width: 0;
+}
+
+.ui-answer-option__marker {
+  display: grid;
+  place-items: center;
+  justify-self: end;
+  width: 20px;
+  height: 20px;
+  color: var(--answer-accent);
+}
+
+.ui-answer-option__marker.is-dot::before {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  content: '';
+  opacity: 0;
+  transform: scale(0.65);
+  transition:
+    opacity var(--motion-fast) var(--easing-standard),
+    transform var(--motion-fast) var(--easing-standard);
+}
+
+.ui-answer-option__marker.is-dot.is-visible::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ui-answer-option__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .ui-answer-option {
+    grid-template-columns: 28px minmax(0, 1fr) 18px;
+    gap: 9px;
+    min-height: 52px;
+    padding: 10px 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-answer-option,
+  .ui-answer-option__marker.is-dot::before {
+    transition: none;
+  }
+}

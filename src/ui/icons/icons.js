@@ -15,6 +15,10 @@ const ICONS = {
     viewBox: '0 0 24 24',
     path: 'M6.5 3.5h11v17l-5.5-3.2-5.5 3.2v-17Z',
   },
+  check: {
+    viewBox: '0 0 24 24',
+    path: 'M5 12.5l4.2 4.2L19 7',
+  },
   close: {
     viewBox: '0 0 24 24',
     path: 'M6 6l12 12M18 6 6 18',
