@@ -252,4 +252,10 @@ expect(manifest.display === 'standalone', 'Web app manifest is not standalone');
 expect(manifest.start_url === './' && manifest.scope === './', 'Web app manifest start_url/scope are incompatible with GitHub Pages');
 expect(Array.isArray(manifest.icons) && manifest.icons.some(icon => icon.sizes === '192x192') && manifest.icons.some(icon => icon.sizes === '512x512'), 'Web app manifest lacks installable icon sizes');
 
+if (failures.length > 0) {
+  console.error(`UI integration verification failed (${failures.length} errors):`);
+  failures.forEach((failure) => console.error(`- ${failure}`));
+  process.exit(1);
+}
+
 console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, Sprint 14.1 Azure Fluent + PWA install flow covered).`);

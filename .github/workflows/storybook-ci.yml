@@ -1,0 +1,36 @@
+name: Storybook CI
+
+on:
+  push:
+    branches: [storybook]
+  pull_request:
+    branches: [storybook, main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Check UI
+        run: npm run check-ui
+      - name: Build Storybook
+        run: npm run build-storybook
+      - name: Check diff whitespace
+        run: git diff --check
+      - name: Upload Storybook artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-static
+          path: storybook-static/
+          if-no-files-found: error
