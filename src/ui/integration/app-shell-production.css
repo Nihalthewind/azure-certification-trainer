@@ -157,6 +157,13 @@ html[data-theme="light"] .app-shell-production > .rail {
   font-size: inherit;
 }
 
+.app-shell-production .app-shell-primary-nav .rail-link-label {
+  /* Keep complete menu names when fonts or counters use more horizontal space. */
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
+}
+
 .app-shell-production .rail-link b {
   min-width: 24px;
   margin: 0;
