@@ -1,0 +1,192 @@
+/* Learning workflow: one shared stylesheet for production and Storybook. */
+.mobile-nav-label,
+.mobile-settings-button,
+.mobile-session-actions { display: none; }
+
+.app-shell-production .study-filters { margin-bottom: 16px; }
+.app-shell-production .study-filters .workbar-controls { justify-content: flex-end; flex-wrap: wrap; }
+.app-shell-production .study-filters .domain-pills { margin-top: 14px; }
+.app-shell-production .workbar { margin-bottom: 14px; }
+.app-shell-production .workbar-heading { flex: 1 1 auto; }
+.app-shell-production .ui-question-viewport > .question-card { min-height: 0; }
+.app-shell-production .question-main { padding: 26px clamp(18px, 3vw, 44px); }
+.app-shell-production .question-main > h2 { font-size: clamp(21px, 2vw, 26px); }
+.app-shell-production .question-main .prompt {
+  max-width: 72ch;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text-primary);
+}
+.app-shell-production .choices { margin-top: 10px; }
+.app-shell-production .ui-answer-option__label { font-size: 15px; line-height: 1.6; }
+.app-shell-production .card-header { flex-wrap: wrap; gap: 12px; padding: 14px 20px; }
+.app-shell-production .card-meta { min-width: 0; flex: 1 1 180px; flex-wrap: wrap; }
+.app-shell-production .card-header-actions { flex: 0 1 auto; flex-wrap: wrap; }
+.app-shell-production #topicPill { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.app-shell-production .ui-icon-button { min-width: 44px; min-height: 44px; }
+.app-shell-production .dashboard-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.app-shell-production .dashboard-grid .dash-card { min-width: 0; }
+.app-shell-production .dashboard-panels:has(> .dashboard-panel[hidden]) { grid-template-columns: minmax(0, 1fr); }
+.app-shell-production .dashboard-grid small { font-size: 12px; line-height: 1.5; }
+.app-shell-production .dashboard-head { padding-bottom: 12px; }
+.dashboard-session-summary { color: var(--color-text-secondary); font-size: 14px; line-height: 1.6; }
+.dashboard-welcome {
+  margin: 0 0 20px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-panel);
+  color: var(--color-text-primary);
+}
+.dashboard-welcome p { margin: 6px 0 0; color: var(--color-text-secondary); line-height: 1.6; }
+#dashboardWeaknessButton { margin-bottom: 20px; }
+.settings-training-field { display: grid; gap: 8px; margin: 16px 0; color: var(--color-text-primary); }
+.settings-training-field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font: inherit;
+}
+.ui-feedback-panel__header { gap: 10px; }
+.ui-feedback-panel__kicker { display: flex; align-items: center; gap: 8px; font-size: 13px; letter-spacing: .02em; }
+.ui-feedback-panel__header > .ui-feedback-panel__section-label { margin-top: 8px; }
+.ui-feedback-panel__context p,
+.ui-feedback-panel__takeaway p { font-size: 15px; line-height: 1.7; }
+.ui-feedback-panel__takeaway {
+  margin-top: 16px;
+  padding: 16px;
+  border-left: 3px solid var(--feedback-tone);
+  border-radius: var(--radius-sm);
+  background: var(--color-panel);
+}
+.ui-feedback-panel__takeaway p { margin: 8px 0 0; color: var(--color-text-primary); white-space: pre-line; }
+.ui-feedback-panel__sources a { min-height: 44px; display: inline-flex; align-items: center; overflow-wrap: anywhere; }
+
+/* Both themes keep their existing semantic palette. */
+html[data-theme='dark'] .mobile-session-actions,
+html[data-theme='dark'] .app-shell-production .app-shell-primary-nav { --learning-divider: var(--color-border); }
+html[data-theme='light'] .mobile-session-actions,
+html[data-theme='light'] .app-shell-production .app-shell-primary-nav { --learning-divider: var(--color-border); }
+
+@media (max-width: 1100px) {
+  .app-shell-production .dashboard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 920px) {
+  :root {
+    --learning-nav-height: calc(70px + env(safe-area-inset-bottom));
+    --learning-actions-height: 100px;
+    scroll-padding-top: 70px;
+    scroll-padding-bottom: calc(var(--learning-nav-height) + var(--learning-actions-height) + 20px);
+  }
+  body.focus-mode { --learning-nav-height: 0px; }
+  .app-shell-production > .rail { height: 0; padding: 0; border: 0; backdrop-filter: none; }
+  .app-shell-production .rail-bottom { display: none; }
+  .app-shell-production .app-shell-primary-nav {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 70;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    height: var(--learning-nav-height);
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+    gap: 4px;
+    overflow: visible;
+    border-top: 1px solid var(--learning-divider, var(--color-border));
+    background: var(--color-background);
+  }
+  .app-shell-production .app-shell-primary-nav .rail-link {
+    width: 100%;
+    min-width: 0;
+    min-height: 52px;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 4px;
+    padding: 6px 2px;
+    line-height: 1.2;
+  }
+  .app-shell-production .app-shell-primary-nav .rail-link > .rail-link-label,
+  .app-shell-production .app-shell-primary-nav .rail-link > b { display: none; }
+  .app-shell-production .app-shell-primary-nav .mobile-nav-label {
+    display: block;
+    width: auto;
+    color: inherit;
+    font-size: 12px;
+    font-weight: 750;
+    text-align: center;
+  }
+  .app-shell-production .mobile-settings-button { display: inline-flex; min-width: 44px; min-height: 44px; padding: 8px; }
+  .app-shell-production .topbar { position: sticky; top: 0; height: 60px; padding-inline: 14px; }
+  .app-shell-production .ui-app-shell__page-heading { flex: 1 1 auto; }
+  .app-shell-production .ui-app-shell__page-heading .eyebrow,
+  .app-shell-production .edition { display: none; }
+  .app-shell-production .top-actions { gap: 6px; flex: 0 0 auto; }
+  .app-shell-production .language-toggle { min-height: 44px; min-width: 64px; }
+  .app-shell-production .production-main { padding: 18px 14px calc(var(--learning-nav-height) + 28px); }
+  body.question-session-active .app-shell-production .production-main {
+    padding-bottom: calc(var(--learning-nav-height) + var(--learning-actions-height) + 30px);
+  }
+  .app-shell-production .workbar { gap: 10px; align-items: stretch; }
+  .app-shell-production .workbar-heading { align-items: flex-start; gap: 10px; }
+  .app-shell-production .workbar-copy h2 { font-size: 24px; }
+  .app-shell-production .workbar-copy p { font-size: 13px; }
+  .app-shell-production #filterToggleButton { align-self: flex-start; min-height: 44px; }
+  .app-shell-production .study-filters {
+    padding: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-background);
+  }
+  .app-shell-production .study-filters .workbar-controls { width: 100%; justify-content: stretch; }
+  .app-shell-production .study-filters .search-wrap { width: 100%; min-height: 44px; flex: 1 1 100%; }
+  .app-shell-production .study-filters .search-wrap input { width: 100%; font-size: 16px; }
+  .app-shell-production .study-filters .soft-button { min-height: 44px; flex: 1 1 auto; }
+  .app-shell-production .study-filters .domain-pills { flex-wrap: wrap; overflow: visible; gap: 8px; }
+  .app-shell-production .study-filters .domain-pills button { min-height: 44px; white-space: normal; }
+  .app-shell-production .ui-question-viewport .card-footer { display: none; }
+  .app-shell-production .mobile-session-actions:not([hidden]) {
+    position: fixed;
+    inset: auto 0 var(--learning-nav-height);
+    z-index: 65;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: 6px 10px;
+    min-height: var(--learning-actions-height);
+    padding: 10px 14px 14px;
+    border-top: 1px solid var(--learning-divider, var(--color-border));
+    background: var(--color-background);
+    box-shadow: 0 -6px 20px color-mix(in srgb, var(--color-background) 80%, transparent);
+  }
+  .mobile-question-position { grid-column: 1 / -1; font-size: 12px; color: var(--color-text-secondary); }
+  .app-shell-production .mobile-session-actions .ui-button { min-height: 44px; min-width: 0; white-space: normal; }
+  .app-shell-production .after-card { flex-wrap: wrap; gap: 8px; }
+  body.question-session-active .toast { bottom: calc(var(--learning-nav-height) + var(--learning-actions-height) + 12px); }
+  .toast { bottom: calc(var(--learning-nav-height) + 12px); }
+  .app-shell-production :where(button, input, select, textarea, a, summary) {
+    scroll-margin-top: 76px;
+    scroll-margin-bottom: calc(var(--learning-nav-height) + var(--learning-actions-height) + 20px);
+  }
+  .app-shell-production .ui-question-viewport .question-main { padding: 20px 16px; }
+  .app-shell-production .dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app-shell-production .dashboard-grid .dash-card:last-child { grid-column: 1 / -1; }
+  .app-shell-production .card-header { padding: 12px 14px; }
+  .app-shell-production .card-meta { flex-basis: 100%; }
+  .app-shell-production .card-header-actions { width: 100%; justify-content: flex-start; }
+  .app-shell-production #statusPill { margin-left: auto; }
+  .app-shell-production .exam-controls { margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+  .app-shell-production .exam-controls button { min-height: 44px; }
+  body.ui-modal-open .mobile-session-actions,
+  body.ui-first-run-open .mobile-session-actions { display: none !important; }
+  body.focus-mode .app-shell-production .workbar { flex-direction: row; }
+  body.focus-mode .app-shell-production .mobile-session-actions { bottom: 0; padding-bottom: max(14px, env(safe-area-inset-bottom)); }
+}
+
+@media (forced-colors: active) {
+  .mobile-session-actions,
+  .app-shell-production .app-shell-primary-nav,
+  .ui-feedback-panel__takeaway { border: 1px solid CanvasText; }
+}

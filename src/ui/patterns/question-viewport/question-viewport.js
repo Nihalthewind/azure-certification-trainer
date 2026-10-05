@@ -15,10 +15,15 @@ export function scrollQuestionIntoView({
   const card = document.querySelector(selector);
   if (!card || card.hidden) return false;
 
+  const stickyHeader = document.querySelector(document.body.classList.contains('focus-mode') ? '.workbar' : '.topbar');
+  const stickyHeight = stickyHeader && getComputedStyle(stickyHeader).position === 'sticky'
+    ? stickyHeader.getBoundingClientRect().height
+    : 0;
+
   const top = computeQuestionScrollTop({
     scrollY: window.scrollY,
     cardTop: card.getBoundingClientRect().top,
-    offset,
+    offset: Math.max(Number(offset) || 0, stickyHeight + 12),
   });
 
   if (smooth) {

@@ -38,3 +38,15 @@ export const WithSourceDetail = {
     provenanceNotes: ['Réponse issue du document fourni.'],
   },
 };
+
+export const LearningSummary = {
+  args: {
+    tone: 'error',
+    kicker: '✕ Réponse incorrecte',
+    takeaway: 'Choisir le scope le plus étroit qui répond au besoin.',
+  },
+};
+
+export const MissingExplanation = {
+  args: { tone: 'reference', context: '', selfGrade: true },
+};

@@ -1,6 +1,12 @@
 const VALID_TONES = new Set(['success', 'error', 'reference']);
 let feedbackSequence = 0;
 
+export function getLearningTakeaway(context = '') {
+  // Reuse the source's first complete sentence; do not invent learning content.
+  const text = String(context).trim();
+  return text.match(/^.*?[.!?](?=\s|$)/s)?.[0] || text.split('\n')[0] || '';
+}
+
 function appendExternalLink(parent, { label = '', url = '' } = {}) {
   if (!url) return;
   const link = document.createElement('a');
@@ -29,6 +35,7 @@ export function createFeedbackPanel({
   kicker = '',
   title = '',
   context = '',
+  takeaway = '',
   sourceDetail = '',
   provenanceNotes = [],
   images = [],
@@ -59,17 +66,33 @@ export function createFeedbackPanel({
   titleEl.className = 'ui-feedback-panel__title';
   titleEl.id = titleId;
   titleEl.textContent = title || 'Consultez la correction.';
-  header.append(kickerEl, titleEl);
+  const answerLabel = document.createElement('div');
+  answerLabel.className = 'ui-feedback-panel__section-label';
+  answerLabel.textContent = safeTone === 'reference' ? 'Correction du support' : 'Bonne réponse';
+  header.append(kickerEl, answerLabel, titleEl);
   root.append(header);
 
-  if (context) {
+  {
     const block = document.createElement('div');
     block.className = 'ui-feedback-panel__context';
     const label = document.createElement('div');
     label.className = 'ui-feedback-panel__section-label';
-    label.textContent = 'Contexte pédagogique';
+    label.textContent = 'Pourquoi';
     const p = document.createElement('p');
-    p.textContent = context;
+    p.textContent = context || 'Le support ne fournit pas d’explication détaillée. Consultez la correction et les sources disponibles.';
+    block.append(label, p);
+    root.append(block);
+  }
+
+  const summary = takeaway || getLearningTakeaway(context);
+  if (summary) {
+    const block = document.createElement('div');
+    block.className = 'ui-feedback-panel__takeaway';
+    const label = document.createElement('div');
+    label.className = 'ui-feedback-panel__section-label';
+    label.textContent = 'À retenir';
+    const p = document.createElement('p');
+    p.textContent = summary;
     block.append(label, p);
     root.append(block);
   }

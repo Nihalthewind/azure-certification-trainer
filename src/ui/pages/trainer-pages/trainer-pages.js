@@ -67,27 +67,37 @@ function panel(title, subtitle = '') {
   return root;
 }
 
-export function createDashboardPage() {
+export function createDashboardPage({ firstRun = false, onStart, onResume } = {}) {
   const root = el('div', 'ui-page ui-page--dashboard');
 
   root.append(sectionHeader(
     'PILOTAGE',
     'Votre progression',
     'Une vue synthétique pour savoir immédiatement où reprendre.',
-    [createButton({ label: 'Travailler mes faiblesses', variant: 'primary', size: 'medium' })],
+    [createButton({ label: firstRun ? 'Commencer une session de 10 questions' : 'Reprendre ma session', variant: 'primary', size: 'medium', onClick: firstRun ? onStart : onResume })],
   ));
 
   const stats = el('div', 'ui-page-stats');
   stats.append(
-    statCard('Questions maîtrisées', '184', '32 % de la banque', 'success'),
-    statCard('Réussite récente', '78 %', '+6 pts sur 7 jours', 'accent'),
-    statCard('À reprendre', '18', 'dont 6 prioritaires', 'error'),
-    statCard('Examens blancs', '4', 'dernier score : 82 %', 'neutral'),
+    statCard('Questions explorées', firstRun ? '0' : '236', 'Sur 568 questions', 'neutral'),
+    statCard('Réussite', firstRun ? '—' : '78 %', firstRun ? 'Après votre première réponse' : 'Sur les questions évaluées', 'accent'),
+    statCard('Questions maîtrisées', firstRun ? '0' : '184', 'Réussies au moins deux fois de suite', 'success'),
+    statCard('Erreurs actives', firstRun ? '0' : '18', firstRun ? 'Aucune erreur active' : 'À retravailler à votre rythme', 'error'),
+    statCard('Examens blancs', firstRun ? '0' : '4', firstRun ? 'Votre premier examen reste à faire' : 'Dernier score : 82 %', 'neutral'),
   );
+
+  if (firstRun) {
+    const welcome = el('div', 'dashboard-welcome');
+    welcome.append(el('strong', '', 'Votre prochaine étape : une session de 10 questions.'), el('p', '', 'Répondez à votre rythme. Votre position et vos réponses sont sauvegardées sur cet appareil.'));
+    root.append(welcome, stats);
+    return root;
+  }
+
+  root.append(el('p', 'dashboard-session-summary', 'Identités et gouvernance · AZ104-042 · position et réponses sauvegardées'));
 
   const grid = el('div', 'ui-page-grid ui-page-grid--dashboard');
 
-  const mastery = panel('Maîtrise par domaine', 'AZ-104');
+  const mastery = panel('Réussite par domaine', 'Questions évaluées · AZ-104');
   const masteryBody = el('div', 'ui-page-panel__body ui-page-progress-list');
   masteryBody.append(
     progressRow('Identités et gouvernance', 82, '82 %'),

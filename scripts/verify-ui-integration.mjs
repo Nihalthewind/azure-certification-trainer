@@ -68,7 +68,7 @@ expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade pro
 expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
 expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
 expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
-expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint14-1"), 'Service worker cache was not bumped for Sprint 14');
+expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint15-learning"), 'Service worker cache was not bumped for Sprint 14');
 expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
 expect(serviceWorker.includes("'./src/ui/components/icon-button/icon-button.js'"), 'Service worker does not cache IconButton');
 expect(serviceWorker.includes("'./src/ui/components/feedback-panel/feedback-panel.js'"), 'Service worker does not cache FeedbackPanel');
@@ -258,4 +258,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, Sprint 14.1 Azure Fluent + PWA install flow covered).`);
+console.log(`UI integration verification passed (${cssImports.length} shared CSS modules checked, learning workflow + semantic answer states covered).`);

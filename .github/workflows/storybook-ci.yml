@@ -24,6 +24,10 @@ jobs:
         run: npm ci
       - name: Check UI
         run: npm run check-ui
+      - name: Install Chromium for UX tests
+        run: npx playwright install --with-deps chromium
+      - name: Test learning workflow
+        run: npm run test-ux
       - name: Build Storybook
         run: npm run build-storybook
       - name: Check diff whitespace
