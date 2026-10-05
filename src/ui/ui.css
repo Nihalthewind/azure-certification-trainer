@@ -34,4 +34,6 @@
 
 @import './integration/azure-fluent.css';
 
+@import './integration/visual-contrast.css';
+
 @import './integration/learning-experience.css';

@@ -1,0 +1,335 @@
+/*
+ * Sprint 14.2 — Visual Contrast & Semantic States.
+ *
+ * This is the final visual guardrail loaded after Azure Fluent. It deliberately
+ * strengthens edges, control affordances and answer-result states without
+ * changing the chosen Fluent/Azure visual language.
+ */
+:root {
+  --ui-control-border: var(--color-border);
+  --ui-control-border-strong: color-mix(in srgb, var(--color-border) 62%, var(--color-text-secondary) 38%);
+  --ui-panel-border: color-mix(in srgb, var(--color-border) 82%, var(--color-text-secondary) 18%);
+  --ui-selected-surface: color-mix(in srgb, var(--color-accent) 12%, var(--color-card));
+  --ui-success-surface: color-mix(in srgb, var(--color-success) 20%, var(--color-card));
+  --ui-error-surface: color-mix(in srgb, var(--color-error) 19%, var(--color-card));
+  --ui-success-edge: color-mix(in srgb, var(--color-success) 84%, var(--color-text-primary) 16%);
+  --ui-error-edge: color-mix(in srgb, var(--color-error) 84%, var(--color-text-primary) 16%);
+}
+
+html[data-theme='light'] {
+  --ui-control-border: #9db5d0;
+  --ui-control-border-strong: #7697bb;
+  --ui-panel-border: #a5bad2;
+  --ui-selected-surface: color-mix(in srgb, var(--color-accent) 13%, #ffffff);
+  --ui-success-surface: color-mix(in srgb, var(--color-success) 20%, #ffffff);
+  --ui-error-surface: color-mix(in srgb, var(--color-error) 18%, #ffffff);
+  --ui-success-edge: #087457;
+  --ui-error-edge: #af2948;
+}
+
+html[data-theme='dark'] {
+  --ui-control-border: #456684;
+  --ui-control-border-strong: #6286a8;
+  --ui-panel-border: #3d5e7c;
+  --ui-selected-surface: color-mix(in srgb, var(--color-accent) 15%, var(--color-card));
+  --ui-success-surface: color-mix(in srgb, var(--color-success) 19%, var(--color-card));
+  --ui-error-surface: color-mix(in srgb, var(--color-error) 18%, var(--color-card));
+  --ui-success-edge: #5ae0ad;
+  --ui-error-edge: #ff7893;
+}
+
+/* Controls: every actionable field must have an edge before hover/focus. */
+.ui-button--ghost {
+  --button-border: color-mix(in srgb, var(--ui-control-border) 68%, transparent);
+  --button-bg: color-mix(in srgb, var(--color-panel) 38%, transparent);
+}
+
+.ui-button--ghost:hover:not(:disabled) {
+  --button-border: color-mix(in srgb, var(--color-accent) 46%, var(--ui-control-border));
+  --button-bg: color-mix(in srgb, var(--color-accent) 7%, var(--color-panel));
+}
+
+:where(
+  .ui-button--secondary,
+  .soft-button,
+  .language-toggle,
+  .ui-icon-button,
+  .domain-pills button,
+  .question-jump,
+  .ui-question-navigator__item,
+  .ui-modal__close,
+  #modal .modal-close,
+  .app-shell-production .training-switcher select,
+  .statement input,
+  .statement select,
+  .ui-modal-demo-field textarea,
+  #modal .modal-field input,
+  #modal .modal-field select,
+  #modal .note-editor textarea,
+  .ux-review-board__field input
+) {
+  border-color: var(--ui-control-border);
+}
+
+html[data-theme='light'] :where(
+  .ui-button--secondary,
+  .soft-button,
+  .language-toggle,
+  .ui-icon-button,
+  .domain-pills button,
+  .question-jump,
+  .ui-question-navigator__item,
+  .app-shell-production .training-switcher select,
+  .statement input,
+  .statement select,
+  .ui-modal-demo-field textarea,
+  #modal .modal-field input,
+  #modal .modal-field select,
+  #modal .note-editor textarea,
+  .ux-review-board__field input
+) {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85), 0 1px 2px rgba(45,75,110,.05);
+}
+
+:where(
+  .ui-button--secondary,
+  .soft-button,
+  .language-toggle,
+  .ui-icon-button,
+  .domain-pills button,
+  .question-jump,
+  .ui-question-navigator__item
+):hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--color-accent) 62%, var(--ui-control-border-strong));
+}
+
+:where(
+  .search-wrap,
+  .ui-workspace-toolbar__search,
+  .navigator-search,
+  .ui-question-navigator__search
+) {
+  border-color: var(--ui-control-border-strong);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ui-control-border) 34%, transparent);
+}
+
+:where(
+  .search-wrap,
+  .ui-workspace-toolbar__search,
+  .navigator-search,
+  .ui-question-navigator__search
+):focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 18%, transparent);
+}
+
+/* Panels: stronger edge hierarchy, especially on the light theme. */
+.app-shell-production :where(
+  .dash-card,
+  .dashboard-panel,
+  .production-settings-group,
+  .production-exam-hero,
+  .production-score-card,
+  .question-card
+),
+:where(.ui-question-card, .ui-modal, .ui-empty-state, .ui-feedback-panel, .ux-review-board__panel) {
+  border-color: var(--ui-panel-border);
+}
+
+html[data-theme='light'] .app-shell-production :where(
+  .dash-card,
+  .dashboard-panel,
+  .production-settings-group,
+  .production-exam-hero,
+  .production-score-card,
+  .question-card
+),
+html[data-theme='light'] :where(.ui-question-card, .ui-modal, .ui-empty-state, .ux-review-board__panel) {
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.78), 0 12px 34px rgba(48,78,112,.085);
+}
+
+/* Navigation counts and active boundaries should be readable without relying on fill alone. */
+:where(.ui-navigation-item__count, .app-shell-production .rail-link b, .status-pill, .edition) {
+  border-color: var(--ui-control-border);
+}
+
+.app-shell-production .rail-link.ui-navigation-item.active,
+.app-shell-production .settings-button.is-active,
+.ui-navigation-item.is-active {
+  border-color: color-mix(in srgb, var(--color-accent) 58%, var(--ui-control-border-strong));
+}
+
+/* Selected before validation: clearly blue, but never confused with correctness. */
+.ui-answer-option.is-selected:not(.is-correct):not(.is-incorrect),
+.choice.selected:not(.correct):not(.incorrect),
+.binary button.selected:not(.correct):not(.incorrect) {
+  border-color: color-mix(in srgb, var(--color-accent) 76%, var(--ui-control-border-strong));
+  background: var(--ui-selected-surface);
+  box-shadow: inset 4px 0 0 color-mix(in srgb, var(--color-accent) 88%, transparent);
+}
+
+/* Entire answer pane becomes semantic after validation. */
+.ui-answer-option.is-correct,
+.ui-answer-option.is-selected.is-correct,
+.choice.correct,
+.binary button.correct {
+  --answer-border: var(--ui-success-edge);
+  --answer-bg: var(--ui-success-surface);
+  --answer-accent: var(--color-success);
+  border: 2px solid var(--ui-success-edge);
+  background: var(--ui-success-surface);
+  box-shadow:
+    inset 5px 0 0 var(--color-success),
+    inset 0 1px 0 color-mix(in srgb, white 16%, transparent),
+    0 7px 20px color-mix(in srgb, var(--color-success) 9%, transparent);
+}
+
+.ui-answer-option.is-incorrect,
+.ui-answer-option.is-selected.is-incorrect,
+.choice.incorrect,
+.binary button.incorrect {
+  --answer-border: var(--ui-error-edge);
+  --answer-bg: var(--ui-error-surface);
+  --answer-accent: var(--color-error);
+  border: 2px solid var(--ui-error-edge);
+  background: var(--ui-error-surface);
+  box-shadow:
+    inset 5px 0 0 var(--color-error),
+    inset 0 1px 0 color-mix(in srgb, white 14%, transparent),
+    0 7px 20px color-mix(in srgb, var(--color-error) 9%, transparent);
+}
+
+.ui-answer-option.is-correct .ui-answer-option__letter,
+.choice.correct .choice-letter {
+  border-color: var(--ui-success-edge);
+  background: var(--color-success);
+  color: #041d16;
+}
+
+.ui-answer-option.is-incorrect .ui-answer-option__letter,
+.choice.incorrect .choice-letter {
+  border-color: var(--ui-error-edge);
+  background: var(--color-error);
+  color: #fff;
+}
+
+html[data-theme='light'] .ui-answer-option.is-correct .ui-answer-option__letter,
+html[data-theme='light'] .choice.correct .choice-letter {
+  color: #fff;
+}
+
+html[data-theme='dark'] .ui-answer-option.is-incorrect .ui-answer-option__letter,
+html[data-theme='dark'] .choice.incorrect .choice-letter {
+  color: #281018;
+}
+
+.choice.correct .choice-check { color: var(--color-success); }
+.choice.incorrect .choice-check { color: var(--color-error); }
+
+.binary button.correct,
+.binary button.incorrect {
+  min-width: 64px;
+  font-weight: 850;
+}
+
+/* Correction panels inherit the same semantic clarity. */
+.ui-feedback-panel--success {
+  border-color: color-mix(in srgb, var(--color-success) 62%, var(--ui-panel-border));
+  border-left-width: 5px;
+  background: color-mix(in srgb, var(--color-success) 10%, var(--color-card));
+}
+
+.ui-feedback-panel--error {
+  border-color: color-mix(in srgb, var(--color-error) 62%, var(--ui-panel-border));
+  border-left-width: 5px;
+  background: color-mix(in srgb, var(--color-error) 9%, var(--color-card));
+}
+
+/* Disabled remains distinguishable without erasing component boundaries. */
+html[data-theme='light'] :where(.ui-button, .ui-icon-button, input, select, textarea):disabled {
+  opacity: .58;
+}
+
+/* Dedicated Storybook contrast board. */
+.contrast-review {
+  min-height: 100vh;
+  padding: clamp(22px, 4vw, 48px);
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-body);
+}
+
+.contrast-review__inner {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 16px;
+}
+
+.contrast-review__header h1 {
+  margin: 0;
+  font: 850 clamp(28px, 5vw, 44px)/1 var(--font-family-display);
+  letter-spacing: -.055em;
+}
+
+.contrast-review__header p {
+  max-width: 760px;
+  margin: 8px 0 0;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.contrast-review__panel {
+  padding: 18px;
+  border: 1px solid var(--ui-panel-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-panel);
+  box-shadow: var(--shadow);
+}
+
+.contrast-review__panel h2 {
+  margin: 0 0 13px;
+  font: 800 14px/1.3 var(--font-family-display);
+}
+
+.contrast-review__row,
+.contrast-review__fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.contrast-review__answers {
+  display: grid;
+  gap: 9px;
+}
+
+.contrast-review__field {
+  min-width: min(300px, 100%);
+  display: grid;
+  gap: 6px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.contrast-review__field input,
+.contrast-review__field select {
+  min-height: 42px;
+  padding: 8px 11px;
+  border: 1px solid var(--ui-control-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-card);
+  color: var(--color-text-primary);
+  font: inherit;
+}
+
+@media (forced-colors: active) {
+  .ui-answer-option.is-correct,
+  .choice.correct,
+  .binary button.correct { border-color: Highlight; }
+
+  .ui-answer-option.is-incorrect,
+  .choice.incorrect,
+  .binary button.incorrect { border-color: Mark; }
+}

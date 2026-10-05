@@ -21,7 +21,7 @@ function expect(condition, message) {
   if (!condition) failures.push(message);
 }
 
-const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss, firstRunCss, appShellProductionCss, uxPolishCss, azureFluentCss, manifestText] = await Promise.all([
+const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss, firstRunCss, appShellProductionCss, uxPolishCss, azureFluentCss, visualContrastCss, answerOptionCss, manifestText] = await Promise.all([
   text('index.html'),
   text('atelier.js'),
   text('src/ui/ui.css'),
@@ -31,6 +31,8 @@ const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss, firstRunCs
   text('src/ui/integration/app-shell-production.css'),
   text('src/ui/integration/ux-polish.css'),
   text('src/ui/integration/azure-fluent.css'),
+  text('src/ui/integration/visual-contrast.css'),
+  text('src/ui/components/answer-option/answer-option.css'),
   text('manifest.webmanifest'),
 ]);
 
@@ -68,7 +70,7 @@ expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade pro
 expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
 expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
 expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
-expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint15-learning"), 'Service worker cache was not bumped for Sprint 14');
+expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint15-learning"), 'Service worker cache was not bumped for Sprint 14.2');
 expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
 expect(serviceWorker.includes("'./src/ui/components/icon-button/icon-button.js'"), 'Service worker does not cache IconButton');
 expect(serviceWorker.includes("'./src/ui/components/feedback-panel/feedback-panel.js'"), 'Service worker does not cache FeedbackPanel');
@@ -251,6 +253,18 @@ const manifest = JSON.parse(manifestText);
 expect(manifest.display === 'standalone', 'Web app manifest is not standalone');
 expect(manifest.start_url === './' && manifest.scope === './', 'Web app manifest start_url/scope are incompatible with GitHub Pages');
 expect(Array.isArray(manifest.icons) && manifest.icons.some(icon => icon.sizes === '192x192') && manifest.icons.some(icon => icon.sizes === '512x512'), 'Web app manifest lacks installable icon sizes');
+
+expect(uiCss.includes("./integration/visual-contrast.css"), 'ui.css does not load Sprint 14.2 visual contrast layer');
+expect(serviceWorker.includes("'./src/ui/integration/visual-contrast.css'"), 'Service worker does not cache Sprint 14.2 visual contrast layer');
+expect(visualContrastCss.includes("html[data-theme='light']") && visualContrastCss.includes("html[data-theme='dark']"), 'Visual contrast layer does not cover both themes');
+expect(visualContrastCss.includes('.ui-answer-option.is-correct') && visualContrastCss.includes('.ui-answer-option.is-incorrect'), 'Answer result surfaces are not semantic across the full option');
+expect(visualContrastCss.includes('border: 2px solid var(--ui-success-edge)') && visualContrastCss.includes('border: 2px solid var(--ui-error-edge)'), 'Correct/incorrect answers do not have strong full-surface edges');
+expect(visualContrastCss.includes('.choice.incorrect .choice-check'), 'Legacy fallback incorrect marker is not red');
+expect(visualContrastCss.includes('.ui-button--ghost'), 'Ghost button hierarchy was not reviewed in Sprint 14.2');
+expect(visualContrastCss.includes('.binary button.incorrect'), 'Binary wrong answer state is not styled');
+expect(atelier.includes("value===true&&!expected?'incorrect':''") && atelier.includes("value===false&&expected?'incorrect':''"), 'Yes/no questions do not mark the selected wrong value as incorrect');
+expect(answerOptionCss.includes('18%, var(--color-card)') && answerOptionCss.includes('17%, var(--color-card)'), 'AnswerOption baseline semantic fill is still too weak');
+expect(azureFluentCss.includes('--border: #a8bfd8') && azureFluentCss.includes('--border: #3a5875'), 'Azure Fluent theme borders were not strengthened');
 
 if (failures.length > 0) {
   console.error(`UI integration verification failed (${failures.length} errors):`);

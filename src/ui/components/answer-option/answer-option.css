@@ -11,7 +11,7 @@
   width: 100%;
   min-height: 54px;
   padding: 11px 14px;
-  border: 1px solid var(--answer-border);
+  border: 1.5px solid var(--answer-border);
   border-radius: var(--radius-sm);
   background: var(--answer-bg);
   color: var(--color-text-primary);
@@ -43,13 +43,13 @@
 
 .ui-answer-option.is-correct {
   --answer-border: var(--color-success);
-  --answer-bg: color-mix(in srgb, var(--color-success) 10%, var(--color-card));
+  --answer-bg: color-mix(in srgb, var(--color-success) 18%, var(--color-card));
   --answer-accent: var(--color-success);
 }
 
 .ui-answer-option.is-incorrect {
   --answer-border: var(--color-error);
-  --answer-bg: color-mix(in srgb, var(--color-error) 9%, var(--color-card));
+  --answer-bg: color-mix(in srgb, var(--color-error) 17%, var(--color-card));
   --answer-accent: var(--color-error);
 }
 
@@ -89,11 +89,18 @@
   font-weight: 900;
 }
 
-.ui-answer-option.is-selected .ui-answer-option__letter,
+.ui-answer-option.is-selected .ui-answer-option__letter {
+  border-color: var(--answer-accent);
+  color: var(--answer-accent);
+  background: color-mix(in srgb, var(--answer-accent) 8%, var(--color-panel));
+}
+
 .ui-answer-option.is-correct .ui-answer-option__letter,
 .ui-answer-option.is-incorrect .ui-answer-option__letter {
   border-color: var(--answer-accent);
-  color: var(--answer-accent);
+  background: var(--answer-accent);
+  color: var(--color-accent-ink);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 25%, transparent);
 }
 
 .ui-answer-option__label {
@@ -159,12 +166,12 @@
 /* Sprint 6 regression guard: result state must always win over selection. */
 .ui-answer-option.is-selected.is-correct {
   --answer-border: var(--color-success);
-  --answer-bg: color-mix(in srgb, var(--color-success) 10%, var(--color-card));
+  --answer-bg: color-mix(in srgb, var(--color-success) 18%, var(--color-card));
   --answer-accent: var(--color-success);
 }
 
 .ui-answer-option.is-selected.is-incorrect {
   --answer-border: var(--color-error);
-  --answer-bg: color-mix(in srgb, var(--color-error) 9%, var(--color-card));
+  --answer-bg: color-mix(in srgb, var(--color-error) 17%, var(--color-card));
   --answer-accent: var(--color-error);
 }
