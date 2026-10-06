@@ -78,37 +78,14 @@ Pour changer de PC ou de navigateur, utiliser **Exporter mes données** puis **I
 
 ## Hébergement GitHub Pages
 
-Point d'entrée principal :
+L’application est publiée à https://nihalthewind.github.io/azure-certification-trainer/.
 
-```text
-index.html
-```
+La branche de livraison est **storybook**. Le workflow **Storybook CI** valide le produit,
+construit uniquement l’application statique dans `dist-pages/`, puis la publie via GitHub Actions.
+Storybook reste un artifact distinct. Aucun push sur `main` ou une branche rescue ne publie l’application.
 
-Le dépôt peut être publié directement avec GitHub Pages depuis :
-
-```text
-Branch : main
-Folder : / (root)
-```
-
-Après une mise à jour, GitHub Pages redéploie automatiquement le site.
-
-### Mise à jour depuis PowerShell
-
-```powershell
-git add -A
-git commit -m "Azure Certification Trainer - mise a jour"
-git pull --rebase origin main
-git push origin main
-```
-
-Si Opera/Chrome affiche encore une ancienne version après déploiement :
-
-```text
-Ctrl + Shift + R
-```
-
-En dernier recours : DevTools -> Application -> Storage -> Clear site data.
+Voir [le guide de publication et de retour arrière](docs/deployment.md).
+Ne jamais effacer les données du site pour actualiser l’application : cela supprime la progression.
 
 ## Fichiers principaux
 

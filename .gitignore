@@ -1,4 +1,5 @@
 node_modules/
+dist-pages/
 storybook-static/
 coverage/
 test-results/

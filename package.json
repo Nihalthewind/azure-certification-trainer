@@ -10,6 +10,8 @@
     "check-ui": "node scripts/verify-ui-integration.mjs",
     "validate": "npm run check-ui && npm run build-storybook && git diff --check",
     "test-ux": "node scripts/verify-learning-workflow.mjs",
+    "build:pages": "node scripts/build-pages.mjs",
+    "test:pages": "node scripts/verify-pages.mjs",
     "figma:export": "node scripts/export-figma-ui.mjs"
   },
   "repository": {
