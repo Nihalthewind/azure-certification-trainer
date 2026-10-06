@@ -23,7 +23,7 @@
 
   async function loadDesignSystem(){
     try{
-      const [answerOption,badge,iconButton,feedbackPanel,answerState,questionViewport,workspaceToolbar,firstRunExperience,icons,modalSurface]=await Promise.all([
+      const [answerOption,badge,iconButton,feedbackPanel,answerState,questionViewport,workspaceToolbar,firstRunExperience,icons,modalSurface,settingsNavigation]=await Promise.all([
         import('./src/ui/components/answer-option/answer-option.js'),
         import('./src/ui/components/badge/badge.js'),
         import('./src/ui/components/icon-button/icon-button.js'),
@@ -34,6 +34,7 @@
         import('./src/ui/patterns/first-run-experience/first-run-experience.js'),
         import('./src/ui/icons/icons.js'),
         import('./src/ui/components/modal-surface/modal-surface.js'),
+        import('./src/ui/patterns/settings-navigation/settings-navigation.js'),
       ]);
       UI={
         createAnswerOption:answerOption.createAnswerOption,
@@ -51,6 +52,7 @@
         createIcon:icons.createIcon,
         applyModalSurface:modalSurface.applyModalSurface,
         trapModalTab:modalSurface.trapModalTab,
+        bindSettingsNavigation:settingsNavigation.bindSettingsNavigation,
       };
       document.documentElement.dataset.uiSystem='sprint13';
       return true;
@@ -151,7 +153,7 @@
   function toast(message){const el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(toast.timeout);toast.timeout=setTimeout(()=>el.classList.remove('show'),4500)}
   const LANGUAGE_KEY=APP_KEY+'-language';
   let interfaceLanguage=localStorage.getItem(LANGUAGE_KEY)==='fr'?'fr':'en',translateLoader=null,translateChromeObserver=null;
-  function updateLanguageToggle(){const b=$('#languageToggle');if(!b)return;b.classList.toggle('is-fr',interfaceLanguage==='fr');b.setAttribute('aria-pressed',String(interfaceLanguage==='fr'));b.innerHTML=interfaceLanguage==='fr'?'FR <span aria-hidden="true">⇄</span> EN':'EN <span aria-hidden="true">⇄</span> FR';b.title=interfaceLanguage==='fr'?'Afficher la version originale en anglais':'Traduire les questions en français'}
+  function updateLanguageToggle(){const b=$('#languageToggle');if(!b)return;b.classList.toggle('is-fr',interfaceLanguage==='fr');b.setAttribute('aria-pressed',String(interfaceLanguage==='fr'));b.innerHTML=interfaceLanguage==='fr'?'FR <span aria-hidden="true">⇄</span> EN':'EN <span aria-hidden="true">⇄</span> FR';b.setAttribute('aria-label',interfaceLanguage==='fr'?'Afficher les questions originales en anglais':'Traduire les questions en français');b.title=interfaceLanguage==='fr'?'Afficher la version originale en anglais':'Traduire les questions en français'}
   function suppressTranslateChrome(){
     const selectors=['iframe.goog-te-banner-frame','iframe[src*="translate.google"]','.VIpgJd-ZVi9od-ORHb-OEVmcd','.goog-te-banner-frame','.goog-te-balloon-frame','#goog-gt-tt'];
     selectors.forEach(sel=>document.querySelectorAll(sel).forEach(el=>{if(el.id==='google_translate_element'||el.closest?.('#google_translate_element'))return;el.style.setProperty('display','none','important');el.style.setProperty('visibility','hidden','important');el.style.setProperty('height','0','important');el.setAttribute('aria-hidden','true')}));
@@ -161,7 +163,7 @@
   function waitForTranslateSelect(timeout=7000){return new Promise((resolve,reject)=>{const started=Date.now();const tick=()=>{suppressTranslateChrome();const sel=document.querySelector('.goog-te-combo');if(sel){resolve(sel);return}if(Date.now()-started>timeout){reject(new Error('Le service de traduction ne répond pas.'));return}setTimeout(tick,100)};tick()})}
   function loadTranslateEngine(){watchTranslateChrome();if(window.google?.translate?.TranslateElement)return Promise.resolve();if(translateLoader)return translateLoader;translateLoader=new Promise((resolve,reject)=>{let settled=false;window.googleTranslateElementInit=()=>{try{new window.google.translate.TranslateElement({pageLanguage:'en',includedLanguages:'en,fr',autoDisplay:false,multilanguagePage:false},'google_translate_element');settled=true;suppressTranslateChrome();resolve()}catch(e){reject(e)}};const script=document.createElement('script');script.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';script.async=true;script.onerror=()=>{if(!settled)reject(new Error('Impossible de charger la traduction. Vérifiez la connexion Internet.'))};document.head.appendChild(script)});return translateLoader}
   async function applyInterfaceLanguage(target,{silent=false}={}){target=target==='fr'?'fr':'en';try{await loadTranslateEngine();const sel=await waitForTranslateSelect();if(sel.value!==target){sel.value=target;sel.dispatchEvent(new Event('change',{bubbles:true}))}interfaceLanguage=target;localStorage.setItem(LANGUAGE_KEY,target);updateLanguageToggle();document.documentElement.lang=target;suppressTranslateChrome();setTimeout(suppressTranslateChrome,50);setTimeout(suppressTranslateChrome,250);setTimeout(suppressTranslateChrome,900);if(!silent)toast(target==='fr'?'Version française activée.':'Version originale anglaise restaurée.')}catch(e){console.warn(e);if(!silent)toast(e.message||'Traduction indisponible.')}}
-  async function toggleInterfaceLanguage(){await applyInterfaceLanguage(interfaceLanguage==='fr'?'en':'fr')}
+  async function toggleInterfaceLanguage(){const button=$('#languageToggle');button.disabled=true;button.setAttribute('aria-busy','true');try{await applyInterfaceLanguage(interfaceLanguage==='fr'?'en':'fr')}finally{button.disabled=false;button.removeAttribute('aria-busy')}}
   function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
   function record(q){if(mode!=='exam'&&state.retrying?.[q.id])return null;const r=mode==='exam'?state.exam?.answers?.[q.id]||null:state.answers[q.id]||null;return q.format==='knowledge'&&r?.read&&typeof r.correct!=='boolean'?null:r}
   function draft(q){return mode==='exam'?state.exam?.drafts?.[q.id]||{}:state.drafts[q.id]||{}}
@@ -381,18 +383,17 @@
     $('#dashboardWelcome').hidden=!!session||!!exam||answered.length>0;
     $('#dashboardWeaknessButton').hidden=!answered.length;
     $('#dashboardCards').innerHTML=[
-      ['Questions explorées',explored,`${Math.round(explored/Math.max(1,bank.length)*100)} % de la banque consultée`,false],
       ['Réussite',rate===null?'—':`${rate}%`,answered.length?`${good} bonnes réponses sur ${answered.length} questions évaluées`:'Répondez à une question pour commencer',false],
       ['Questions maîtrisées',mastered,'Réussies au moins deux fois de suite',false],
       ['Erreurs actives',wrong,wrong?'À retravailler à votre rythme':'Aucune erreur active',false],
-      ['Examens',hist.length,(state.examHistory||[])[0]?`Dernier score : ${state.examHistory[0].percent}%`:'Votre premier examen reste à faire',true],
     ].map(([label,value,detail,history])=>`<article class="dash-card${history?' dash-card-action':''}" ${history?'data-dashboard-history role="button" tabindex="0" aria-label="Ouvrir l’historique des examens"':''}><span>${clean(label)}</span><strong>${clean(value)}</strong><small>${clean(detail)}</small></article>`).join('');
     const stats=domainStatsData().sort((a,b)=>{if(!a.answered&&b.answered)return 1;if(a.answered&&!b.answered)return -1;return a.rate-b.rate||b.bad-a.bad;});
     $('#weakDomainLabel').textContent=stats.some(x=>x.answered)?'Réussite sur les questions évaluées':'Choisissez un domaine pour commencer';
-    $('#domainStats').previousElementSibling.querySelector('h3').textContent='Réussite par domaine';
+    $('#domainStats').previousElementSibling.querySelector('h3').textContent='Vos domaines';
+    $('#dashboardCards').hidden=!answered.length;
     $('#domainStats').innerHTML=stats.map(s=>{
       const status=!s.answered?'À découvrir':s.rate<60?'À renforcer':s.rate<80?'À consolider':'Solide';
-      return `<div class="domain-stat domain-stat-action"><div class="domain-stat-head"><span>${clean(s.label)}</span><div class="domain-stat-score"><em class="domain-strength ${s.answered&&s.rate<60?'is-weak':''}">${clean(status)}</em><b>${s.answered?`${s.rate}%`:'—'}</b></div></div><div class="mini-track"><i style="width:${s.answered?s.rate:0}%"></i></div><div class="domain-stat-foot"><small>${s.answered} évaluées · ${s.bad} erreurs · ${s.total} questions</small><button class="domain-train-button" type="button" data-train-domain="${clean(s.id)}">${s.answered?'Travailler':'Découvrir'}</button></div></div>`;
+      return `<div class="domain-stat domain-stat-action"><div class="domain-stat-copy"><strong>${clean(s.label)}</strong><small>${clean(status)} · ${s.answered?`${s.rate} % de réussite · ${s.answered} évaluées`:`${s.total} questions`}</small></div><button class="domain-train-button ui-button ui-button--secondary ui-button--small" type="button" data-train-domain="${clean(s.id)}">${s.answered?'Travailler':'Découvrir'}</button></div>`;
     }).join('');
     $$('[data-train-domain]').forEach(b=>b.onclick=()=>{mode='study';domain=b.dataset.trainDomain;search='';$('#search').value='';cursor=0;list=[];refresh();focusCurrentQuestion({smooth:true});});
     $('#examHistoryPanel').hidden=!hist.length;
@@ -403,6 +404,7 @@
     const favorites=bank.filter(q=>state.favorites?.[q.id]||state.notes?.[q.id]).slice(0,6);
     $('#favoritePreview').closest('.dashboard-panel').hidden=!favorites.length;$('#favoriteCount').textContent=`${favs} favoris`;
     $('#favoritePreview').innerHTML=favorites.map(q=>`<button class="favorite-item" data-dashboard-q="${clean(q.id)}"><span>${state.favorites?.[q.id]?'★':'✎'}</span><div><b>${clean(q.id)}</b><small>${clean((state.notes?.[q.id]||q.prompt||'').slice(0,95))}</small></div></button>`).join('');
+    $('#dashboardDetails').hidden=!answered.length&&!hist.length&&!queue.length&&!favorites.length;
     $$('[data-dashboard-q]').forEach(b=>b.onclick=()=>openQuestionById(b.dataset.dashboardQ));
     $$('[data-dashboard-history]').forEach(el=>{el.onclick=openExamHistory;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openExamHistory();}};});
   }
@@ -775,7 +777,7 @@
     $('#globalSearch').oninput=e=>{if(['study','weakness','mistakes-session'].includes(mode)){search=e.target.value.trim();$('#search').value=e.target.value;cursor=0;refresh()}};
     $('#globalSearch').onkeydown=e=>{if(e.key==='Enter'&&!['quick','exam'].includes(mode)){e.preventDefault();if(!['study','weakness','mistakes-session'].includes(mode)){mode='study';domain='all'}search=e.target.value.trim();$('#search').value=e.target.value;cursor=0;list=[];const exact=bank.find(q=>norm(q.id)===norm(search));refresh(exact?.id);focusCurrentQuestion()}};
     document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'&&!document.body.classList.contains('ui-modal-open')&&!document.body.classList.contains('ui-first-run-open')&&!document.body.classList.contains('focus-mode')){e.preventDefault();$('#globalSearch').focus()}});
-    $$('[data-settings-target]').forEach(button=>button.onclick=()=>{const group=$(button.dataset.settingsTarget);group.scrollIntoView({block:'start',behavior:'smooth'});group.focus({preventScroll:true});$$('[data-settings-target]').forEach(item=>{const active=item===button;item.classList.toggle('is-active',active);if(active)item.setAttribute('aria-current','true');else item.removeAttribute('aria-current')})});
+    UI.bindSettingsNavigation?.($('#settingsPage'));
     $('#modalClose').onclick=closeModal;$('#modalAction').onclick=async()=>{const fn=modalCallback;if(!fn){closeModal();return}try{await fn();closeModal()}catch(e){console.error(e);toast(e.message||'Opération impossible.')}};$('#modal').onclick=e=>{if(e.target.id==='modal')e.stopPropagation()};$('#modal').addEventListener('keydown',e=>UI.trapModalTab?.(e,$('#modal').querySelector('.modal')));
     document.addEventListener('keydown',e=>{if(document.body.classList.contains('ui-first-run-open'))return;if(e.key==='Escape'){const modal=$('#modal');if(modal&&!modal.hidden){if(modalEscapeClosable)closeModal();return}if(state.examFocus){e.preventDefault();setFocusMode(false);return}if(filtersOpen){e.preventDefault();filtersOpen=false;updateFilterControls();$('#filterToggleButton').focus();return}}if(e.target.closest('input,select,textarea,button'))return;if((e.key==='f'||e.key==='F')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&['study','quick','weakness','mistakes-session','exam'].includes(mode)&&list.length){e.preventDefault();toggleFocus();return}if(e.key==='ArrowRight'){e.preventDefault();move(1)}else if(e.key==='ArrowLeft'){e.preventDefault();move(-1)}else if(e.key==='Enter'&&!$('#submit').disabled){e.preventDefault();submit()}else if(/^[1-9]$/.test(e.key)&&list[cursor]?.options?.length){$(`#choices [data-choice="${Number(e.key)-1}"]`)?.click()}});
     const startId=catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:'az104',startState=currentState(startId),resume=!!startState.exam?.ids?.length;activateTraining(startId,{resumeExam:resume});checkVersion();setTimeout(()=>openOnboarding(),120);if(interfaceLanguage==='fr')setTimeout(()=>applyInterfaceLanguage('fr',{silent:true}),250);if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./service-worker.js').then(()=>updateInstallUi()).catch(console.warn);timer=setInterval(updateClock,1000);

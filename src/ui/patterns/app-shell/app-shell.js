@@ -46,15 +46,23 @@ function createSearch() {
   return label;
 }
 
-function createProfile(onNavigate) {
+function createProfile() {
   const actions = document.createElement('div');
   actions.className = 'ui-app-shell__profile';
 
-  const notification = document.createElement('button');
-  notification.type = 'button';
-  notification.className = 'ui-app-shell__notification';
-  notification.setAttribute('aria-label', 'Paramètres');notification.addEventListener('click',()=>onNavigate?.('settings'));
-  notification.append(createIcon('settings', { size: 18 }));
+  const language = document.createElement('button');
+  language.type = 'button';
+  language.className = 'language-toggle';
+  language.translate = false;
+  language.textContent = 'EN ⇄ FR';
+  language.setAttribute('aria-label', 'Traduire les questions en français');
+  language.setAttribute('aria-pressed', 'false');
+  language.addEventListener('click', () => {
+    const translated = language.getAttribute('aria-pressed') !== 'true';
+    language.setAttribute('aria-pressed', String(translated));
+    language.textContent = translated ? 'FR ⇄ EN' : 'EN ⇄ FR';
+    language.setAttribute('aria-label', translated ? 'Afficher les questions originales en anglais' : 'Traduire les questions en français');
+  });
 
   const avatar = document.createElement('span');
   avatar.className = 'ui-app-shell__avatar';
@@ -64,7 +72,7 @@ function createProfile(onNavigate) {
   copy.className = 'ui-app-shell__profile-copy';
   copy.innerHTML = '<strong>Mon espace</strong><small>Progression locale</small>';
 
-  actions.append(notification, avatar, copy);
+  actions.append(language, avatar, copy);
   return actions;
 }
 
@@ -130,7 +138,7 @@ export function createAppShell({
 
   const topbar = document.createElement('header');
   topbar.className = 'ui-app-shell__topbar';
-  topbar.append(createSearch(), createProfile(onNavigate));
+  topbar.append(createSearch(), createProfile());
 
   const main = document.createElement('main');
   main.className = 'ui-app-shell__main';

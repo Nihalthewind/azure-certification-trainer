@@ -1,20 +1,20 @@
 {
-  "schemaVersion": 1,
-  "name": "Azure Trainer — V2 Minimal",
-  "fileKey": "Xs3HfY4USKunAzd3sHmoXR",
-  "url": "https://www.figma.com/design/Xs3HfY4USKunAzd3sHmoXR",
+  "schemaVersion": 2,
+  "name": "Azure Certification Trainer — Design System",
+  "fileKey": "jKDnAtVtPXQvQ74xVNFUeT",
+  "url": "https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT",
   "branch": "storybook",
   "appVersion": "2.1.0",
   "source": {
-    "archive": "azure-trainer-v2-minimal-source.zip",
-    "archiveSha256": "f43a1f49ed2ea31d4ebca3986a7f6b6cbadd476294cdef937678916f6fee7c36",
-    "codeSha256": "7e21c869b9e7b87b8c094df3f6cdf7ff200e733549c4e117e19a5c942798238d",
+    "codeSha256": "38323b2b2e2fea65644f7cdb6d464a92a76c5e5ea8e68ee78f134b61ba89f3ad",
+    "hashAlgorithm": "SHA-256 of sorted path + NUL + UTF-8 content normalized to LF + NUL",
     "files": [
       ".storybook/main.js",
       ".storybook/preview.js",
       "atelier.js",
       "index.html",
       "package.json",
+      "scripts/verify-account-clarity.mjs",
       "scripts/verify-training-workspace.mjs",
       "service-worker.js",
       "src/ui/README.md",
@@ -47,6 +47,7 @@
       "src/ui/foundations/tokens.css",
       "src/ui/icons/README.md",
       "src/ui/icons/icons.js",
+      "src/ui/integration/account-clarity.css",
       "src/ui/integration/action-icon-polish.css",
       "src/ui/integration/answer-state.js",
       "src/ui/integration/app-shell-production.css",
@@ -78,6 +79,7 @@
       "src/ui/patterns/question-viewport/README.md",
       "src/ui/patterns/question-viewport/question-viewport.css",
       "src/ui/patterns/question-viewport/question-viewport.js",
+      "src/ui/patterns/settings-navigation/settings-navigation.js",
       "src/ui/patterns/workspace-toolbar/README.md",
       "src/ui/patterns/workspace-toolbar/workspace-toolbar.css",
       "src/ui/patterns/workspace-toolbar/workspace-toolbar.js",
@@ -106,686 +108,131 @@
     ]
   },
   "pages": {
-    "source": "0:1",
-    "light": "2:67",
-    "dark": "2:68"
-  },
-  "collection": {
-    "id": "VariableCollectionId:2:2",
-    "modes": {
-      "light": "2:0",
-      "dark": "2:1"
-    }
-  },
-  "variables": {
-    "border": "VariableID:2:3",
-    "space-16": "VariableID:2:4",
-    "ux-focus-ring": "VariableID:2:5",
-    "color-overlay": "VariableID:2:6",
-    "ui-error-surface": "VariableID:2:7",
-    "card": "VariableID:2:8",
-    "ui-success-surface": "VariableID:2:9",
-    "accent": "VariableID:2:10",
-    "fluent-azure": "VariableID:2:11",
-    "space-4": "VariableID:2:12",
-    "fluent-glow": "VariableID:2:13",
-    "fluent-blue": "VariableID:2:14",
-    "space-8": "VariableID:2:15",
-    "ui-selected-surface": "VariableID:2:16",
-    "ui-panel-border": "VariableID:2:17",
-    "bg": "VariableID:2:18",
-    "color-panel": "VariableID:2:19",
-    "color-text-subtle": "VariableID:2:20",
-    "panel": "VariableID:2:21",
-    "color-warning": "VariableID:2:22",
-    "muted": "VariableID:2:23",
-    "color-text-secondary": "VariableID:2:24",
-    "color-focus": "VariableID:2:25",
-    "color-rail": "VariableID:2:26",
-    "ux-control-min": "VariableID:2:27",
-    "color-success": "VariableID:2:28",
-    "rail": "VariableID:2:29",
-    "subtle": "VariableID:2:30",
-    "ui-success-edge": "VariableID:2:31",
-    "space-6": "VariableID:2:32",
-    "fluent-line": "VariableID:2:33",
-    "ux-focus-halo": "VariableID:2:34",
-    "color-accent": "VariableID:2:35",
-    "color-surface": "VariableID:2:36",
-    "accent-ink": "VariableID:2:37",
-    "radius-sm": "VariableID:2:38",
-    "good": "VariableID:2:39",
-    "space-2": "VariableID:2:40",
-    "color-error": "VariableID:2:41",
-    "bad": "VariableID:2:42",
-    "space-3": "VariableID:2:43",
-    "ux-elevated-border": "VariableID:2:44",
-    "v2-content-max": "VariableID:2:45",
-    "ui-control-border-strong": "VariableID:2:46",
-    "color-background": "VariableID:2:47",
-    "v2-rail": "VariableID:2:48",
-    "color-border": "VariableID:2:49",
-    "radius-pill": "VariableID:2:50",
-    "ink": "VariableID:2:51",
-    "space-1": "VariableID:2:52",
-    "v2-gutter": "VariableID:2:53",
-    "ui-error-edge": "VariableID:2:54",
-    "color-card": "VariableID:2:55",
-    "space-12": "VariableID:2:56",
-    "color-info": "VariableID:2:57",
-    "radius-md": "VariableID:2:58",
-    "ux-hover-surface": "VariableID:2:59",
-    "color-accent-ink": "VariableID:2:60",
-    "radius-lg": "VariableID:2:61",
-    "surface": "VariableID:2:62",
-    "color-text-primary": "VariableID:2:63",
-    "v2-topbar": "VariableID:2:64",
-    "fluent-cyan": "VariableID:2:65",
-    "ui-control-border": "VariableID:2:66"
-  },
-  "textStyles": {
-    "Manrope/ExtraBold/13/13": "S:3a26f6a0e606a4de2434e3c4943347eb05530c25,",
-    "Manrope/ExtraBold/14/16.8": "S:ce17eddb0b96a8023643157f3c6f9c9e4b99bb3a,",
-    "DM Sans/Regular/10/15.5": "S:6ccaa8c38b9a34bb1dc8ad1002b1c5d33fb49ae3,",
-    "DM Sans/Medium/14/19.6": "S:2ecd09a6aafc925aa07268f3f17c2bfb55df266e,",
-    "DM Sans/Medium/14/21.7": "S:7724deeac7b0d4dcc43c78b84182739fd8a99eeb,",
-    "DM Sans/Regular/12/16.8": "S:af00d614aeb266ceabfdb35b7eda7a86ed1222ca,",
-    "DM Sans/ExtraBold/10/15.5": "S:2d3ff25975d3d3b123a06ac42729693b27d6027b,",
-    "DM Sans/ExtraBold/8/11.2": "S:3955c6594aa32a1acb085bddb2a6e177121578b5,",
-    "DM Sans/ExtraBold/11/15.4": "S:e42dffc72dcacdba78012c8d334bea41486c9202,",
-    "Manrope/ExtraBold/34/36.72": "S:aac4995c7963f7a59f1fa06cb10d9dd30e2cc883,",
-    "DM Sans/Regular/12/19.2": "S:00adf06a9ce1a48cf12b892e0231ba00ceff5801,",
-    "DM Sans/ExtraBold/12/12": "S:6ea035f57ff0d629b59762edda7866e9d49fb2fa,",
-    "DM Sans/Regular/14/22.4": "S:af107b2392fdca7f6521804e09a13430e55f783c,",
-    "DM Sans/Bold/15/23.25": "S:fe2bf62f1b795cbebd3832ce880a8b3b39456fa4,",
-    "DM Sans/Regular/15/24": "S:c1d2a696c27099841892862f4d808fb28061a5f9,",
-    "DM Sans/ExtraBold/9/13.95": "S:5b32f210ebba0743a18ef4847df3b37963dcf204,",
-    "Manrope/ExtraBold/28/0": "S:8386db0a6b8f2d573bcffe69869c4327ca393bdd,",
-    "DM Sans/Regular/12/18": "S:8b3b35906fd5bbeee7c92bb350e451d4034e5109,",
-    "Manrope/ExtraBold/13/0": "S:9d0b3d99f51d447664d60be14de5d772dcca42e5,",
-    "DM Sans/Bold/11/17.05": "S:2334dea647fda238af029d5fb5c704f346035309,",
-    "DM Sans/ExtraBold/8/12.4": "S:c50b2eb248ae746186c2423b4a37ff5e496636c7,",
-    "DM Sans/ExtraBold/11/17.05": "S:f18ff67c91bd7f97ecd90103caf8d64297cbc017,",
-    "DM Sans/Regular/9/13.95": "S:fa7f7e5347dc3306cd0bb888e9e6e2ead6da69b9,",
-    "Manrope/Bold/17.55/27.2025": "S:0f9197db06eae8928424ca4613c85d7248a7ec7c,",
-    "DM Sans/Bold/14/21.7": "S:867f9d817785855cbadc21a0e5fd367b22e78927,",
-    "Manrope/ExtraBold/30/33": "S:afd19600448e703294e90d16696ed25dc80bce51,",
-    "DM Sans/Regular/12.5/19.375": "S:83309f7b72f3a9df5d73128a8dced41fc02df73c,",
-    "DM Sans/Bold/10/15.5": "S:dc6d7db6e48f069cdb6a2b34837af07087dbe04a,",
-    "DM Sans/Regular/12/18.6": "S:328a15352209013c9a207390dc1fb01653a3fab2,",
-    "DM Sans/ExtraBold/12.6/12.6": "S:dbff522e3c739f078378f3bac332cd319d2676ec,",
-    "Manrope/ExtraBold/22/26.4": "S:1d7bbf4368a1158b6ed09109fd347cdc7e36fba4,",
-    "Manrope/ExtraBold/24/24": "S:f6945cf23ab976353387f2333cbb2bc0913374ef,",
-    "DM Sans/Regular/20/20": "S:1329ac84158d971bc57607e732f4bcc06833782e,",
-    "DM Sans/Bold/12/18.6": "S:e0dc3e04bc840b10bc7d7689d6cfdbe34a3b0313,",
-    "DM Sans/ExtraBold/10/10": "S:faae014179d2b07aadce25684d7b318915e1817e,",
-    "Manrope/ExtraBold/27/35.1": "S:39769312820badb10cd14e386773f6b9542eb890,",
-    "DM Sans/Regular/16/28": "S:36a08945703d7d7ab785fde563a241f00d46bb21,",
-    "DM Sans/ExtraBold/10/14.5": "S:fca5edb295d3b2509dc4f2b95857c406043e5c9a,",
-    "DM Sans/Regular/12/17.4": "S:b52a2c84571aab31c13e66859b98c54406ddd4f7,",
-    "DM Sans/Regular/11/17.05": "S:b44f10e1e23915da5b4c3497f6a97ef7d06747a0,",
-    "Manrope/ExtraBold/15/19.5": "S:ded4989bcea24887076d2187073c952496aad632,",
-    "Manrope/ExtraBold/54/54": "S:241daa092020f5a79fc7b0d056bb44fd117e7690,",
-    "Manrope/ExtraBold/40/40": "S:1971bd6e88df491e24e054da5904f29019a28b65,",
-    "DM Sans/Regular/10/16": "S:c46771e3c340865c474743f8b0756a409c258de9,",
-    "Manrope/ExtraBold/38/38": "S:3e9be82ab02394952658bcf3052c7102962bac0a,",
-    "DM Sans/Regular/8/12.4": "S:e502f70df0997f3c72cbdbf6a86dc5174e89ad0d,",
-    "DM Sans/Bold/9/13.95": "S:ec4f64310d1aebc85863872632477220a904a2d6,",
-    "DM Sans/Regular/16/22.4": "S:23a245ba9ecf87b363202bc37527f4a3852ae9be,",
-    "DM Sans/ExtraBold/10/14": "S:0ffd22dbe523a47ac625d2de88614bc8c409735b,",
-    "Manrope/ExtraBold/28/30.24": "S:a88a72938325623b84ac222b16fb1b4b57b11a74,",
-    "DM Sans/Bold/11/13.2": "S:55c4c390c1a18d7c746704c0612dc75dbdff27b1,",
-    "Manrope/ExtraBold/24/25.92": "S:129dc162f01bd7eb6a7e7aa0becf99e5a26e46d8,",
-    "Manrope/ExtraBold/18/21.6": "S:9f8fae041b24884c8dc082385bc28bc394a9623d,",
-    "Manrope/ExtraBold/20/20": "S:1c3137d5b53c0dbbae74e4463b7038fdf6752083,",
-    "Manrope/ExtraBold/21/27.3": "S:2a47be7a75dc11851c1a953c9ab60c360489ea4b,",
-    "DM Sans/Regular/16/24": "S:126681074fb48f5c79b08af293a0dce44b8d3c24,",
-    "Manrope/ExtraBold/26/26": "S:b5aa32d15d6b61a9e3ac500e8cc89aa0cd197d11,",
-    "DM Sans/SemiBold/13/15.6": "S:a3699a85efdd53ff6cb312c27fefc41d4477dd88,",
-    "Manrope/ExtraBold/13/16.9": "S:a986d1104d7e0b514ee56f32ec525fc82b196502,",
-    "DM Sans/Regular/8.5/12.325": "S:c8fe97840297d724130da79bbe94279fd991385d,",
-    "DM Sans/Regular/15/23.25": "S:1b09f833d69609ba2507b2fea297c8b5d7579d62,",
-    "DM Sans/Regular/15/0": "S:8e6f1e2b43c44b07839ebed183ea40d9b2084dc6,",
-    "Manrope/ExtraBold/30.72/30.72": "S:c37ca5475e89b8dc10e99aa3eb2a1db643111974,",
-    "DM Sans/Bold/10/10": "S:5c0535d21ae1e60eafb8d05c3717f3871e08c614,"
+    "foundations": "0:1",
+    "components": "2:4",
+    "patterns": "6:2",
+    "desktop": "6:3",
+    "responsive": "6:4",
+    "explorations": "2:5"
   },
   "components": {
-    "1b660503.7d2c18e1": "3:55",
-    "b48193fd.3099f821": "3:87",
-    "e91e1e63.3231b041": "3:119",
-    "709b8473.2c0c1501": "3:151",
-    "a07d3961.aad22fe1": "3:183",
-    "93f8efba.ea2083ba": "3:220",
-    "b07d7b4d.c760ac1d": "3:305",
-    "66af0399.16f36ef9": "3:330",
-    "6ce1d7c3.5b1c800d": "3:370",
-    "ee4dbab6.47485dc2": "14:1097",
-    "4ead4adf.55ea681": "7:779",
-    "46dca631.f36efd81": "7:811",
-    "c2e7970a.9d4c38c8": "7:1022",
-    "7f04134b.8037141f": "7:1067",
-    "6d7d4897.edd69763": "7:1351",
-    "ec919fbc.76eb2700": "9:369",
-    "82e02a0.f2fe92b4": "9:398",
-    "2e7db60.63abcfd6": "9:430",
-    "2f232389.de1b1455": "9:459",
-    "67fde4fa.a03e50be": "9:488",
-    "cdfdffab.114874cb": "9:521",
-    "5bd2dc83.ae57fc97": "9:599",
-    "adcfb827.839ef1a3": "9:621",
-    "7201dcf7.68d9a2e5": "9:670",
-    "2994ec9d.3f3921fd": "9:763",
-    "9d7caa6b.cc2cbd31": "9:809",
-    "b94ce2a3.60693c31": "9:826",
-    "767004bf.4b4e8bb1": "9:843",
-    "c4ee1ad.5023e01b": "9:996",
-    "bf1610a0.3c6ad320": "9:1008",
-    "4a507437.a9bf174d": "9:1022",
-    "cbea2aac.b4e34572": "9:1131",
-    "1edba964.78ac27f6": "9:1218",
-    "25f9ed5d.be084775": "9:1250",
-    "6f72006f.fe357609": "9:1398",
-    "6989d7fe.ef8c69de": "10:678",
-    "18d904f5.8f2b11cb": "10:811",
-    "d8e0168c.a29803bc": "11:791",
-    "36cd04f2.8256f12": "11:913",
-    "fa1ea48f.11974dc5": "11:927",
-    "e8e67fe1.23bf7a55": "11:995",
-    "e2bde013.5832f2e7": "11:1023",
-    "ce717600.b28f1340": "11:1051",
-    "7d3ee6d6.e72dd6e4": "11:1121",
-    "5f1acd72.ae2cfb82": "11:1149",
-    "b4f7fa1d.90c6c0f5": "11:1277",
-    "6fea2b6.abd12cf2": "14:849",
-    "e4e29290.d689eeae": "14:901",
-    "f4f07113.2ceb48e1": "14:1276",
-    "9002789e.2db465d2": "14:1306",
-    "ee44c76e.3d739186": "14:1338",
-    "720789da.67cb1244": "14:1370",
-    "2b8ecacf.949eb527": "14:1402",
-    "77d376fc.32defd0c": "14:1434",
-    "93aeeba.d2f5bd4": "15:1043",
-    "632b0b71.f759d2a3": "15:1088",
-    "fc9042.689972a8": "15:1369",
-    "26d0c6ce.e64c18f2": "15:1412",
-    "5a3ffabe.8be150a6": "15:1444",
-    "4d92348.85d4b164": "16:1231",
-    "4b2796f0.4a43c450": "16:1495",
-    "f523c03a.2a3aee60": "16:1507",
-    "20e6a58a.4a050324": "16:1672",
-    "22467f1f.8ec0fc47": "17:1600",
-    "7191274c.22dbdf2c": "17:1954",
-    "a58105a7.558ad39d": "17:2054",
-    "3f4a1522.34c274a": "17:2068",
-    "5a87f5eb.ae12f275": "17:2137",
-    "a68d068e.c10c9240": "17:2399",
-    "7ee9b6d0.7afd7e96": "17:2447",
-    "8a803ec.539e3c4a": "18:2124",
-    "35937b54.c370ee1e": "18:2156",
-    "cc8d48.11ba39dc": "18:2188",
-    "d8c0c245.cca40bbf": "18:2220",
-    "5f7f3ff6.b5bd5d94": "18:2252",
-    "5664a16e.ce0cc872": "18:2376",
-    "17eeb32d.612dc8c5": "18:2421",
-    "83d905b6.fe056d4e": "18:2702",
-    "903cf3f8.2f570a6a": "18:2745",
-    "e6e282b8.379fb23e": "18:2777",
-    "84a7ce4a.2d412352": "18:3190",
-    "f2b12dc3.cf368867": "18:3202",
-    "18884c84.d0d30fbc": "18:3366",
-    "23c51d09.e8217df": "19:2418",
-    "7286f59a.cb7b44b4": "19:2770",
-    "8e1cf367.de5d3d55": "19:2869",
-    "fa21fbe2.ee525302": "19:2883",
-    "d397a59.887063bf": "19:2949",
-    "6d31b12e.cb899bf0": "19:3369",
-    "8ffe551f.8c4932a1": "19:3394",
-    "d7b2248.68b4546c": "19:3433",
-    "348c01e.2bf6ea80": "19:3629",
-    "ef0ab1fb.cf189ba3": "19:3811",
-    "5b55b1a6.93e28590": "19:3843",
-    "a401c6f6.306efb44": "19:3878",
-    "95708cf2.5d990846": "19:3913",
-    "4edb1937.9a4ebd65": "19:3948",
-    "e53d95b4.6be5414e": "19:3983",
-    "f8bbb772.9ce29f56": "20:239",
-    "25f52ba9.4f46c4a1": "20:284",
-    "3f3b8fa.dd246f6a": "20:565",
-    "ebb795a6.9d4d2170": "20:608",
-    "b2ee9af6.5a6c8924": "20:643",
-    "d35a11f.eb51c3a7": "20:793",
-    "3d931e80.c3ea1466": "20:813",
-    "fdaf8893.9038c173": "20:907",
-    "b3503fab.b3f04073": "20:924",
-    "8347b5e7.959805f3": "20:941",
-    "f75af698.da537712": "20:1104",
-    "2cf4cf82.a0f00922": "20:1116",
-    "26cfe574.208addb0": "20:1211",
-    "50ea8f2.a67bca66": "20:1289",
-    "af7ecd37.c34aea45": "20:1662",
-    "f42a69b4.697f4d2e": "20:2019",
-    "fbb8b09f.3b6a95df": "21:763",
-    "a82d463a.d2adc388": "21:777",
-    "c3af88a3.87a715f7": "21:844",
-    "d0a0ae46.334c9c42": "21:1104",
-    "15069638.26baafd4": "21:1152",
-    "f6a71fdb.b22d7ecf": "22:906",
-    "bf4748b4.60cc81c8": "22:1329",
-    "d92bf27c.a013341c": "22:1361",
-    "761a76a0.86ee639e": "22:1393",
-    "cbbab0ed.d0350c3d": "22:1425",
-    "5bce48e.563e9f16": "22:1457",
-    "5fe340c6.38f7c4f0": "22:1581",
-    "87f49845.2e015cc7": "22:1626",
-    "a17d076e.a4b9318c": "22:1907",
-    "c20e2c90.5ae00ba8": "22:1950",
-    "4e1f0130.967fb4fc": "22:1982",
-    "a406aab2.5b877c10": "23:1504",
-    "f232eb6b.d4456f25": "23:1516",
-    "5ad926ac.ca42d9be": "23:1680",
-    "d0d2f0e7.6ae7e54b": "23:1805",
-    "26028201.f24ff61d": "23:2055",
-    "37e845cd.c2e59209": "23:2164",
-    "9cc31302.5f4be2f6": "23:2413",
-    "aa2dda8f.dd9abe17": "23:2512",
-    "882d1a4a.5c0631c0": "23:2526",
-    "d7db4b01.3f1a83ef": "23:2592",
-    "5d53043b.5a653ba5": "23:2620",
-    "c6872448.9342b82": "23:2648",
-    "82b0f23e.b8257fa6": "23:2715",
-    "601fa8ba.d964340": "23:2743",
-    "d6ac1125.63f3a1b7": "23:2869",
-    "d8a0688.7c8402e2": "24:1690",
-    "76d3f8f8.50c1436": "24:1719",
-    "ec7f70cc.4347f2b4": "24:1748",
-    "2b6b21c1.f325f957": "24:1777",
-    "5f08b362.764930bc": "24:1806",
-    "64c775d3.33fad8c9": "24:1839",
-    "b8aa9ffb.7f0de395": "24:1917",
-    "6285f3e4.3eff7d42": "24:2395",
-    "8e7e65cc.39ae5996": "24:2424",
-    "2dfa2329.9ba3bf5b": "24:2633",
-    "5aedf45a.e40caaec": "24:2678",
-    "e40e1f9f.d7cbdda1": "24:2959",
-    "61ffd8.1505a154": "24:3046",
-    "6d980a55.edf523bf": "24:3295",
-    "4daa5265.322eff59": "24:3493",
-    "7da2c298.98480aa2": "24:3505",
-    "71b047ef.d57b9f0f": "24:3519",
-    "9cf20845.ab7cbeb7": "25:2194",
-    "a74eeef6.108e581c": "25:2611",
-    "ee85a394.8e1b533e": "25:3013",
-    "b0837b9a.7652ae50": "25:3134",
-    "37a78037.e597af07": "25:3148",
-    "90460879.ebf5b985": "25:3214"
-  },
-  "icons": {
-    "53aa54b8.948107f8": "3:47",
-    "3de94c0b.c1cf6cf9": "3:80",
-    "b5f21ef.d43b309d": "3:112",
-    "3aa2afce.eede73ca": "3:144",
-    "3aef5a15.edfaad67": "3:176",
-    "5e00825b.887d0ac1": "3:211",
-    "1ada3e17.361bdeb1": "3:254",
-    "b1f5efc7.768350cd": "3:327",
-    "1051b803.1e7cca89": "7:804",
-    "9194723f.88996ded": "9:423",
-    "e82f4882.fc2894c": "9:806",
-    "ffd0ead9.293f5949": "9:823",
-    "1f2df322.abae991c": "9:840",
-    "a791f4c0.aae93c5a": "9:1243",
-    "f94beb31.6c4634d7": "10:671",
-    "4b7a8067.37967d35": "19:3348",
-    "efd33d65.b5ff247b": "19:3391",
-    "c57076f2.21fe27b2": "19:3808",
-    "dd93cb5f.4fd31831": "19:3834",
-    "ccf96de2.959c18a": "19:3869",
-    "f3c241be.c8e7e7ee": "19:3904",
-    "c9119721.46461fd9": "19:3939",
-    "8e1722dc.36869ad4": "19:3974",
-    "d5022a18.e809fa40": "20:634",
-    "e62c1ca2.d5cdae40": "20:904",
-    "554bd892.3793fcc0": "20:921",
-    "ef462efc.b48cf1d2": "20:938",
-    "75371494.619f9fa4": "20:1280",
-    "49f08d7.78f72313": "20:1653",
-    "b6addf36.2b4c949e": "20:2010"
-  },
-  "screens": [
-    {
-      "id": "7:125",
-      "name": "dashboard / 1440px / light",
-      "mode": "dashboard",
-      "theme": "light",
-      "width": 1440
-    },
-    {
-      "id": "7:733",
-      "name": "path / 1440px / light",
-      "mode": "path",
-      "theme": "light",
-      "width": 1440
-    },
-    {
-      "id": "9:323",
-      "name": "study / 1440px / light",
-      "mode": "study",
-      "theme": "light",
-      "width": 1440
-    },
-    {
-      "id": "9:1142",
-      "name": "exam / 1440px / light",
-      "mode": "exam",
-      "theme": "light",
-      "width": 1440
-    },
-    {
-      "id": "10:569",
-      "name": "mistakes / 1440px / light",
-      "mode": "mistakes",
-      "theme": "light",
-      "width": 1440
-    },
-    {
-      "id": "11:666",
-      "name": "settings / 1440px / light",
-      "mode": "settings",
-      "theme": "light",
-      "width": 1440
-    },
-    {
-      "id": "14:807",
-      "name": "dashboard / 390px / light",
-      "mode": "dashboard",
-      "theme": "light",
-      "width": 390
-    },
-    {
-      "id": "15:934",
-      "name": "path / 390px / light",
-      "mode": "path",
-      "theme": "light",
-      "width": 390
-    },
-    {
-      "id": "16:1137",
-      "name": "study / 390px / light",
-      "mode": "study",
-      "theme": "light",
-      "width": 390
-    },
-    {
-      "id": "17:1277",
-      "name": "exam / 390px / light",
-      "mode": "exam",
-      "theme": "light",
-      "width": 390
-    },
-    {
-      "id": "17:1632",
-      "name": "mistakes / 390px / light",
-      "mode": "mistakes",
-      "theme": "light",
-      "width": 390
-    },
-    {
-      "id": "17:1970",
-      "name": "settings / 390px / light",
-      "mode": "settings",
-      "theme": "light",
-      "width": 390
-    },
-    {
-      "id": "18:1627",
-      "name": "dashboard / 768px / light",
-      "mode": "dashboard",
-      "theme": "light",
-      "width": 768
-    },
-    {
-      "id": "18:2268",
-      "name": "path / 768px / light",
-      "mode": "path",
-      "theme": "light",
-      "width": 768
-    },
-    {
-      "id": "18:2841",
-      "name": "study / 768px / light",
-      "mode": "study",
-      "theme": "light",
-      "width": 768
-    },
-    {
-      "id": "19:2096",
-      "name": "exam / 768px / light",
-      "mode": "exam",
-      "theme": "light",
-      "width": 768
-    },
-    {
-      "id": "19:2450",
-      "name": "mistakes / 768px / light",
-      "mode": "mistakes",
-      "theme": "light",
-      "width": 768
-    },
-    {
-      "id": "19:2786",
-      "name": "settings / 768px / light",
-      "mode": "settings",
-      "theme": "light",
-      "width": 768
-    },
-    {
-      "id": "19:3326",
-      "name": "dashboard / 390px / dark",
-      "mode": "dashboard",
-      "theme": "dark",
-      "width": 390
-    },
-    {
-      "id": "20:130",
-      "name": "path / 390px / dark",
-      "mode": "path",
-      "theme": "dark",
-      "width": 390
-    },
-    {
-      "id": "20:707",
-      "name": "study / 390px / dark",
-      "mode": "study",
-      "theme": "dark",
-      "width": 390
-    },
-    {
-      "id": "20:1337",
-      "name": "exam / 390px / dark",
-      "mode": "exam",
-      "theme": "dark",
-      "width": 390
-    },
-    {
-      "id": "20:1694",
-      "name": "mistakes / 390px / dark",
-      "mode": "mistakes",
-      "theme": "dark",
-      "width": 390
-    },
-    {
-      "id": "21:680",
-      "name": "settings / 390px / dark",
-      "mode": "settings",
-      "theme": "dark",
-      "width": 390
-    },
-    {
-      "id": "22:826",
-      "name": "dashboard / 768px / dark",
-      "mode": "dashboard",
-      "theme": "dark",
-      "width": 768
-    },
-    {
-      "id": "22:1473",
-      "name": "path / 768px / dark",
-      "mode": "path",
-      "theme": "dark",
-      "width": 768
-    },
-    {
-      "id": "23:1155",
-      "name": "study / 768px / dark",
-      "mode": "study",
-      "theme": "dark",
-      "width": 768
-    },
-    {
-      "id": "23:1728",
-      "name": "exam / 768px / dark",
-      "mode": "exam",
-      "theme": "dark",
-      "width": 768
-    },
-    {
-      "id": "23:2087",
-      "name": "mistakes / 768px / dark",
-      "mode": "mistakes",
-      "theme": "dark",
-      "width": 768
-    },
-    {
-      "id": "23:2429",
-      "name": "settings / 768px / dark",
-      "mode": "settings",
-      "theme": "dark",
-      "width": 768
-    },
-    {
-      "id": "24:1644",
-      "name": "dashboard / 1440px / dark",
-      "mode": "dashboard",
-      "theme": "dark",
-      "width": 1440
-    },
-    {
-      "id": "24:2349",
-      "name": "path / 1440px / dark",
-      "mode": "path",
-      "theme": "dark",
-      "width": 1440
-    },
-    {
-      "id": "24:2970",
-      "name": "study / 1440px / dark",
-      "mode": "study",
-      "theme": "dark",
-      "width": 1440
-    },
-    {
-      "id": "25:2103",
-      "name": "exam / 1440px / dark",
-      "mode": "exam",
-      "theme": "dark",
-      "width": 1440
-    },
-    {
-      "id": "25:2505",
-      "name": "mistakes / 1440px / dark",
-      "mode": "mistakes",
-      "theme": "dark",
-      "width": 1440
-    },
-    {
-      "id": "25:2888",
-      "name": "settings / 1440px / dark",
-      "mode": "settings",
-      "theme": "dark",
-      "width": 1440
-    }
-  ],
-  "codeMapping": {
-    "tokens": "src/ui/integration/v2-minimal.css",
-    "sharedCss": "src/ui/ui.css",
-    "shell": "src/ui/patterns/app-shell/app-shell.js",
-    "pages": "src/ui/pages/trainer-pages/trainer-pages.js",
-    "icons": "src/ui/icons/icons.js",
-    "storyPages": "stories/pages/AzureTrainerPages.stories.js"
-  },
-  "referenceCommand": "npm run figma:export",
-  "validationCommands": [
-    "npm run test-ux",
-    "npm run validate"
-  ],
-  "trainingWorkspace": {
-    "revision": "Entraînement V2 — workspace UX",
-    "themes": [
-      "light",
-      "dark"
-    ],
-    "widths": [
-      390,
-      768,
-      1440
-    ],
-    "frames": {
-      "light": {
-        "390": "16:1137",
-        "768": "18:2841",
-        "1440": "9:323"
-      },
-      "dark": {
-        "390": "20:707",
-        "768": "23:1155",
-        "1440": "24:2970"
-      }
+    "button": {
+      "primary": "12:63",
+      "secondary": "12:73",
+      "ghost": "12:83"
     },
     "answerOption": {
-      "componentSet": "38:2461",
-      "states": {
-        "Default": "38:2456",
-        "Hover": "38:2457",
-        "Selected": "38:2458",
-        "Correct": "38:2459",
-        "Incorrect": "38:2460"
+      "default": "15:102",
+      "selected": "15:107"
+    },
+    "navigation": {
+      "homeActive": "30:2595",
+      "settings": "30:2691"
+    },
+    "search": "30:2713"
+  },
+  "variables": {
+    "theme": "VariableCollectionId:8:31",
+    "scale": "VariableCollectionId:8:49",
+    "typography": "VariableCollectionId:8:62",
+    "componentColor": "VariableCollectionId:12:2"
+  },
+  "accountClarity": {
+    "revision": "Account clarity",
+    "scope": [
+      "Accueil",
+      "Paramètres",
+      "Langue et profil",
+      "Accès unique aux paramètres"
+    ],
+    "frames": {
+      "dashboard": {
+        "light": {
+          "390": "78:862",
+          "768": "78:1049",
+          "1440": "75:551"
+        },
+        "dark": {
+          "390": "78:1582",
+          "768": "78:1792",
+          "1440": "75:911"
+        }
       },
-      "previews": {
-        "light": "53:2",
-        "dark": "53:38"
+      "settings": {
+        "light": {
+          "390": "78:1236",
+          "768": "78:1409",
+          "1440": "75:747"
+        },
+        "dark": {
+          "390": "78:2002",
+          "768": "78:2175",
+          "1440": "75:1110"
+        }
       }
     },
-    "layout": {
-      "sidebar": 200,
-      "topbar": 64,
-      "searchMax": 480,
-      "rightRail": 256,
-      "questionPaddingToken": "space-4",
-      "answerPaddingToken": "space-3",
-      "selectedSurfaceToken": "ux-hover-surface",
-      "rightCards": [
-        "Ma note rapide",
-        "Prochaine étape"
-      ]
+    "settingsCategories": {
+      "formations": {
+        "light": "77:503",
+        "dark": "77:996"
+      },
+      "data": {
+        "light": "77:676",
+        "dark": "77:1167"
+      },
+      "application": {
+        "light": "77:838",
+        "dark": "77:1329"
+      }
     },
     "stories": [
-      "Pages/Azure Trainer V2/EntrainementLight",
-      "Pages/Azure Trainer V2/EntrainementDark",
-      "Pages/Azure Trainer V2/TabletEntrainementLight",
-      "Pages/Azure Trainer V2/TabletEntrainementDark",
-      "Pages/Azure Trainer V2/MobileEntrainement",
-      "Pages/Azure Trainer V2/MobileEntrainementDark",
-      "Components/AnswerOption/Hover",
-      "Components/AnswerOption/SelectedLight",
-      "Components/AnswerOption/SelectedDark"
+      "AccueilLight",
+      "AccueilDark",
+      "AccueilPremierUsage",
+      "ParametresLight",
+      "ParametresDark",
+      "MobileAccueilLight",
+      "MobileAccueilDark",
+      "TabletAccueilLight",
+      "TabletAccueilDark",
+      "MobileParametresLight",
+      "MobileParametresDark",
+      "TabletParametresLight",
+      "TabletParametresDark",
+      "ParametresFormationsLight",
+      "ParametresFormationsDark",
+      "ParametresDonneesLight",
+      "ParametresDonneesDark",
+      "ParametresApplicationLight",
+      "ParametresApplicationDark"
     ],
-    "badge": {
-      "componentSet": "55:2551",
-      "tones": {
-        "Accent": "55:2549",
-        "Neutral": "55:2550"
+    "patterns": [
+      {
+        "library": "Material 3",
+        "pattern": "List item / primary and supporting text with trailing action",
+        "use": "Adaptation to Azure Trainer rows with existing Theme and spacing tokens; no additional UI dependency."
       }
+    ],
+    "preservation": "Original Figma frames are retained unchanged. Revisions contain editable Auto Layout, text and existing Button instances. Question engines, stored progress and current GitHub Pages deployment are preserved.",
+    "checks": [
+      "npm run validate",
+      "npm run test-ux",
+      "node scripts/verify-account-clarity.mjs",
+      "node scripts/verify-training-workspace.mjs"
+    ],
+    "recovery": {
+      "base": "6034d3458ef5df05043e0e0651f1ea5dc864a7cf",
+      "source": "2efdb2524a76046c0391474902f74a0ce0170e65",
+      "audit": "docs/recovery-2026-10-06.md",
+      "method": "Explicit reviewed file restoration; no merge or cherry-pick of WIP history"
     },
-    "revisionAnnotation": "60:62"
+    "revisionAnnotation": "104:262"
+  },
+  "previousImport": {
+    "registry": "figma/imported-v2-reference.json",
+    "fileKey": "Xs3HfY4USKunAzd3sHmoXR",
+    "url": "https://www.figma.com/design/Xs3HfY4USKunAzd3sHmoXR",
+    "commit": "6034d3458ef5df05043e0e0651f1ea5dc864a7cf",
+    "purpose": "Historical V2 import and training workspace reference; main design decisions now use this registry’s primary Design System."
   }
 }

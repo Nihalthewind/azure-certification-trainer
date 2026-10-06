@@ -93,7 +93,8 @@ try {
       assert.equal(await page.locator('#questionId').innerText(), 'T1-Q2', 'Reload lost the saved session position');
       assert.deepEqual((await storedState(page)).answers, beforeResume.answers, 'Reload lost the answers');
       if (width <= 920) {
-        await page.locator('#mobileSettingsButton').click();
+        await page.locator('#settingsButton').click();
+        await page.locator('[data-settings-target="#trainingSettings"]').click();
         assert(await page.locator('#settingsTrainingSelect').isVisible());
         await page.locator('.rail-link[data-mode="study"]').click();
         await page.locator('#focusToggleButton').click();
@@ -132,9 +133,11 @@ try {
       await page.locator('#globalSearch').press('Enter');
       assert.equal(await page.locator('#questionId').innerText(), 'T1-Q1');
       assert.equal((await storedState(page)).studySession.search, 'T1-Q1');
-      await page.locator('#mobileSettingsButton').click();
+      await page.locator('#settingsButton').click();
       await page.locator('[data-settings-target="#dataSettings"]').click();
-      assert(await page.locator('#dataSettings').evaluate(el => el === document.activeElement));
+      assert(await page.locator('#dataSettings').isVisible());
+      assert.equal(await page.locator('[data-settings-target="#dataSettings"]').getAttribute('aria-selected'), 'true');
+      await page.locator('[data-settings-target="#trainingSettings"]').click();
       await page.locator('#settingsTrainingSelect').selectOption('az305');
       await page.locator('.rail-link[data-mode="path"]').click();
       assert.match(await page.locator('#pathSubtitle').innerText(), /AZ-305/);

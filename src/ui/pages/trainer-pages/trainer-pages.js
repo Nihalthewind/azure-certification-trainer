@@ -1,5 +1,6 @@
 import { createButton } from '../../components/button/button.js';
 import { createBadge } from '../../components/badge/badge.js';
+import { bindSettingsNavigation } from '../../patterns/settings-navigation/settings-navigation.js';
 import { createQuestionCard } from '../../patterns/question-card/question-card.js';
 
 function el(tag, className = '', text = '') {
@@ -63,42 +64,45 @@ function moduleRow(index, title, status, value, active = false) {
 export function createDashboardPage({ firstRun = false, onStart, onResume } = {}) {
   const root = pageRoot('dashboard');
   const hero = card('ui-v2-resume');
-  const left = el('div', 'ui-v2-stack');
-  const meta = el('div', 'ui-v2-inline');
-  meta.append(badge('AZ-104', 'accent'), badge(firstRun ? 'Première session' : 'Session sauvegardée'));
-  left.append(meta, el('h2', '', 'Gestion des identités et des accès'), el('p', '', firstRun ? 'Commencez par 10 questions. Vos résultats et votre position sont sauvegardés sur cet appareil.' : 'Vous étiez sur la question 12. Continuez votre session sans perdre le fil.'));
+  const copy = el('div', 'ui-v2-stack');
+  copy.append(el('h2', '', 'Votre prochaine session'), el('p', '', firstRun ? 'AZ-104 · 0 question explorée sur 568' : 'AZ-104 · 124 questions explorées sur 568'), el('p', '', firstRun ? 'Commencez par 10 questions. Vos résultats et votre position sont sauvegardés sur cet appareil.' : 'Identités et gouvernance · Question 12 · position et réponses sauvegardées'));
   const action = el('div', 'ui-v2-resume__action');
-  action.append(el('strong', '', firstRun ? '0 %' : '68 %'), createButton({ label: firstRun ? 'Commencer une session de 10 questions' : 'Reprendre ma session', variant: 'primary', onClick: firstRun ? onStart : onResume }));
-  hero.append(left, action);
-
-  const stats = el('div', 'ui-v2-stats');
-  stats.append(
-    statCard('Questions explorées', firstRun ? '0' : '124', 'sur 568 questions'),
-    statCard('Réussite', firstRun ? '—' : '83 %', firstRun ? 'Répondez à une question pour commencer' : 'sur les questions évaluées'),
-    statCard('Questions maîtrisées', firstRun ? '0' : '42', 'Réussies au moins deux fois de suite'),
-    statCard('Erreurs actives', firstRun ? '0' : '6', 'À reprendre'),
-    statCard('Examens', firstRun ? '0' : '2', 'Examens terminés'),
-  );
-
-  const lower = el('div', 'ui-v2-two-col');
-  const modules = card('ui-v2-panel');
-  const mh = el('div', 'ui-v2-panel__head');
-  mh.append(el('h2', '', 'Parcours AZ-104'), el('button', 'ui-v2-link', 'Voir le parcours →'));
-  modules.append(mh,
-    moduleRow(1, 'Identités et gouvernance', 'En cours', '82 %', true),
-    moduleRow(2, 'Stockage', 'Consolidé', '76 %'),
-    moduleRow(3, 'Calcul Azure', 'À renforcer', '64 %'),
-    moduleRow(4, 'Réseaux virtuels', 'À renforcer', '58 %'),
-  );
-
-  const aside = el('div', 'ui-v2-aside-stack');
-  const objective = card();
-  objective.append(el('h3', '', 'Objectif de la semaine'), el('strong', 'ui-v2-big', '60 questions'), el('p', '', '38 terminées · encore 22'), progress(63));
-  const next = card();
-  next.append(el('h3', '', 'Prochaine étape'), badge('Module 6', 'accent'), el('h2', '', 'Configurer et gérer les réseaux virtuels'), el('p', '', '12 questions ciblées pour consolider le prochain domaine.'), createButton({ label: 'Commencer', variant: 'secondary' }));
-  aside.append(objective, next);
-  lower.append(modules, aside);
-  root.append(hero, stats);if(!firstRun)root.append(lower);
+  action.append(createButton({ label: firstRun ? 'Commencer une session de 10 questions' : 'Reprendre ma session', variant: 'primary', onClick: firstRun ? onStart : onResume }));
+  hero.append(copy, action);
+  root.append(hero);
+  if (!firstRun) {
+    const stats = el('div', 'ui-v2-stats');
+    stats.append(statCard('Réussite', '83 %', 'sur les questions évaluées'), statCard('Questions maîtrisées', '42', 'réussies deux fois de suite'), statCard('Erreurs actives', '6', 'à reprendre à votre rythme'));
+    root.append(stats);
+  }
+  const domains = card('dashboard-domains');
+  const head = el('div', 'panel-title');
+  head.append(el('h3', '', 'Vos domaines'), el('span', '', firstRun ? 'Choisissez un domaine pour commencer' : 'Réussite sur les questions évaluées'));
+  const rows = el('div', 'domain-stats');
+  const fixture = [
+    ['Identités et gouvernance', 'À consolider · 82 % de réussite · 28 évaluées'],
+    ['Stockage', 'À consolider · 76 % de réussite · 25 évaluées'],
+    ['Calcul Azure', 'À consolider · 64 % de réussite · 22 évaluées'],
+    ['Réseaux virtuels', 'À renforcer · 58 % de réussite · 31 évaluées'],
+    ['Surveillance et sauvegarde', 'À découvrir · 98 questions'],
+  ];
+  fixture.forEach(([label, detail]) => {
+    const row = el('div', 'domain-stat');
+    const text = el('div', 'domain-stat-copy');
+    const unexplored = firstRun || detail.startsWith('À découvrir');
+    text.append(el('strong', '', label), el('small', '', firstRun ? 'À découvrir · 98 questions' : detail));
+    const button = createButton({ label: unexplored ? 'Découvrir' : 'Travailler', variant: 'secondary', size: 'small', onClick: onStart });
+    button.classList.add('domain-train-button');
+    row.append(text, button); rows.append(row);
+  });
+  domains.append(head, rows);root.append(domains);
+  if (!firstRun) {
+    const details = el('details', 'dashboard-details');
+    details.append(el('summary', '', 'Historique, favoris et questions à reprendre'));
+    const resources = el('div', 'ui-v2-stack');
+    resources.append(el('p', '', '2 examens terminés · 6 questions à reprendre · 4 favoris'), createButton({ label: 'Ouvrir mes révisions', variant: 'secondary', onClick: onStart }));
+    details.append(resources);root.append(details);
+  }
   return root;
 }
 
@@ -274,43 +278,59 @@ export function createExamPage() {
   return root;
 }
 
-export function createSettingsPage() {
+export function createSettingsPage({ category = 'appearance' } = {}) {
   const root = pageRoot('settings');
-  const layout = el('div', 'ui-v2-settings');
-  const nav = card('ui-v2-settings__nav');
-  ['Apparence', 'Apprentissage', 'Notifications', 'Données', 'Compte'].forEach((label, index) => {
-    nav.append(el('button', `ui-v2-settings__tab${index === 0 ? ' is-active' : ''}`, label));
+  const layout = el('div', 'production-settings-grid');
+  const nav = el('nav', 'v2-settings-menu');
+  nav.setAttribute('role', 'tablist');nav.setAttribute('aria-label', 'Catégories des paramètres');
+  const groups = [
+    ['appearance', 'Apparence', 'Adaptez l’interface à votre façon de travailler.', [
+      ['Thème', document.documentElement.dataset.theme === 'dark' ? 'Thème sombre actif. Passez en clair pour les environnements lumineux.' : 'Thème clair actif. Passez en sombre pour réduire la luminance.', document.documentElement.dataset.theme === 'dark' ? 'Passer en clair' : 'Passer en sombre'],
+      ['Mode Focus', 'Ouvrez directement la Base de connaissances sans éléments secondaires.', 'Ouvrir en Focus'],
+      ['Introduction', 'Revoyez le parcours d’accueil et les fonctions principales.', 'Revoir'],
+    ]],
+    ['training', 'Formations', 'Gérez les banques disponibles sur cet appareil.', [
+      ['Importer une formation', 'Ajoutez une banque compatible depuis un fichier.', 'Importer'],
+      ['Gérer les formations', 'Consultez les formations installées et leur version.', 'Gérer'],
+    ]],
+    ['data', 'Données', 'Votre progression reste sous votre contrôle.', [
+      ['Exporter mes données', 'Sauvegardez progression, favoris, notes et historique.', 'Exporter'],
+      ['Importer mes données', 'Restaurez une sauvegarde précédemment exportée.', 'Importer'],
+    ]],
+    ['app', 'Application', 'Installation et informations de version.', [
+      ['Installer l’application', 'Ajoutez Azure Trainer comme application sur cet appareil.', 'Installer'],
+      ['Version', 'Version actuellement chargée.', 'v2.1.0'],
+    ]],
+  ];
+  groups.forEach(([id, label, description, rows]) => {
+    const panel = el('section', 'production-settings-group');panel.id = 'storySettings-' + id;
+    const tab = el('button', 'v2-settings-menu__item', label);tab.type = 'button';tab.dataset.settingsTarget = '#' + panel.id;nav.append(tab);
+    const head = el('div', 'production-settings-group-head');head.append(el('h3', '', label), el('p', '', description));panel.append(head);
+    if (id === 'training') {
+      const field = el('label', 'settings-training-field', 'Formation active');
+      const select = el('select');select.setAttribute('aria-label', 'Formation active');
+      for (const code of ['AZ-104', 'AZ-305']) select.append(el('option', '', code));field.append(select);panel.append(field);
+    }
+    const body = el('div', 'production-settings-group-body');
+    rows.forEach(([title, detail, action]) => {
+      const row = el('div', 'production-setting-row');const copy = el('div');copy.append(el('strong', '', title), el('p', '', detail));row.append(copy);
+      if (title === 'Version') row.append(el('small', '', action));
+      else {
+        const button = createButton({ label: action, variant: 'secondary', size: 'small' });
+        if (title === 'Thème') button.addEventListener('click', () => {
+          const dark = document.documentElement.dataset.theme !== 'dark';
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+          button.querySelector('.ui-button__label').textContent = dark ? 'Passer en clair' : 'Passer en sombre';
+          copy.querySelector('p').textContent = dark ? 'Thème sombre actif. Passez en clair pour les environnements lumineux.' : 'Thème clair actif. Passez en sombre pour réduire la luminance.';
+        });
+        row.append(button);
+      }
+      body.append(row);
+    });
+    panel.append(body);layout.append(panel);
   });
-
-  const main = el('div', 'ui-v2-settings__main');
-  const appearance = card();
-  appearance.append(el('h2', '', 'Apparence'), el('span', 'ui-v2-muted', 'Thème'));
-  const themes = el('div', 'ui-v2-inline');
-  ['Clair', 'Sombre', 'Système'].forEach((label, index) => themes.append(el('button', `ui-v2-theme${index === 0 ? ' is-active' : ''}`, label)));
-  appearance.append(themes, el('p', '', 'L’interface respecte automatiquement les contrastes et les préférences de mouvement réduit.'));
-
-  const learning = card();
-  learning.append(el('h2', '', 'Préférences d’apprentissage'));
-  [
-    ['Raccourcis clavier', 'Utiliser 1–4 pour répondre et Entrée pour valider.', true],
-    ['Afficher les explications après validation', 'Voir immédiatement le raisonnement pédagogique.', true],
-    ['Mode focus', 'Masquer les informations secondaires pendant une session.', false],
-  ].forEach(([title, detail, enabled]) => {
-    const row = el('div', 'ui-v2-setting-row');
-    const copy = el('div');
-    copy.append(el('strong', '', title), el('p', '', detail));
-    row.append(copy, el('button', `ui-v2-switch${enabled ? ' is-on' : ''}`, enabled ? '●' : '○'));
-    learning.append(row);
-  });
-
-  const data = card();
-  data.append(el('h2', '', 'Données et progression'), el('p', '', 'Ta progression reste stockée localement dans le navigateur.'));
-  const actions = el('div', 'ui-v2-actions');
-  actions.append(createButton({ label: 'Exporter mes données', variant: 'secondary' }), createButton({ label: 'Réinitialiser la progression', variant: 'danger' }));
-  data.append(actions);
-  main.append(appearance, learning, data);
-  layout.append(nav, main);
-  root.append(layout);
+  layout.prepend(nav);root.append(layout);
+  bindSettingsNavigation(root, { initialTarget: '#storySettings-' + category });
   return root;
 }
 
@@ -323,6 +343,6 @@ export const trainerPageFactories = Object.freeze({
   settings: createSettingsPage,
 });
 
-export function createTrainerPage(mode = 'study') {
-  return (trainerPageFactories[mode] || createKnowledgePage)();
+export function createTrainerPage(mode = 'study', options = {}) {
+  return (trainerPageFactories[mode] || createKnowledgePage)(options);
 }

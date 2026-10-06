@@ -70,8 +70,9 @@ expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade pro
 expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
 expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
 expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
-expect(serviceWorker.includes("azure-trainer-v2.1.0-training-workspace"), 'Service worker cache was not bumped for the training workspace');
+expect(serviceWorker.includes("azure-trainer-v2.1.0-account-clarity"), 'Service worker cache was not bumped for the training workspace');
 expect(serviceWorker.includes("'./src/ui/integration/training-workspace.css'"), 'Service worker does not cache the training workspace stylesheet');
+expect(serviceWorker.includes("'./src/ui/integration/account-clarity.css'") && serviceWorker.includes("'./src/ui/patterns/settings-navigation/settings-navigation.js'"), 'Service worker does not cache the shared account presentation and settings navigation');
 expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
 expect(serviceWorker.includes("'./src/ui/components/icon-button/icon-button.js'"), 'Service worker does not cache IconButton');
 expect(serviceWorker.includes("'./src/ui/components/feedback-panel/feedback-panel.js'"), 'Service worker does not cache FeedbackPanel');

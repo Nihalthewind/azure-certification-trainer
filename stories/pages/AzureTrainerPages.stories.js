@@ -7,7 +7,7 @@ const PAGE_CONFIG = {
   study: { title: 'Entraînement', subtitle: 'Une question à la fois. Progresse, comprends, continue.' },
   exam: { title: 'Examen blanc', subtitle: 'Simule les conditions de l’AZ-104, puis analyse uniquement ce qui compte.' },
   mistakes: { title: 'Révisions', subtitle: 'Travaille seulement les notions qui méritent ton attention.' },
-  settings: { title: 'Paramètres', subtitle: 'Personnalise ton espace d’apprentissage sans alourdir l’expérience.' },
+  settings: { title: 'Paramètres', subtitle: 'Réglez votre espace d’apprentissage. Vos données restent sur cet appareil.' },
 };
 
 function renderPage(args) {
@@ -18,7 +18,7 @@ function renderPage(args) {
     trainingCode: 'AZ-104',
     pageTitle: config.title,
     pageSubtitle: config.subtitle,
-    content: createTrainerPage(args.mode),
+    content: createTrainerPage(args.mode, args),
   });
 }
 
@@ -50,3 +50,19 @@ export const MobileEntrainement = { name: 'Mobile · Entraînement', args: { ...
 export const TabletEntrainementLight = { args: { ...base, mode: 'study' }, globals: { theme: 'light', viewport: { value: 'tablet', isRotated: false } } };
 export const TabletEntrainementDark = { args: { ...base, mode: 'study' }, globals: { theme: 'dark', viewport: { value: 'tablet', isRotated: false } } };
 export const MobileEntrainementDark = { args: { ...base, mode: 'study' }, globals: { theme: 'dark', viewport: { value: 'mobile', isRotated: false } } };
+
+export const AccueilPremierUsage = { args: { ...base, mode: 'dashboard', firstRun: true }, globals: { theme: 'light' } };
+export const MobileAccueilLight = { args: { ...base, mode: 'dashboard' }, globals: { theme: 'light', viewport: { value: 'mobile', isRotated: false } } };
+export const MobileAccueilDark = { args: { ...base, mode: 'dashboard' }, globals: { theme: 'dark', viewport: { value: 'mobile', isRotated: false } } };
+export const TabletAccueilLight = { args: { ...base, mode: 'dashboard' }, globals: { theme: 'light', viewport: { value: 'tablet', isRotated: false } } };
+export const TabletAccueilDark = { args: { ...base, mode: 'dashboard' }, globals: { theme: 'dark', viewport: { value: 'tablet', isRotated: false } } };
+export const MobileParametresLight = { args: { ...base, mode: 'settings' }, globals: { theme: 'light', viewport: { value: 'mobile', isRotated: false } } };
+export const MobileParametresDark = { args: { ...base, mode: 'settings' }, globals: { theme: 'dark', viewport: { value: 'mobile', isRotated: false } } };
+export const TabletParametresLight = { args: { ...base, mode: 'settings' }, globals: { theme: 'light', viewport: { value: 'tablet', isRotated: false } } };
+export const TabletParametresDark = { args: { ...base, mode: 'settings' }, globals: { theme: 'dark', viewport: { value: 'tablet', isRotated: false } } };
+export const ParametresFormationsLight = { args: { ...base, mode: 'settings', category: 'training' }, globals: { theme: 'light' } };
+export const ParametresFormationsDark = { args: { ...base, mode: 'settings', category: 'training' }, globals: { theme: 'dark' } };
+export const ParametresDonneesLight = { args: { ...base, mode: 'settings', category: 'data' }, globals: { theme: 'light' } };
+export const ParametresDonneesDark = { args: { ...base, mode: 'settings', category: 'data' }, globals: { theme: 'dark' } };
+export const ParametresApplicationLight = { args: { ...base, mode: 'settings', category: 'app' }, globals: { theme: 'light' } };
+export const ParametresApplicationDark = { args: { ...base, mode: 'settings', category: 'app' }, globals: { theme: 'dark' } };
