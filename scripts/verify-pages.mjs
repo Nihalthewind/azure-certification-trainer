@@ -11,6 +11,8 @@ const version=JSON.parse(await fs.readFile(path.join(root,'version.json'),'utf8'
 assert.match(version.commitSHA,/^[a-f0-9]{40}$/);
 const worker=await fs.readFile(path.join(root,'service-worker.js'),'utf8');
 assert(worker.includes(`azure-trainer-${version.commitSHA}`));
+assert(worker.includes("new Request(url,{cache:'reload'})"),'Precache must bypass stale HTTP resources');
+assert(worker.includes("fetch(e.request,{cache:'no-cache'})"),'Runtime must revalidate stale HTTP resources');
 const core=JSON.parse(worker.match(/const CORE=(\[[^;]+\])/)[1].replaceAll("'",'"'));
 for(const relative of core) if(relative!=='./') await fs.access(path.join(root,relative));
 for(const privateFile of ['package.json','AGENTS.md','scripts','figma','.git','storybook-static']) {

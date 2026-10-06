@@ -37,7 +37,7 @@ Comparer `commitSHA` au commit du run Actions, puis vérifier l’interface dans
 
 Chaque paquet utilise un cache PWA identifié par le SHA livré. L’activation supprime seulement
 les anciens caches préfixés `azure-trainer-`. Elle ne touche ni localStorage ni IndexedDB,
-ni les caches des autres applications. Le worker privilégie le réseau, conserve les réponses
+ni les caches des autres applications. Le précache recharge les ressources et le worker revalide le cache HTTP sur le réseau, conserve les réponses
 réussies pour le mode hors ligne et n’utilise le fallback HTML que pour les navigations.
 `version.json` reste consulté sur le réseau. Aucune mise à jour ne recharge automatiquement
 une page ou un examen actif. Recharger normalement lorsque la session peut être interrompue.
