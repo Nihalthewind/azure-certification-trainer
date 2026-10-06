@@ -13,7 +13,8 @@
     "build:pages": "node scripts/build-pages.mjs",
     "test:pages": "node scripts/verify-pages.mjs",
     "figma:export": "node scripts/export-figma-ui.mjs",
-    "test:v3": "node scripts/verify-v3-product-experience.mjs"
+    "test:v3": "node scripts/verify-v3-product-experience.mjs",
+    "check:docs": "node scripts/verify-docs.mjs"
   },
   "repository": {
     "type": "git",

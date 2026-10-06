@@ -1,3 +1,6 @@
+ARCHIVE — ancien patch Sprint 1. Ne pas appliquer au produit courant.
+Guide actuel : README.md ; classement : docs/archive/README.md.
+
 AZURE TRAINER - SPRINT 1 / BUTTON
 
 Pré-requis : Sprint 0 commité sur la branche storybook.

@@ -7,7 +7,7 @@ URL : https://nihalthewind.github.io/azure-certification-trainer/
 La branche de livraison est `storybook`. GitHub Pages utilise la source **GitHub Actions**,
 et l’environnement `github-pages` autorise uniquement cette branche.
 Le workflow `.github/workflows/storybook-ci.yml` exécute Node 24, `npm ci`,
-`npm run validate`, `npm run test-ux`, `npm run build:pages` et `npm run test:pages`.
+`npm run validate`, `npm run check:docs`, `npm run test-ux`, `npm run test:v3`, `npm run build:pages` et `npm run test:pages`.
 Le job de publication dépend du succès de toutes ces étapes. Les pull requests sont testées,
 mais ne sont jamais publiées. Figma et l’interface ne sont pas modifiés par la publication.
 
@@ -22,7 +22,9 @@ Sur `storybook`, après revue du diff :
 ```powershell
 npm ci
 npm run validate
+npm run check:docs
 npm run test-ux
+npm run test:v3
 npm run build:pages
 npm run test:pages
 .\scripts\ship.ps1 -Message "fix(deploy): describe the validated change"

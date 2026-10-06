@@ -1,8 +1,9 @@
 'use strict';
-const fs=require('fs');
-const path=require('path');
-const vm=require('vm');
-const root=__dirname;
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
+const root=path.dirname(fileURLToPath(import.meta.url));
 const ctx={window:{}};ctx.window.window=ctx.window;
 function load(name){vm.runInNewContext(fs.readFileSync(path.join(root,name),'utf8'),ctx,{filename:name});}
 load('questions.js');load('az305_questions.js');load('formations.js');

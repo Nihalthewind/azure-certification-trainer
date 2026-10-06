@@ -1,181 +1,97 @@
 # Azure Certification Trainer
 
-Plateforme web de préparation aux certifications Microsoft Azure, actuellement dédiée à **AZ-104** et **AZ-305**.
+Préparation interactive à Microsoft Azure Administrator AZ-104 : apprendre, s’entraîner, comprendre ses erreurs et réviser.
 
-Le projet fonctionne en **HTML / CSS / JavaScript statique**, peut être hébergé sur **GitHub Pages** et conserve la progression localement dans le navigateur.
+| Ressource | Accès |
+| --- | --- |
+| Application / démo | [Ouvrir l’application](https://nihalthewind.github.io/azure-certification-trainer/) |
+| Figma | [Design System — « 00 · Start Here »](https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT) |
+| Storybook | npm run storybook → http://localhost:6006 ; [artifact CI](https://github.com/Nihalthewind/azure-certification-trainer/actions/workflows/storybook-ci.yml) |
+| Repository | [GitHub — branche stable storybook](https://github.com/Nihalthewind/azure-certification-trainer/tree/storybook) |
 
-## Formations intégrées
+## Présentation et fonctionnalités
 
-### AZ-104 - Azure Administrator
-- **568 questions**.
-- Base de connaissances complète.
-- Questions QCM, Oui/Non, listes et fiches question/réponse.
-- Examen blanc : **48 questions / 100 minutes**.
-- Étude de cas intégrée.
+**V3 Product Experience** donne la priorité à la formation. Accueil regroupe formation, modules et prochaine session ; Entraînement met la question au premier plan.
 
-### AZ-305 - Azure Solutions Architect
-- **286 questions**.
-- QCM, HOTSPOT, DRAG DROP et études de cas.
-- Illustrations d'énoncé et de correction conservées lorsque nécessaires.
-- Contexte pédagogique affiché après validation.
-- Examen blanc : **48 questions / 100 minutes**.
+- AZ-104 : 568 questions, cinq domaines, examen blanc 48 questions / 100 minutes. AZ-305 : 286 questions ; formations importables.
+- Filtre de domaine, réponses/corrections, notes, favoris, signalements et révisions ciblées.
+- Examen chronométré, questions à revoir, historique et reprise.
+- Light/Dark, clavier, navigation mobile et traduction EN/FR avec le profil.
+- Progression locale, export/import JSON, PWA et installation réelle facultative.
 
-## Fonctionnalités principales
+Voir la [vision produit](docs/product.md). Aucun backend ou compte cloud actuel.
 
-- **Tableau de bord** par certification.
-- **Maîtrise par domaine** avec tri des domaines du plus faible au plus maîtrisé.
-- Bouton **Travailler / Découvrir** directement depuis chaque domaine.
-- **Base de connaissances** avec recherche et filtres.
-- **Erreurs** : reprise des questions réellement ratées.
-- **Toutes les questions** : navigation directe dans l'ensemble de la banque.
-  - `★` : question en favori.
-  - `⚑` : question signalée.
-- **Favoris** par question.
-- **Notes personnelles** par question.
-- **Signalement** d'une question : réponse douteuse, contenu obsolète, explication incorrecte, image manquante, etc.
-- **Historique des examens** accessible depuis le Dashboard.
-- Navigation libre entre les **48 questions** pendant un examen.
-- Marquage **À revoir** pendant l'examen.
-- Résultats et statistiques par domaine.
-- **Focus** et thème **Sombre / Clair**.
-- Traduction navigateur **anglais -> français** non bloquée.
-- **Export / import des données utilisateur** au format JSON.
-- **PWA installable** avec `manifest.webmanifest` et Service Worker.
+## Démarrage rapide
 
-## Menu simplifié
+Prérequis : **Node.js 24**, npm et Git. PowerShell 5.1 pour le script de livraison Windows.
 
-Le menu principal est volontairement limité au parcours d'apprentissage :
+    git clone https://github.com/Nihalthewind/azure-certification-trainer.git
+    cd azure-certification-trainer
+    git switch storybook
+    npm ci
+    npm run app
 
-- Tableau de bord
-- Base de connaissances
-- Erreurs
-- Examen blanc
-- Domaines
+Ouvrir http://127.0.0.1:5173. Second terminal : **npm run storybook**, puis http://localhost:6006. Si le port Vite est occupé, utiliser l’adresse affichée.
 
-Les fonctions secondaires sont regroupées sous **⚙ Paramètres** en bas à gauche :
+## Scripts et tests
 
-- Focus
-- Sombre / Clair
-- Export / import des données
-- Gestion / import des formations
-- Installation de l'application
+| Commande | Usage |
+| --- | --- |
+| npm run app | Application locale Vite |
+| npm run storybook | Catalogue interactif |
+| npm run validate | **Obligatoire avant livraison** : check-ui → build-storybook → git diff --check |
+| npm run check:docs | Liens locaux et mappings du handoff |
+| npm run test-ux | Apprentissage et conservation des données |
+| npm run test:v3 | Cinq pages, domaines, introduction, thèmes et responsive |
+| npm run build:pages | Paquet statique dans dist-pages/ |
+| npm run test:pages | Sous-chemin Pages, mise à jour PWA et hors ligne |
+| npm run figma:export | Références locales pour comparaison Figma |
 
-## Données et progression
+Tests navigateur : **npx playwright install chromium** (CI Linux : --with-deps). Contextes isolés, sans supprimer vos données. Contrôles ciblés : node scripts/verify-account-clarity.mjs ; node scripts/verify-training-workspace.mjs ; node controle_qualite.js.
 
-La progression reste **locale au navigateur** :
+## Stack / structure
 
-- progression AZ-104 et AZ-305 séparée ;
-- erreurs ;
-- favoris ;
-- notes ;
-- signalements ;
-- historique des examens ;
-- préférences utilisateur.
+Application statique HTML/CSS/JavaScript, composants DOM, Vite, Storybook HTML et Playwright.
 
-Une mise à jour du site via GitHub Pages ne supprime normalement pas ces données tant que le domaine et les clés de stockage restent identiques.
+| Zone | Contenu |
+| --- | --- |
+| index.html / atelier.js / atelier.css | Application et moteur |
+| formations.js / questions.js / az305_questions.js | Catalogue et banques |
+| importer.js | Formations importées |
+| src/ui/foundations/ | Tokens et typographie |
+| src/ui/components/ | Button, Badge, AnswerOption… |
+| src/ui/patterns/ | AppShell, QuestionCard, CourseHub… |
+| src/ui/pages/ | Compositions Storybook |
+| src/ui/integration/ | Raccordement à l’application |
+| stories/ | Foundations, Components, Patterns, Pages, Quality |
+| scripts/ | Validations, tests et publication |
+| figma/ / docs/ / .github/workflows/ | Registre, guides et CI |
 
-Pour changer de PC ou de navigateur, utiliser **Exporter mes données** puis **Importer mes données**.
+Tests dans scripts/, pas dans tests/. Voir [architecture et sécurité](docs/architecture.md). Les anciens sprints et payload sont des [archives identifiées](docs/archive/README.md).
 
-## Hébergement GitHub Pages
+## Design System / Storybook
 
-L’application est publiée à https://nihalthewind.github.io/azure-certification-trainer/.
+**Figma → Storybook → application** : une même version. Manrope pour les titres, DM Sans pour l’interface, tokens Light/Dark, CSS partagé dans src/ui/ui.css.
 
-La branche de livraison est **storybook**. Le workflow **Storybook CI** valide le produit,
-construit uniquement l’application statique dans `dist-pages/`, puis la publie via GitHub Actions.
-Storybook reste un artifact distinct. Aucun push sur `main` ou une branche rescue ne publie l’application.
+Commencer par Components/Button puis Pages/Entraînement. Les cinq pages et Patterns/Introduction montrent le produit courant ; leurs valeurs sont des fixtures.
 
-Voir [le guide de publication et de retour arrière](docs/deployment.md).
-Ne jamais effacer les données du site pour actualiser l’application : cela supprime la progression.
+[Mappings Figma → Storybook → code](docs/design-system.md) ; [guide Figma](figma/README.md). Code Connect non configuré.
 
-## Fichiers principaux
+## Déploiement
 
-```text
-index.html               Interface principale GitHub Pages
-OUVRIR_FORMATIONS.html   Point d'entrée alternatif
-OUVRIR_AZ104.html        Compatibilité ancienne version
-atelier.css              Styles
-atelier.js               Moteur principal
-formations.js            Configuration des formations
-questions.js             Banque AZ-104
-az305_questions.js       Banque AZ-305
-importer.js              Import de formations
-controle_qualite.js      Contrôles de cohérence
-manifest.webmanifest     Configuration PWA
-service-worker.js        Cache PWA
-assets/                  Illustrations et ressources
-```
+Push validé sur **storybook** → workflow unique Storybook CI → application GitHub Pages. Storybook reste un artifact ; aucune URL publique Storybook configurée.
 
-## Contrôle qualité
+[version.json](https://nihalthewind.github.io/azure-certification-trainer/version.json) expose commitSHA et buildDate à comparer au run réussi. Voir [livraison/PWA/rollback](docs/deployment.md). Ne pas effacer les données pour actualiser la PWA.
 
-Pour lancer les contrôles locaux :
+## Documentation / contribution / roadmap
 
-```bash
-node controle_qualite.js
-```
+- [Produit](docs/product.md) · [Architecture](docs/architecture.md) · [Design System](docs/design-system.md)
+- [Déploiement](docs/deployment.md) · [Branches](docs/branching.md) · [Décisions](docs/decisions/README.md)
+- [Contribution et Definition of Done](CONTRIBUTING.md) · [Règles agents](AGENTS.md)
+- [Roadmap : actuel, prochaine étape, vision SaaS](docs/roadmap.md)
 
-État actuel :
+Présentation : README → application → Figma Start Here → Storybook → architecture → roadmap.
 
-- **568 questions AZ-104** ;
-- **286 questions AZ-305** ;
-- identifiants uniques ;
-- assets référencés contrôlés ;
-- examens configurés sur 48 questions / 100 minutes.
+## Licence / statut
 
-## Historique condensé des versions
-
-### v2.0.7 - Traduction intégrée sans bandeau
-
-- Le sélecteur EN / FR reste dans l'en-tête de l'application.
-- Suppression visuelle du bandeau et des fenêtres Google Translate.
-- Le changement de langue ne décale plus la page et conserve le design natif.
-- Renforcement du nettoyage du cache de traduction côté navigateur.
-
-### v2.0.6 - Traduction EN / FR
-
-- bouton **EN ⇄ FR** ajouté à côté de **ÉDITION 2026** ;
-- traduction à la volée de l’anglais vers le français ;
-- retour à la version originale anglaise en un clic ;
-- langue choisie mémorisée localement.
-
-### v2.0.5 - Maîtrise par domaine
-- Suppression du menu **Faiblesses**.
-- Diagnostic des faiblesses intégré directement à **Maîtrise par domaine**.
-- Domaines triés du plus faible au plus maîtrisé.
-- Actions **Travailler / Découvrir** directement depuis le Dashboard.
-
-### v2.0.4 - Hotfix démarrage
-- Correction d'un crash JavaScript provoqué par un bouton absent dans certaines versions HTML.
-- Initialisation rendue tolérante aux éléments optionnels.
-- Évite qu'un décalage HTML/JS bloque le chargement des banques.
-
-### v2.0.3 - Menu épuré
-- Historique des examens retiré du menu latéral et accessible depuis le Dashboard.
-- Focus, thème, sauvegarde, import et installation regroupés sous **⚙ Paramètres**.
-- Menu latéral simplifié.
-
-### v2.0.2 - Interactions questions
-- Suppression du bouton **Je ne sais pas**.
-- Correction du bouton **Note**.
-- Correction du bouton **Drapeau / signalement**.
-- Affichage `★` et `⚑` dans **Toutes les questions**.
-
-### v2.0.0 - Plateforme d'apprentissage
-- Tableau de bord.
-- Historique des examens.
-- Navigation complète dans les banques.
-- Favoris, notes et signalements.
-- Export / import de progression.
-- PWA et versioning.
-- Support multi-formations AZ-104 / AZ-305.
-
-## Remarques
-
-- Les questions restent dans leur langue source lorsque cela est pertinent.
-- Les corrections AZ-305 provenant du support source ne sont pas remplacées silencieusement par des réponses externes.
-- Les formats visuels impossibles à convertir proprement restent en auto-évaluation plutôt que d'inventer une réponse.
-- Le dépôt étant public lorsqu'il est utilisé avec GitHub Pages gratuit, ne jamais y stocker de mots de passe, tokens, clés API ou données internes sensibles.
-
----
-
-**Version actuelle : v2.0.7**  
-**Édition : 2026**
+Projet statique en développement. package.json déclare **ISC** ; aucun fichier LICENSE distinct présent. Version applicative 3.0.0 ; le SHA public identifie la livraison.

@@ -25,6 +25,8 @@ jobs:
         run: npm ci
       - name: Validate UI and Storybook
         run: npm run validate
+      - name: Check handoff documentation
+        run: npm run check:docs
       - name: Install Chromium for UX tests
         run: npx playwright install --with-deps chromium
       - name: Test learning workflow

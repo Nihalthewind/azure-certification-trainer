@@ -6,7 +6,7 @@
   "branch": "storybook",
   "appVersion": "3.0.0",
   "source": {
-    "codeSha256": "acb2ecde14a1e255f2c2fef7f2947b9e558e4a347ba1ea91ed8361a18afaab99",
+    "codeSha256": "2330a112c5284f1cb95510e2ccdeaab096519237bb081f4b8b8efe79b01af107",
     "hashAlgorithm": "SHA-256 of sorted path + NUL + UTF-8 content normalized to LF + NUL",
     "files": [
       ".storybook/main.js",

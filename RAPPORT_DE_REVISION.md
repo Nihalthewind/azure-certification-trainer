@@ -1,3 +1,5 @@
+> ARCHIVE — document historique. Pour le produit courant, consulter [README](README.md) et [le classement des archives](docs/archive/README.md).
+
 # Révision multi-formations · Azure Certification Trainer
 
 **Date : 24 septembre 2026**

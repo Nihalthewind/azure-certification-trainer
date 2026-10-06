@@ -7,3 +7,13 @@ playwright-report/
 debug-storybook.log
 .DS_Store
 Thumbs.db
+
+# Local environment, caches and editor state
+.env
+.env.*
+!.env.example
+*.log
+.cache/
+*.tsbuildinfo
+.vscode/
+.idea/

@@ -24,3 +24,13 @@ restent archivées dans `figma/imported-v2-reference.json`.
 - Tester systématiquement les thèmes sombre et clair.
 - Supporter les largeurs mobile 390px, tablette 768px et desktop 1440px.
 - Exécuter `npm run validate` avant tout commit ou push. Ne jamais commit ni push si une validation échoue.
+
+## Architecture et commandes
+
+Application statique : index.html / atelier.js ; banques formations.js / questions.js / az305_questions.js ; importer.js pour IndexedDB. UI réutilisable dans src/ui/components et patterns ; pages Storybook dans src/ui/pages et stories/pages. Ne pas déplacer le moteur pour un simple changement visuel.
+
+Commandes : npm run app, npm run storybook, npm run validate ; npm run check:docs pour le handoff, npm run test-ux et test:v3 pour les parcours, build:pages puis test:pages pour la livraison/PWA. Les tests sont dans scripts et utilisent des contextes isolés.
+
+Avant commit : revoir status/diff, vérifier Figma = stories = application, puis validations pertinentes. Utiliser ship.ps1 lorsque tous les fichiers sont livrables ; il stage tous les changements. Attendre CI/deploy et comparer le SHA public avant de déclarer une publication terminée.
+
+Guides humains : README.md et CONTRIBUTING.md ; détails : docs/architecture.md, docs/design-system.md, docs/deployment.md. CURRENT = référence validée ; EXPLORATION = proposition ; ARCHIVE = historique, conservé.
