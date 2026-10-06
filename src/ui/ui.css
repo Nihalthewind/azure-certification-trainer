@@ -44,3 +44,6 @@
 @import './integration/training-workspace.css';
 
 @import './integration/account-clarity.css';
+@import './components/domain-selector/domain-selector.css';
+@import './patterns/course-hub/course-hub.css';
+@import './integration/v3-product-experience.css';

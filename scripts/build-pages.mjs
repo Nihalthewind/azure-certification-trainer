@@ -5,7 +5,8 @@ import { execFileSync } from 'node:child_process';
 // Static application only. Storybook, tooling, documentation and Git stay private.
 const output = path.resolve('dist-pages');
 const files = ['index.html', 'atelier.css', 'atelier.js', 'questions.js', 'az305_questions.js', 'formations.js', 'importer.js', 'manifest.webmanifest', 'service-worker.js'];
-const tracked = execFileSync('git', ['ls-files', '-z'], {encoding:'utf8'}).split('\0').filter(Boolean);
+async function list(dir){const entries=await fs.readdir(dir,{withFileTypes:true});return (await Promise.all(entries.map(entry=>entry.isDirectory()?list(dir+'/'+entry.name):dir+'/'+entry.name))).flat()}
+const tracked = [...await list('assets'),...await list('src/ui')];
 files.push(...tracked.filter(file => file.startsWith('assets/') || (file.startsWith('src/ui/') && /\.(css|js)$/.test(file) && !/\.stories\.js$/.test(file))));
 const commitSHA = execFileSync('git', ['rev-parse', 'HEAD'], {encoding:'utf8'}).trim();
 await fs.mkdir(output, {recursive:true});

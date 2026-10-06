@@ -1,10 +1,10 @@
-import { createDashboardPage } from '../../src/ui/pages/trainer-pages/trainer-pages.js';
+import { createDashboardPage } from "../../src/ui/pages/trainer-pages/trainer-pages.js";
 
 export default {
-  title: 'Pages/Learning Experience',
-  tags: ['autodocs'],
+  title: "Patterns/CourseHub",
+  tags: ["autodocs"],
   render: (args) => createDashboardPage(args),
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: "fullscreen" },
 };
 
 export const FirstSession = { args: { firstRun: true } };

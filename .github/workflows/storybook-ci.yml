@@ -29,6 +29,8 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Test learning workflow
         run: npm run test-ux
+      - name: Test V3 product experience
+        run: npm run test:v3
       - name: Build production application
         run: npm run build:pages
       - name: Test application under Pages subpath

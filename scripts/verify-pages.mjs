@@ -52,7 +52,8 @@ try {
     page.on('response',r=>{if(r.url().startsWith(url)&&r.status()>=400)missing.push(`${r.status()} ${r.url()}`);});
     await page.goto(url);
     await page.locator('#dashboard').waitFor({state:'visible'});
-    assert.equal(await page.locator('#dashboardCards .dash-card').count(),3);
+    assert.equal(await page.locator('.ui-course-hub__module').count(),5);
+    assert.equal(await page.locator('#dashboardCards:visible').count(),0);
     assert.equal(await page.locator('#dashboardDetails').getAttribute('open'),null);
     assert(await page.locator('#languageToggle').isVisible());
     assert.equal(await page.locator('#mobileSettingsButton:visible').count(),0);
@@ -66,8 +67,8 @@ try {
     await page.locator('#feedback').waitFor({state:'visible'});
     assert.equal(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).states.az104.answers['T1-Q1'].correct,key),true);
     await page.screenshot({path:`test-results/pages-training-${theme}-${width}.png`,fullPage:true,animations:'disabled'});
-    await page.locator('[data-mode="path"]').click();
-    await page.locator('#pathPage').waitFor({state:'visible'});
+    await page.evaluate(()=>{location.hash='parcours'});
+    await page.locator('#dashboard').waitFor({state:'visible'});
     await page.locator('[data-mode="mistakes"]').click();
     await page.locator('#mistakesPage').waitFor({state:'visible'});
     await page.locator('[data-mode="exam"]').click();

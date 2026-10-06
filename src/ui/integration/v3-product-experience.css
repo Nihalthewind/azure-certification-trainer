@@ -1,0 +1,270 @@
+/* V3 Product Experience — Figma Theme and Scale variables via the shared tokens. */
+:root {
+  --v3-rail: 200px;
+  --v3-topbar: 72px;
+}
+
+body .rail {
+  width: var(--v3-rail);
+}
+.rail .rail-link[data-mode="path"],
+.ui-app-shell__nav [data-mode="path"] {
+  display: none !important;
+}
+#domainNav,
+#domainPills {
+  display: none !important;
+}
+#dashboard > .dashboard-intro,
+#dashboard > #dashboardCards,
+#dashboard > .dashboard-domains {
+  display: none !important;
+}
+#pathPage {
+  display: none !important;
+}
+#dashboard {
+  gap: var(--space-6);
+}
+.v3-home-heading {
+  margin: 0;
+  font: 800 var(--font-size-2xl) / 1.2 var(--font-family-display);
+  letter-spacing: -0.045em;
+  color: var(--ink);
+}
+.v3-home-subtitle {
+  margin: 0;
+  color: var(--muted);
+  font: var(--font-size-md) / 1.55 var(--font-family-body);
+}
+.v3-domain-control {
+  grid-column: 1/-1;
+  margin-bottom: var(--space-6);
+}
+#mistakesStats,
+#mistakesDomains,
+#mistakesDomains:empty {
+  display: none !important;
+}
+#mistakesPage .production-overview-grid {
+  display: block;
+}
+#mistakesPage .production-overview-grid > .dashboard-panel:last-child {
+  display: none;
+}
+.v3-review-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+.v3-review-filters button {
+  min-height: 44px;
+}
+.v3-review-filters [aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--surface);
+}
+#mistakesQueue .review-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 74px;
+}
+#mistakesQueue .review-item b {
+  flex: 1;
+}
+.ui-app-shell__nav {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@media (min-width: 921px) {
+  body:not(.focus-mode) .rail {
+    width: var(--v3-rail);
+  }
+  .ui-app-shell {
+    --ui-shell-rail-width: var(--v3-rail) !important;
+    --ui-shell-topbar-height: var(--v3-topbar) !important;
+  }
+  .ui-app-shell__nav {
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media (min-width: 921px) {
+  .ui-app-shell--v2 .ui-app-shell__nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ui-app-shell--v2 .ui-navigation-item__label {
+    display: block;
+  }
+}
+@media (max-width: 920px) {
+  body .rail {
+    width: auto;
+  }
+  .ui-app-shell__nav {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .ui-course-hub {
+    margin-bottom: var(--space-6);
+  }
+}
+@media (max-width: 600px) {
+  .v3-home-heading {
+    font-size: var(--font-size-xl);
+  }
+  .v3-domain-control {
+    margin-bottom: var(--space-4);
+  }
+  #mistakesQueue .review-item {
+    flex-wrap: wrap;
+  }
+  #mistakesQueue .review-item b {
+    flex-basis: 60%;
+  }
+}
+
+@media (min-width: 921px) {
+  .app-shell-production {
+    grid-template-columns: var(--v3-rail) minmax(0, 1fr) !important;
+  }
+  .app-shell-production > .rail {
+    width: var(--v3-rail) !important;
+  }
+  .app-shell-production .topbar {
+    height: var(--v3-topbar);
+  }
+}
+@media (max-width: 920px) {
+  .app-shell-production .app-shell-primary-nav {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .ui-app-shell--v2 .ui-app-shell__nav {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.app-shell-production #dashboard .v3-home-heading {
+  font-size: var(--font-size-2xl);
+}
+@media (max-width: 600px) {
+  .app-shell-production #dashboard .v3-home-heading {
+    font-size: var(--font-size-xl);
+  }
+}
+
+.app-shell-production .brand-icon,
+.ui-app-shell__brand-mark {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  box-shadow: none;
+  border-radius: var(--radius-sm);
+}
+.app-shell-production .brand {
+  padding: var(--space-3);
+}
+.app-shell-production .brand-icon {
+  width: 34px;
+  height: 34px;
+}
+
+.ui-app-shell--v2:has(.ui-v2-page--dashboard) .ui-app-shell__context {
+  display: flex;
+  margin-bottom: var(--space-6);
+}
+.ui-app-shell--v2 .ui-app-shell__context h1 {
+  font-size: var(--font-size-2xl);
+}
+.ui-app-shell--v2:has(.ui-v2-page--dashboard) .ui-app-shell__context p {
+  margin: var(--space-6) 0 0;
+  font-size: var(--font-size-md);
+  line-height: 1.55;
+}
+.ui-first-run .ui-button--ghost {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--color-text-secondary);
+}
+.ui-first-run .ui-button--ghost:hover {
+  background: var(--color-surface);
+}
+@media (max-width: 600px) {
+  .ui-app-shell--v2 .ui-app-shell__context h1 {
+    font-size: var(--font-size-xl);
+  }
+}
+.app-shell-production:has(#examControls[hidden]) .question-main .prompt {
+  font-weight: 700;
+}
+.app-shell-production
+  .ui-answer-option:not(.is-selected):not(.is-correct):not(.is-incorrect),
+.ui-v2-question-workspace
+  .ui-answer-option:not(.is-selected):not(.is-correct):not(.is-incorrect) {
+  background: var(--color-card);
+  border-color: var(--color-border);
+}
+.app-shell-production
+  .ui-answer-option:not(.is-correct):not(.is-incorrect):hover,
+.ui-v2-question-workspace
+  .ui-answer-option:not(.is-correct):not(.is-incorrect):hover {
+  border-color: var(--color-accent);
+  background: var(--color-surface);
+}
+
+#examPage .production-exam-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  box-shadow: none;
+}
+#examPage .production-exam-hero h3 {
+  font: 800 var(--font-size-xl) / 1.2 var(--font-family-display);
+}
+#examPage .production-exam-grid {
+  display: none;
+}
+.v3-exam-benefits {
+  font: var(--font-size-md) / 1.55 var(--font-family-body);
+}
+.v3-exam-benefits p {
+  margin: 0 0 var(--space-3);
+}
+.v3-exam-result {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-card);
+}
+.v3-exam-result h3 {
+  margin: 0;
+  font: 700 var(--font-size-md) / 1.2 var(--font-family-display);
+}
+.v3-exam-result .production-score-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.v3-exam-result .production-score-card > span {
+  display: none;
+}
+.v3-exam-result .production-score-card > strong {
+  font-size: var(--font-size-xl);
+}
+.v3-review-actions {
+  margin-top: var(--space-6);
+}
+#mistakesPage .dashboard-panel {
+  box-shadow: none;
+}

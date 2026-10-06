@@ -22,7 +22,7 @@ try {
     await page.goto(server.resolvedUrls.local[0]);
     await page.locator('#dashboard').waitFor({ state: 'visible' });
     await page.evaluate(() => document.fonts.ready);
-    for (const mode of ['dashboard', 'path', 'study', 'exam', 'mistakes', 'settings']) {
+    for (const mode of ['dashboard', 'study', 'exam', 'mistakes', 'settings']) {
       if (mode === 'study') {
         await page.locator('.rail-link[data-mode="dashboard"]').click();
         await page.locator('#startWeaknessButton').click();

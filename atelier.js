@@ -1,7 +1,7 @@
 'use strict';
 (async () => {
   const APP_KEY='azure-cert-trainer-2026-v3';
-  const APP_VERSION='2.1.0';
+  const APP_VERSION='3.0.0';
   const LEGACY_AZ104_KEY='az104-atelier-2026-progress-v1';
   const ONBOARDING_KEY=APP_KEY+'-onboarding-v1';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -17,13 +17,13 @@
   let catalog=[],cfg=null,bank=[],byId=new Map(),autoQuestions=[],DOMAINS=[],state=null;
   let mode='study',domain='all',pathDomain='',list=[],cursor=0,search='',timer=null,modalCallback=null,sourceUrl='',modalReturnFocus=null,modalEscapeClosable=true;
   let UI={};
-  let onboardingController=null;
+  let onboardingController=null, onboardingReturnFocus=null, onboardingReplay=false, courseHub=null, domainSelector=null, reviewFilter='all', installationConfirmed=false;
   const mobileLayout=window.matchMedia('(max-width: 920px)');
   let filtersOpen=false;
 
   async function loadDesignSystem(){
     try{
-      const [answerOption,badge,iconButton,feedbackPanel,answerState,questionViewport,workspaceToolbar,firstRunExperience,icons,modalSurface,settingsNavigation]=await Promise.all([
+      const [answerOption,badge,iconButton,feedbackPanel,answerState,questionViewport,workspaceToolbar,firstRunExperience,icons,modalSurface,settingsNavigation,courseHubModule,domainSelectorModule]=await Promise.all([
         import('./src/ui/components/answer-option/answer-option.js'),
         import('./src/ui/components/badge/badge.js'),
         import('./src/ui/components/icon-button/icon-button.js'),
@@ -35,6 +35,8 @@
         import('./src/ui/icons/icons.js'),
         import('./src/ui/components/modal-surface/modal-surface.js'),
         import('./src/ui/patterns/settings-navigation/settings-navigation.js'),
+        import('./src/ui/patterns/course-hub/course-hub.js'),
+        import('./src/ui/components/domain-selector/domain-selector.js'),
       ]);
       UI={
         createAnswerOption:answerOption.createAnswerOption,
@@ -53,6 +55,7 @@
         applyModalSurface:modalSurface.applyModalSurface,
         trapModalTab:modalSurface.trapModalTab,
         bindSettingsNavigation:settingsNavigation.bindSettingsNavigation,
+        createCourseHub:courseHubModule.createCourseHub,courseModules:courseHubModule.courseModules,createDomainSelector:domainSelectorModule.createDomainSelector,
       };
       document.documentElement.dataset.uiSystem='sprint13';
       return true;
@@ -131,20 +134,28 @@
     onboardingController?.destroy?.();
     onboardingController=null;
     document.body.classList.remove('ui-first-run-open');
+    $('#app').inert=false;
+    if(!onboardingReplay)selectMode('dashboard');else onboardingReturnFocus?.focus?.({preventScroll:true});
   }
   function openOnboarding({force=false}={}){
-    if(!force&&onboardingCompleted())return false;
+    if(!force&&(onboardingCompleted()||state.exam?.ids?.length))return false;
     if(!UI.createFirstRunExperience||!cfg)return false;
     onboardingController?.destroy?.();
+    onboardingReplay=force;onboardingReturnFocus=document.activeElement;
+    if(!force)selectMode('dashboard');
     const description=cfg.description||cfg.tagline||`Préparez ${cfg.code} avec votre banque de questions et vos outils de progression.`;
     onboardingController=UI.createFirstRunExperience({
       trainingCode:cfg.code,
+      installState:isAppInstalled()?'installed':deferredInstall?'available':'browser',
+      ios:/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),
+      onInstall:installApp,
       trainingName:cfg.name,
       description,
       onComplete:()=>closeOnboarding({remember:true}),
       onSkip:()=>closeOnboarding({remember:true}),
     });
     document.body.append(onboardingController.element);
+    $('#app').inert=true;
     document.body.classList.add('ui-first-run-open');
     requestAnimationFrame(()=>onboardingController?.focus?.());
     return true;
@@ -188,7 +199,7 @@
   }
   function dynamicMetadata(){
     document.title=`${cfg.code} · Azure Certification Trainer`;
-    $('#brandTitle').textContent=cfg.code;$('#brandSubtitle').textContent=`${cfg.name} · ${cfg.edition||'2026'}`;
+    $('#brandTitle').textContent='Azure Trainer';$('#brandSubtitle').textContent=cfg.code;$('#brandIcon').textContent='A';
     $('#topEyebrow').textContent=`PRÉPARATION INDÉPENDANTE · ${cfg.code}`;$('#editionLabel').textContent=`ÉDITION ${cfg.edition||'2026'}`;
     $('#heroKicker').textContent='AZURE CERTIFICATION TRAINER';
     $('#heroTitle').textContent=`${cfg.code} · ${cfg.name}`;
@@ -236,7 +247,7 @@
   }
 
   function renderPathPage(){
-    if(mode!=='path')return;
+    if(!['path','dashboard'].includes(mode))return;
     if(!pathDomain||!DOMAINS.some(([id])=>id===pathDomain))pathDomain=DOMAINS[0]?.[0]||'';
     const stats=domainStatsData();
     const selected=stats.find(item=>item.id===pathDomain)||stats[0];
@@ -275,30 +286,27 @@
     updateInstallUi();
   }
 
+  function flaggedQuestionIds(){return new Set([...(state.examHistory||[]).flatMap(h=>h.flaggedIds||[]),...Object.keys(state.exam?.flagged||{}).filter(id=>state.exam.flagged[id]),...(state.reports||[]).filter(r=>!r.resolved).map(r=>r.questionId)])}
+  function reviewQuestions(){const flagged=flaggedQuestionIds();return bank.filter(q=>reviewFilter==='errors'?state.answers[q.id]?.correct===false:reviewFilter==='favorites'?state.favorites?.[q.id]:reviewFilter==='flagged'?flagged.has(q.id):state.answers[q.id]?.correct===false||state.favorites?.[q.id]||flagged.has(q.id))}
   function renderMistakesPage(){
     if(mode!=='mistakes')return;
-    const wrong=bank.filter(q=>state.answers[q.id]?.correct===false);
-    const stats=domainStatsData().map(s=>({...s,errors:bank.filter(q=>q.domain===s.id&&state.answers[q.id]?.correct===false).length})).sort((a,b)=>b.errors-a.errors);
-    const weak=stats.find(s=>s.errors>0);
-    $('#mistakesSubtitle').textContent=wrong.length?`${wrong.length} question(s) à reprendre · domaine prioritaire : ${weak?.label||'—'}`:'Aucune erreur active. Vous pouvez continuer votre progression.';
-    $('#mistakesStats').innerHTML=[
-      ['Erreurs actives',wrong.length,wrong.length?'À retravailler':'Aucune erreur'],
-      ['Prioritaires',Math.min(6,wrong.length),wrong.length?'Commencez par les plus récentes':'Rien à traiter'],
-      ['Domaine le plus faible',weak?.label||'—',weak?`${weak.errors} erreur(s)`:'Aucune donnée'],
-      ['Questions maîtrisées',masteredCount(),`${Math.round(masteredCount()/Math.max(1,bank.length)*100)} % de la banque`],
-    ].map(([label,value,detail])=>`<article class="dash-card"><span>${clean(label)}</span><strong>${clean(value)}</strong><small>${clean(detail)}</small></article>`).join('');
-    const queue=[...wrong].sort((a,b)=>(state.answers[b.id]?.ts||0)-(state.answers[a.id]?.ts||0)).slice(0,10);
-    $('#mistakesQueue').innerHTML=queue.length?queue.map(q=>`<button class="review-item" data-mistake-q="${clean(q.id)}"><span>${clean(q.id)}</span><b>${clean(domainTuple(q.domain)?.[1]||q.domain||'')}</b><small>Ouvrir la question</small></button>`).join(''):'<p class="dashboard-empty">Aucune question en erreur pour le moment.</p>';
-    $('#mistakesDomains').innerHTML=stats.filter(s=>s.errors).map(s=>`<div class="domain-stat"><div><span>${clean(s.label)}</span><b>${s.errors}</b></div><div class="mini-track"><i style="width:${Math.min(100,Math.max(8,s.errors/Math.max(1,wrong.length)*100))}%"></i></div><small>${s.errors} erreur(s) active(s) · maîtrise ${s.answered?s.rate:0}%</small></div>`).join('')||'<p class="dashboard-empty">Aucune erreur à répartir.</p>';
+    const queue=reviewQuestions(),flagged=flaggedQuestionIds();
+    $('#mistakesSubtitle').textContent='Que faut-il revoir maintenant ?';
+    let filters=$('#reviewFilters');if(!filters){filters=document.createElement('div');filters.id='reviewFilters';filters.className='v3-review-filters';filters.setAttribute('aria-label','Filtrer les révisions');$('#mistakesStats').before(filters);}
+    filters.innerHTML=[['all','Toutes'],['errors','Erreurs'],['flagged','À revoir'],['favorites','Favoris']].map(([id,label])=>`<button type="button" class="ui-button ui-button--secondary ui-button--medium" data-review-filter="${id}" aria-pressed="${reviewFilter===id}">${label}</button>`).join('');
+    filters.querySelectorAll('button').forEach(button=>button.onclick=()=>{reviewFilter=button.dataset.reviewFilter;renderMistakesPage();$('#reviewFilters [data-review-filter="'+reviewFilter+'"]').focus();});
+    $('#mistakesQueue').innerHTML=queue.length?queue.map(q=>`<button class="review-item" data-mistake-q="${clean(q.id)}"><span>${clean(q.id)}</span><b>${clean(q.category||domainTuple(q.domain)?.[1]||q.domain)}</b><small>${state.answers[q.id]?.correct===false?'Erreur':flagged.has(q.id)?'À revoir':'Favori'} · Ouvrir</small></button>`).join(''):'<p class="dashboard-empty">Aucune question dans cette sélection. Continuez votre formation à votre rythme.</p>';
     $$('[data-mistake-q]').forEach(button=>button.onclick=()=>openQuestionById(button.dataset.mistakeQ));
-    const start=$('#startMistakesSessionButton');
-    if(start)start.disabled=!wrong.length;
+    $('#startMistakesSessionButton').disabled=!queue.length;
+    if(!$('#startMistakesSessionButton').closest('.v3-review-actions')){const actions=document.createElement('div');actions.className='v3-review-actions';actions.append($('#startMistakesSessionButton'));$('#mistakesPage').append(actions);}
   }
 
   function renderExamLanding(){
     if(mode!=='exam-home')return;
     const ec=examConfig(),history=[...(state.examHistory||[])].sort((a,b)=>(b.completedAt||0)-(a.completedAt||0));
     const active=!!state.exam?.ids?.length,last=history[0];
+    if(!$('#examSetupBenefits')){const benefits=document.createElement('div');benefits.id='examSetupBenefits';benefits.className='v3-exam-benefits';for(const label of ['Navigation libre entre les questions','Marquage « À revoir » disponible','Correction détaillée uniquement à la fin','Reprise et réponses sauvegardées']){const row=document.createElement('p');row.textContent=label;benefits.append(row);}$('.production-exam-hero').append(benefits,$('#startExamButton'));const result=document.createElement('section');result.className='v3-exam-result';const heading=document.createElement('h3');heading.textContent='Dernier résultat';const button=document.createElement('button');button.type='button';button.className='ui-button ui-button--secondary ui-button--medium';button.textContent='Historique examens';button.onclick=openExamHistory;result.append(heading,$('.production-score-card'),button);$('.production-exam-hero').after(result);}
+
     $('#examTrainingBadge').textContent=cfg.code;
     $('#examSummaryTitle').textContent=`${Math.min(ec.total,autoQuestions.length)} questions · ${ec.durationMinutes} minutes`;
     $('#examSummaryDescription').textContent=active?'Une session est déjà en cours. Reprenez-la exactement où vous l’avez laissée.':ec.subtitle||'Les réponses sont enregistrées pendant la session. La correction complète est disponible à la fin.';
@@ -321,8 +329,8 @@
   }
 
   function startMistakesSession(){
-    const wrong=bank.filter(q=>state.answers[q.id]?.correct===false);
-    if(!wrong.length){toast('Aucune erreur active à retravailler.');return}
+    const wrong=reviewQuestions();
+    if(!wrong.length){toast('Aucune question dans cette sélection.');return}
     mode='mistakes-session';domain='all';search='';$('#search').value='';cursor=0;list=[];refresh();focusCurrentQuestion({smooth:false});
   }
 
@@ -359,6 +367,12 @@
     $$('.domain-link').forEach(b=>b.onclick=()=>{domain=b.dataset.domain;mode='study';search='';$('#search').value='';cursor=0;refresh()});
     $('#domainPills').innerHTML=`<button class="${domain==='all'?'active':''}" data-filter="all">Tous</button>`+DOMAINS.map(([id,label])=>`<button class="${domain===id?'active':''}" data-filter="${clean(id)}">${clean(label)}</button>`).join('');
     $$('#domainPills button').forEach(b=>b.onclick=()=>{domain=b.dataset.filter;mode='study';cursor=0;list=[];refresh()});$('#domainPills').hidden=mode==='exam';
+    if(UI.createDomainSelector){
+      const options=[{value:'all',label:'Tous les domaines'},...DOMAINS.map(([id,label])=>({value:id,label}))];
+      if(!domainSelector){domainSelector=UI.createDomainSelector({options,value:domain,onChange:value=>{domain=value;mode='study';cursor=0;list=[];refresh();}});const host=document.createElement('div');host.className='v3-domain-control';host.append(domainSelector.element);$('.v2-course-summary').before(host);}
+      else domainSelector.update({options,value:domain});
+      domainSelector.element.parentElement.hidden=mode==='exam'||!['study','quick','weakness'].includes(mode);
+    }
     enhanceNavigationIcons();updateShellContext();
   }
   function examConfig(){return{version:1,total:48,durationMinutes:100,allocation:null,caseStudyIds:[],caseRelatedIds:[],multiContext:false,subtitle:'Examen blanc généré depuis la banque',...(cfg.exam||{})}}
@@ -369,6 +383,7 @@
   function masteredCount(){return bank.filter(q=>(state.answers[q.id]?.streak||0)>=2&&state.answers[q.id]?.correct===true).length}
   function renderDashboard(){
     if(mode!=='dashboard')return;
+    renderCourseHub();
     const answered=bank.filter(q=>typeof state.answers[q.id]?.correct==='boolean');
     const good=answered.filter(q=>state.answers[q.id].correct).length;
     const explored=bank.filter(q=>state.seen?.[q.id]||state.answers[q.id]?.done||state.answers[q.id]?.read||state.drafts[q.id]).length;
@@ -407,6 +422,20 @@
     $('#dashboardDetails').hidden=!answered.length&&!hist.length&&!queue.length&&!favorites.length;
     $$('[data-dashboard-q]').forEach(b=>b.onclick=()=>openQuestionById(b.dataset.dashboardQ));
     $$('[data-dashboard-history]').forEach(el=>{el.onclick=openExamHistory;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openExamHistory();}};});
+  }
+  function renderCourseHub(){
+    if(!UI.createCourseHub)return;
+    const modules=UI.courseModules({domains:DOMAINS,questions:bank,state}),session=savedStudySession(),exam=state.exam?.ids?.length;
+    const last=exam?byId.get(state.exam.ids[state.exam.index||0]):session?byId.get(session.questionId):null;
+    if(!pathDomain||!modules.some(m=>m.id===pathDomain))pathDomain=last?.domain||modules[0]?.id;
+    if(!courseHub){
+      const heading=document.createElement('h2');heading.className='v3-home-heading';heading.id='courseHubHeading';
+      const subtitle=document.createElement('p');subtitle.className='v3-home-subtitle';subtitle.textContent='Votre formation, vos modules et la prochaine question.';
+      courseHub=UI.createCourseHub({resumeButton:$('#startWeaknessButton'),onSelect:id=>{pathDomain=id;},onStart:id=>{pathDomain=id;$('#startPathButton').click();},onContinue:startOrResumeStudy});
+      $('#dashboard').prepend(heading,subtitle,courseHub.element);
+    }
+    $('#courseHubHeading').textContent='Votre préparation '+cfg.code;
+    courseHub.update({code:cfg.code,name:cfg.id==='az104'?'Microsoft Azure Administrator':cfg.name,modules,selected:pathDomain,nextLabel:last?'Reprendre la question '+last.id:'Commencer une première session',resumeLabel:exam?'Reprendre l’examen':session?'Reprendre l’entraînement':'Commencer une session de 10 questions'});
   }
   function openQuestionById(id){mode='study';domain='all';search='';$('#search').value='';list=[];refresh(id);focusCurrentQuestion({smooth:true})}
   function questionNavStatus(q,examMode){if(examMode){const r=state.exam?.answers?.[q.id];return r?'answered':'pending'}const r=state.answers[q.id];if(r?.correct===true)return'good';if(r?.correct===false)return'bad';if(r?.done)return'answered';return'pending'}
@@ -464,6 +493,7 @@
   function toggleFocus(){setFocusMode(!state.examFocus)}
   function resetExam(){if(mode!=='exam'||!state.exam)return;if(window.confirm&&!window.confirm('Recommencer cet examen depuis la question 1 ? Toutes les réponses de cette session seront effacées.'))return;state.exam.answers={};state.exam.drafts={};state.exam.index=0;state.exam.start=now();cursor=0;save();render();const ec=examConfig();toast(`Examen réinitialisé : ${state.exam.ids.length} questions et ${ec.durationMinutes} minutes.`);focusCurrentQuestion({smooth:true})}
   function selectMode(next){
+    if(next==='path')next='dashboard';
     if(next==='study'){
       const session=savedStudySession();
       mode=session?.mode==='quick'?'quick':'study';domain=session?.domain||'all';search=session?.search||'';
@@ -480,7 +510,7 @@
     if(mode==='quick')return(state.studySession?.ids||[]).map(id=>byId.get(id)).filter(Boolean);
     let questions=bank.filter(q=>domain==='all'||q.domain===domain);
     if(mode==='weakness')questions=weaknessQuestions();
-    if(mode==='mistakes-session')questions=questions.filter(q=>state.answers[q.id]?.correct===false);
+    if(mode==='mistakes-session'){const ids=new Set(reviewQuestions().map(q=>q.id));questions=questions.filter(q=>ids.has(q.id));}
     if(search)questions=questions.filter(q=>norm([q.id,q.category,q.prompt,q.solutionAnswer,q.pedagogicalContext,q.sourceExplanation,...(q.options||[])].join(' ')).includes(norm(search)));
     return questions;
   }
@@ -498,7 +528,7 @@
     else if(mode==='study'&&state.lastId&&list.some(q=>q.id===state.lastId))cursor=list.findIndex(q=>q.id===state.lastId);
     else cursor=Math.min(cursor,Math.max(0,list.length-1));
     const ec=examConfig();
-    $('#workTitle').textContent=mode==='quick'?'Entraînement':mode==='exam'?`Examen blanc · ${state.exam?.ids?.length||Math.min(ec.total,autoQuestions.length)} questions`:mode==='weakness'?'Travailler mes faiblesses':mode==='mistakes-session'?'Session de rattrapage':domain==='all'?'Base de connaissances':domainTuple(domain)?.[1]||'Base de connaissances';
+    $('#workTitle').textContent=mode==='quick'?'Entraînement':mode==='exam'?`Examen blanc · ${state.exam?.ids?.length||Math.min(ec.total,autoQuestions.length)} questions`:mode==='weakness'?'Travailler mes faiblesses':mode==='mistakes-session'?'Session de rattrapage':'Entraînement';
     $('#workSubtitle').textContent=mode==='quick'?'Une question à la fois. Votre session est sauvegardée automatiquement.':mode==='exam'?ec.subtitle:mode==='weakness'?'Priorité aux domaines les moins maîtrisés et aux erreurs actives.':mode==='mistakes-session'?'Travaillez uniquement les questions actuellement en erreur.':`${bank.length} questions disponibles pour ${cfg.code}.`;
     $('#modeLabel').textContent={study:'Base complète',quick:'Session courte',weakness:'Faiblesses','mistakes-session':'Erreurs',exam:'Examen blanc'}[mode]||'Base complète';
     $('#search').disabled=mode==='exam'||mode==='quick';$('#resetFilter').hidden=mode==='exam'||mode==='quick';
@@ -672,10 +702,10 @@
   }
 
   function updateV2StudyTools(q){
-    const evaluated=bank.filter(item=>typeof state.answers[item.id]?.correct==='boolean');
+    const evaluated=bank.filter(item=>state.seen?.[item.id]||state.answers[item.id]?.done||state.answers[item.id]?.read||state.drafts?.[item.id]);
     const percent=bank.length?Math.round(evaluated.length/bank.length*100):0;
     $('#v2CourseCode').textContent=cfg.code;$('#v2CourseName').textContent=cfg.name;
-    $('#v2CourseDetail').textContent=evaluated.length+' / '+bank.length+' questions évaluées';
+    $('#v2CourseDetail').textContent=evaluated.length+' / '+bank.length+' questions explorées';
     $('#v2ProgressDetail').textContent=$('#v2CourseDetail').textContent;
     ['#v2CoursePercent','#v2ProgressPercent'].forEach(id=>$(id).textContent=percent+' %');
     ['#v2CourseProgress','#v2ProgressBar'].forEach(id=>$(id).style.width=percent+'%');
@@ -697,7 +727,7 @@
   function submit(skipped=false){const q=list[cursor];if(!q||record(q))return;const d=skipped?{}:draft(q);if(!skipped&&!answerComplete(q,d))return;const scored=skipped?false:score(q,d),result={done:true,correct:scored,selected:d.selected||[],values:d.values||{},text:d.text||'',skipped,ts:now(),pendingSelfGrade:scored===null};if(mode==='exam'){state.exam.answers[q.id]=result;save();if(cursor<list.length-1){cursor++;render();focusCurrentQuestion()}else finishExam();return}if(scored===null){state.answers[q.id]=result;delete state.drafts[q.id];save();render();UI.scrollFeedbackAfterRender?.();toast('Comparez maintenant votre réponse avec la correction puis auto-évaluez-vous.')}else{scheduleRecord(q,result,scored);render();UI.scrollFeedbackAfterRender?.();if(skipped)toast('La réponse et sa documentation sont affichées sous la question.')}}
   function move(delta){if(!list.length)return;const next=Math.max(0,Math.min(list.length-1,cursor+delta));if(next===cursor)return;cursor=next;render();focusCurrentQuestion()}
   function updateClock(){if(mode!=='exam'||!state.exam)return;const ms=Math.max(0,state.exam.start+state.exam.duration-now()),m=Math.floor(ms/60000),s=Math.floor(ms%60000/1000);$('#sessionClock').textContent=`Temps restant ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;if(ms===0)finishExam()}
-  function finishExam(){if(!state.exam||mode!=='exam')return;const exam=state.exam,ids=exam.ids,finishedAt=now();let correct=0;const data=DOMAINS.map(([id,label])=>{const qs=ids.map(i=>byId.get(i)).filter(q=>q?.domain===id),passed=qs.filter(q=>exam.answers[q.id]?.correct===true).length;correct+=passed;return{label,passed,total:qs.length}}),answered=ids.filter(id=>!!exam.answers[id]).length,skipped=ids.filter(id=>!exam.answers[id]||exam.answers[id]?.skipped).length,percent=ids.length?Math.round(correct/ids.length*100):0;state.examHistory=Array.isArray(state.examHistory)?state.examHistory:[];const elapsedMs=Math.max(0,finishedAt-exam.start),avgMs=answered?Math.round(elapsedMs/answered):0,flaggedIds=Object.keys(exam.flagged||{}).filter(id=>exam.flagged[id]);state.examHistory.unshift({completedAt:finishedAt,startedAt:exam.start,elapsedMs,avgMs,correct,total:ids.length,percent,answered,skipped,flagged:flaggedIds.length,domains:data.map(d=>({...d})),wrongIds:ids.filter(id=>exam.answers[id]?.correct!==true)});state.examHistory=state.examHistory.slice(0,100);ids.forEach(id=>{const r=exam.answers[id]||{done:true,correct:false,skipped:true};state.answers[id]={...r,streak:r.correct?1:0,due:now()+(r.correct?86400000:0)}});state.exam=null;save();mode='study';domain='all';search='';$('#search').value='';cursor=0;refresh();$('#modalEyebrow').textContent=cfg.code;$('#modalTitle').textContent='Examen terminé';$('#modalBody').innerHTML=`<div class="result-score">${correct}<small> / ${ids.length}</small></div><p>${percent} % de bonnes réponses · temps moyen ${clean(formatDuration(avgMs))} par réponse · ${flaggedIds.length} question(s) marquée(s). Cet examen est maintenant enregistré dans Historique examens.</p><div class="result-rows">${data.filter(d=>d.total).map(d=>`<div><span>${clean(d.label)}</span><b>${d.passed} / ${d.total}</b></div>`).join('')}</div>`;setModalAction('Revoir les erreurs',{variant:'primary'});modalCallback=()=>selectMode('mistakes');showModal({kind:'result',size:'medium'});}
+  function finishExam(){if(!state.exam||mode!=='exam')return;const exam=state.exam,ids=exam.ids,finishedAt=now();let correct=0;const data=DOMAINS.map(([id,label])=>{const qs=ids.map(i=>byId.get(i)).filter(q=>q?.domain===id),passed=qs.filter(q=>exam.answers[q.id]?.correct===true).length;correct+=passed;return{label,passed,total:qs.length}}),answered=ids.filter(id=>!!exam.answers[id]).length,skipped=ids.filter(id=>!exam.answers[id]||exam.answers[id]?.skipped).length,percent=ids.length?Math.round(correct/ids.length*100):0;state.examHistory=Array.isArray(state.examHistory)?state.examHistory:[];const elapsedMs=Math.max(0,finishedAt-exam.start),avgMs=answered?Math.round(elapsedMs/answered):0,flaggedIds=Object.keys(exam.flagged||{}).filter(id=>exam.flagged[id]);state.examHistory.unshift({completedAt:finishedAt,startedAt:exam.start,elapsedMs,avgMs,correct,total:ids.length,percent,answered,skipped,flagged:flaggedIds.length,flaggedIds,domains:data.map(d=>({...d})),wrongIds:ids.filter(id=>exam.answers[id]?.correct!==true)});state.examHistory=state.examHistory.slice(0,100);ids.forEach(id=>{const r=exam.answers[id]||{done:true,correct:false,skipped:true};state.answers[id]={...r,streak:r.correct?1:0,due:now()+(r.correct?86400000:0)}});state.exam=null;save();mode='study';domain='all';search='';$('#search').value='';cursor=0;refresh();$('#modalEyebrow').textContent=cfg.code;$('#modalTitle').textContent='Examen terminé';$('#modalBody').innerHTML=`<div class="result-score">${correct}<small> / ${ids.length}</small></div><p>${percent} % de bonnes réponses · temps moyen ${clean(formatDuration(avgMs))} par réponse · ${flaggedIds.length} question(s) marquée(s). Cet examen est maintenant enregistré dans Historique examens.</p><div class="result-rows">${data.filter(d=>d.total).map(d=>`<div><span>${clean(d.label)}</span><b>${d.passed} / ${d.total}</b></div>`).join('')}</div>`;setModalAction('Revoir les erreurs',{variant:'primary'});modalCallback=()=>selectMode('mistakes');showModal({kind:'result',size:'medium'});}
   function closeModal(){const backdrop=$('#modal'),surface=backdrop?.querySelector('.modal');if(backdrop)backdrop.hidden=true;if(surface){surface.classList.remove('modal-wide');surface.dataset.kind='default';surface.dataset.size='medium'}document.body.classList.remove('ui-modal-open');modalCallback=null;modalEscapeClosable=true;const returnFocus=modalReturnFocus;modalReturnFocus=null;if(returnFocus?.isConnected)requestAnimationFrame(()=>returnFocus.focus({preventScroll:true}))}
   function applyTheme(){const t=root.theme||((window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark');document.documentElement.dataset.theme=t;const meta=$('#themeColorMeta')||document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',t==='dark'?'#0b1120':'#f4f6fa')}
   function exportProgress(){save();const text=JSON.stringify({schema:'azure-cert-trainer-backup-v2',appVersion:APP_VERSION,exportedAt:new Date().toISOString(),activeTraining:root.activeTraining,theme:root.theme,states:root.states},null,2),href=URL.createObjectURL(new Blob([text],{type:'application/json'})),a=document.createElement('a');a.href=href;a.download=`Azure_Trainer_sauvegarde_${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(href),1000);toast('Sauvegarde complète exportée : AZ-104, AZ-305, historique, favoris et notes.')}
@@ -712,9 +742,10 @@
   function importProgress(file){if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(String(reader.result||''));if(data.states&&typeof data.states==='object'){if(window.confirm&&!window.confirm('Restaurer cette sauvegarde complète ? Les progressions locales AZ-104/AZ-305 seront remplacées par celles du fichier.'))return;const restored={};for(const [id,s] of Object.entries(data.states))restored[id]=normalizeImportedState(s);root.states=restored;root.theme=data.theme||root.theme;root.activeTraining=data.activeTraining||root.activeTraining;localStorage.setItem(APP_KEY,JSON.stringify(root));applyTheme();activateTraining(catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:cfg.id);toast('Sauvegarde complète restaurée.');return}const imported=data.state;if(!imported||typeof imported!=='object')throw new Error('Fichier de sauvegarde incompatible.');if(window.confirm&&!window.confirm(`Importer cette ancienne sauvegarde dans ${cfg.code} ?`))return;root.states[cfg.id]=normalizeImportedState(imported);state=root.states[cfg.id];save();refresh();toast('Progression importée avec succès.')}catch(e){console.error(e);toast(e.message||'Import de sauvegarde impossible.')}};reader.readAsText(file)}
   function checkVersion(){const previous=localStorage.getItem(APP_KEY+'-version');if(previous&&previous!==APP_VERSION)toast(`Application mise à jour : v${previous} → v${APP_VERSION}. Votre progression est conservée.`);localStorage.setItem(APP_KEY+'-version',APP_VERSION);$('#versionLabel').textContent=`v${APP_VERSION}`}
   let deferredInstall=null;
-  function isAppInstalled(){return !!(window.matchMedia?.('(display-mode: standalone)').matches||window.navigator.standalone)}
+  function isAppInstalled(){return !!(installationConfirmed||window.matchMedia?.('(display-mode: standalone)').matches||window.navigator.standalone)}
   function setInstallButtonLabel(button,text){const label=button?.querySelector('.ui-button__label');if(label)label.textContent=text;else if(button)button.textContent=text}
   function updateInstallUi(){
+    onboardingController?.setInstallState?.(isAppInstalled()?'installed':deferredInstall?'available':'browser');
     const button=$('#installAppButton'),description=$('#installSettingDescription'),status=$('#installStatus');if(!button)return;
     button.hidden=false;
     if(isAppInstalled()){
@@ -733,7 +764,7 @@
     }
   }
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;updateInstallUi()});
-  window.addEventListener('appinstalled',()=>{deferredInstall=null;updateInstallUi();toast('Azure Trainer est installée sur cet appareil.')});
+  window.addEventListener('appinstalled',()=>{installationConfirmed=true;deferredInstall=null;updateInstallUi();toast('Azure Trainer est installée sur cet appareil.')});
   async function installApp(){
     if(isAppInstalled()){toast('Azure Trainer est déjà installée.');updateInstallUi();return}
     if(!deferredInstall){
@@ -741,9 +772,10 @@
       toast(local?'Le navigateur prépare l’installation locale. Rechargez une fois si le prompt n’apparaît pas.':'Utilisez aussi le menu du navigateur → Installer Azure Trainer si le prompt natif n’est pas encore disponible.');
       updateInstallUi();return
     }
-    deferredInstall.prompt();const choice=await deferredInstall.userChoice;
+    const prompt=deferredInstall;deferredInstall=null;
+    let choice;try{await prompt.prompt();choice=await prompt.userChoice;}finally{updateInstallUi();}
     if(choice?.outcome==='accepted')toast('Installation lancée.');
-    deferredInstall=null;updateInstallUi();
+    deferredInstall=null;updateInstallUi();return choice?.outcome;
   }
   function importModal(parsed){
     const t=parsed.training,s=parsed.stats;$('#modalEyebrow').textContent='IMPORTATION';$('#modalTitle').textContent='Ajouter une banque';$('#modalBody').innerHTML=`<p><strong>${s.questions}</strong> questions détectées · ${s.auto} évaluables automatiquement · ${s.self} en auto-évaluation · ${s.domains} domaines.</p><label class="modal-field"><span>Destination</span><select id="importTarget"><option value="__new__">Créer une nouvelle formation</option>${catalog.map(x=>`<option value="${clean(x.id)}" ${x.id===t.id?'selected':''}>Ajouter / mettre à jour ${clean(x.code)} · ${clean(x.name)}</option>`).join('')}</select></label><label class="modal-field"><span>Code</span><input id="importCode" value="${clean(t.code)}"></label><label class="modal-field"><span>Nom</span><input id="importName" value="${clean(t.name)}"></label><p class="import-note">PDF : les QCM et corrections textuelles sont générés automatiquement. Les formats visuels non lisibles en texte restent répondables via auto-évaluation.</p>`;setModalAction('Importer',{variant:'primary'});modalCallback=async()=>{
@@ -780,7 +812,9 @@
     UI.bindSettingsNavigation?.($('#settingsPage'));
     $('#modalClose').onclick=closeModal;$('#modalAction').onclick=async()=>{const fn=modalCallback;if(!fn){closeModal();return}try{await fn();closeModal()}catch(e){console.error(e);toast(e.message||'Opération impossible.')}};$('#modal').onclick=e=>{if(e.target.id==='modal')e.stopPropagation()};$('#modal').addEventListener('keydown',e=>UI.trapModalTab?.(e,$('#modal').querySelector('.modal')));
     document.addEventListener('keydown',e=>{if(document.body.classList.contains('ui-first-run-open'))return;if(e.key==='Escape'){const modal=$('#modal');if(modal&&!modal.hidden){if(modalEscapeClosable)closeModal();return}if(state.examFocus){e.preventDefault();setFocusMode(false);return}if(filtersOpen){e.preventDefault();filtersOpen=false;updateFilterControls();$('#filterToggleButton').focus();return}}if(e.target.closest('input,select,textarea,button'))return;if((e.key==='f'||e.key==='F')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&['study','quick','weakness','mistakes-session','exam'].includes(mode)&&list.length){e.preventDefault();toggleFocus();return}if(e.key==='ArrowRight'){e.preventDefault();move(1)}else if(e.key==='ArrowLeft'){e.preventDefault();move(-1)}else if(e.key==='Enter'&&!$('#submit').disabled){e.preventDefault();submit()}else if(/^[1-9]$/.test(e.key)&&list[cursor]?.options?.length){$(`#choices [data-choice="${Number(e.key)-1}"]`)?.click()}});
-    const startId=catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:'az104',startState=currentState(startId),resume=!!startState.exam?.ids?.length;activateTraining(startId,{resumeExam:resume});checkVersion();setTimeout(()=>openOnboarding(),120);if(interfaceLanguage==='fr')setTimeout(()=>applyInterfaceLanguage('fr',{silent:true}),250);if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./service-worker.js').then(()=>updateInstallUi()).catch(console.warn);timer=setInterval(updateClock,1000);
+    const startId=catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:'az104',startState=currentState(startId),resume=!!startState.exam?.ids?.length;activateTraining(startId,{resumeExam:resume});if(!resume&&['#parcours','#path'].includes(location.hash))selectMode('dashboard');
+    window.addEventListener('hashchange',()=>{if(['#parcours','#path'].includes(location.hash))selectMode('dashboard')});
+    checkVersion();setTimeout(()=>openOnboarding(),120);if(interfaceLanguage==='fr')setTimeout(()=>applyInterfaceLanguage('fr',{silent:true}),250);if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./service-worker.js').then(()=>updateInstallUi()).catch(console.warn);timer=setInterval(updateClock,1000);
   }
   await boot();
 })();

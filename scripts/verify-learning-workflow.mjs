@@ -43,7 +43,7 @@ try {
       await page.goto(url, { waitUntil: 'domcontentloaded' });
       await page.locator('#dashboard').waitFor({ state: 'visible' });
       assert.match(await page.locator('#startWeaknessButton').innerText(), /Commencer.*10/);
-      assert(await page.locator('#dashboardWelcome').isVisible());
+      assert.match(await page.locator('.ui-course-hub__coverage').innerText(), /^0 % explorés/);
       assert(!/0\/0|streak/.test(await page.locator('#dashboard').innerText()));
       await page.screenshot({ path: `test-results/ux-dashboard-${theme}-${width}.png` });
       await page.locator('#startWeaknessButton').click();
@@ -53,8 +53,8 @@ try {
       await page.screenshot({ path: `test-results/ux-study-${theme}-${width}.png` });
       if (width <= 920) {
         assert(!(await page.locator('#studyFilters').isVisible()), 'Mobile filters start expanded');
-        assert.equal(await page.locator('.mobile-nav-label:visible').count(), 5);
-        for (const button of await page.locator('.app-shell-primary-nav .rail-link').all()) {
+        assert.equal(await page.locator('.mobile-nav-label:visible').count(), 4);
+        for (const button of await page.locator('.app-shell-primary-nav .rail-link:visible').all()) {
           const box = await button.boundingBox();
           assert(box && box.x >= 0 && box.x + box.width <= width + 1 && box.y >= 0 && box.y + box.height <= 901 && box.height >= 44, 'Mobile navigation target does not fit');
         }
@@ -116,14 +116,14 @@ try {
       assert(await page.locator('#dashboard').isVisible());
       assert.equal((await storedState(page)).studySession.completed, true);
       assert.equal((await storedState(page)).answers['T1-Q1'].streak, 2);
-      await page.locator('.rail-link[data-mode="path"]').click();
-      await page.locator('#pathPage').waitFor({ state: 'visible' });
-      assert.match(await page.locator('#pathSubtitle').innerText(), /AZ-104/);
+      await page.locator('.rail-link[data-mode="dashboard"]').click();
+      await page.locator('#dashboard').waitFor({ state: 'visible' });
+      assert.match(await page.locator('#courseHubHeading').innerText(), /AZ-104/);
       const module = page.locator('[data-path-domain]').nth(1);
       const chosenDomain = await module.getAttribute('data-path-domain');
       await module.click();
       await page.screenshot({ path: `test-results/v2-path-${theme}-${width}.png` });
-      await page.locator('#startPathButton').click();
+      await page.locator('.ui-course-hub__detail .ui-button').click();
       assert.equal((await storedState(page)).studySession.domain, chosenDomain);
       const noteId = await page.locator('#questionId').innerText();
       await page.locator('#quickNote').fill('Note rapide V2 conservée');
@@ -139,9 +139,9 @@ try {
       assert.equal(await page.locator('[data-settings-target="#dataSettings"]').getAttribute('aria-selected'), 'true');
       await page.locator('[data-settings-target="#trainingSettings"]').click();
       await page.locator('#settingsTrainingSelect').selectOption('az305');
-      await page.locator('.rail-link[data-mode="path"]').click();
-      assert.match(await page.locator('#pathSubtitle').innerText(), /AZ-305/);
-      assert.match(await page.locator('#pathPage').getAttribute('aria-label'), /AZ-305/);
+      await page.locator('.rail-link[data-mode="dashboard"]').click();
+      assert.match(await page.locator('#courseHubHeading').innerText(), /AZ-305/);
+      assert.match(await page.locator('.ui-course-hub__coverage').innerText(), /domaines/);
       assert.equal(await page.evaluate(({ key, id }) => JSON.parse(localStorage.getItem(key)).states.az104.notes[id], { key: appKey, id: noteId }), 'Note rapide V2 conservée');
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       assert.deepEqual(errors, [], 'Application errors');
@@ -183,8 +183,9 @@ try {
   const otherTraining = await legacyPage.evaluate(key => JSON.parse(localStorage.getItem(key)).states.az305, appKey);
   assert.deepEqual(otherTraining, legacy.states.az305);
   await legacyPage.locator('#filterToggleButton').click();
-  const storageDomain = legacyPage.locator('#domainPills [data-filter]').nth(2);
-  const domain = await storageDomain.getAttribute('data-filter');
+  await legacyPage.locator('.ui-domain-selector>button').click();
+  const storageDomain = legacyPage.locator('.ui-domain-selector [role=option]').nth(2);
+  const domain = await storageDomain.getAttribute('data-value');
   await storageDomain.click();
   const filteredId = await legacyPage.locator('#questionId').innerText();
   await legacyPage.locator('#search').fill(filteredId);

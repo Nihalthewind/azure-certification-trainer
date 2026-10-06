@@ -1,3 +1,3 @@
 # Trainer Pages
 
-Prototypes Storybook des cinq destinations majeures : Tableau de bord, Base de connaissances, Erreurs, Examen blanc et Paramètres. Tous les styles reposent sur les tokens sémantiques afin de fonctionner en sombre comme en clair.
+Compositions de démonstration V3 : Accueil, Entraînement, Examen blanc, Révisions, Paramètres. Stories séparées dans stories/pages ; helper trainer-page-stories.js. Fixtures explicites, tokens Light/Dark, mêmes primitives que l’application ; aucun moteur ou stockage de production dans ces mocks.

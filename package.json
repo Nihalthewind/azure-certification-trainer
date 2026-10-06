@@ -1,7 +1,7 @@
 {
   "name": "azure_certification_trainer_2026",
-  "version": "2.1.0",
-  "description": "Plateforme web de préparation aux certifications Microsoft Azure, actuellement dédiée à **AZ-104** et **AZ-305**.",
+  "version": "3.0.0",
+  "description": "Préparation Azure AZ-104 et AZ-305 : apprentissage, entraînement et révisions ciblées.",
   "main": "atelier.js",
   "scripts": {
     "app": "vite --host 127.0.0.1",
@@ -12,7 +12,8 @@
     "test-ux": "node scripts/verify-learning-workflow.mjs",
     "build:pages": "node scripts/build-pages.mjs",
     "test:pages": "node scripts/verify-pages.mjs",
-    "figma:export": "node scripts/export-figma-ui.mjs"
+    "figma:export": "node scripts/export-figma-ui.mjs",
+    "test:v3": "node scripts/verify-v3-product-experience.mjs"
   },
   "repository": {
     "type": "git",
@@ -27,16 +28,16 @@
   },
   "homepage": "https://github.com/Nihalthewind/azure-certification-trainer#readme",
   "devDependencies": {
-    "@chromatic-com/storybook": "latest",
-    "@storybook/addon-a11y": "^10.6.1",
-    "@storybook/addon-docs": "^10.6.1",
-    "@storybook/addon-vitest": "^10.6.1",
-    "@storybook/html-vite": "^10.6.1",
-    "@vitest/browser-playwright": "latest",
-    "@vitest/coverage-v8": "latest",
-    "playwright": "latest",
-    "storybook": "^10.6.1",
-    "vite": "^8.3.2",
-    "vitest": "latest"
+    "@chromatic-com/storybook": "5.4.0",
+    "@storybook/addon-a11y": "10.6.1",
+    "@storybook/addon-docs": "10.6.1",
+    "@storybook/addon-vitest": "10.6.1",
+    "@storybook/html-vite": "10.6.1",
+    "@vitest/browser-playwright": "4.1.11",
+    "@vitest/coverage-v8": "4.1.11",
+    "playwright": "1.63.0",
+    "storybook": "10.6.1",
+    "vite": "8.3.2",
+    "vitest": "4.1.11"
   }
 }

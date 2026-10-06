@@ -49,7 +49,7 @@ try {
     assert.equal(await page.locator('#questionPrompt').evaluate(n => getComputedStyle(n).maxHeight), 'none');
     if (width > 920) {
       assert.equal(Math.round((await page.locator('.rail').boundingBox()).width), 200);
-      assert.equal(await page.locator('.rail-link-label:visible').count(), 5, 'Sidebar labels must remain visible');
+      assert.equal(await page.locator('.rail-link-label:visible').count(), 4, 'Sidebar labels must remain visible');
       if (width === 1440) assert.equal(Math.round((await page.locator('.v2-study-aside').boundingBox()).width), 256);
     } else {
       const question = await page.locator('#questionCard').boundingBox(), aside = await page.locator('.v2-study-aside').boundingBox();
@@ -72,7 +72,7 @@ try {
     assert.deepEqual(errors, []);
     const story = await context.newPage();
     story.on('pageerror', error => errors.push(error.message));
-    const id = `pages-azure-trainer-v2--entrainement-${theme}`;
+    const id = `pages-entrainement--entrainement-${theme}`;
     await story.goto(`http://127.0.0.1:${storyServer.address().port}/iframe.html?id=${id}&viewMode=story&globals=theme:${theme}`);
     await story.locator('.ui-v2-question-workspace').waitFor({ state: 'visible' });
     await story.evaluate(() => document.fonts.ready);

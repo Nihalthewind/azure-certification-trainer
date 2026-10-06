@@ -2,7 +2,7 @@ import { createAppShell } from '../../src/ui/patterns/app-shell/app-shell.js';
 import { createTrainerPage } from '../../src/ui/pages/trainer-pages/trainer-pages.js';
 
 export default {
-  title: 'Patterns/AppShell V2',
+  title: 'Patterns/AppShell',
   parameters: { layout: 'fullscreen', a11y: { test: 'error' } },
   render: (args) => createAppShell({ ...args, content: createTrainerPage(args.activeMode === 'path' ? 'path' : args.activeMode) }),
   argTypes: {

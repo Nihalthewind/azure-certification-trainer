@@ -102,7 +102,6 @@ export function createAppShell({
   nav.className = 'ui-app-shell__nav';
   const items = [
     ['dashboard', 'Accueil', 'dashboard'],
-    ['path', 'Parcours', 'layers'],
     ['study', 'Entraînement', 'knowledge'],
     ['exam', 'Examen blanc', 'exam'],
     ['mistakes', 'Révisions', 'review'],

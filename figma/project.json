@@ -1,21 +1,24 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "name": "Azure Certification Trainer — Design System",
   "fileKey": "jKDnAtVtPXQvQ74xVNFUeT",
   "url": "https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT",
   "branch": "storybook",
-  "appVersion": "2.1.0",
+  "appVersion": "3.0.0",
   "source": {
-    "codeSha256": "38323b2b2e2fea65644f7cdb6d464a92a76c5e5ea8e68ee78f134b61ba89f3ad",
+    "codeSha256": "acb2ecde14a1e255f2c2fef7f2947b9e558e4a347ba1ea91ed8361a18afaab99",
     "hashAlgorithm": "SHA-256 of sorted path + NUL + UTF-8 content normalized to LF + NUL",
     "files": [
       ".storybook/main.js",
       ".storybook/preview.js",
+      "atelier.css",
       "atelier.js",
       "index.html",
       "package.json",
+      "scripts/export-figma-ui.mjs",
       "scripts/verify-account-clarity.mjs",
       "scripts/verify-training-workspace.mjs",
+      "scripts/verify-v3-product-experience.mjs",
       "service-worker.js",
       "src/ui/README.md",
       "src/ui/components/README.md",
@@ -28,6 +31,9 @@
       "src/ui/components/button/README.md",
       "src/ui/components/button/button.css",
       "src/ui/components/button/button.js",
+      "src/ui/components/domain-selector/README.md",
+      "src/ui/components/domain-selector/domain-selector.css",
+      "src/ui/components/domain-selector/domain-selector.js",
       "src/ui/components/empty-state/README.md",
       "src/ui/components/empty-state/empty-state.css",
       "src/ui/components/empty-state/empty-state.js",
@@ -58,6 +64,7 @@
       "src/ui/integration/training-workspace.css",
       "src/ui/integration/ux-polish.css",
       "src/ui/integration/v2-minimal.css",
+      "src/ui/integration/v3-product-experience.css",
       "src/ui/integration/visual-contrast.css",
       "src/ui/pages/README.md",
       "src/ui/pages/trainer-pages/README.md",
@@ -67,6 +74,9 @@
       "src/ui/patterns/app-shell/README.md",
       "src/ui/patterns/app-shell/app-shell.css",
       "src/ui/patterns/app-shell/app-shell.js",
+      "src/ui/patterns/course-hub/README.md",
+      "src/ui/patterns/course-hub/course-hub.css",
+      "src/ui/patterns/course-hub/course-hub.js",
       "src/ui/patterns/first-run-experience/README.md",
       "src/ui/patterns/first-run-experience/first-run-experience.css",
       "src/ui/patterns/first-run-experience/first-run-experience.js",
@@ -79,6 +89,7 @@
       "src/ui/patterns/question-viewport/README.md",
       "src/ui/patterns/question-viewport/question-viewport.css",
       "src/ui/patterns/question-viewport/question-viewport.js",
+      "src/ui/patterns/settings-navigation/README.md",
       "src/ui/patterns/settings-navigation/settings-navigation.js",
       "src/ui/patterns/workspace-toolbar/README.md",
       "src/ui/patterns/workspace-toolbar/workspace-toolbar.css",
@@ -87,6 +98,7 @@
       "stories/components/AnswerOption.stories.js",
       "stories/components/Badge.stories.js",
       "stories/components/Button.stories.js",
+      "stories/components/DomainSelector.stories.js",
       "stories/components/EmptyState.stories.js",
       "stories/components/FeedbackPanel.stories.js",
       "stories/components/IconButton.stories.js",
@@ -94,8 +106,13 @@
       "stories/components/NavigationItem.stories.js",
       "stories/foundations/Foundations.stories.js",
       "stories/foundations/Icons.stories.js",
-      "stories/pages/AzureTrainerPages.stories.js",
+      "stories/pages/Accueil.stories.js",
+      "stories/pages/Entrainement.stories.js",
+      "stories/pages/Examen.stories.js",
       "stories/pages/LearningExperience.stories.js",
+      "stories/pages/Parametres.stories.js",
+      "stories/pages/Revisions.stories.js",
+      "stories/pages/trainer-page-stories.js",
       "stories/patterns/AppShell.stories.js",
       "stories/patterns/FirstRunExperience.stories.js",
       "stories/patterns/QuestionCard.stories.js",
@@ -113,7 +130,8 @@
     "patterns": "6:2",
     "desktop": "6:3",
     "responsive": "6:4",
-    "explorations": "2:5"
+    "explorations": "2:5",
+    "startHere": "147:2171"
   },
   "components": {
     "button": {
@@ -129,7 +147,12 @@
       "homeActive": "30:2595",
       "settings": "30:2691"
     },
-    "search": "30:2713"
+    "search": "30:2713",
+    "domainSelector": "114:615",
+    "moduleRow": "114:611",
+    "introduction": "114:623",
+    "domainSelectorOpen": "125:1720",
+    "mobileNavigation": "150:443"
   },
   "variables": {
     "theme": "VariableCollectionId:8:31",
@@ -137,102 +160,443 @@
     "typography": "VariableCollectionId:8:62",
     "componentColor": "VariableCollectionId:12:2"
   },
-  "accountClarity": {
-    "revision": "Account clarity",
-    "scope": [
-      "Accueil",
-      "Paramètres",
-      "Langue et profil",
-      "Accès unique aux paramètres"
-    ],
-    "frames": {
-      "dashboard": {
-        "light": {
-          "390": "78:862",
-          "768": "78:1049",
-          "1440": "75:551"
-        },
-        "dark": {
-          "390": "78:1582",
-          "768": "78:1792",
-          "1440": "75:911"
-        }
-      },
-      "settings": {
-        "light": {
-          "390": "78:1236",
-          "768": "78:1409",
-          "1440": "75:747"
-        },
-        "dark": {
-          "390": "78:2002",
-          "768": "78:2175",
-          "1440": "75:1110"
-        }
-      }
-    },
-    "settingsCategories": {
-      "formations": {
-        "light": "77:503",
-        "dark": "77:996"
-      },
-      "data": {
-        "light": "77:676",
-        "dark": "77:1167"
-      },
-      "application": {
-        "light": "77:838",
-        "dark": "77:1329"
-      }
-    },
-    "stories": [
-      "AccueilLight",
-      "AccueilDark",
-      "AccueilPremierUsage",
-      "ParametresLight",
-      "ParametresDark",
-      "MobileAccueilLight",
-      "MobileAccueilDark",
-      "TabletAccueilLight",
-      "TabletAccueilDark",
-      "MobileParametresLight",
-      "MobileParametresDark",
-      "TabletParametresLight",
-      "TabletParametresDark",
-      "ParametresFormationsLight",
-      "ParametresFormationsDark",
-      "ParametresDonneesLight",
-      "ParametresDonneesDark",
-      "ParametresApplicationLight",
-      "ParametresApplicationDark"
-    ],
-    "patterns": [
-      {
-        "library": "Material 3",
-        "pattern": "List item / primary and supporting text with trailing action",
-        "use": "Adaptation to Azure Trainer rows with existing Theme and spacing tokens; no additional UI dependency."
-      }
-    ],
-    "preservation": "Original Figma frames are retained unchanged. Revisions contain editable Auto Layout, text and existing Button instances. Question engines, stored progress and current GitHub Pages deployment are preserved.",
-    "checks": [
-      "npm run validate",
-      "npm run test-ux",
-      "node scripts/verify-account-clarity.mjs",
-      "node scripts/verify-training-workspace.mjs"
-    ],
-    "recovery": {
-      "base": "6034d3458ef5df05043e0e0651f1ea5dc864a7cf",
-      "source": "2efdb2524a76046c0391474902f74a0ce0170e65",
-      "audit": "docs/recovery-2026-10-06.md",
-      "method": "Explicit reviewed file restoration; no merge or cherry-pick of WIP history"
-    },
-    "revisionAnnotation": "104:262"
-  },
   "previousImport": {
     "registry": "figma/imported-v2-reference.json",
     "fileKey": "Xs3HfY4USKunAzd3sHmoXR",
     "url": "https://www.figma.com/design/Xs3HfY4USKunAzd3sHmoXR",
     "commit": "6034d3458ef5df05043e0e0651f1ea5dc864a7cf",
     "purpose": "Historical V2 import and training workspace reference; main design decisions now use this registry’s primary Design System."
+  },
+  "designVersion": "V3 Product Experience",
+  "pageNames": {
+    "147:2171": "00 · Start Here",
+    "0:1": "01 · Foundations",
+    "2:4": "02 · Components",
+    "6:2": "03 · Patterns",
+    "6:3": "04 · Pages",
+    "6:4": "05 · Mobile",
+    "2:5": "06 · Explorations"
+  },
+  "frames": {
+    "dashboard": {
+      "light": {
+        "390": "120:1289",
+        "768": "120:1100",
+        "1440": "116:1006"
+      },
+      "dark": {
+        "390": "120:1667",
+        "768": "120:1478",
+        "1440": "117:1287"
+      }
+    },
+    "study": {
+      "light": {
+        "390": "120:2069",
+        "768": "120:1856",
+        "1440": "119:897"
+      },
+      "dark": {
+        "390": "120:2495",
+        "768": "120:2282",
+        "1440": "119:1240"
+      }
+    },
+    "exam": {
+      "light": {
+        "390": "134:2221",
+        "768": "134:1987",
+        "1440": "123:1556"
+      },
+      "dark": {
+        "390": "134:2689",
+        "768": "134:2455",
+        "1440": "123:1760"
+      }
+    },
+    "mistakes": {
+      "light": {
+        "390": "134:3180",
+        "768": "134:2923",
+        "1440": "123:1960"
+      },
+      "dark": {
+        "390": "134:3694",
+        "768": "134:3437",
+        "1440": "123:2195"
+      }
+    },
+    "settings": {
+      "light": {
+        "390": "134:4122",
+        "768": "134:3951",
+        "1440": "123:2430"
+      },
+      "dark": {
+        "390": "134:4464",
+        "768": "134:4293",
+        "1440": "123:2579"
+      }
+    }
+  },
+  "introduction": {
+    "installAvailable": {
+      "light": {
+        "390": "120:2708",
+        "1440": "118:673"
+      },
+      "dark": {
+        "390": "120:3078",
+        "1440": "118:869"
+      }
+    },
+    "browserOnly": "118:1061",
+    "alreadyInstalled": "118:1259"
+  },
+  "startHere": {
+    "page": "147:2171",
+    "cover": "148:283"
+  },
+  "mappings": [
+    {
+      "figma": "Button",
+      "storybook": "Components/Button",
+      "code": "src/ui/components/button/button.js",
+      "nodeId": "12:63"
+    },
+    {
+      "figma": "Badge",
+      "storybook": "Components/Badge",
+      "code": "src/ui/components/badge/badge.js",
+      "nodeId": "17:60"
+    },
+    {
+      "figma": "IconButton",
+      "storybook": "Components/IconButton",
+      "code": "src/ui/components/icon-button/icon-button.js",
+      "nodeId": "21:192"
+    },
+    {
+      "figma": "AnswerOption",
+      "storybook": "Components/AnswerOption",
+      "code": "src/ui/components/answer-option/answer-option.js",
+      "nodeId": "17:61"
+    },
+    {
+      "figma": "DomainSelector",
+      "storybook": "Components/DomainSelector",
+      "code": "src/ui/components/domain-selector/domain-selector.js",
+      "nodeId": "114:615"
+    },
+    {
+      "figma": "QuestionCard",
+      "storybook": "Patterns/QuestionCard",
+      "code": "src/ui/patterns/question-card/question-card.js",
+      "nodeId": "24:231"
+    },
+    {
+      "figma": "AppShell",
+      "storybook": "Patterns/AppShell",
+      "code": "src/ui/patterns/app-shell/app-shell.js"
+    },
+    {
+      "figma": "ModuleRow / CourseHub",
+      "storybook": "Patterns/CourseHub",
+      "code": "src/ui/patterns/course-hub/course-hub.js",
+      "nodeId": "114:611"
+    },
+    {
+      "figma": "Introduction",
+      "storybook": "Patterns/Introduction",
+      "code": "src/ui/patterns/first-run-experience/first-run-experience.js",
+      "nodeId": "114:623"
+    },
+    {
+      "figma": "Accueil",
+      "storybook": "Pages/Accueil",
+      "code": "stories/pages/Accueil.stories.js",
+      "nodeId": "116:1006"
+    },
+    {
+      "figma": "Entraînement",
+      "storybook": "Pages/Entraînement",
+      "code": "stories/pages/Entrainement.stories.js",
+      "nodeId": "119:897"
+    },
+    {
+      "figma": "Examen blanc",
+      "storybook": "Pages/Examen blanc",
+      "code": "stories/pages/Examen.stories.js",
+      "nodeId": "123:1556"
+    },
+    {
+      "figma": "Révisions",
+      "storybook": "Pages/Révisions",
+      "code": "stories/pages/Revisions.stories.js",
+      "nodeId": "123:1960"
+    },
+    {
+      "figma": "Paramètres",
+      "storybook": "Pages/Paramètres",
+      "code": "stories/pages/Parametres.stories.js",
+      "nodeId": "123:2430"
+    },
+    {
+      "figma": "Navigation / Mobile",
+      "storybook": "Patterns/AppShell",
+      "code": "src/ui/patterns/app-shell/app-shell.js",
+      "nodeId": "150:443"
+    }
+  ],
+  "codeConnect": {
+    "status": "not-configured",
+    "mapping": "Manual registry and docs/design-system.md"
+  },
+  "archive": {
+    "page": "2:5",
+    "v2": {
+      "appVersion": "2.1.0",
+      "accountClarity": {
+        "revision": "Account clarity",
+        "scope": [
+          "Accueil",
+          "Paramètres",
+          "Langue et profil",
+          "Accès unique aux paramètres"
+        ],
+        "frames": {
+          "dashboard": {
+            "light": {
+              "390": "78:862",
+              "768": "78:1049",
+              "1440": "75:551"
+            },
+            "dark": {
+              "390": "78:1582",
+              "768": "78:1792",
+              "1440": "75:911"
+            }
+          },
+          "settings": {
+            "light": {
+              "390": "78:1236",
+              "768": "78:1409",
+              "1440": "75:747"
+            },
+            "dark": {
+              "390": "78:2002",
+              "768": "78:2175",
+              "1440": "75:1110"
+            }
+          }
+        },
+        "settingsCategories": {
+          "formations": {
+            "light": "77:503",
+            "dark": "77:996"
+          },
+          "data": {
+            "light": "77:676",
+            "dark": "77:1167"
+          },
+          "application": {
+            "light": "77:838",
+            "dark": "77:1329"
+          }
+        },
+        "stories": [
+          "AccueilLight",
+          "AccueilDark",
+          "AccueilPremierUsage",
+          "ParametresLight",
+          "ParametresDark",
+          "MobileAccueilLight",
+          "MobileAccueilDark",
+          "TabletAccueilLight",
+          "TabletAccueilDark",
+          "MobileParametresLight",
+          "MobileParametresDark",
+          "TabletParametresLight",
+          "TabletParametresDark",
+          "ParametresFormationsLight",
+          "ParametresFormationsDark",
+          "ParametresDonneesLight",
+          "ParametresDonneesDark",
+          "ParametresApplicationLight",
+          "ParametresApplicationDark"
+        ],
+        "patterns": [
+          {
+            "library": "Material 3",
+            "pattern": "List item / primary and supporting text with trailing action",
+            "use": "Adaptation to Azure Trainer rows with existing Theme and spacing tokens; no additional UI dependency."
+          }
+        ],
+        "preservation": "Original Figma frames are retained unchanged. Revisions contain editable Auto Layout, text and existing Button instances. Question engines, stored progress and current GitHub Pages deployment are preserved.",
+        "checks": [
+          "npm run validate",
+          "npm run test-ux",
+          "node scripts/verify-account-clarity.mjs",
+          "node scripts/verify-training-workspace.mjs"
+        ],
+        "recovery": {
+          "base": "6034d3458ef5df05043e0e0651f1ea5dc864a7cf",
+          "source": "2efdb2524a76046c0391474902f74a0ce0170e65",
+          "audit": "docs/recovery-2026-10-06.md",
+          "method": "Explicit reviewed file restoration; no merge or cherry-pick of WIP history"
+        },
+        "revisionAnnotation": "104:262"
+      },
+      "source": {
+        "codeSha256": "4ed3dd7f4a4265a2f3b13a26d35b62d3caf98e598e91a6b29b32a6bf4369c97a",
+        "hashAlgorithm": "SHA-256 of sorted path + NUL + UTF-8 content normalized to LF + NUL",
+        "files": [
+          ".storybook/main.js",
+          ".storybook/preview.js",
+          "atelier.css",
+          "atelier.js",
+          "index.html",
+          "package.json",
+          "scripts/export-figma-ui.mjs",
+          "scripts/verify-account-clarity.mjs",
+          "scripts/verify-training-workspace.mjs",
+          "scripts/verify-v3-product-experience.mjs",
+          "service-worker.js",
+          "src/ui/README.md",
+          "src/ui/components/README.md",
+          "src/ui/components/answer-option/README.md",
+          "src/ui/components/answer-option/answer-option.css",
+          "src/ui/components/answer-option/answer-option.js",
+          "src/ui/components/badge/README.md",
+          "src/ui/components/badge/badge.css",
+          "src/ui/components/badge/badge.js",
+          "src/ui/components/button/README.md",
+          "src/ui/components/button/button.css",
+          "src/ui/components/button/button.js",
+          "src/ui/components/domain-selector/README.md",
+          "src/ui/components/domain-selector/domain-selector.css",
+          "src/ui/components/domain-selector/domain-selector.js",
+          "src/ui/components/empty-state/README.md",
+          "src/ui/components/empty-state/empty-state.css",
+          "src/ui/components/empty-state/empty-state.js",
+          "src/ui/components/feedback-panel/README.md",
+          "src/ui/components/feedback-panel/feedback-panel.css",
+          "src/ui/components/feedback-panel/feedback-panel.js",
+          "src/ui/components/icon-button/README.md",
+          "src/ui/components/icon-button/icon-button.css",
+          "src/ui/components/icon-button/icon-button.js",
+          "src/ui/components/modal-surface/README.md",
+          "src/ui/components/modal-surface/modal-surface.css",
+          "src/ui/components/modal-surface/modal-surface.js",
+          "src/ui/components/navigation-item/README.md",
+          "src/ui/components/navigation-item/navigation-item.css",
+          "src/ui/components/navigation-item/navigation-item.js",
+          "src/ui/foundations/foundations.css",
+          "src/ui/foundations/tokens.css",
+          "src/ui/icons/README.md",
+          "src/ui/icons/icons.js",
+          "src/ui/integration/account-clarity.css",
+          "src/ui/integration/action-icon-polish.css",
+          "src/ui/integration/answer-state.js",
+          "src/ui/integration/app-shell-production.css",
+          "src/ui/integration/azure-fluent.css",
+          "src/ui/integration/learning-experience.css",
+          "src/ui/integration/legacy-app.css",
+          "src/ui/integration/modal-production.css",
+          "src/ui/integration/training-workspace.css",
+          "src/ui/integration/ux-polish.css",
+          "src/ui/integration/v2-minimal.css",
+          "src/ui/integration/v3-product-experience.css",
+          "src/ui/integration/visual-contrast.css",
+          "src/ui/pages/README.md",
+          "src/ui/pages/trainer-pages/README.md",
+          "src/ui/pages/trainer-pages/trainer-pages.css",
+          "src/ui/pages/trainer-pages/trainer-pages.js",
+          "src/ui/patterns/README.md",
+          "src/ui/patterns/app-shell/README.md",
+          "src/ui/patterns/app-shell/app-shell.css",
+          "src/ui/patterns/app-shell/app-shell.js",
+          "src/ui/patterns/course-hub/README.md",
+          "src/ui/patterns/course-hub/course-hub.css",
+          "src/ui/patterns/course-hub/course-hub.js",
+          "src/ui/patterns/first-run-experience/README.md",
+          "src/ui/patterns/first-run-experience/first-run-experience.css",
+          "src/ui/patterns/first-run-experience/first-run-experience.js",
+          "src/ui/patterns/question-card/README.md",
+          "src/ui/patterns/question-card/question-card.css",
+          "src/ui/patterns/question-card/question-card.js",
+          "src/ui/patterns/question-navigator/README.md",
+          "src/ui/patterns/question-navigator/question-navigator.css",
+          "src/ui/patterns/question-navigator/question-navigator.js",
+          "src/ui/patterns/question-viewport/README.md",
+          "src/ui/patterns/question-viewport/question-viewport.css",
+          "src/ui/patterns/question-viewport/question-viewport.js",
+          "src/ui/patterns/settings-navigation/README.md",
+          "src/ui/patterns/settings-navigation/settings-navigation.js",
+          "src/ui/patterns/workspace-toolbar/README.md",
+          "src/ui/patterns/workspace-toolbar/workspace-toolbar.css",
+          "src/ui/patterns/workspace-toolbar/workspace-toolbar.js",
+          "src/ui/ui.css",
+          "stories/components/AnswerOption.stories.js",
+          "stories/components/Badge.stories.js",
+          "stories/components/Button.stories.js",
+          "stories/components/DomainSelector.stories.js",
+          "stories/components/EmptyState.stories.js",
+          "stories/components/FeedbackPanel.stories.js",
+          "stories/components/IconButton.stories.js",
+          "stories/components/ModalSurface.stories.js",
+          "stories/components/NavigationItem.stories.js",
+          "stories/foundations/Foundations.stories.js",
+          "stories/foundations/Icons.stories.js",
+          "stories/pages/Accueil.stories.js",
+          "stories/pages/Entrainement.stories.js",
+          "stories/pages/Examen.stories.js",
+          "stories/pages/LearningExperience.stories.js",
+          "stories/pages/Parametres.stories.js",
+          "stories/pages/Revisions.stories.js",
+          "stories/pages/trainer-page-stories.js",
+          "stories/patterns/AppShell.stories.js",
+          "stories/patterns/FirstRunExperience.stories.js",
+          "stories/patterns/QuestionCard.stories.js",
+          "stories/patterns/QuestionNavigator.stories.js",
+          "stories/patterns/QuestionViewport.stories.js",
+          "stories/patterns/WorkspaceToolbar.stories.js",
+          "stories/quality/ActionIcons.stories.js",
+          "stories/quality/UXPolish.stories.js",
+          "stories/quality/VisualContrast.stories.js"
+        ]
+      }
+    },
+    "previousImport": {
+      "registry": "figma/imported-v2-reference.json",
+      "fileKey": "Xs3HfY4USKunAzd3sHmoXR",
+      "url": "https://www.figma.com/design/Xs3HfY4USKunAzd3sHmoXR",
+      "commit": "6034d3458ef5df05043e0e0651f1ea5dc864a7cf",
+      "purpose": "Historical V2 import and training workspace reference; main design decisions now use this registry’s primary Design System."
+    }
+  },
+  "checks": [
+    "npm run validate",
+    "npm run check:docs",
+    "npm run test-ux",
+    "npm run test:v3",
+    "node scripts/verify-account-clarity.mjs",
+    "node scripts/verify-training-workspace.mjs",
+    "npm run build:pages",
+    "npm run test:pages"
+  ],
+  "settingsCategories": {
+    "training": {
+      "light": "158:665",
+      "dark": "158:1072"
+    },
+    "data": {
+      "light": "158:806",
+      "dark": "158:1213"
+    },
+    "application": {
+      "light": "158:940",
+      "dark": "158:1347"
+    }
   }
 }

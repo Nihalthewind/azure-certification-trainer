@@ -36,18 +36,14 @@ try {
     await page.goto(server.resolvedUrls.local[0]);await page.locator('#dashboard').waitFor({ state: 'visible' });
     await page.evaluate(() => document.fonts.ready);
     const before = await page.evaluate(key => JSON.parse(localStorage.getItem(key)).states.az104, key);
-    assert.equal(await page.locator('#dashboardCards .dash-card').count(), 3);
-    if (width >= 768) {
-      const tops = await page.locator('#dashboardCards .dash-card').evaluateAll(nodes => nodes.map(n => Math.round(n.getBoundingClientRect().top)));
-      assert(tops.every(top => top === tops[0]), 'Tablet/desktop summary must stay on one row');
-    }
-    assert.equal(await page.locator('#domainStats .mini-track').count(), 0);
+    assert.equal(await page.locator('.ui-course-hub__module').count(),5);
+    assert.equal(await page.locator('#dashboardCards:visible').count(),0);
     assert.equal(await page.locator('#dashboardDetails').getAttribute('open'), null);
     assert.equal(await page.getByRole('button', { name: 'Paramètres', exact: true }).count(), 1);
     assert(!(await page.locator('#mobileSettingsButton').isVisible()));
     assert(await page.locator('.v2-profile #languageToggle').isVisible());
     assert(await page.locator('.v2-profile__avatar').isVisible());
-    assert.equal(await page.locator('.domain-stat-copy').first().evaluate(n => getComputedStyle(n).display), 'grid');
+    assert(await page.locator('.ui-course-hub__module-copy').first().isVisible());
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
     await page.screenshot({ path: `test-results/account-app-dashboard-${theme}-${width}.png`, fullPage: true, animations: 'disabled' });
     await page.locator('#dashboardDetails > summary').click();
@@ -80,7 +76,7 @@ try {
     }), 'New presentation resources must remain available offline');
     const story = await context.newPage();story.on('pageerror', error => errors.push(error.message));
     for (const [name, kind] of [['accueil', 'dashboard'], ['parametres', 'settings']]) {
-      await story.goto(`http://127.0.0.1:${stories.address().port}/iframe.html?id=pages-azure-trainer-v2--${name}-${theme}&viewMode=story&globals=theme:${theme}`);
+      await story.goto(`http://127.0.0.1:${stories.address().port}/iframe.html?id=pages-${name}--${name}-${theme}&viewMode=story&globals=theme:${theme}`);
       await story.locator(`.ui-v2-page--${kind}`).waitFor({ state: 'visible' });await story.evaluate(() => document.fonts.ready);
       assert.equal(await story.getByRole('button', { name: 'Paramètres', exact: true }).count(), 1);
       assert(await story.locator('.ui-app-shell__profile .language-toggle').isVisible());

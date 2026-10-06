@@ -1,3 +1,5 @@
+import { createCourseHub } from '../../patterns/course-hub/course-hub.js';
+import { createDomainSelector } from '../../components/domain-selector/domain-selector.js';
 import { createButton } from '../../components/button/button.js';
 import { createBadge } from '../../components/badge/badge.js';
 import { bindSettingsNavigation } from '../../patterns/settings-navigation/settings-navigation.js';
@@ -36,10 +38,10 @@ function courseSummary() {
   const heading = el('div', 'ui-v2-inline');
   heading.append(badge('AZ-104', 'accent'), el('h2', '', 'Microsoft Azure Administrator'));
   const line = el('div', 'ui-v2-course__progress');
-  line.append(progress(68), el('span', '', '5 / 8 modules'));
+  line.append(el('span', '', '124 questions explorées sur 568'));
   copy.append(heading, line);
   const score = el('div', 'ui-v2-course__score');
-  score.append(el('strong', '', '68 %'), el('small', '', 'progression'));
+  score.append(el('strong', '', '22 %'), el('small', '', 'explorés'));
   root.append(copy, score);
   return root;
 }
@@ -61,100 +63,23 @@ function moduleRow(index, title, status, value, active = false) {
   return root;
 }
 
-export function createDashboardPage({ firstRun = false, onStart, onResume } = {}) {
-  const root = pageRoot('dashboard');
-  const hero = card('ui-v2-resume');
-  const copy = el('div', 'ui-v2-stack');
-  copy.append(el('h2', '', 'Votre prochaine session'), el('p', '', firstRun ? 'AZ-104 · 0 question explorée sur 568' : 'AZ-104 · 124 questions explorées sur 568'), el('p', '', firstRun ? 'Commencez par 10 questions. Vos résultats et votre position sont sauvegardés sur cet appareil.' : 'Identités et gouvernance · Question 12 · position et réponses sauvegardées'));
-  const action = el('div', 'ui-v2-resume__action');
-  action.append(createButton({ label: firstRun ? 'Commencer une session de 10 questions' : 'Reprendre ma session', variant: 'primary', onClick: firstRun ? onStart : onResume }));
-  hero.append(copy, action);
-  root.append(hero);
-  if (!firstRun) {
-    const stats = el('div', 'ui-v2-stats');
-    stats.append(statCard('Réussite', '83 %', 'sur les questions évaluées'), statCard('Questions maîtrisées', '42', 'réussies deux fois de suite'), statCard('Erreurs actives', '6', 'à reprendre à votre rythme'));
-    root.append(stats);
-  }
-  const domains = card('dashboard-domains');
-  const head = el('div', 'panel-title');
-  head.append(el('h3', '', 'Vos domaines'), el('span', '', firstRun ? 'Choisissez un domaine pour commencer' : 'Réussite sur les questions évaluées'));
-  const rows = el('div', 'domain-stats');
-  const fixture = [
-    ['Identités et gouvernance', 'À consolider · 82 % de réussite · 28 évaluées'],
-    ['Stockage', 'À consolider · 76 % de réussite · 25 évaluées'],
-    ['Calcul Azure', 'À consolider · 64 % de réussite · 22 évaluées'],
-    ['Réseaux virtuels', 'À renforcer · 58 % de réussite · 31 évaluées'],
-    ['Surveillance et sauvegarde', 'À découvrir · 98 questions'],
-  ];
-  fixture.forEach(([label, detail]) => {
-    const row = el('div', 'domain-stat');
-    const text = el('div', 'domain-stat-copy');
-    const unexplored = firstRun || detail.startsWith('À découvrir');
-    text.append(el('strong', '', label), el('small', '', firstRun ? 'À découvrir · 98 questions' : detail));
-    const button = createButton({ label: unexplored ? 'Découvrir' : 'Travailler', variant: 'secondary', size: 'small', onClick: onStart });
-    button.classList.add('domain-train-button');
-    row.append(text, button); rows.append(row);
-  });
-  domains.append(head, rows);root.append(domains);
-  if (!firstRun) {
-    const details = el('details', 'dashboard-details');
-    details.append(el('summary', '', 'Historique, favoris et questions à reprendre'));
-    const resources = el('div', 'ui-v2-stack');
-    resources.append(el('p', '', '2 examens terminés · 6 questions à reprendre · 4 favoris'), createButton({ label: 'Ouvrir mes révisions', variant: 'secondary', onClick: onStart }));
-    details.append(resources);root.append(details);
-  }
-  return root;
+export const courseHubFixture = [
+ ['T1','Identités et gouvernance',126,28],['T2','Stockage',89,25],['T3','Calcul et applications',210,22],['T4','Réseaux',109,31],['T5','Supervision et reprise',34,18]
+].map(([id,label,total,explored],i)=>({id,label,total,explored,percent:Math.round(explored/total*100),status:i===2||i===3?'À renforcer':'En cours',topics:['Gouvernance et tags','Identités et accès','Rôles et autorisations']}));
+export function createDashboardPage({ firstRun = false, highProgress = false, selected = 'T1', onStart, onResume } = {}) {
+ const root=pageRoot('dashboard');const modules=courseHubFixture.map(m=>({...m,...(firstRun?{explored:0,percent:0,status:'À commencer'}:highProgress?{explored:m.total,percent:100,status:'Terminé'}:{})}));
+ root.append(createCourseHub({code:'AZ-104',name:'Microsoft Azure Administrator',modules,selected,nextLabel:firstRun?'Commencer une première session':'Reprendre la question T1-Q12',resumeLabel:firstRun?'Commencer une session de 10 questions':'Reprendre l’entraînement',onStart,onContinue:onResume}).element);
+ root.append(el('small','ui-v2-muted','› Historique, favoris et questions à reprendre'));return root;
 }
 
-export function createPathPage() {
-  const root = pageRoot('path');
-  const layout = el('div', 'ui-v2-path');
-  const list = card('ui-v2-path__list');
-  list.append(el('h2', '', 'Modules'));
-  [
-    ['Identités et gouvernance', 'En cours', '82 %'],
-    ['Stockage', 'Consolidé', '76 %'],
-    ['Calcul Azure', 'À renforcer', '64 %'],
-    ['Réseaux virtuels', 'À renforcer', '58 %'],
-    ['Surveillance', 'À commencer', '44 %'],
-    ['Sauvegarde', 'À commencer', '—'],
-    ['Automatisation', 'À commencer', '—'],
-    ['Révision finale', 'Verrouillé', '—'],
-  ].forEach(([title, status, value], index) => list.append(moduleRow(index + 1, title, status, value, index === 0)));
-
-  const detail = card('ui-v2-path__detail');
-  const meta = el('div', 'ui-v2-inline');
-  meta.append(badge('Module 1', 'accent'), badge('En cours', 'success'));
-  detail.append(meta, el('h1', '', 'Identités et gouvernance'), el('p', '', 'Maîtrise les rôles Azure, les identités, les groupes et les politiques de gouvernance.'));
-  const ph = el('div', 'ui-v2-panel__head');
-  ph.append(el('span', '', 'Progression'), el('b', '', '82 %'));
-  detail.append(ph, progress(82), el('h3', '', 'Ce que tu vas travailler'));
-  [
-    ['RBAC et scopes', '18 questions', 'Terminé', 'success'],
-    ['Microsoft Entra ID', '14 questions', 'Terminé', 'success'],
-    ['Managed identities', '12 questions', 'En cours', 'accent'],
-    ['Azure Policy', '16 questions', 'À faire', 'neutral'],
-  ].forEach(([title, count, state, tone]) => {
-    const row = el('article', `ui-v2-topic${state === 'En cours' ? ' is-active' : ''}`);
-    const copy = el('div');
-    copy.append(el('strong', '', title), el('small', '', count));
-    row.append(copy, badge(state, tone));
-    detail.append(row);
-  });
-  const actions = el('div', 'ui-v2-actions');
-  actions.append(createButton({ label: 'Continuer le module', variant: 'primary' }), createButton({ label: 'Voir les notions', variant: 'secondary' }));
-  detail.append(actions);
-  layout.append(list, detail);
-  root.append(layout);
-  return root;
-}
+export function createPathPage(options) { return createDashboardPage(options); }
 
 export function createKnowledgePage() {
   const root = pageRoot('study');
   const layout = el('div', 'ui-v2-study-layout');
   const main = el('div', 'ui-v2-study-main');
   const question = createQuestionCard({
-    questionNumber: 12, totalQuestions: 50, questionId: 'T1-Q12',
+    questionNumber: 12, totalQuestions: 568, questionId: 'T1-Q12',
     topic: 'Identités & accès', category: 'QCM',
     title: 'Gestion des identités et des accès · Difficulté moyenne',
     prompt: 'Vous devez permettre à une application d’accéder à des ressources Azure sans utiliser de compte utilisateur. Quelle solution est la plus appropriée ?',
@@ -169,12 +94,12 @@ export function createKnowledgePage() {
   question.classList.add('ui-v2-question-workspace');
   const meta = question.querySelector('.ui-question-card__meta');
   const eyebrow = question.querySelector('.ui-question-card__eyebrow');
-  eyebrow.textContent = 'Question 12 / 50 · QCM';
+  eyebrow.textContent = 'Question 12 / 568 · QCM';
   meta.prepend(eyebrow);
   const actions = question.querySelector('.ui-question-card__header-actions');
   meta.append(actions.querySelector('.ui-badge'));
   const navigation = question.querySelector('.ui-question-card__footer-nav');
-  navigation.dataset.position = 'Question 12 / 50';
+  navigation.dataset.position = 'Question 12 / 568';
   question.querySelector('.ui-question-card__header').append(navigation);
   question.querySelector('.ui-question-card__footer').append(actions);
   const review = actions.querySelector('[data-icon="report"]') || actions.querySelector('button:last-child');
@@ -192,90 +117,23 @@ export function createKnowledgePage() {
   next.append(el('h3', '', '→  Prochaine étape'), el('small', 'ui-v2-muted', 'Module suivant'), el('p', 'ui-v2-next-title', 'Gestion des accès conditionnels'), createButton({ label: 'Continuer le parcours', variant: 'secondary' }));
   aside.append(note, next);
   layout.append(main, aside);
-  root.append(courseSummary(), layout);
+  root.append(createDomainSelector({ options: [{value:'all',label:'Tous les domaines'},...courseHubFixture.map(m=>({value:m.id,label:m.label}))] }).element, courseSummary(), layout);
   return root;
 }
 
 export function createMistakesPage() {
-  const root = pageRoot('review');
-  const filters = el('div', 'ui-v2-inline');
-  filters.append(badge('Toutes', 'accent'), badge('Erreurs', 'error'), badge('À revoir', 'warning'), badge('Favoris'));
-  root.append(filters);
-  const layout = el('div', 'ui-v2-review-layout');
-  const queue = card('ui-v2-review-queue');
-  const head = el('div', 'ui-v2-panel__head');
-  head.append(el('h2', '', 'Questions à reprendre'), badge('6 restantes', 'warning'));
-  queue.append(head);
-  [
-    ['RBAC et scopes', 'Tu confonds encore le scope abonnement et groupe de ressources.', 'Erreur', 'error'],
-    ['Réseaux virtuels', 'Revoir le peering et les routes définies par l’utilisateur.', 'À revoir', 'warning'],
-    ['Managed identities', 'Bonne progression, une dernière question ciblée.', 'À revoir', 'warning'],
-    ['Azure Backup', 'Rétention et coffres Recovery Services à consolider.', 'Erreur', 'error'],
-    ['Storage accounts', 'Vérifier les options de réplication.', 'Favori', 'accent'],
-  ].forEach(([title, detail, label, tone]) => {
-    const item = el('article', 'ui-v2-review-item');
-    const copy = el('div');
-    copy.append(el('strong', '', title), el('p', '', detail));
-    item.append(copy, badge(label, tone));
-    queue.append(item);
-  });
-  queue.append(createButton({ label: 'Lancer une session de révision', variant: 'primary' }));
-
-  const aside = el('div', 'ui-v2-aside-stack');
-  const weak = card();
-  weak.append(el('h3', '', 'Domaines fragiles'));
-  [['Réseaux', '58 %'], ['Sauvegarde', '61 %'], ['Gouvernance', '67 %']].forEach(([name, score]) => {
-    const row = el('div', 'ui-v2-panel__head');
-    row.append(el('span', '', name), el('b', 'ui-v2-error', score));
-    weak.append(row);
-  });
-  const rhythm = card();
-  rhythm.append(el('h3', '', 'Rythme recommandé'), el('strong', 'ui-v2-big', '10 questions'), el('p', '', 'Une session courte ciblée sur tes erreurs récentes.'), createButton({ label: 'Démarrer', variant: 'secondary' }));
-  aside.append(weak, rhythm);
-  layout.append(queue, aside);
-  root.append(layout);
-  return root;
+ const root=pageRoot('review'),filters=el('div','v3-review-filters');
+ const queue=card('ui-v2-review-queue');
+ const entries=[['T1-Q2','RBAC et scopes','errors'],['T4-Q3','Réseaux virtuels','flagged'],['T2-Q1','Storage accounts','favorites']];
+ function render(filter='all'){queue.replaceChildren(...entries.filter(e=>filter==='all'||e[2]===filter).map(([id,title,status])=>{const row=el('div','ui-v2-review-item');row.append(el('span','',id),el('strong','',title),el('small','ui-v2-muted',status==='errors'?'Erreur':status==='flagged'?'À revoir':'Favori'),createButton({label:'Ouvrir'}));return row;}));filters.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===filter)));}
+ [['all','Toutes'],['errors','Erreurs'],['flagged','À revoir'],['favorites','Favoris']].forEach(([id,label])=>{const b=createButton({label,onClick:()=>render(id)});b.dataset.filter=id;filters.append(b);});render();
+ root.append(filters,queue,createButton({label:'Lancer une session de révision',variant:'primary'}));return root;
 }
 
 export function createExamPage() {
-  const root = pageRoot('exam');
-  const layout = el('div', 'ui-v2-exam-layout');
-  const setup = card('ui-v2-exam-setup');
-  setup.append(badge('Simulation AZ-104', 'accent'), el('h1', '', 'Prêt pour un examen blanc ?'), el('p', '', 'Une session complète pour vérifier ton niveau sans distraction.'));
-  const facts = el('div', 'ui-v2-stats');
-  facts.append(statCard('questions', '50', ''), statCard('durée', '100 min', ''), statCard('objectif', '70 %', ''));
-  setup.append(facts, el('h3', '', 'Avant de commencer'));
-  ['Navigation libre entre les questions', 'Marquage « À revoir » disponible', 'Correction détaillée uniquement à la fin', 'Progression sauvegardée pendant la session'].forEach((text) => {
-    const row = el('div', 'ui-v2-check');
-    row.append(el('b', '', '✓'), el('span', '', text));
-    setup.append(row);
-  });
-  const actions = el('div', 'ui-v2-actions');
-  actions.append(createButton({ label: 'Commencer l’examen', variant: 'primary' }), createButton({ label: 'Configurer', variant: 'secondary' }));
-  setup.append(actions);
-
-  const aside = el('div', 'ui-v2-aside-stack');
-  const last = card();
-  last.append(el('h3', '', 'Dernier résultat'), el('strong', 'ui-v2-percent', '76 %'), el('p', '', '38 bonnes réponses sur 50'), badge('Réussi', 'success'));
-  const weak = card();
-  weak.append(el('h3', '', 'À renforcer avant l’examen'));
-  [['Réseaux virtuels', '58 %'], ['Sauvegarde Azure', '61 %'], ['RBAC avancé', '66 %']].forEach(([name, score]) => {
-    const row = el('div', 'ui-v2-panel__head');
-    row.append(el('span', '', name), el('b', 'ui-v2-error', score));
-    weak.append(row);
-  });
-  weak.append(createButton({ label: 'Réviser ces notions', variant: 'secondary' }));
-  const history = card();
-  history.append(el('h3', '', 'Historique'));
-  [['03 oct.', '76 %'], ['29 sept.', '72 %'], ['21 sept.', '68 %']].forEach(([date, score]) => {
-    const row = el('div', 'ui-v2-panel__head');
-    row.append(el('span', 'ui-v2-muted', date), el('b', '', score));
-    history.append(row);
-  });
-  aside.append(last, weak, history);
-  layout.append(setup, aside);
-  root.append(layout);
-  return root;
+ const root=pageRoot('exam'),setup=card();setup.append(el('h2','','AZ-104 · Microsoft Azure Administrator'),el('p','ui-v2-muted','48 questions · 100 minutes'));
+ ['Navigation libre entre les questions','Marquage « À revoir » disponible','Correction détaillée uniquement à la fin','Reprise et réponses sauvegardées'].forEach(label=>setup.append(el('p','',label)));
+ setup.append(createButton({label:'Démarrer un examen',variant:'primary'}));const last=card();last.append(el('h3','','Dernier résultat'),el('p','','75 % · 36 / 48 réponses correctes'),createButton({label:'Historique examens'}));root.append(setup,last);return root;
 }
 
 export function createSettingsPage({ category = 'appearance' } = {}) {
@@ -286,7 +144,7 @@ export function createSettingsPage({ category = 'appearance' } = {}) {
   const groups = [
     ['appearance', 'Apparence', 'Adaptez l’interface à votre façon de travailler.', [
       ['Thème', document.documentElement.dataset.theme === 'dark' ? 'Thème sombre actif. Passez en clair pour les environnements lumineux.' : 'Thème clair actif. Passez en sombre pour réduire la luminance.', document.documentElement.dataset.theme === 'dark' ? 'Passer en clair' : 'Passer en sombre'],
-      ['Mode Focus', 'Ouvrez directement la Base de connaissances sans éléments secondaires.', 'Ouvrir en Focus'],
+      ['Mode Focus', 'Ouvrez directement l’Entraînement sans éléments secondaires.', 'Ouvrir en Focus'],
       ['Introduction', 'Revoyez le parcours d’accueil et les fonctions principales.', 'Revoir'],
     ]],
     ['training', 'Formations', 'Gérez les banques disponibles sur cet appareil.', [
@@ -299,7 +157,7 @@ export function createSettingsPage({ category = 'appearance' } = {}) {
     ]],
     ['app', 'Application', 'Installation et informations de version.', [
       ['Installer l’application', 'Ajoutez Azure Trainer comme application sur cet appareil.', 'Installer'],
-      ['Version', 'Version actuellement chargée.', 'v2.1.0'],
+      ['Version', 'Version actuellement chargée.', 'v3.0.0'],
     ]],
   ];
   groups.forEach(([id, label, description, rows]) => {
