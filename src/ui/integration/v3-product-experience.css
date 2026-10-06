@@ -326,3 +326,15 @@ body:has(#dashboard:not([hidden])) #footerText{display:none;}
 .app-shell-production #dashboard{gap:var(--space-4);}.app-shell-production #dashboardDetails:not([open]){padding:0;}.app-shell-production #dashboardDetails>summary{padding:var(--space-2) var(--space-3);min-height:44px;display:flex;align-items:center;}
 
 .ui-review-row small{display:block;}.ui-icon-button{min-width:44px;min-height:44px;}
+
+/* Constrain grid tracks as well as the page: previews must fit their own row. */
+#mistakesQueue{grid-template-columns:minmax(0,1fr);padding:0;min-width:0;}
+#mistakesQueue .ui-review-row{min-height:64px;flex-wrap:nowrap;}
+.ui-review-row{min-width:0;max-width:100%;}
+.ui-review-row .ui-review-row__copy{flex-basis:0;}
+.ui-review-row>span:first-child{font:var(--font-size-sm)/1.5 var(--font-family-body);color:var(--color-text-secondary);}
+.ui-review-row .ui-review-row__copy{font:var(--font-size-md)/1.55 var(--font-family-body);color:var(--color-text-secondary);}
+.ui-review-row__copy strong{font:inherit;font-weight:400;}
+#mistakesPage .dashboard-panel{overflow:visible;padding:0;border:0;background:transparent;}
+#mistakesPage .dashboard-panel>.panel-title{display:none;}
+.app-shell-production .production-page-head,.app-shell-production .production-page-head>div{display:block;text-align:left;width:100%;}

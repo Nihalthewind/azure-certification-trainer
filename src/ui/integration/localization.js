@@ -17,3 +17,7 @@ for(const [source,translation] of [["Bonne réponse","Correct answer"],["Répons
 for(const [source,translation] of [["Votre réponse correspond-elle à la correction ?","Does your answer match the correction?"],["✓ Oui, juste","✓ Yes, correct"],["✕ Non, à revoir","✕ No, review again"],["Modules de formation","Course modules"],["Reprendre ma session","Resume my session"]])labels.set(source,translation);
 
 for(const [source,translation] of Object.entries(currentScreenLabels))labels.set(source,translation);
+
+labels.set("Historique, favoris et questions à reprendre","History, favorites and questions to review");
+
+for(const [source,translation] of Object.entries({"Drapeau ajouté.":"Review mark added.","Drapeau mis à jour.":"Review mark updated.","Drapeau retiré.":"Review mark removed.","Ajoutée aux favoris.":"Added to favorites.","Retirée des favoris.":"Removed from favorites.","Note enregistrée.":"Note saved.","Note supprimée.":"Note deleted.","Progression importée avec succès.":"Progress imported successfully.","Sauvegarde complète restaurée.":"Full backup restored.","Aucune question dans cette sélection.":"No questions in this selection.","Azure Trainer est déjà installée.":"Azure Trainer is already installed.","Opération impossible.":"Operation unavailable."}))labels.set(source,translation);

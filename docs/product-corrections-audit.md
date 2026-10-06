@@ -31,3 +31,5 @@ PWA : prompt consommé une fois, refus, indisponibilité, erreur et confirmation
 Guidance d’installation vérifiée dans les sources officielles : [Chrome](https://support.google.com/chrome/answer/9658361?co=GENIE.Platform%3DDesktop&hl=en), [Edge](https://support.microsoft.com/en-us/edge/install-manage-or-uninstall-apps-in-microsoft-edge), [Safari iPhone](https://support.apple.com/guide/iphone/open-as-web-app-iphea86e5236/27/ios/27).
 
 Limite de contenu : aucune traduction pédagogique inventée. En l’absence de traduction relue avec mêmes options et indices, l’interface annonce l’affichage du contenu d’origine. Code, identifiants, notes utilisateur et noms de marque sont préservés.
+
+Contrôle public complémentaire : une piste de grille auto utilisait la largeur intrinsèque des aperçus nowrap, masquée par une ancienne carte overflow hidden. Correction par minmax(0,1fr), typographie explicite des aperçus et suppression de l’enveloppe analytique redondante ; assertion de largeur de chaque ligne et de son statut ajoutée à la matrice. Alignement des titres sur le cadre Figma et traduction explicite de la ligne Historique.
