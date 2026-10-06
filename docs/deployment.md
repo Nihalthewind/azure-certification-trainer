@@ -62,3 +62,5 @@ La dernière interface validée était `4cc3b415f9dfa3f4eb31a7b470f407020106cdb5
 `storybook` : son CI était réussi, mais ne publiait que l’artifact Storybook.
 Le décalage provenait donc de la source de publication ; le cache seul ne pouvait pas
 faire apparaître une interface qui n’avait jamais été livrée.
+
+Corrections produit : `npm run test:corrections` vérifie 16 configurations FR/EN × Light/Dark × desktop/tablette/mobile, la pagination et la conservation des données. Voir [le suivi](product-corrections-audit.md).

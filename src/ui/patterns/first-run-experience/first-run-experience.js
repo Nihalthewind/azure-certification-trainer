@@ -1,3 +1,4 @@
+import { createBrandMark } from '../../icons/icons.js';
 import { createButton } from "../../components/button/button.js";
 export function defaultFirstRunSteps({ trainingCode = "AZ-104" } = {}) {
   return [
@@ -30,7 +31,7 @@ export function createFirstRunExperience({
   panel.className = "ui-first-run__panel";
   const brand = document.createElement("strong");
   brand.className = "ui-first-run__brand";
-  brand.textContent = "Azure Trainer";
+  const wordmark=document.createElement("span");wordmark.textContent="Azure Trainer";brand.append(createBrandMark(),wordmark);
   const title = document.createElement("h1");
   title.id = "uiFirstRunTitle";
   title.textContent = `Prépare l’${trainingCode} à ton rythme.`;
@@ -59,6 +60,7 @@ export function createFirstRunExperience({
       try {
         const outcome = await onInstall?.();
         if (outcome === "accepted") onComplete?.();
+        else {help.hidden=false;help.textContent=outcome==='dismissed'?'Installation refusée. Vous pouvez continuer dans le navigateur.':'Installation indisponible. Vous pouvez continuer dans le navigateur.';}
       } catch {
         help.hidden = false;
         help.textContent =

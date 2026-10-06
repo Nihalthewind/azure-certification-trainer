@@ -1,6 +1,6 @@
 # Azure Certification Trainer — Design System
 
-[Fichier principal](https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT) : **00 · Start Here**. Courant : **V3 Product Experience**, application 3.0.0. [project.json](project.json) donne pages/frames/composants/variables/mappings, sans secret.
+[Fichier principal](https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT) : **00 · Start Here**. Courant : **V3 Product Experience**, application 3.0.1. [project.json](project.json) donne pages/frames/composants/variables/mappings, sans secret.
 
 ## Structure / conventions
 
@@ -19,3 +19,5 @@ Light/Dark et 390/768/1440 ; clavier/interactions ; validate/tests avant commit/
 ## Stories / données
 
 Components primitives ; Patterns compositions ; Pages cinq écrans. Données Figma/Storybook = fixtures ; production = catalogue/progression réels. Tests test-ux/test:v3/account-clarity/training-workspace/test:pages selon [contribution](../CONTRIBUTING.md).
+
+Corrections produit : `npm run test:corrections` vérifie 16 configurations FR/EN × Light/Dark × desktop/tablette/mobile, la pagination et la conservation des données. Voir [le suivi](../docs/product-corrections-audit.md).

@@ -4,20 +4,24 @@
   "fileKey": "jKDnAtVtPXQvQ74xVNFUeT",
   "url": "https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT",
   "branch": "storybook",
-  "appVersion": "3.0.0",
+  "appVersion": "3.0.1",
   "source": {
-    "codeSha256": "2330a112c5284f1cb95510e2ccdeaab096519237bb081f4b8b8efe79b01af107",
+    "codeSha256": "fb258dd21bdc4f26cade548e7906209245261a60da81e596bcbd613dc8016e60",
     "hashAlgorithm": "SHA-256 of sorted path + NUL + UTF-8 content normalized to LF + NUL",
     "files": [
       ".storybook/main.js",
       ".storybook/preview.js",
+      "assets/app-icon.svg",
+      "assets/brand-mark.svg",
       "atelier.css",
       "atelier.js",
       "index.html",
       "package.json",
       "scripts/export-figma-ui.mjs",
       "scripts/verify-account-clarity.mjs",
+      "scripts/verify-product-corrections.mjs",
       "scripts/verify-training-workspace.mjs",
+      "scripts/verify-ui-integration.mjs",
       "scripts/verify-v3-product-experience.mjs",
       "service-worker.js",
       "src/ui/README.md",
@@ -60,6 +64,7 @@
       "src/ui/integration/azure-fluent.css",
       "src/ui/integration/learning-experience.css",
       "src/ui/integration/legacy-app.css",
+      "src/ui/integration/localization.js",
       "src/ui/integration/modal-production.css",
       "src/ui/integration/training-workspace.css",
       "src/ui/integration/ux-polish.css",
@@ -89,6 +94,7 @@
       "src/ui/patterns/question-viewport/README.md",
       "src/ui/patterns/question-viewport/question-viewport.css",
       "src/ui/patterns/question-viewport/question-viewport.js",
+      "src/ui/patterns/review-list/review-list.js",
       "src/ui/patterns/settings-navigation/README.md",
       "src/ui/patterns/settings-navigation/settings-navigation.js",
       "src/ui/patterns/workspace-toolbar/README.md",
@@ -120,6 +126,7 @@
       "stories/patterns/QuestionViewport.stories.js",
       "stories/patterns/WorkspaceToolbar.stories.js",
       "stories/quality/ActionIcons.stories.js",
+      "stories/quality/ProductCorrections.stories.js",
       "stories/quality/UXPolish.stories.js",
       "stories/quality/VisualContrast.stories.js"
     ]
@@ -152,7 +159,12 @@
     "moduleRow": "114:611",
     "introduction": "114:623",
     "domainSelectorOpen": "125:1720",
-    "mobileNavigation": "150:443"
+    "mobileNavigation": "150:443",
+    "reviewRow": "181:361",
+    "pagination": "181:376",
+    "moon": "175:301",
+    "sun": "175:308",
+    "brandMark": "116:1009"
   },
   "variables": {
     "theme": "VariableCollectionId:8:31",
@@ -167,7 +179,7 @@
     "commit": "6034d3458ef5df05043e0e0651f1ea5dc864a7cf",
     "purpose": "Historical V2 import and training workspace reference; main design decisions now use this registry’s primary Design System."
   },
-  "designVersion": "V3 Product Experience",
+  "designVersion": "V3 Product Corrections / Study Workspace",
   "pageNames": {
     "147:2171": "00 · Start Here",
     "0:1": "01 · Foundations",
@@ -583,7 +595,8 @@
     "node scripts/verify-account-clarity.mjs",
     "node scripts/verify-training-workspace.mjs",
     "npm run build:pages",
-    "npm run test:pages"
+    "npm run test:pages",
+    "npm run test:corrections"
   ],
   "settingsCategories": {
     "training": {
@@ -598,5 +611,11 @@
       "light": "158:940",
       "dark": "158:1347"
     }
+  },
+  "productCorrections": {
+    "state": "figma/product-corrections-state.json",
+    "audit": "docs/product-corrections-audit.md",
+    "library": "Simple Design System: Sun/Moon and pagination pattern; existing Azure Trainer tokens and components",
+    "contentTranslation": "Reviewed question translations only; otherwise explicit original-language fallback"
   }
 }

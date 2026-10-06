@@ -57,3 +57,6 @@ export const ParametresApplicationDark = {
   args: { ...base, mode: "settings", category: "app" },
   globals: { theme: "dark" },
 };
+
+export const EnglishLight={args:{...base,mode:'settings',language:'en'},globals:{theme:'light'}};
+export const EnglishDark={args:{...base,mode:'settings',language:'en'},globals:{theme:'dark'}};

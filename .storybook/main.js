@@ -1,6 +1,7 @@
 /** @type { import('@storybook/html-vite').StorybookConfig } */
 const config = {
   stories: ['../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  staticDirs: [{from: '../assets', to: '/assets'}],
   addons: [
     '@chromatic-com/storybook',
     '@storybook/addon-vitest',

@@ -1,7 +1,7 @@
 'use strict';
 (async () => {
   const APP_KEY='azure-cert-trainer-2026-v3';
-  const APP_VERSION='3.0.0';
+  const APP_VERSION='3.0.1';
   const LEGACY_AZ104_KEY='az104-atelier-2026-progress-v1';
   const ONBOARDING_KEY=APP_KEY+'-onboarding-v1';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -17,13 +17,13 @@
   let catalog=[],cfg=null,bank=[],byId=new Map(),autoQuestions=[],DOMAINS=[],state=null;
   let mode='study',domain='all',pathDomain='',list=[],cursor=0,search='',timer=null,modalCallback=null,sourceUrl='',modalReturnFocus=null,modalEscapeClosable=true;
   let UI={};
-  let onboardingController=null, onboardingReturnFocus=null, onboardingReplay=false, courseHub=null, domainSelector=null, reviewFilter='all', installationConfirmed=false;
+  let onboardingController=null, onboardingReturnFocus=null, onboardingReplay=false, courseHub=null, domainSelector=null, reviewFilter='all', reviewDomain='all', reviewPageIndex=0, installationConfirmed=false;
   const mobileLayout=window.matchMedia('(max-width: 920px)');
   let filtersOpen=false;
 
   async function loadDesignSystem(){
     try{
-      const [answerOption,badge,iconButton,feedbackPanel,answerState,questionViewport,workspaceToolbar,firstRunExperience,icons,modalSurface,settingsNavigation,courseHubModule,domainSelectorModule]=await Promise.all([
+      const [answerOption,badge,iconButton,feedbackPanel,answerState,questionViewport,workspaceToolbar,firstRunExperience,icons,modalSurface,settingsNavigation,courseHubModule,domainSelectorModule,reviewListModule]=await Promise.all([
         import('./src/ui/components/answer-option/answer-option.js'),
         import('./src/ui/components/badge/badge.js'),
         import('./src/ui/components/icon-button/icon-button.js'),
@@ -37,6 +37,7 @@
         import('./src/ui/patterns/settings-navigation/settings-navigation.js'),
         import('./src/ui/patterns/course-hub/course-hub.js'),
         import('./src/ui/components/domain-selector/domain-selector.js'),
+        import('./src/ui/patterns/review-list/review-list.js'),
       ]);
       UI={
         createAnswerOption:answerOption.createAnswerOption,
@@ -51,11 +52,12 @@
         scrollFeedbackAfterRender:questionViewport.scrollFeedbackAfterRender,
         updateFocusToggle:workspaceToolbar.updateFocusToggle,
         createFirstRunExperience:firstRunExperience.createFirstRunExperience,
-        createIcon:icons.createIcon,
+        createIcon:icons.createIcon,createBrandMark:icons.createBrandMark,
         applyModalSurface:modalSurface.applyModalSurface,
         trapModalTab:modalSurface.trapModalTab,
         bindSettingsNavigation:settingsNavigation.bindSettingsNavigation,
-        createCourseHub:courseHubModule.createCourseHub,courseModules:courseHubModule.courseModules,createDomainSelector:domainSelectorModule.createDomainSelector,
+        createCourseHub:courseHubModule.createCourseHub,courseModules:courseHubModule.courseModules,
+        ...reviewListModule,createDomainSelector:domainSelectorModule.createDomainSelector,
       };
       document.documentElement.dataset.uiSystem='sprint13';
       return true;
@@ -163,18 +165,11 @@
 
   function toast(message){const el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(toast.timeout);toast.timeout=setTimeout(()=>el.classList.remove('show'),4500)}
   const LANGUAGE_KEY=APP_KEY+'-language';
-  let interfaceLanguage=localStorage.getItem(LANGUAGE_KEY)==='fr'?'fr':'en',translateLoader=null,translateChromeObserver=null;
-  function updateLanguageToggle(){const b=$('#languageToggle');if(!b)return;b.classList.toggle('is-fr',interfaceLanguage==='fr');b.setAttribute('aria-pressed',String(interfaceLanguage==='fr'));b.innerHTML=interfaceLanguage==='fr'?'FR <span aria-hidden="true">⇄</span> EN':'EN <span aria-hidden="true">⇄</span> FR';b.setAttribute('aria-label',interfaceLanguage==='fr'?'Afficher les questions originales en anglais':'Traduire les questions en français');b.title=interfaceLanguage==='fr'?'Afficher la version originale en anglais':'Traduire les questions en français'}
-  function suppressTranslateChrome(){
-    const selectors=['iframe.goog-te-banner-frame','iframe[src*="translate.google"]','.VIpgJd-ZVi9od-ORHb-OEVmcd','.goog-te-banner-frame','.goog-te-balloon-frame','#goog-gt-tt'];
-    selectors.forEach(sel=>document.querySelectorAll(sel).forEach(el=>{if(el.id==='google_translate_element'||el.closest?.('#google_translate_element'))return;el.style.setProperty('display','none','important');el.style.setProperty('visibility','hidden','important');el.style.setProperty('height','0','important');el.setAttribute('aria-hidden','true')}));
-    document.documentElement.style.setProperty('margin-top','0px','important');document.documentElement.style.setProperty('top','0px','important');document.body?.style.setProperty('top','0px','important');document.body?.style.setProperty('margin-top','0px','important');
-  }
-  function watchTranslateChrome(){if(translateChromeObserver)return;suppressTranslateChrome();translateChromeObserver=new MutationObserver(()=>suppressTranslateChrome());translateChromeObserver.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class']})}
-  function waitForTranslateSelect(timeout=7000){return new Promise((resolve,reject)=>{const started=Date.now();const tick=()=>{suppressTranslateChrome();const sel=document.querySelector('.goog-te-combo');if(sel){resolve(sel);return}if(Date.now()-started>timeout){reject(new Error('Le service de traduction ne répond pas.'));return}setTimeout(tick,100)};tick()})}
-  function loadTranslateEngine(){watchTranslateChrome();if(window.google?.translate?.TranslateElement)return Promise.resolve();if(translateLoader)return translateLoader;translateLoader=new Promise((resolve,reject)=>{let settled=false;window.googleTranslateElementInit=()=>{try{new window.google.translate.TranslateElement({pageLanguage:'en',includedLanguages:'en,fr',autoDisplay:false,multilanguagePage:false},'google_translate_element');settled=true;suppressTranslateChrome();resolve()}catch(e){reject(e)}};const script=document.createElement('script');script.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';script.async=true;script.onerror=()=>{if(!settled)reject(new Error('Impossible de charger la traduction. Vérifiez la connexion Internet.'))};document.head.appendChild(script)});return translateLoader}
-  async function applyInterfaceLanguage(target,{silent=false}={}){target=target==='fr'?'fr':'en';try{await loadTranslateEngine();const sel=await waitForTranslateSelect();if(sel.value!==target){sel.value=target;sel.dispatchEvent(new Event('change',{bubbles:true}))}interfaceLanguage=target;localStorage.setItem(LANGUAGE_KEY,target);updateLanguageToggle();document.documentElement.lang=target;suppressTranslateChrome();setTimeout(suppressTranslateChrome,50);setTimeout(suppressTranslateChrome,250);setTimeout(suppressTranslateChrome,900);if(!silent)toast(target==='fr'?'Version française activée.':'Version originale anglaise restaurée.')}catch(e){console.warn(e);if(!silent)toast(e.message||'Traduction indisponible.')}}
-  async function toggleInterfaceLanguage(){const button=$('#languageToggle');button.disabled=true;button.setAttribute('aria-busy','true');try{await applyInterfaceLanguage(interfaceLanguage==='fr'?'en':'fr')}finally{button.disabled=false;button.removeAttribute('aria-busy')}}
+  let interfaceLanguage=localStorage.getItem(LANGUAGE_KEY)==='en'?'en':'fr',localization=null,stopLocalization=null;
+  function updateLanguageToggle(){const b=$('#languageToggle');if(!b)return;b.setAttribute('aria-pressed',String(interfaceLanguage==='fr'));b.textContent=interfaceLanguage==='fr'?'FR ⇄ EN':'EN ⇄ FR';b.setAttribute('aria-label',interfaceLanguage==='fr'?'Afficher l’interface en anglais':'Afficher l’interface en français');b.title=b.getAttribute('aria-label');document.documentElement.lang=interfaceLanguage;}
+  async function applyInterfaceLanguage(target,{silent=false}={}){interfaceLanguage=target==='en'?'en':'fr';localStorage.setItem(LANGUAGE_KEY,interfaceLanguage);updateLanguageToggle();stopLocalization?.();if(!localization)localization=await import('./src/ui/integration/localization.js');if(['study','quick','exam','weakness','mistakes-session'].includes(mode))render();stopLocalization=localization.observeInterfaceLanguage(document.body,()=>interfaceLanguage);updateContentLanguageNotice();if(!silent)toast(interfaceLanguage==='fr'?'Interface française activée.':'English interface enabled.');}
+  async function toggleInterfaceLanguage(){await applyInterfaceLanguage(interfaceLanguage==='fr'?'en':'fr');}
+  function updateContentLanguageNotice(){let notice=$('#contentLanguageNotice');if(!notice){notice=document.createElement('p');notice.id='contentLanguageNotice';notice.className='ui-content-language-notice';$('#questionPrompt').after(notice);}const q=list[cursor];notice.textContent=interfaceLanguage==='fr'?'Contenu pédagogique conservé dans sa langue d’origine.':'Learning content is shown in its original language.';notice.hidden=!!q&&!!localization&&localization.questionPresentation(q,interfaceLanguage)!==q;}
   function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
   function record(q){if(mode!=='exam'&&state.retrying?.[q.id])return null;const r=mode==='exam'?state.exam?.answers?.[q.id]||null:state.answers[q.id]||null;return q.format==='knowledge'&&r?.read&&typeof r.correct!=='boolean'?null:r}
   function draft(q){return mode==='exam'?state.exam?.drafts?.[q.id]||{}:state.drafts[q.id]||{}}
@@ -199,7 +194,7 @@
   }
   function dynamicMetadata(){
     document.title=`${cfg.code} · Azure Certification Trainer`;
-    $('#brandTitle').textContent='Azure Trainer';$('#brandSubtitle').textContent=cfg.code;$('#brandIcon').textContent='A';
+    $('#brandTitle').textContent='Azure Trainer';$('#brandSubtitle').textContent=cfg.code;$('#brandIcon').replaceChildren(UI.createBrandMark());
     $('#topEyebrow').textContent=`PRÉPARATION INDÉPENDANTE · ${cfg.code}`;$('#editionLabel').textContent=`ÉDITION ${cfg.edition||'2026'}`;
     $('#heroKicker').textContent='AZURE CERTIFICATION TRAINER';
     $('#heroTitle').textContent=`${cfg.code} · ${cfg.name}`;
@@ -287,18 +282,19 @@
   }
 
   function flaggedQuestionIds(){return new Set([...(state.examHistory||[]).flatMap(h=>h.flaggedIds||[]),...Object.keys(state.exam?.flagged||{}).filter(id=>state.exam.flagged[id]),...(state.reports||[]).filter(r=>!r.resolved).map(r=>r.questionId)])}
-  function reviewQuestions(){const flagged=flaggedQuestionIds();return bank.filter(q=>reviewFilter==='errors'?state.answers[q.id]?.correct===false:reviewFilter==='favorites'?state.favorites?.[q.id]:reviewFilter==='flagged'?flagged.has(q.id):state.answers[q.id]?.correct===false||state.favorites?.[q.id]||flagged.has(q.id))}
+  function reviewQuestions(){const flagged=flaggedQuestionIds();return bank.filter(q=>(reviewDomain==='all'||q.domain===reviewDomain)).filter(q=>reviewFilter==='errors'?state.answers[q.id]?.correct===false:reviewFilter==='favorites'?state.favorites?.[q.id]:reviewFilter==='flagged'?flagged.has(q.id):state.answers[q.id]?.correct===false||state.favorites?.[q.id]||flagged.has(q.id))}
   function renderMistakesPage(){
     if(mode!=='mistakes')return;
     const queue=reviewQuestions(),flagged=flaggedQuestionIds();
-    $('#mistakesSubtitle').textContent='Que faut-il revoir maintenant ?';
+    $('#startMistakesSessionButton').textContent='Commencer la révision';
     let filters=$('#reviewFilters');if(!filters){filters=document.createElement('div');filters.id='reviewFilters';filters.className='v3-review-filters';filters.setAttribute('aria-label','Filtrer les révisions');$('#mistakesStats').before(filters);}
     filters.innerHTML=[['all','Toutes'],['errors','Erreurs'],['flagged','À revoir'],['favorites','Favoris']].map(([id,label])=>`<button type="button" class="ui-button ui-button--secondary ui-button--medium" data-review-filter="${id}" aria-pressed="${reviewFilter===id}">${label}</button>`).join('');
-    filters.querySelectorAll('button').forEach(button=>button.onclick=()=>{reviewFilter=button.dataset.reviewFilter;renderMistakesPage();$('#reviewFilters [data-review-filter="'+reviewFilter+'"]').focus();});
-    $('#mistakesQueue').innerHTML=queue.length?queue.map(q=>`<button class="review-item" data-mistake-q="${clean(q.id)}"><span>${clean(q.id)}</span><b>${clean(q.category||domainTuple(q.domain)?.[1]||q.domain)}</b><small>${state.answers[q.id]?.correct===false?'Erreur':flagged.has(q.id)?'À revoir':'Favori'} · Ouvrir</small></button>`).join(''):'<p class="dashboard-empty">Aucune question dans cette sélection. Continuez votre formation à votre rythme.</p>';
-    $$('[data-mistake-q]').forEach(button=>button.onclick=()=>openQuestionById(button.dataset.mistakeQ));
+    filters.querySelectorAll('button').forEach(button=>button.onclick=()=>{reviewFilter=button.dataset.reviewFilter;reviewPageIndex=0;renderMistakesPage();$('#reviewFilters [data-review-filter="'+reviewFilter+'"]').focus();});
+    let domainFilter=$('#reviewDomainFilter');if(!domainFilter){domainFilter=document.createElement('select');domainFilter.id='reviewDomainFilter';domainFilter.setAttribute('aria-label','Domaine de révision');domainFilter.onchange=()=>{reviewDomain=domainFilter.value;reviewPageIndex=0;renderMistakesPage();domainFilter.focus();};filters.after(domainFilter);}domainFilter.innerHTML='<option value="all">Tous les domaines</option>'+DOMAINS.map(([id,label])=>'<option value="'+clean(id)+'">'+clean(label)+'</option>').join('');domainFilter.value=reviewDomain;
+    const page=UI.reviewPage(queue,reviewPageIndex);reviewPageIndex=page.page;const target=$('#mistakesQueue');target.replaceChildren(...page.items.map(q=>UI.createReviewRow({id:q.id,title:q.prompt,domainLabel:domainTuple(q.domain)?.[1]||q.domain,status:state.answers[q.id]?.correct===false?'Erreur':flagged.has(q.id)?'À revoir':'Favori'},openQuestionById)));if(!queue.length){const empty=document.createElement('p');empty.className='dashboard-empty';empty.textContent='Aucune question dans cette sélection. Continuez votre formation à votre rythme.';target.append(empty);}
+    $('#reviewPagination')?.remove();const pagination=UI.createPagination(page,index=>{reviewPageIndex=index;renderMistakesPage();$('#reviewPagination').focus({preventScroll:true});});pagination.id='reviewPagination';pagination.tabIndex=-1;target.after(pagination);$('#mistakesSubtitle').textContent=queue.length+' questions à reprendre';
     $('#startMistakesSessionButton').disabled=!queue.length;
-    if(!$('#startMistakesSessionButton').closest('.v3-review-actions')){const actions=document.createElement('div');actions.className='v3-review-actions';actions.append($('#startMistakesSessionButton'));$('#mistakesPage').append(actions);}
+    if(!$('#startMistakesSessionButton').closest('.v3-review-actions')){const actions=document.createElement('div');actions.className='v3-review-actions';actions.append($('#startMistakesSessionButton'));$('#reviewFilters').before(actions);}
   }
 
   function renderExamLanding(){
@@ -611,7 +607,7 @@
       const origin=card?(q.answerRevision?'Réponse actualisée':'Réponse du document'):'';
       const provenanceNotes=[];
       if(q.answerRevision)provenanceNotes.push(`Dans le document d’origine : ${q.originalAnswer||''}`);
-      if(card&&q.sourceConflict)provenanceNotes.push('Le support contient des variantes de correction pour cette question. La réponse reproduite ici provient du document fourni.');
+      // Source conflict metadata is retained in the question bank, not shown to learners.
 
       const reference=typeof r.correct!=='boolean';
       const tone=reference?'reference':r.correct?'success':'error';
@@ -643,7 +639,7 @@
       el.className='feedback is-reference';el.innerHTML=`<div class="feedback-kicker">◎ AUTO-ÉVALUATION</div><h3>${clean(q.solutionAnswer||'Comparez avec la correction source.')}</h3>${contextBlock}${sourceDetail}${solutionPics}${sourceBlock}<div class="self-grade"><span>Votre réponse correspond-elle à la correction ?</span><div><button id="gradeGood" class="soft-button">✓ Oui, juste</button><button id="gradeBad" class="soft-button">✕ Non, à revoir</button></div></div><button id="tryAgain" class="soft-button">Refaire cette question</button>`;
       $('#gradeGood').onclick=()=>{scheduleRecord(q,r,true);render()};$('#gradeBad').onclick=()=>{scheduleRecord(q,r,false);render()};$('#tryAgain').onclick=retry;return;
     }
-    const card=q.format==='knowledge',notice=card&&q.sourceConflict?'<p class="provenance-note">Le support contient des variantes de correction pour cette question. La réponse reproduite ici provient du document fourni.</p>':'',historical=q.answerRevision?`<p class="provenance-note"><strong>Dans le document d’origine :</strong> ${clean(q.originalAnswer)}</p>`:'',origin=card?(q.answerRevision?'RÉPONSE ACTUALISÉE':'RÉPONSE DU DOCUMENT'):'';el.className='feedback '+(r.correct?'is-good':'is-bad');el.innerHTML=`<div class="feedback-kicker">${r.correct?'✓ BONNE RÉPONSE':'✕ RÉPONSE INCORRECTE'}${origin?' · '+origin:''}</div><h3>${clean(q.solutionAnswer)}</h3>${contextBlock}${sourceDetail}${historical}${notice}${solutionPics}${sourceBlock}<button id="tryAgain" class="soft-button">Refaire cette question</button>`;$('#tryAgain').onclick=retry
+    const card=q.format==='knowledge',notice='',historical=q.answerRevision?`<p class="provenance-note"><strong>Dans le document d’origine :</strong> ${clean(q.originalAnswer)}</p>`:'',origin=card?(q.answerRevision?'RÉPONSE ACTUALISÉE':'RÉPONSE DU DOCUMENT'):'';el.className='feedback '+(r.correct?'is-good':'is-bad');el.innerHTML=`<div class="feedback-kicker">${r.correct?'✓ BONNE RÉPONSE':'✕ RÉPONSE INCORRECTE'}${origin?' · '+origin:''}</div><h3>${clean(q.solutionAnswer)}</h3>${contextBlock}${sourceDetail}${historical}${notice}${solutionPics}${sourceBlock}<button id="tryAgain" class="soft-button">Refaire cette question</button>`;$('#tryAgain').onclick=retry
   }
 
   function questionStatusMeta(q,r){
@@ -715,12 +711,12 @@
     $('.v2-study-aside').hidden=mode==='exam';
   }
   function render(){
-    const q=list[cursor],n=list.length;$('#bankCount').textContent=bank.length;$('#position').textContent=n?`${cursor+1} / ${n}`:'—';$('#progress').style.width=(n?((cursor+1)/n*100):0)+'%';$('.progress-track').setAttribute('aria-valuenow',String(n?Math.round((cursor+1)/n*100):0));if(!q){$('#sessionClock').textContent='';updateMobileActions();return}rememberStudyPosition(q);updateV2StudyTools(q);
+    const original=list[cursor],q=localization?.questionPresentation(original,interfaceLanguage)||original,n=list.length;$('#bankCount').textContent=bank.length;$('#position').textContent=n?`${cursor+1} / ${n}`:'—';$('#progress').style.width=(n?((cursor+1)/n*100):0)+'%';$('.progress-track').setAttribute('aria-valuenow',String(n?Math.round((cursor+1)/n*100):0));if(!q){$('#sessionClock').textContent='';updateMobileActions();return}rememberStudyPosition(q);updateV2StudyTools(q);
     const r=record(q),d=r?(q.options?.length?{selected:r.selected||[]}:(q.visualSpec?.kind==='self'?{text:r.text||''}:{values:r.values||{}})):draft(q),caseIndex=mode==='exam'?(state.exam?.caseStudyIds||[]).indexOf(q.id):-1,isCase=caseIndex>=0,isMultiContext=mode==='exam'&&state.exam?.multiContextId===q.id;
     renderQuestionHeader(q,r,{isCase,isMultiContext});
     $('#questionIndex').textContent=`Question ${cursor+1} / ${n} · `+(isCase?`ÉTUDE DE CAS ${caseIndex+1}/${state.exam.caseStudyIds.length}`:isMultiContext?'CONTEXTES MULTIPLES':(q.category||'QUESTION'));
     $('#questionTitle').textContent=q.options?.length?(q.multi?'Choisissez les bonnes réponses':'Choisissez la bonne réponse'):(q.visualSpec?.kind==='yn'?'Évaluez les propositions':q.visualSpec?.kind==='self'?'Formulez votre réponse':'Complétez les sélections');
-    $('#caseContext').innerHTML=q.caseContext?`<details class="case-context" ${isCase?'open':''}><summary>Contexte de l’étude de cas</summary><div>${clean(q.caseContext)}</div></details>`:'';$('#questionPrompt').textContent=q.prompt;
+    $('#caseContext').innerHTML=q.caseContext?`<details class="case-context" ${isCase?'open':''}><summary>Contexte de l’étude de cas</summary><div>${clean(q.caseContext)}</div></details>`:'';$('#questionPrompt').textContent=q.prompt;updateContentLanguageNotice();
     const hasAssets=q.assets?.length,openAsset=hasAssets&&(!q.options?.length||['HOTSPOT','DRAG DROP'].includes(q.category));$('#figures').innerHTML=hasAssets?`<details class="exhibit" ${openAsset?'open':''}><summary>Voir l’illustration source (${q.assets.length})</summary><div class="figure-grid">${q.assets.map((path,i)=>`<a href="${clean(path)}" target="_blank" rel="noopener noreferrer"><img src="${clean(path)}" alt="Illustration ${i+1} de ${clean(q.id)}" loading="lazy"></a>`).join('')}</div></details>`:sourceLink(q,false);
     answerChoices(q,r,d);feedback(q,r);$('#submit').disabled=!!r||!answerComplete(q,d);$('#submit').textContent=mode==='exam'?'Enregistrer et avancer':'Valider ma réponse';$('#prev').disabled=cursor===0;$('#next').disabled=cursor===n-1&&(mode!=='quick'||!r);$('#next').textContent=mode==='quick'&&cursor===n-1?'Terminer la session':'Suivant →';updateMobileActions();if(mode==='exam'){state.exam.index=cursor;save();updateClock()}else $('#sessionClock').textContent='';
   }
@@ -729,7 +725,9 @@
   function updateClock(){if(mode!=='exam'||!state.exam)return;const ms=Math.max(0,state.exam.start+state.exam.duration-now()),m=Math.floor(ms/60000),s=Math.floor(ms%60000/1000);$('#sessionClock').textContent=`Temps restant ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;if(ms===0)finishExam()}
   function finishExam(){if(!state.exam||mode!=='exam')return;const exam=state.exam,ids=exam.ids,finishedAt=now();let correct=0;const data=DOMAINS.map(([id,label])=>{const qs=ids.map(i=>byId.get(i)).filter(q=>q?.domain===id),passed=qs.filter(q=>exam.answers[q.id]?.correct===true).length;correct+=passed;return{label,passed,total:qs.length}}),answered=ids.filter(id=>!!exam.answers[id]).length,skipped=ids.filter(id=>!exam.answers[id]||exam.answers[id]?.skipped).length,percent=ids.length?Math.round(correct/ids.length*100):0;state.examHistory=Array.isArray(state.examHistory)?state.examHistory:[];const elapsedMs=Math.max(0,finishedAt-exam.start),avgMs=answered?Math.round(elapsedMs/answered):0,flaggedIds=Object.keys(exam.flagged||{}).filter(id=>exam.flagged[id]);state.examHistory.unshift({completedAt:finishedAt,startedAt:exam.start,elapsedMs,avgMs,correct,total:ids.length,percent,answered,skipped,flagged:flaggedIds.length,flaggedIds,domains:data.map(d=>({...d})),wrongIds:ids.filter(id=>exam.answers[id]?.correct!==true)});state.examHistory=state.examHistory.slice(0,100);ids.forEach(id=>{const r=exam.answers[id]||{done:true,correct:false,skipped:true};state.answers[id]={...r,streak:r.correct?1:0,due:now()+(r.correct?86400000:0)}});state.exam=null;save();mode='study';domain='all';search='';$('#search').value='';cursor=0;refresh();$('#modalEyebrow').textContent=cfg.code;$('#modalTitle').textContent='Examen terminé';$('#modalBody').innerHTML=`<div class="result-score">${correct}<small> / ${ids.length}</small></div><p>${percent} % de bonnes réponses · temps moyen ${clean(formatDuration(avgMs))} par réponse · ${flaggedIds.length} question(s) marquée(s). Cet examen est maintenant enregistré dans Historique examens.</p><div class="result-rows">${data.filter(d=>d.total).map(d=>`<div><span>${clean(d.label)}</span><b>${d.passed} / ${d.total}</b></div>`).join('')}</div>`;setModalAction('Revoir les erreurs',{variant:'primary'});modalCallback=()=>selectMode('mistakes');showModal({kind:'result',size:'medium'});}
   function closeModal(){const backdrop=$('#modal'),surface=backdrop?.querySelector('.modal');if(backdrop)backdrop.hidden=true;if(surface){surface.classList.remove('modal-wide');surface.dataset.kind='default';surface.dataset.size='medium'}document.body.classList.remove('ui-modal-open');modalCallback=null;modalEscapeClosable=true;const returnFocus=modalReturnFocus;modalReturnFocus=null;if(returnFocus?.isConnected)requestAnimationFrame(()=>returnFocus.focus({preventScroll:true}))}
-  function applyTheme(){const t=root.theme||((window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark');document.documentElement.dataset.theme=t;const meta=$('#themeColorMeta')||document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',t==='dark'?'#0b1120':'#f4f6fa')}
+  function toggleTheme(){root.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme();save();if(mode==='settings')renderSettingsPage();updateThemeToggle();}
+  function updateThemeToggle(){const dark=document.documentElement.dataset.theme==='dark';UI.updateIconButton?.($('#topbarThemeButton'),{icon:dark?'sun':'moon',label:dark?'Activer le mode clair':'Activer le mode sombre'});}
+  function applyTheme(){const t=root.theme||((window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark');document.documentElement.dataset.theme=t;const meta=$('#themeColorMeta')||document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',t==='dark'?'#0b1120':'#f4f6fa');updateThemeToggle();}
   function exportProgress(){save();const text=JSON.stringify({schema:'azure-cert-trainer-backup-v2',appVersion:APP_VERSION,exportedAt:new Date().toISOString(),activeTraining:root.activeTraining,theme:root.theme,states:root.states},null,2),href=URL.createObjectURL(new Blob([text],{type:'application/json'})),a=document.createElement('a');a.href=href;a.download=`Azure_Trainer_sauvegarde_${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(href),1000);toast('Sauvegarde complète exportée : AZ-104, AZ-305, historique, favoris et notes.')}
 
   function toggleFavorite(){const q=list[cursor];if(!q)return;state.favorites=state.favorites||{};state.favorites[q.id]=!state.favorites[q.id];if(!state.favorites[q.id])delete state.favorites[q.id];save();render();toast(state.favorites[q.id]?'Ajoutée aux favoris.':'Retirée des favoris.')}
@@ -765,17 +763,23 @@
   }
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;updateInstallUi()});
   window.addEventListener('appinstalled',()=>{installationConfirmed=true;deferredInstall=null;updateInstallUi();toast('Azure Trainer est installée sur cet appareil.')});
+  let installBusy=false;
+  function showInstallHelp(message=''){
+    const ua=navigator.userAgent,ios=/iPad|iPhone|iPod/.test(ua)||navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1;
+    const safari=/Safari/.test(ua)&&!/Chrome|Chromium|CriOS|FxiOS|Edg|OPR/.test(ua);
+    const en=interfaceLanguage==='en';let instructions;
+    if(ios)instructions=safari?(en?'In Safari, open Share, then Add to Home Screen.':'Dans Safari, ouvrez Partager puis « Sur l’écran d’accueil ».'):(en?'Open this address in Safari, then Share → Add to Home Screen. You can also continue here.':'Ouvrez cette adresse dans Safari, puis Partager → Sur l’écran d’accueil. Vous pouvez aussi continuer ici.');
+    else if(/Edg/.test(ua))instructions=en?'In Edge, open Settings and more → More tools → Apps → Install this site as an app. If unavailable, continue in the browser.':'Dans Edge, ouvrez Paramètres et plus → Autres outils → Applications → Installer ce site en tant qu’application. Si cette option est absente, continuez dans le navigateur.';
+    else if(/Chrome|Chromium/.test(ua)&&!/OPR/.test(ua))instructions=en?'In Chrome, open the menu → Cast, save and share → Install page as app. If unavailable, continue in the browser.':'Dans Chrome, ouvrez le menu → Caster, enregistrer et partager → Installer la page en tant qu’application. Si cette option est absente, continuez dans le navigateur.';
+    else instructions=en?'Continue here, or open this address in Chrome or Edge to install the app. Your current session stays available in this browser.':'Continuez ici, ou ouvrez cette adresse dans Chrome ou Edge pour installer l’application. Votre session reste accessible dans ce navigateur.';
+    $('#modalEyebrow').textContent='APPLICATION';$('#modalTitle').textContent='Installer Azure Trainer';$('#modalBody').innerHTML='<p>'+clean(message||'Le navigateur ne propose pas de prompt d’installation pour le moment.')+'</p><p>'+clean(instructions)+'</p><p>Vos notes et votre progression restent enregistrées sur cet appareil.</p>';setModalAction('Continuer dans le navigateur',{variant:'secondary'});modalCallback=null;showModal({kind:'default',size:'medium'});
+  }
   async function installApp(){
-    if(isAppInstalled()){toast('Azure Trainer est déjà installée.');updateInstallUi();return}
-    if(!deferredInstall){
-      const local=['localhost','127.0.0.1'].includes(location.hostname);
-      toast(local?'Le navigateur prépare l’installation locale. Rechargez une fois si le prompt n’apparaît pas.':'Utilisez aussi le menu du navigateur → Installer Azure Trainer si le prompt natif n’est pas encore disponible.');
-      updateInstallUi();return
-    }
-    const prompt=deferredInstall;deferredInstall=null;
-    let choice;try{await prompt.prompt();choice=await prompt.userChoice;}finally{updateInstallUi();}
-    if(choice?.outcome==='accepted')toast('Installation lancée.');
-    deferredInstall=null;updateInstallUi();return choice?.outcome;
+    if(isAppInstalled()){toast('Azure Trainer est déjà installée.');updateInstallUi();return 'installed';}
+    if(installBusy)return;
+    if(!deferredInstall){showInstallHelp();return 'unavailable';}
+    const prompt=deferredInstall;deferredInstall=null;installBusy=true;$('#installAppButton').disabled=true;
+    try{await prompt.prompt();const choice=await prompt.userChoice;if(choice?.outcome==='accepted')toast('Demande acceptée. En attente de confirmation du navigateur.');else toast('Installation refusée. Vous pouvez continuer dans le navigateur.');return choice?.outcome;}catch(error){if(document.body.classList.contains('ui-first-run-open'))toast('Installation indisponible. Vous pouvez continuer dans le navigateur.');else showInstallHelp('L’installation n’a pas abouti. Vous pouvez réessayer depuis le menu du navigateur.');return 'failed';}finally{installBusy=false;updateInstallUi();}
   }
   function importModal(parsed){
     const t=parsed.training,s=parsed.stats;$('#modalEyebrow').textContent='IMPORTATION';$('#modalTitle').textContent='Ajouter une banque';$('#modalBody').innerHTML=`<p><strong>${s.questions}</strong> questions détectées · ${s.auto} évaluables automatiquement · ${s.self} en auto-évaluation · ${s.domains} domaines.</p><label class="modal-field"><span>Destination</span><select id="importTarget"><option value="__new__">Créer une nouvelle formation</option>${catalog.map(x=>`<option value="${clean(x.id)}" ${x.id===t.id?'selected':''}>Ajouter / mettre à jour ${clean(x.code)} · ${clean(x.name)}</option>`).join('')}</select></label><label class="modal-field"><span>Code</span><input id="importCode" value="${clean(t.code)}"></label><label class="modal-field"><span>Nom</span><input id="importName" value="${clean(t.name)}"></label><p class="import-note">PDF : les QCM et corrections textuelles sont générés automatiquement. Les formats visuels non lisibles en texte restent répondables via auto-évaluation.</p>`;setModalAction('Importer',{variant:'primary'});modalCallback=async()=>{
@@ -800,7 +804,7 @@
     bind('#filterToggleButton','onclick',()=>{filtersOpen=!filtersOpen;updateFilterControls();});
     bind('#mobilePreviousButton','onclick',()=>move(-1));bind('#mobileSubmitButton','onclick',()=>submit(false));bind('#mobileNextButton','onclick',nextQuestion);
     mobileLayout.addEventListener('change',()=>{filtersOpen=false;updateFilterControls();updateMobileActions();});
-    bind('#themeButton','onclick',()=>{root.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme();save();renderSettingsPage()});bind('#exportButton','onclick',exportProgress);bind('#importProgressButton','onclick',()=>$('#progressFileInput')?.click());bind('#progressFileInput','onchange',e=>{const f=e.target.files?.[0];e.target.value='';importProgress(f)});bind('#installAppButton','onclick',installApp);updateInstallUi();bind('#compactButton','onclick',()=>{state.examCompact=!state.examCompact;applyExamView();save()});bind('#focusMenuButton','onclick',()=>mode==='settings'?startFocusFromSettings():toggleFocus());bind('#focusToggleButton','onclick',toggleFocus);bind('#replayOnboardingButton','onclick',()=>openOnboarding({force:true}));bind('#resetExamButton','onclick',resetExam);bind('#settingsButton','onclick',()=>selectMode('settings'));bind('#startMistakesSessionButton','onclick',startMistakesSession);bind('#startExamButton','onclick',startOrResumeExam);
+    bind('#themeButton','onclick',toggleTheme);bind('#topbarThemeButton','onclick',toggleTheme);bind('#exportButton','onclick',exportProgress);bind('#importProgressButton','onclick',()=>$('#progressFileInput')?.click());bind('#progressFileInput','onchange',e=>{const f=e.target.files?.[0];e.target.value='';importProgress(f)});bind('#installAppButton','onclick',installApp);updateInstallUi();bind('#compactButton','onclick',()=>{state.examCompact=!state.examCompact;applyExamView();save()});bind('#focusMenuButton','onclick',()=>mode==='settings'?startFocusFromSettings():toggleFocus());bind('#focusToggleButton','onclick',toggleFocus);bind('#replayOnboardingButton','onclick',()=>openOnboarding({force:true}));bind('#resetExamButton','onclick',resetExam);bind('#settingsButton','onclick',()=>selectMode('settings'));bind('#startMistakesSessionButton','onclick',startMistakesSession);bind('#startExamButton','onclick',startOrResumeExam);
     bind('#trainingSelect','onchange',e=>activateTraining(e.target.value));bind('#favoriteButton','onclick',toggleFavorite);bind('#noteButton','onclick',openNote);bind('#reportButton','onclick',openReport);bind('#flagQuestionButton','onclick',toggleExamFlag);bind('#startWeaknessButton','onclick',startOrResumeStudy);bind('#dashboardWeaknessButton','onclick',()=>selectMode('weakness'));bind('#questionNavigatorButton','onclick',openQuestionNavigator);bind('#importTrainingButton','onclick',()=>$('#importFileInput')?.click());bind('#importFileInput','onchange',e=>{const f=e.target.files?.[0];e.target.value='';importFile(f)});bind('#manageTrainingButton','onclick',manageTrainings);
 
     bind('#startPathButton','onclick',()=>{if(!pathDomain)return;mode='study';domain=pathDomain;search='';$('#search').value='';cursor=0;list=[];refresh();focusCurrentQuestion()});
@@ -814,7 +818,7 @@
     document.addEventListener('keydown',e=>{if(document.body.classList.contains('ui-first-run-open'))return;if(e.key==='Escape'){const modal=$('#modal');if(modal&&!modal.hidden){if(modalEscapeClosable)closeModal();return}if(state.examFocus){e.preventDefault();setFocusMode(false);return}if(filtersOpen){e.preventDefault();filtersOpen=false;updateFilterControls();$('#filterToggleButton').focus();return}}if(e.target.closest('input,select,textarea,button'))return;if((e.key==='f'||e.key==='F')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&['study','quick','weakness','mistakes-session','exam'].includes(mode)&&list.length){e.preventDefault();toggleFocus();return}if(e.key==='ArrowRight'){e.preventDefault();move(1)}else if(e.key==='ArrowLeft'){e.preventDefault();move(-1)}else if(e.key==='Enter'&&!$('#submit').disabled){e.preventDefault();submit()}else if(/^[1-9]$/.test(e.key)&&list[cursor]?.options?.length){$(`#choices [data-choice="${Number(e.key)-1}"]`)?.click()}});
     const startId=catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:'az104',startState=currentState(startId),resume=!!startState.exam?.ids?.length;activateTraining(startId,{resumeExam:resume});if(!resume&&['#parcours','#path'].includes(location.hash))selectMode('dashboard');
     window.addEventListener('hashchange',()=>{if(['#parcours','#path'].includes(location.hash))selectMode('dashboard')});
-    checkVersion();setTimeout(()=>openOnboarding(),120);if(interfaceLanguage==='fr')setTimeout(()=>applyInterfaceLanguage('fr',{silent:true}),250);if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./service-worker.js').then(()=>updateInstallUi()).catch(console.warn);timer=setInterval(updateClock,1000);
+    updateThemeToggle();checkVersion();setTimeout(()=>openOnboarding(),120);await applyInterfaceLanguage(interfaceLanguage,{silent:true});if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./service-worker.js').then(()=>updateInstallUi()).catch(console.warn);timer=setInterval(updateClock,1000);
   }
   await boot();
 })();

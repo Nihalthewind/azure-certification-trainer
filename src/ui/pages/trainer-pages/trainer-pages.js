@@ -1,3 +1,4 @@
+import { createReviewRow, createPagination, reviewPage } from '../../patterns/review-list/review-list.js';
 import { createCourseHub } from '../../patterns/course-hub/course-hub.js';
 import { createDomainSelector } from '../../components/domain-selector/domain-selector.js';
 import { createButton } from '../../components/button/button.js';
@@ -66,8 +67,8 @@ function moduleRow(index, title, status, value, active = false) {
 export const courseHubFixture = [
  ['T1','Identités et gouvernance',126,28],['T2','Stockage',89,25],['T3','Calcul et applications',210,22],['T4','Réseaux',109,31],['T5','Supervision et reprise',34,18]
 ].map(([id,label,total,explored],i)=>({id,label,total,explored,percent:Math.round(explored/total*100),status:i===2||i===3?'À renforcer':'En cours',topics:['Gouvernance et tags','Identités et accès','Rôles et autorisations']}));
-export function createDashboardPage({ firstRun = false, highProgress = false, selected = 'T1', onStart, onResume } = {}) {
- const root=pageRoot('dashboard');const modules=courseHubFixture.map(m=>({...m,...(firstRun?{explored:0,percent:0,status:'À commencer'}:highProgress?{explored:m.total,percent:100,status:'Terminé'}:{})}));
+export function createDashboardPage({ firstRun = false, highProgress = false, selected = 'T1', manyModules = false, onStart, onResume } = {}) {
+ const root=pageRoot('dashboard');const fixture=manyModules?Array.from({length:15},(_,i)=>({...courseHubFixture[i%5],id:'module-'+i,label:'Module '+(i+1)+' · '+courseHubFixture[i%5].label})):courseHubFixture;const modules=fixture.map(m=>({...m,...(firstRun?{explored:0,percent:0,status:'À commencer'}:highProgress?{explored:m.total,percent:100,status:'Terminé'}:{})}));
  root.append(createCourseHub({code:'AZ-104',name:'Microsoft Azure Administrator',modules,selected,nextLabel:firstRun?'Commencer une première session':'Reprendre la question T1-Q12',resumeLabel:firstRun?'Commencer une session de 10 questions':'Reprendre l’entraînement',onStart,onContinue:onResume}).element);
  root.append(el('small','ui-v2-muted','› Historique, favoris et questions à reprendre'));return root;
 }
@@ -114,20 +115,19 @@ export function createKnowledgePage() {
   field.placeholder = 'Écris une note sur cette question…';
   note.append(el('h3', '', 'Ma note rapide'), el('p', '', 'Garde uniquement ce qui t’aide à retenir.'), field, el('small', 'ui-v2-muted', 'Enregistrement automatique'));
   const next = card();
-  next.append(el('h3', '', '→  Prochaine étape'), el('small', 'ui-v2-muted', 'Module suivant'), el('p', 'ui-v2-next-title', 'Gestion des accès conditionnels'), createButton({ label: 'Continuer le parcours', variant: 'secondary' }));
+  next.append(el('h3', '', '→  Prochaine étape'), el('small', 'ui-v2-muted', 'Module suivant'), el('p', 'ui-v2-next-title', 'Stockage'), createButton({ label: 'Continuer le parcours', variant: 'secondary' }));
   aside.append(note, next);
   layout.append(main, aside);
   root.append(createDomainSelector({ options: [{value:'all',label:'Tous les domaines'},...courseHubFixture.map(m=>({value:m.id,label:m.label}))] }).element, courseSummary(), layout);
   return root;
 }
 
-export function createMistakesPage() {
- const root=pageRoot('review'),filters=el('div','v3-review-filters');
- const queue=card('ui-v2-review-queue');
- const entries=[['T1-Q2','RBAC et scopes','errors'],['T4-Q3','Réseaux virtuels','flagged'],['T2-Q1','Storage accounts','favorites']];
- function render(filter='all'){queue.replaceChildren(...entries.filter(e=>filter==='all'||e[2]===filter).map(([id,title,status])=>{const row=el('div','ui-v2-review-item');row.append(el('span','',id),el('strong','',title),el('small','ui-v2-muted',status==='errors'?'Erreur':status==='flagged'?'À revoir':'Favori'),createButton({label:'Ouvrir'}));return row;}));filters.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===filter)));}
- [['all','Toutes'],['errors','Erreurs'],['flagged','À revoir'],['favorites','Favoris']].forEach(([id,label])=>{const b=createButton({label,onClick:()=>render(id)});b.dataset.filter=id;filters.append(b);});render();
- root.append(filters,queue,createButton({label:'Lancer une session de révision',variant:'primary'}));return root;
+export function createMistakesPage({ reviewCount=24, initialFilter='all' }={}) {
+ const root=pageRoot('review'),filters=el('div','v3-review-filters'),queue=el('div','ui-review-list'),summary=el('p','ui-v2-muted'),pagination=el('div'),detail=el('section');let filter=initialFilter,page=0;
+ const entries=Array.from({length:reviewCount},(_,i)=>({id:'DEMO-Q'+(i+1),title:i===0?'Une question avec un aperçu volontairement long pour vérifier la lisibilité et la troncature dans une collection paginée.':'Comment configurer les rôles et accès aux ressources Azure ?',domainLabel:'Identités et gouvernance',status:['Erreur','À revoir','Favori'][i%3],filter:['errors','flagged','favorites'][i%3]}));
+ function open(id){const item=entries.find(x=>x.id===id);queue.hidden=true;pagination.hidden=true;detail.hidden=false;detail.replaceChildren(el('h3','',item.id),el('p','',item.title),createButton({label:'Retour aux révisions',onClick:()=>{detail.hidden=true;queue.hidden=false;pagination.hidden=false;}}));}
+ function render(){const selected=entries.filter(e=>filter==='all'||e.filter===filter),model=reviewPage(selected,page);page=model.page;summary.textContent=selected.length+' questions à reprendre';queue.replaceChildren(...model.items.map(item=>createReviewRow(item,open)));if(!selected.length)queue.append(el('p','','Aucune question dans cette sélection. Continuez votre formation à votre rythme.'));pagination.replaceChildren(createPagination(model,index=>{page=index;render();}));filters.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===filter)));}
+ [['all','Toutes'],['errors','Erreurs'],['flagged','À revoir'],['favorites','Favoris']].forEach(([id,label])=>{const b=createButton({label,onClick:()=>{filter=id;page=0;render();}});b.dataset.filter=id;filters.append(b);});detail.hidden=true;render();root.append(summary,createButton({label:'Commencer la révision',variant:'primary',disabled:!entries.length,onClick:()=>entries.length&&open(entries[0].id)}),filters,queue,pagination,detail);return root;
 }
 
 export function createExamPage() {
@@ -157,7 +157,7 @@ export function createSettingsPage({ category = 'appearance' } = {}) {
     ]],
     ['app', 'Application', 'Installation et informations de version.', [
       ['Installer l’application', 'Ajoutez Azure Trainer comme application sur cet appareil.', 'Installer'],
-      ['Version', 'Version actuellement chargée.', 'v3.0.0'],
+      ['Version', 'Version actuellement chargée.', 'v3.0.1'],
     ]],
   ];
   groups.forEach(([id, label, description, rows]) => {

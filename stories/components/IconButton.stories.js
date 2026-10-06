@@ -78,3 +78,8 @@ export const Overview = {
   },
   parameters: { controls: { disable: true }, layout: 'centered' },
 };
+
+export const IconAndLabel = {args:{icon:'note',label:'Ajouter une note',showLabel:true}};
+export const LongEnglishLabel = {args:{icon:'note',label:'Add a personal note about this question',showLabel:true}};
+export const ThemeToggle = {args:{icon:'moon',label:'Activer le mode sombre'}};
+export const KeyboardTooltip = {args:{icon:'note',label:'Modifier ma note'},play:async({canvasElement})=>canvasElement.querySelector('button').focus()};

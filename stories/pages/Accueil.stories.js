@@ -39,3 +39,8 @@ export const AccueilModuleSelected = {
   args: { ...base, mode: "dashboard", selected: "T3" },
   globals: { theme: "light" },
 };
+
+export const ManyModules={args:{...base,mode:'dashboard',manyModules:true}};
+
+export const EnglishLight={args:{...base,mode:'dashboard',language:'en'},globals:{theme:'light'}};
+export const EnglishDark={args:{...base,mode:'dashboard',language:'en'},globals:{theme:'dark'}};

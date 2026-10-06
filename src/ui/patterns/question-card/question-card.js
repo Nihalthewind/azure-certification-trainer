@@ -147,7 +147,7 @@ export function createQuestionCard({
   eyebrow.className = 'ui-question-card__eyebrow';
   const totalPart = totalQuestions ? ` / ${totalQuestions}` : '';
   eyebrow.textContent = `QUESTION ${String(questionNumber).padStart(2, '0')}${totalPart} · ${category}`;
-  main.append(eyebrow);
+  meta.prepend(eyebrow);
 
   if (title) {
     const instruction = document.createElement('p');

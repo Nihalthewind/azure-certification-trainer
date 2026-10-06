@@ -13,3 +13,12 @@ export const RevisionsDark = {
   args: { ...base, mode: "mistakes" },
   globals: { theme: "dark" },
 };
+
+export const Empty = {args:{...base,mode:'mistakes',reviewCount:0}};
+export const Single = {args:{...base,mode:'mistakes',reviewCount:1}};
+export const Paginated = {args:{...base,mode:'mistakes',reviewCount:42}};
+export const Errors = {args:{...base,mode:'mistakes',reviewCount:42,initialFilter:'errors'}};
+export const Mobile = {args:{...base,mode:'mistakes',reviewCount:42},globals:{viewport:{value:'mobile',isRotated:false}}};
+
+export const EnglishLight={args:{...base,mode:'mistakes',language:'en'},globals:{theme:'light'}};
+export const EnglishDark={args:{...base,mode:'mistakes',language:'en'},globals:{theme:'dark'}};

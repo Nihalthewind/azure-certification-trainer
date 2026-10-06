@@ -3,6 +3,8 @@ const ICONS = {
     viewBox: '0 0 24 24',
     path: 'M21 21 16.65 16.65M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z',
   },
+  moon: {viewBox:'0 0 20 20',path:'M17.5 10.6583C17.3689 12.0768 16.8365 13.4287 15.9652 14.5557C15.0938 15.6826 13.9196 16.5382 12.5797 17.0221C11.2399 17.5061 9.78997 17.5984 8.39956 17.2884C7.00916 16.9784 5.73581 16.2788 4.7285 15.2715C3.72119 14.2642 3.0216 12.9908 2.71157 11.6004C2.40154 10.21 2.49391 8.76007 2.97786 7.42025C3.46182 6.08042 4.31734 4.90614 5.44432 4.03479C6.57131 3.16345 7.92314 2.63109 9.34165 2.5C8.51116 3.62356 8.11152 5.00787 8.21542 6.40118C8.31932 7.79448 8.91986 9.10422 9.90781 10.0922C10.8958 11.0801 12.2055 11.6807 13.5988 11.7846C14.9921 11.8885 16.3764 11.4888 17.5 10.6583Z',strokeWidth:2},
+  sun: {viewBox:'0 0 20 20',path:'M9.99999 0.833252V2.49992M9.99999 17.4999V19.1666M3.51666 3.51659L4.69999 4.69992M15.3 15.2999L16.4833 16.4833M0.833328 9.99992H2.49999M17.5 9.99992H19.1667M3.51666 16.4833L4.69999 15.2999M15.3 4.69992L16.4833 3.51659M14.1667 9.99992C14.1667 12.3011 12.3012 14.1666 9.99999 14.1666C7.69881 14.1666 5.83333 12.3011 5.83333 9.99992C5.83333 7.69873 7.69881 5.83325 9.99999 5.83325C12.3012 5.83325 14.1667 7.69873 14.1667 9.99992Z',strokeWidth:2},
   bell: {
     viewBox: '0 0 24 24',
     path: 'M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4',
@@ -92,3 +94,6 @@ export function createIcon(name, { size = 18, filled = false } = {}) {
 }
 
 export const iconNames = Object.freeze(Object.keys(ICONS));
+
+/** Exact editable vector exported from CURRENT Figma mark 116:1009. */
+export function createBrandMark(){const template=document.createElement('template');template.innerHTML="<svg width=\"34\" height=\"34\" viewBox=\"0 0 34 34\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"34\" height=\"34\" rx=\"10\" fill=\"var(--color-accent)\"/><path d=\"M11.8 23L15.205 12.2H17.8525L21.2575 23H19.3975L16.3075 13.31H16.7125L13.66 23H11.8ZM13.6975 20.66V18.9725H19.3675V20.66H13.6975Z\" fill=\"var(--color-accent-ink)\"/></svg>\n";const svg=template.content.firstElementChild;svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');return svg;}

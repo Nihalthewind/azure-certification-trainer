@@ -35,3 +35,6 @@ export const MobileEntrainementDark = {
   args: { ...base, mode: "study" },
   globals: { theme: "dark", viewport: { value: "mobile", isRotated: false } },
 };
+
+export const EnglishLight={args:{...base,mode:'study',language:'en'},globals:{theme:'light'}};
+export const EnglishDark={args:{...base,mode:'study',language:'en'},globals:{theme:'dark'}};

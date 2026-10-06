@@ -15,3 +15,6 @@ export const ExamenDark = {
   args: { ...base, mode: "exam" },
   globals: { theme: "dark" },
 };
+
+export const EnglishLight={args:{...base,mode:'exam',language:'en'},globals:{theme:'light'}};
+export const EnglishDark={args:{...base,mode:'exam',language:'en'},globals:{theme:'dark'}};

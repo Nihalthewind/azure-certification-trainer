@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-06",
+  "baseCommit": "ea1bcd1",
+  "appVersion": "3.0.1",
+  "scope": "Product corrections, existing V3 only",
+  "status": "Validated implementation and visual reconciliation; delivery follows the protected storybook CI workflow",
+  "fileKey": "jKDnAtVtPXQvQ74xVNFUeT",
+  "components": {
+    "reviewRow": "181:361",
+    "pagination": "181:376",
+    "moon": "175:301",
+    "sun": "175:308",
+    "brandMark": "116:1009"
+  },
+  "frames": {
+    "homeLight": "116:1006",
+    "homeDark": "117:1287",
+    "trainingLight": "119:897",
+    "trainingDark": "119:1240",
+    "reviewsLight": "123:1960",
+    "reviewsDark": "123:2195",
+    "mobileHomeLight": "120:1289",
+    "mobileTrainingDark": "120:2495"
+  },
+  "checks": {
+    "matrix": "16 FR/EN Light/Dark configurations passed",
+    "validate": "passed",
+    "nativeInstallation": "not performed; browser prompt events simulated",
+    "zoom": "200% CSS viewport equivalent, not browser zoom controls",
+    "pages": "6 production subpath configurations, cache upgrade and offline passed"
+  },
+  "publication": "The delivered commit is identified by public version.json and the verified Figma Start Here annotation",
+  "englishReferences": [{"source":"116:1006","id":"199:919","name":"CURRENT · EN · CURRENT · Accueil · V3 · Light"},{"source":"117:1287","id":"199:1144","name":"CURRENT · EN · CURRENT · Accueil · V3 · Dark"},{"source":"119:897","id":"199:1373","name":"CURRENT · EN · CURRENT · Entraînement · V3 · Light"},{"source":"119:1240","id":"199:1657","name":"CURRENT · EN · CURRENT · Entraînement · V3 · Dark"},{"source":"123:1960","id":"199:1945","name":"CURRENT · EN · CURRENT · Révisions · V3 · Light"},{"source":"123:2195","id":"199:2242","name":"CURRENT · EN · CURRENT · Révisions · V3 · Dark"},{"source":"123:2430","id":"199:2543","name":"CURRENT · EN · CURRENT · Paramètres · V3 · Light"},{"source":"123:2579","id":"199:2642","name":"CURRENT · EN · CURRENT · Paramètres · V3 · Dark"},{"source":"123:1556","id":"199:2745","name":"CURRENT · EN · CURRENT · Examen blanc · V3 · Light"},{"source":"123:1760","id":"199:2961","name":"CURRENT · EN · CURRENT · Examen blanc · V3 · Dark"}]
+}

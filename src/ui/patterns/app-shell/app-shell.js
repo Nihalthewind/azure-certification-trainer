@@ -1,5 +1,7 @@
 import { createNavigationItem } from '../../components/navigation-item/navigation-item.js';
-import { createIcon } from '../../icons/icons.js';
+import {observeInterfaceLanguage} from '../../integration/localization.js';
+import { createIconButton, updateIconButton } from '../../components/icon-button/icon-button.js';
+import { createIcon, createBrandMark } from '../../icons/icons.js';
 
 export const APP_SHELL_DENSITIES = Object.freeze({
   balanced: Object.freeze({ id: 'balanced', label: 'Équilibré', railWidth: 220, topbarHeight: 72, contentGutter: 28 }),
@@ -17,7 +19,7 @@ function createBrand(trainingCode) {
 
   const mark = document.createElement('span');
   mark.className = 'ui-app-shell__brand-mark';
-  mark.textContent = 'A';
+  mark.append(createBrandMark());
   mark.setAttribute('aria-hidden', 'true');
 
   const copy = document.createElement('span');
@@ -46,7 +48,7 @@ function createSearch() {
   return label;
 }
 
-function createProfile() {
+function createProfile(onLanguage) {
   const actions = document.createElement('div');
   actions.className = 'ui-app-shell__profile';
 
@@ -54,14 +56,14 @@ function createProfile() {
   language.type = 'button';
   language.className = 'language-toggle';
   language.translate = false;
-  language.textContent = 'EN ⇄ FR';
-  language.setAttribute('aria-label', 'Traduire les questions en français');
-  language.setAttribute('aria-pressed', 'false');
+  language.textContent = 'FR ⇄ EN';
+  language.setAttribute('aria-label', 'Afficher l’interface en anglais');
+  language.setAttribute('aria-pressed', 'true');
   language.addEventListener('click', () => {
-    const translated = language.getAttribute('aria-pressed') !== 'true';
+    const translated = language.getAttribute('aria-pressed') !== 'true';onLanguage?.(translated?'fr':'en');
     language.setAttribute('aria-pressed', String(translated));
     language.textContent = translated ? 'FR ⇄ EN' : 'EN ⇄ FR';
-    language.setAttribute('aria-label', translated ? 'Afficher les questions originales en anglais' : 'Traduire les questions en français');
+    language.setAttribute('aria-label', translated ? 'Afficher l’interface en anglais' : 'Afficher l’interface en français');
   });
 
   const avatar = document.createElement('span');
@@ -72,11 +74,14 @@ function createProfile() {
   copy.className = 'ui-app-shell__profile-copy';
   copy.innerHTML = '<strong>Mon espace</strong><small>Progression locale</small>';
 
-  actions.append(language, avatar, copy);
+  const theme = createIconButton({icon:'moon',label:'Activer le mode sombre',onClick:()=>{document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';syncTheme();}});
+  function syncTheme(){const dark=document.documentElement.dataset.theme==='dark';updateIconButton(theme,{icon:dark?'sun':'moon',label:dark?'Activer le mode clair':'Activer le mode sombre'});} syncTheme();
+  actions.append(language, theme, avatar, copy);
   return actions;
 }
 
 export function createAppShell({
+  language = 'fr',
   density = 'balanced',
   activeMode = 'study',
   trainingCode = 'AZ-104',
@@ -89,9 +94,9 @@ export function createAppShell({
   const root = document.createElement('div');
   root.className = `ui-app-shell ui-app-shell--v2${activeMode === 'study' ? ' ui-app-shell--learning' : ''}`;
   root.dataset.density = metrics.id;
-  root.style.setProperty('--ui-shell-rail-width', activeMode === 'study' ? 'var(--v2-rail)' : `${metrics.railWidth}px`);
-  root.style.setProperty('--ui-shell-topbar-height', activeMode === 'study' ? 'var(--v2-topbar)' : `${metrics.topbarHeight}px`);
-  root.style.setProperty('--ui-shell-gutter', activeMode === 'study' ? 'var(--v2-gutter)' : `${metrics.contentGutter}px`);
+  root.style.setProperty('--ui-shell-rail-width', 'var(--v3-rail)');
+  root.style.setProperty('--ui-shell-topbar-height', 'var(--v3-topbar)');
+  root.style.setProperty('--ui-shell-gutter', 'var(--space-6)');
 
   const rail = document.createElement('aside');
   rail.className = 'ui-app-shell__rail';
@@ -137,7 +142,7 @@ export function createAppShell({
 
   const topbar = document.createElement('header');
   topbar.className = 'ui-app-shell__topbar';
-  topbar.append(createSearch(), createProfile());
+  let shellLanguage=language;topbar.append(createSearch(), createProfile(value=>{shellLanguage=value;document.documentElement.lang=value;}));
 
   const main = document.createElement('main');
   main.className = 'ui-app-shell__main';
@@ -167,5 +172,6 @@ export function createAppShell({
   main.append(context, slot);
   contentRoot.append(topbar, main);
   root.append(rail, contentRoot);
+  observeInterfaceLanguage(root,()=>shellLanguage);
   return root;
 }

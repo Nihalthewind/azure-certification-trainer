@@ -94,4 +94,6 @@ Présentation : README → application → Figma Start Here → Storybook → ar
 
 ## Licence / statut
 
-Projet statique en développement. package.json déclare **ISC** ; aucun fichier LICENSE distinct présent. Version applicative 3.0.0 ; le SHA public identifie la livraison.
+Projet statique en développement. package.json déclare **ISC** ; aucun fichier LICENSE distinct présent. Version applicative 3.0.1 ; le SHA public identifie la livraison.
+
+Corrections produit : `npm run test:corrections` vérifie 16 configurations FR/EN × Light/Dark × desktop/tablette/mobile, la pagination et la conservation des données. Voir [le suivi](docs/product-corrections-audit.md).

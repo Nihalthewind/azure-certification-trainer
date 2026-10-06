@@ -46,7 +46,7 @@ export function createCourseHub({
   ...initial
 } = {}) {
   const element = node("section", "ui-course-hub");
-  const course = node("section", "ui-course-hub__card");
+  const course = node("section", "ui-course-hub__card ui-course-hub__summary");
   course.append(node("div", "ui-course-hub__kicker", "FORMATION EN COURS"));
   const title = node("h3", "ui-course-hub__title"),
     description = node("p", "ui-course-hub__muted"),
@@ -58,7 +58,7 @@ export function createCourseHub({
       variant: "primary",
       onClick: () => onContinue?.(),
     });
-  course.append(title, description, coverage, resume);
+  const summaryCopy=node("div","ui-course-hub__summary-copy"),summaryAction=node("div","ui-course-hub__summary-action");summaryCopy.append(title,description);summaryAction.append(coverage,resume);course.replaceChildren(summaryCopy,summaryAction);
   const heading = node("h3", "ui-course-hub__title");
   const grid = node("div", "ui-course-hub__grid");
   const modules = node("div", "ui-course-hub__modules");
@@ -72,30 +72,19 @@ export function createCourseHub({
     label: "Travailler ce domaine",
     onClick: () => onStart?.(model.selected),
   });
+  const allTopics = node("details", "ui-course-hub__all-topics"); allTopics.append(node("summary", "", "Voir toutes les notions"), topics);
   detail.append(
     detailTitle,
     detailProgress,
     node("h4", "", "Notions à travailler"),
-    topics,
+    allTopics,
     start,
   );
   grid.append(modules, detail);
-  const next = node("section", "ui-course-hub__card");
-  const nextTitle = node("h4", "");
-  next.append(
-    node("div", "ui-course-hub__kicker", "PROCHAINE ÉTAPE"),
-    nextTitle,
-    node(
-      "p",
-      "ui-course-hub__muted",
-      "Votre position et vos réponses sont sauvegardées sur cet appareil.",
-    ),
-    createButton({ label: "Continuer", onClick: () => onContinue?.() }),
-  );
-  element.append(course, heading, grid, next);
-  let model = {};
+  element.append(course, heading, grid);
+  let model = {}, modulePage=0;const pagination=node("div","ui-course-hub__pagination");modules.after(pagination);
   function update(data = {}) {
-    model = { ...model, ...data };
+    const previousSelected=model.selected;model = { ...model, ...data };const size=model.modules?.length>5?4:5;if(data.selected!==undefined&&previousSelected!==model.selected){const index=model.modules?.findIndex(m=>m.id===model.selected)??0;modulePage=Math.floor(Math.max(0,index)/size);}modulePage=Math.max(0,Math.min(modulePage,Math.ceil((model.modules?.length||0)/size)-1));
     title.textContent = model.name || "Microsoft Azure Administrator";
     const total = (model.modules || []).reduce(
         (sum, item) => sum + item.total,
@@ -108,7 +97,6 @@ export function createCourseHub({
     description.textContent = `${model.code || "AZ-104"} · ${explored} questions explorées sur ${total}`;
     coverage.textContent = `${total ? Math.round((explored / total) * 100) : 0} % explorés · ${(model.modules || []).length} domaines`;
     heading.textContent = `Mon parcours ${model.code || "AZ-104"}`;
-    nextTitle.textContent = model.nextLabel || "Commencer une première session";
     if (model.resumeLabel) {
       const label = resume.querySelector(".ui-button__label");
       if (label) label.textContent = model.resumeLabel;
@@ -119,7 +107,7 @@ export function createCourseHub({
       model.modules?.[0];
     if (selected) model.selected = selected.id;
     modules.replaceChildren(
-      ...(model.modules || []).map((item) => {
+      ...(model.modules || []).slice(modulePage*size,(modulePage+1)*size).map((item) => {
         const row = node(
           "button",
           `ui-course-hub__module${item.id === model.selected ? " is-active" : ""}`,
@@ -154,6 +142,7 @@ export function createCourseHub({
         return row;
       }),
     );
+    pagination.replaceChildren();if(model.modules?.length>5){const pages=Math.ceil(model.modules.length/size);modulePage=Math.min(modulePage,pages-1);pagination.append(createButton({label:'Précédent',disabled:modulePage===0,onClick:()=>{modulePage--;update();}}),node('span','',((modulePage*size)+1)+'–'+Math.min((modulePage+1)*size,model.modules.length)+' sur '+model.modules.length),createButton({label:'Suivant',disabled:modulePage+1>=pages,onClick:()=>{modulePage++;update();}}));}
     detailTitle.textContent = selected?.label || "Aucun domaine disponible";
     detailProgress.textContent = selected
       ? `${selected.explored} / ${selected.total} questions explorées`

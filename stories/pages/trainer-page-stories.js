@@ -33,7 +33,7 @@ const PAGE_CONFIG = {
 export function renderPage(args) {
   const config = PAGE_CONFIG[args.mode] || PAGE_CONFIG.study;
   return createAppShell({
-    density: args.density,
+    density: args.density,language:args.language,
     activeMode: args.mode,
     trainingCode: "AZ-104",
     pageTitle: config.title,

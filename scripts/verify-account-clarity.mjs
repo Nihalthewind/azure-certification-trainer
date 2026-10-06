@@ -28,9 +28,8 @@ try {
         answers: { 'T1-Q1': { done: true, correct: true, streak: 2 }, 'T1-Q2': { done: true, correct: false, streak: 0 } },
         notes: { 'T1-Q1': 'Note conservée' }, favorites: { 'T1-Q1': true },
       } } }));
-      localStorage.setItem(`${key}-onboarding-v1`, '1');
+      localStorage.setItem(`${key}-onboarding-v1`, '1');localStorage.setItem(`${key}-language`, 'en');
     }, { key, theme });
-    await context.route('https://translate.google.com/translate_a/element.js*', route => route.fulfill({ contentType: 'text/javascript', body: `window.google={translate:{TranslateElement:function(options,target){const select=document.createElement('select');select.className='goog-te-combo';for(const value of ['en','fr']){const option=document.createElement('option');option.value=value;select.append(option);}document.getElementById(target).append(select);}}};window.googleTranslateElementInit();` }));
     const page = await context.newPage(), errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(server.resolvedUrls.local[0]);await page.locator('#dashboard').waitFor({ state: 'visible' });
@@ -39,7 +38,7 @@ try {
     assert.equal(await page.locator('.ui-course-hub__module').count(),5);
     assert.equal(await page.locator('#dashboardCards:visible').count(),0);
     assert.equal(await page.locator('#dashboardDetails').getAttribute('open'), null);
-    assert.equal(await page.getByRole('button', { name: 'Paramètres', exact: true }).count(), 1);
+    assert.equal(await page.getByRole('button', { name: 'Settings', exact: true }).count(), 1);
     assert(!(await page.locator('#mobileSettingsButton').isVisible()));
     assert(await page.locator('.v2-profile #languageToggle').isVisible());
     assert(await page.locator('.v2-profile__avatar').isVisible());

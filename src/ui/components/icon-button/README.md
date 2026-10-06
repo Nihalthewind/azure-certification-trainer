@@ -22,3 +22,6 @@ Examples:
 - Favorite: active=true, pressed=true
 - Note exists: active=true, pressed=null
 - Report exists: active=true, pressed=null, activeTone=danger
+
+- showLabel: renders icon + label at natural width. Icon-only is the default.
+- Tooltip: floating body-level surface on hover/focus, viewport-constrained, dismissed by Escape; accessible name remains on the button. Touch targets use 44px in the product shell.
