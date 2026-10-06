@@ -116,7 +116,7 @@
     $('#mobileQuestionPosition').textContent=q?`Question ${cursor+1} / ${list.length}`:'';
     $('#mobilePreviousButton').disabled=cursor===0;
     $('#mobileSubmitButton').hidden=!!r;$('#mobileSubmitButton').disabled=!q||!answerComplete(q,draft(q));
-    $('#mobileSubmitButton').textContent=mode==='exam'?'Enregistrer et avancer':'Valider';
+    $('#mobileSubmitButton').textContent=mode==='exam'?'Enregistrer et avancer':'Valider ma réponse';
     $('#mobileNextButton').hidden=!r;
     $('#mobileNextButton').disabled=mode!=='quick'&&cursor===list.length-1;
     $('#mobileNextButton').textContent=mode==='quick'&&cursor===list.length-1?'Terminer la session':'Suivant →';
@@ -496,7 +496,7 @@
     else if(mode==='study'&&state.lastId&&list.some(q=>q.id===state.lastId))cursor=list.findIndex(q=>q.id===state.lastId);
     else cursor=Math.min(cursor,Math.max(0,list.length-1));
     const ec=examConfig();
-    $('#workTitle').textContent=mode==='quick'?`Session de ${list.length} questions`:mode==='exam'?`Examen blanc · ${state.exam?.ids?.length||Math.min(ec.total,autoQuestions.length)} questions`:mode==='weakness'?'Travailler mes faiblesses':mode==='mistakes-session'?'Session de rattrapage':domain==='all'?'Base de connaissances':domainTuple(domain)?.[1]||'Base de connaissances';
+    $('#workTitle').textContent=mode==='quick'?'Entraînement':mode==='exam'?`Examen blanc · ${state.exam?.ids?.length||Math.min(ec.total,autoQuestions.length)} questions`:mode==='weakness'?'Travailler mes faiblesses':mode==='mistakes-session'?'Session de rattrapage':domain==='all'?'Base de connaissances':domainTuple(domain)?.[1]||'Base de connaissances';
     $('#workSubtitle').textContent=mode==='quick'?'Une question à la fois. Votre session est sauvegardée automatiquement.':mode==='exam'?ec.subtitle:mode==='weakness'?'Priorité aux domaines les moins maîtrisés et aux erreurs actives.':mode==='mistakes-session'?'Travaillez uniquement les questions actuellement en erreur.':`${bank.length} questions disponibles pour ${cfg.code}.`;
     $('#modeLabel').textContent={study:'Base complète',quick:'Session courte',weakness:'Faiblesses','mistakes-session':'Erreurs',exam:'Examen blanc'}[mode]||'Base complète';
     $('#search').disabled=mode==='exam'||mode==='quick';$('#resetFilter').hidden=mode==='exam'||mode==='quick';
@@ -645,7 +645,7 @@
     if(UI.updateIconButton){
       UI.updateIconButton($('#favoriteButton'),{icon:'star',label:favorite?'Retirer des favoris':'Ajouter aux favoris',size:'small',active:favorite,pressed:favorite,activeTone:'accent'});
       UI.updateIconButton($('#noteButton'),{icon:'note',label:hasNote?'Modifier ma note':'Ajouter une note',size:'small',active:hasNote,pressed:null,activeTone:'accent'});
-      UI.updateIconButton($('#reportButton'),{icon:'report',label:hasReport?'Modifier le signalement':'Signaler un probl\u00e8me',size:'small',active:hasReport,pressed:null,activeTone:'danger'});
+      UI.updateIconButton($('#reportButton'),{icon:'report',label:hasReport?'À revoir : modifier le signalement':'À revoir : signaler un problème',size:'small',active:hasReport,pressed:null,activeTone:'danger'});
     }else{
       $('#favoriteButton').textContent=favorite?'\u2605':'\u2606';
       $('#favoriteButton').className='icon-action'+(favorite?' is-active':'');
@@ -686,11 +686,11 @@
     const q=list[cursor],n=list.length;$('#bankCount').textContent=bank.length;$('#position').textContent=n?`${cursor+1} / ${n}`:'—';$('#progress').style.width=(n?((cursor+1)/n*100):0)+'%';$('.progress-track').setAttribute('aria-valuenow',String(n?Math.round((cursor+1)/n*100):0));if(!q){$('#sessionClock').textContent='';updateMobileActions();return}rememberStudyPosition(q);updateV2StudyTools(q);
     const r=record(q),d=r?(q.options?.length?{selected:r.selected||[]}:(q.visualSpec?.kind==='self'?{text:r.text||''}:{values:r.values||{}})):draft(q),caseIndex=mode==='exam'?(state.exam?.caseStudyIds||[]).indexOf(q.id):-1,isCase=caseIndex>=0,isMultiContext=mode==='exam'&&state.exam?.multiContextId===q.id;
     renderQuestionHeader(q,r,{isCase,isMultiContext});
-    $('#questionIndex').textContent=isCase?`QUESTION ${String(cursor+1).padStart(2,'0')} · ÉTUDE DE CAS ${caseIndex+1}/${state.exam.caseStudyIds.length}`:isMultiContext?`QUESTION ${String(cursor+1).padStart(2,'0')} · CONTEXTES MULTIPLES`:`QUESTION ${String(cursor+1).padStart(2,'0')} · ${q.category||'QUESTION'}`;
+    $('#questionIndex').textContent=`Question ${cursor+1} / ${n} · `+(isCase?`ÉTUDE DE CAS ${caseIndex+1}/${state.exam.caseStudyIds.length}`:isMultiContext?'CONTEXTES MULTIPLES':(q.category||'QUESTION'));
     $('#questionTitle').textContent=q.options?.length?(q.multi?'Choisissez les bonnes réponses':'Choisissez la bonne réponse'):(q.visualSpec?.kind==='yn'?'Évaluez les propositions':q.visualSpec?.kind==='self'?'Formulez votre réponse':'Complétez les sélections');
     $('#caseContext').innerHTML=q.caseContext?`<details class="case-context" ${isCase?'open':''}><summary>Contexte de l’étude de cas</summary><div>${clean(q.caseContext)}</div></details>`:'';$('#questionPrompt').textContent=q.prompt;
     const hasAssets=q.assets?.length,openAsset=hasAssets&&(!q.options?.length||['HOTSPOT','DRAG DROP'].includes(q.category));$('#figures').innerHTML=hasAssets?`<details class="exhibit" ${openAsset?'open':''}><summary>Voir l’illustration source (${q.assets.length})</summary><div class="figure-grid">${q.assets.map((path,i)=>`<a href="${clean(path)}" target="_blank" rel="noopener noreferrer"><img src="${clean(path)}" alt="Illustration ${i+1} de ${clean(q.id)}" loading="lazy"></a>`).join('')}</div></details>`:sourceLink(q,false);
-    answerChoices(q,r,d);feedback(q,r);$('#submit').disabled=!!r||!answerComplete(q,d);$('#submit').textContent=mode==='exam'?'Enregistrer et avancer':'Valider la réponse';$('#prev').disabled=cursor===0;$('#next').disabled=cursor===n-1&&(mode!=='quick'||!r);$('#next').textContent=mode==='quick'&&cursor===n-1?'Terminer la session':'Suivant →';updateMobileActions();if(mode==='exam'){state.exam.index=cursor;save();updateClock()}else $('#sessionClock').textContent='';
+    answerChoices(q,r,d);feedback(q,r);$('#submit').disabled=!!r||!answerComplete(q,d);$('#submit').textContent=mode==='exam'?'Enregistrer et avancer':'Valider ma réponse';$('#prev').disabled=cursor===0;$('#next').disabled=cursor===n-1&&(mode!=='quick'||!r);$('#next').textContent=mode==='quick'&&cursor===n-1?'Terminer la session':'Suivant →';updateMobileActions();if(mode==='exam'){state.exam.index=cursor;save();updateClock()}else $('#sessionClock').textContent='';
   }
   function submit(skipped=false){const q=list[cursor];if(!q||record(q))return;const d=skipped?{}:draft(q);if(!skipped&&!answerComplete(q,d))return;const scored=skipped?false:score(q,d),result={done:true,correct:scored,selected:d.selected||[],values:d.values||{},text:d.text||'',skipped,ts:now(),pendingSelfGrade:scored===null};if(mode==='exam'){state.exam.answers[q.id]=result;save();if(cursor<list.length-1){cursor++;render();focusCurrentQuestion()}else finishExam();return}if(scored===null){state.answers[q.id]=result;delete state.drafts[q.id];save();render();UI.scrollFeedbackAfterRender?.();toast('Comparez maintenant votre réponse avec la correction puis auto-évaluez-vous.')}else{scheduleRecord(q,result,scored);render();UI.scrollFeedbackAfterRender?.();if(skipped)toast('La réponse et sa documentation sont affichées sous la question.')}}
   function move(delta){if(!list.length)return;const next=Math.max(0,Math.min(list.length-1,cursor+delta));if(next===cursor)return;cursor=next;render();focusCurrentQuestion()}

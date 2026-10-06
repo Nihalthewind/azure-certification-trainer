@@ -23,3 +23,15 @@ des composants et les surfaces utilisent les variables issues du CSS existant.
 L'export démarre un serveur Vite éphémère et des contextes Playwright isolés.
 Il ne consulte ni n'efface la progression du navigateur de l'utilisateur.
 Il n'ajoute aucun script distant à l'application et ne téléverse rien à lui seul.
+
+## Entraînement — workspace
+
+La section `trainingWorkspace` du registre identifie les six frames de référence
+et la famille `AnswerOption` (Default, Hover, Selected, Correct, Incorrect).
+Le rail desktop mesure 200 px, la topbar 64 px et le rail d’apprentissage 256 px.
+La progression reste dans le bandeau de formation ; les outils sont limités à
+la note rapide et à la prochaine étape. Sur tablette, ils suivent la question.
+
+Après `npm run build-storybook`, `node scripts/verify-training-workspace.mjs`
+vérifie l’application et les stories construites dans les deux thèmes et aux
+trois largeurs, les raccourcis, la sélection et la priorité des états de résultat.

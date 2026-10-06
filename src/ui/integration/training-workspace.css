@@ -1,0 +1,145 @@
+/* Entraînement V2 — Figma workspace, Light/Dark tokens inherited. */
+:is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) {
+  --v2-rail: calc(var(--space-12) * 4 + var(--space-2));
+  --v2-topbar: var(--space-16);
+  --v2-gutter: var(--space-6);
+}
+:is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) :is(.rail, .ui-app-shell__rail) {
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-4);
+}
+:is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) :is(.rail-link.ui-navigation-item, .ui-navigation-item, .settings-button, .ui-app-shell__settings) {
+  min-height: calc(var(--space-12) - var(--space-1));
+  padding: var(--space-2);
+  gap: var(--space-2);
+}
+:is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) :is(.rail-link.active, .ui-navigation-item.is-active) {
+  background: var(--ux-hover-surface);
+}
+:is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) :is(.v2-topbar-search, .ui-app-shell__search) {
+  width: min(calc(var(--space-12) * 10), 100%);
+  max-width: calc(var(--space-12) * 10);
+}
+:is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) :is(.v2-profile, .ui-app-shell__profile) { gap: var(--space-2); }
+:is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) :is(.v2-profile__avatar, .ui-app-shell__avatar) { width: var(--space-8); height: var(--space-8); }
+:is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) :is(.production-main, .ui-app-shell__main) { padding: var(--space-6); }
+.app-shell-production:has(#examControls[hidden]) .workspace,
+.ui-app-shell--learning .ui-v2-study-layout {
+  grid-template-columns: minmax(0, 1fr) calc(var(--space-16) * 4);
+  gap: var(--space-4);
+  align-items: start;
+}
+:is(.app-shell-production:has(#examControls[hidden]) .workbar-copy h2, .ui-app-shell--learning .ui-app-shell__context h1) { font-size: 24px; }
+.app-shell-production:has(#examControls[hidden]) .workbar { margin-bottom: 0; min-height: calc(var(--space-12) - var(--space-1)); }
+.app-shell-production:has(#examControls[hidden]) .workbar-copy h2 { line-height: calc(var(--space-8) - var(--space-1)); }
+.app-shell-production:has(#examControls[hidden]) .workbar-copy p { margin: 0; font-size: var(--font-size-sm); line-height: var(--space-4); }
+.app-shell-production:has(#examControls[hidden]) .study-filters { margin-bottom: 0; }
+.app-shell-production:has(#examControls[hidden]) #topicPill { background: var(--ux-hover-surface); border-color: var(--fluent-line); border-radius: var(--radius-sm); }
+.app-shell-production:has(#examControls[hidden]) :is(.v2-course-summary, .v2-study-card),
+.ui-app-shell--learning :is(.ui-v2-course, .ui-v2-aside-stack > .ui-v2-card) { padding: var(--space-4); gap: var(--space-2); }
+.app-shell-production:has(#examControls[hidden]) .v2-course-summary,
+.ui-app-shell--learning .ui-v2-course { min-height: calc(var(--space-12) * 2 - var(--space-2)); }
+.ui-app-shell--learning .ui-v2-course__copy h2 { font-size: 22px; }
+.ui-app-shell--learning .ui-v2-course__copy { gap: var(--space-2); }
+.ui-app-shell--learning .ui-v2-course__copy h2 { line-height: 1.2; }
+.app-shell-production:has(#examControls[hidden]) .v2-course-summary__line { grid-template-columns: minmax(0, 1fr) auto; }
+.app-shell-production:has(#examControls[hidden]) .v2-study-aside,
+.ui-app-shell--learning .ui-v2-aside-stack { gap: var(--space-4); align-self: start; }
+.app-shell-production:has(#examControls[hidden]) .v2-study-main,
+.ui-app-shell--learning .ui-v2-study-main { gap: var(--space-2); }
+.app-shell-production:has(#examControls[hidden]) .question-card,
+.ui-v2-question-workspace { min-height: 0; height: auto; box-shadow: none; }
+.ui-app-shell--learning .ui-v2-question-workspace { width: 100%; background: var(--color-panel); border-color: var(--color-border); box-shadow: none; }
+.ui-app-shell--learning .ui-v2-aside-stack h3 { font: 800 var(--font-size-md)/1.3 var(--font-family-display); }
+.ui-app-shell--learning .ui-v2-aside-stack p { font-size: var(--font-size-sm); }
+.ui-app-shell--learning .ui-v2-aside-stack .ui-v2-next-title { font-size: var(--font-size-md); }
+.app-shell-production:has(#examControls[hidden]) :is(.card-header, .question-main, .card-footer),
+.ui-v2-question-workspace :is(.ui-question-card__header, .ui-question-card__main, .ui-question-card__footer) { padding: var(--space-4); gap: var(--space-3); }
+.app-shell-production:has(#examControls[hidden]) .card-header,
+.ui-v2-question-workspace .ui-question-card__header { align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.app-shell-production:has(#examControls[hidden]) .card-meta,
+.ui-v2-question-workspace .ui-question-card__meta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); }
+.app-shell-production:has(#examControls[hidden]) .question-index,
+.ui-v2-question-workspace .ui-question-card__eyebrow { margin: 0; font-size: 10px; white-space: nowrap; }
+.app-shell-production:has(#examControls[hidden]) .card-header .footer-left { width: auto; margin-left: auto; }
+.app-shell-production:has(#examControls[hidden]) .question-main { display: grid; }
+.app-shell-production:has(#examControls[hidden]) .question-main > :is(h2, .prompt, .answer-note),
+.ui-v2-question-workspace .ui-question-card__main > * { margin: 0; }
+.app-shell-production:has(#examControls[hidden]) .question-main .prompt { max-width: none; max-height: none; overflow: visible; white-space: normal; font: 600 var(--font-size-lg)/1.55 var(--font-family-display); }
+.app-shell-production:has(#examControls[hidden]) .question-main h2,
+.ui-v2-question-workspace .ui-question-card__instruction { font: 400 var(--font-size-sm)/1.65 var(--font-family-body); color: var(--color-text-secondary); }
+.ui-v2-question-workspace .ui-question-card__main { display: grid; }
+.ui-v2-question-workspace .ui-question-card__question { max-width: none; font: 600 var(--font-size-lg)/1.55 var(--font-family-display); white-space: normal; }
+.app-shell-production:has(#examControls[hidden]) .question-main > :empty { display: none; }
+.app-shell-production:has(#examControls[hidden]) .choices,
+.ui-v2-question-workspace .ui-question-card__choices { gap: var(--space-2); }
+.app-shell-production:has(#examControls[hidden]) .card-footer,
+.ui-v2-question-workspace .ui-question-card__footer { display: flex; align-items: center; justify-content: space-between; border-top: 0; }
+.app-shell-production:has(#examControls[hidden]) .footer-right { margin: 0; width: auto; }
+.app-shell-production:has(#examControls[hidden]) :is(.card-header, .card-footer) .ui-button,
+.ui-v2-question-workspace .ui-button { min-height: calc(var(--space-12) - var(--space-1)); }
+.app-shell-production:has(#examControls[hidden]) #submit,
+.ui-v2-question-workspace .ui-question-card__submit { min-width: calc(var(--space-16) * 2 + var(--space-8)); }
+.app-shell-production:has(#examControls[hidden]) .card-header-actions,
+.ui-v2-question-workspace .ui-question-card__header-actions { gap: var(--space-1); }
+.app-shell-production:has(#examControls[hidden]) .card-header-actions .ui-icon-button:not(.is-active),
+.ui-v2-question-workspace .ui-question-card__header-actions .ui-icon-button:not(.is-active) { --icon-button-accent: var(--color-text-secondary); color: var(--color-text-secondary); }
+.app-shell-production:has(#examControls[hidden]) .card-header-actions .ui-icon-button,
+.ui-v2-question-workspace .ui-question-card__header-actions .ui-icon-button { border-color: transparent; background: transparent; }
+.app-shell-production:has(#examControls[hidden]) .after-card,
+.ui-learning-shortcuts { margin: 0; padding: 0; border: 0; background: transparent; color: var(--color-text-subtle); font-size: 11px; }
+.app-shell-production:has(#examControls[hidden]) .v2-study-card textarea,
+.ui-app-shell--learning .ui-v2-note { min-height: calc(var(--space-12) * 2); padding: var(--space-3); }
+/* The same AnswerOption states are used by the application and stories. */
+.ui-answer-option { padding: var(--space-3); gap: var(--space-3); border-width: 1px; background: var(--color-card); font-size: var(--font-size-md); line-height: 1.6; }
+.ui-answer-option:hover:not(.is-disabled):not(.is-locked):not(.is-selected),
+.ui-answer-option.is-preview-hover { border-color: var(--fluent-line); background: var(--color-surface); transform: none; }
+.ui-answer-option.is-selected:not(.is-correct):not(.is-incorrect),
+.app-shell-production .ui-answer-option.is-selected:not(.is-correct):not(.is-incorrect) { border-color: var(--color-accent); background: var(--ux-hover-surface); box-shadow: none; }
+.ui-answer-option.is-selected:not(.is-correct):not(.is-incorrect) .ui-answer-option__letter { border-color: var(--color-accent); background: var(--ux-hover-surface); color: var(--color-accent); }
+.ui-answer-option.is-correct, .app-shell-production .ui-answer-option.is-correct { border-color: var(--ui-success-edge); background: var(--ui-success-surface); }
+.ui-answer-option.is-incorrect, .app-shell-production .ui-answer-option.is-incorrect { border-color: var(--ui-error-edge); background: var(--ui-error-surface); }
+.ui-answer-option.is-correct .ui-answer-option__letter { border-color: var(--color-success); background: var(--color-success); color: var(--color-accent-ink); }
+.ui-answer-option.is-incorrect .ui-answer-option__letter { border-color: var(--color-error); background: var(--color-error); color: var(--color-accent-ink); }
+@media (min-width: 921px) and (max-width: 1100px) {
+  :is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) :is(.rail-link-label, .settings-label, .brand > div, .ui-navigation-item__label, .ui-app-shell__brand-copy, .ui-app-shell__settings span) { display: block; }
+  :is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) :is(.rail-link.ui-navigation-item, .ui-navigation-item, .settings-button, .ui-app-shell__settings) { grid-template-columns: 22px minmax(0, 1fr); justify-items: start; }
+}
+@media (max-width: 1100px) {
+  .app-shell-production:has(#examControls[hidden]) .workspace,
+  .ui-app-shell--learning .ui-v2-study-layout { grid-template-columns: minmax(0, 1fr); }
+  .app-shell-production:has(#examControls[hidden]) .v2-study-aside,
+  .ui-app-shell--learning .ui-v2-aside-stack { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 920px) {
+  :is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) { --v2-rail: 0px; --v2-gutter: var(--space-4); }
+  :is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) :is(.production-main, .ui-app-shell__main) { padding: var(--space-4) var(--space-4) calc(var(--learning-nav-height) + var(--learning-actions-height) + var(--space-8)); }
+  :is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) .rail { padding: 0; }
+  :is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) .ui-app-shell__rail { padding: var(--space-1) var(--space-2); }
+  .app-shell-production:has(#examControls[hidden]) .workbar { gap: var(--space-2); }
+  :is(.app-shell-production:has(.workspace:not([hidden])):has(#examControls[hidden]), .ui-app-shell--learning) :is(.topbar, .ui-app-shell__topbar) { height: var(--space-16); padding-inline: var(--space-4); }
+  .ui-app-shell--learning .ui-app-shell__rail { height: var(--learning-nav-height); padding: var(--space-1) var(--space-2); }
+  .app-shell-production:has(#examControls[hidden]) .production-main { padding: var(--space-4) var(--space-4) calc(var(--learning-nav-height) + var(--learning-actions-height) + var(--space-8)); }
+  .ui-app-shell--learning .ui-app-shell__main { padding: var(--space-4) var(--space-4) calc(var(--learning-nav-height) + var(--learning-actions-height) + var(--space-8)); }
+  .ui-app-shell--learning .ui-v2-course { flex-direction: row; align-items: center; }
+  .ui-app-shell--learning .ui-v2-course__score { min-width: var(--space-16); text-align: right; }
+  .app-shell-production:has(#examControls[hidden]) .card-header .footer-left { display: none; }
+  .app-shell-production:has(#examControls[hidden]) .card-footer { display: flex; padding-top: 0; }
+  .app-shell-production:has(#examControls[hidden]) .card-footer .footer-right { display: none; }
+  .app-shell-production:has(#examControls[hidden]) .card-footer .card-header-actions { margin-left: auto; }
+  .app-shell-production:has(#examControls[hidden]) .mobile-session-actions:not([hidden]) { padding: var(--space-3) var(--space-4); gap: var(--space-2); }
+  .ui-v2-question-workspace .ui-question-card__footer { position: static; justify-content: flex-end; background: var(--color-panel); }
+  .ui-v2-question-workspace .ui-question-card__footer-nav { position: fixed; inset: auto 0 var(--learning-nav-height); z-index: 88; height: var(--learning-actions-height); padding: calc(var(--space-8) + var(--space-2)) var(--space-4) var(--space-3); background: var(--color-background); border-top: 1px solid var(--color-border); }
+  .ui-v2-question-workspace .ui-question-card__footer-nav::before { content: attr(data-position); position: absolute; top: var(--space-3); left: var(--space-4); color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+  .ui-v2-question-workspace .ui-question-card__footer-nav .ui-button:first-child { width: calc(43% - var(--space-4)); }
+  .ui-v2-question-workspace .ui-question-card__footer-nav .ui-button:last-child { display: none; }
+  .ui-v2-question-workspace .ui-question-card__submit { position: fixed; right: var(--space-4); bottom: calc(var(--learning-nav-height) + var(--space-3)); z-index: 89; width: calc(57% - var(--space-6)); }
+}
+@media (max-width: 640px) {
+  .app-shell-production:has(#examControls[hidden]) .v2-study-aside,
+  .ui-app-shell--learning .ui-v2-aside-stack { grid-template-columns: minmax(0, 1fr); }
+  .ui-app-shell--learning .ui-v2-course__copy h2 { font-size: 18px; }
+  .ui-v2-question-workspace .ui-question-card__footer-nav { margin-left: auto; }
+  .ui-v2-question-workspace .ui-question-card__footer { flex-direction: row; align-items: center; flex-wrap: wrap; }
+  .ui-v2-question-workspace .ui-question-card__header-actions { width: auto; margin-left: auto; order: 2; }
+}

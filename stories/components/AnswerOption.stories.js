@@ -37,6 +37,15 @@ export default meta;
 export const Playground = {};
 export const Default = {};
 export const Selected = { args: { selected: true } };
+export const Hover = {
+  render: (args) => {
+    const wrapper = meta.render(args);
+    wrapper.querySelector('.ui-answer-option').classList.add('is-preview-hover');
+    return wrapper;
+  },
+};
+export const SelectedLight = { args: { selected: true }, globals: { theme: 'light' } };
+export const SelectedDark = { args: { selected: true }, globals: { theme: 'dark' } };
 export const Correct = { args: { selected: true, state: 'correct', locked: true } };
 export const Incorrect = { args: { selected: true, state: 'incorrect', locked: true } };
 export const Disabled = { args: { disabled: true } };

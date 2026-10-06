@@ -8,13 +8,14 @@
   "source": {
     "archive": "azure-trainer-v2-minimal-source.zip",
     "archiveSha256": "f43a1f49ed2ea31d4ebca3986a7f6b6cbadd476294cdef937678916f6fee7c36",
-    "codeSha256": "ba652bf90d5116cf8bcc56ee78f18d72ab730827c5964fc6271dd759e4149e08",
+    "codeSha256": "7e21c869b9e7b87b8c094df3f6cdf7ff200e733549c4e117e19a5c942798238d",
     "files": [
       ".storybook/main.js",
       ".storybook/preview.js",
       "atelier.js",
       "index.html",
       "package.json",
+      "scripts/verify-training-workspace.mjs",
       "service-worker.js",
       "src/ui/README.md",
       "src/ui/components/README.md",
@@ -53,6 +54,7 @@
       "src/ui/integration/learning-experience.css",
       "src/ui/integration/legacy-app.css",
       "src/ui/integration/modal-production.css",
+      "src/ui/integration/training-workspace.css",
       "src/ui/integration/ux-polish.css",
       "src/ui/integration/v2-minimal.css",
       "src/ui/integration/visual-contrast.css",
@@ -715,5 +717,75 @@
   "validationCommands": [
     "npm run test-ux",
     "npm run validate"
-  ]
+  ],
+  "trainingWorkspace": {
+    "revision": "Entraînement V2 — workspace UX",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "widths": [
+      390,
+      768,
+      1440
+    ],
+    "frames": {
+      "light": {
+        "390": "16:1137",
+        "768": "18:2841",
+        "1440": "9:323"
+      },
+      "dark": {
+        "390": "20:707",
+        "768": "23:1155",
+        "1440": "24:2970"
+      }
+    },
+    "answerOption": {
+      "componentSet": "38:2461",
+      "states": {
+        "Default": "38:2456",
+        "Hover": "38:2457",
+        "Selected": "38:2458",
+        "Correct": "38:2459",
+        "Incorrect": "38:2460"
+      },
+      "previews": {
+        "light": "53:2",
+        "dark": "53:38"
+      }
+    },
+    "layout": {
+      "sidebar": 200,
+      "topbar": 64,
+      "searchMax": 480,
+      "rightRail": 256,
+      "questionPaddingToken": "space-4",
+      "answerPaddingToken": "space-3",
+      "selectedSurfaceToken": "ux-hover-surface",
+      "rightCards": [
+        "Ma note rapide",
+        "Prochaine étape"
+      ]
+    },
+    "stories": [
+      "Pages/Azure Trainer V2/EntrainementLight",
+      "Pages/Azure Trainer V2/EntrainementDark",
+      "Pages/Azure Trainer V2/TabletEntrainementLight",
+      "Pages/Azure Trainer V2/TabletEntrainementDark",
+      "Pages/Azure Trainer V2/MobileEntrainement",
+      "Pages/Azure Trainer V2/MobileEntrainementDark",
+      "Components/AnswerOption/Hover",
+      "Components/AnswerOption/SelectedLight",
+      "Components/AnswerOption/SelectedDark"
+    ],
+    "badge": {
+      "componentSet": "55:2551",
+      "tones": {
+        "Accent": "55:2549",
+        "Neutral": "55:2550"
+      }
+    },
+    "revisionAnnotation": "60:62"
+  }
 }

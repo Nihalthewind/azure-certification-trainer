@@ -79,11 +79,11 @@ export function createAppShell({
 } = {}) {
   const metrics = getAppShellDensity(density);
   const root = document.createElement('div');
-  root.className = 'ui-app-shell ui-app-shell--v2';
+  root.className = `ui-app-shell ui-app-shell--v2${activeMode === 'study' ? ' ui-app-shell--learning' : ''}`;
   root.dataset.density = metrics.id;
-  root.style.setProperty('--ui-shell-rail-width', `${metrics.railWidth}px`);
-  root.style.setProperty('--ui-shell-topbar-height', `${metrics.topbarHeight}px`);
-  root.style.setProperty('--ui-shell-gutter', `${metrics.contentGutter}px`);
+  root.style.setProperty('--ui-shell-rail-width', activeMode === 'study' ? 'var(--v2-rail)' : `${metrics.railWidth}px`);
+  root.style.setProperty('--ui-shell-topbar-height', activeMode === 'study' ? 'var(--v2-topbar)' : `${metrics.topbarHeight}px`);
+  root.style.setProperty('--ui-shell-gutter', activeMode === 'study' ? 'var(--v2-gutter)' : `${metrics.contentGutter}px`);
 
   const rail = document.createElement('aside');
   rail.className = 'ui-app-shell__rail';

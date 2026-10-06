@@ -46,3 +46,7 @@ export const RevisionsDark = { name: 'Révisions · Sombre', args: { ...base, mo
 export const ParametresLight = { name: 'Paramètres · Clair', args: { ...base, mode: 'settings' }, globals: { theme: 'light' } };
 export const ParametresDark = { name: 'Paramètres · Sombre', args: { ...base, mode: 'settings' }, globals: { theme: 'dark' } };
 export const MobileEntrainement = { name: 'Mobile · Entraînement', args: { ...base, mode: 'study' }, globals: { theme: 'light', viewport: { value: 'mobile', isRotated: false } } };
+
+export const TabletEntrainementLight = { args: { ...base, mode: 'study' }, globals: { theme: 'light', viewport: { value: 'tablet', isRotated: false } } };
+export const TabletEntrainementDark = { args: { ...base, mode: 'study' }, globals: { theme: 'dark', viewport: { value: 'tablet', isRotated: false } } };
+export const MobileEntrainementDark = { args: { ...base, mode: 'study' }, globals: { theme: 'dark', viewport: { value: 'mobile', isRotated: false } } };

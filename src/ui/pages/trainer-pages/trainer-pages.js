@@ -1,6 +1,6 @@
 import { createButton } from '../../components/button/button.js';
 import { createBadge } from '../../components/badge/badge.js';
-import { createAnswerOption } from '../../components/answer-option/answer-option.js';
+import { createQuestionCard } from '../../patterns/question-card/question-card.js';
 
 function el(tag, className = '', text = '') {
   const node = document.createElement(tag);
@@ -149,45 +149,46 @@ export function createKnowledgePage() {
   const root = pageRoot('study');
   const layout = el('div', 'ui-v2-study-layout');
   const main = el('div', 'ui-v2-study-main');
-  main.append(courseSummary());
-
-  const question = card('ui-v2-question');
-  const qhead = el('div', 'ui-v2-panel__head');
-  const qmeta = el('div', 'ui-v2-inline');
-  qmeta.append(el('span', 'ui-v2-kicker', 'QUESTION 12 / 50'), badge('Identités & accès', 'accent'), badge('QCM'));
-  const nav = el('div', 'ui-v2-question__nav');
-  nav.innerHTML = '<button aria-label="Question précédente">‹</button><button aria-label="Question suivante">›</button>';
-  qhead.append(qmeta, nav);
-  question.append(qhead, el('small', 'ui-v2-muted', 'Gestion des identités et des accès · Difficulté moyenne'), el('h2', '', 'Vous devez permettre à une application d’accéder à des ressources Azure sans utiliser de compte utilisateur. Quelle solution est la plus appropriée ?'));
-  const choices = el('div', 'ui-v2-answer-list');
-  [
-    'Utiliser un compte Microsoft personnel.',
-    'Créer un groupe de sécurité Azure AD et y ajouter l’application.',
-    'Utiliser une identité managée pour l’application.',
-    'Créer un utilisateur Azure AD et stocker ses informations d’identification dans l’application.',
-  ].forEach((label, index) => choices.append(createAnswerOption({ index, label, selected: index === 2, name: 'storybook-answer' })));
-  question.append(choices);
-  const actions = el('div', 'ui-v2-actions');
-  actions.append(
-    createButton({ label: 'Valider ma réponse', variant: 'primary' }),
-    createButton({ label: 'Ajouter aux favoris', variant: 'ghost' }),
-    createButton({ label: 'Ajouter une note', variant: 'ghost' }),
-  );
-  question.append(actions, el('div', 'ui-v2-hint', 'Astuce : utilise 1–4 pour répondre, puis Entrée pour valider.'));
-  main.append(question);
+  const question = createQuestionCard({
+    questionNumber: 12, totalQuestions: 50, questionId: 'T1-Q12',
+    topic: 'Identités & accès', category: 'QCM',
+    title: 'Gestion des identités et des accès · Difficulté moyenne',
+    prompt: 'Vous devez permettre à une application d’accéder à des ressources Azure sans utiliser de compte utilisateur. Quelle solution est la plus appropriée ?',
+    answers: [
+      'Utiliser un compte Microsoft personnel.',
+      'Créer un groupe de sécurité Azure AD et y ajouter l’application.',
+      'Utiliser une identité managée pour l’application.',
+      'Créer un utilisateur Azure AD et stocker ses informations d’identification dans l’application.',
+    ],
+    selectedIndexes: [2], submitLabel: 'Valider ma réponse',
+  });
+  question.classList.add('ui-v2-question-workspace');
+  const meta = question.querySelector('.ui-question-card__meta');
+  const eyebrow = question.querySelector('.ui-question-card__eyebrow');
+  eyebrow.textContent = 'Question 12 / 50 · QCM';
+  meta.prepend(eyebrow);
+  const actions = question.querySelector('.ui-question-card__header-actions');
+  meta.append(actions.querySelector('.ui-badge'));
+  const navigation = question.querySelector('.ui-question-card__footer-nav');
+  navigation.dataset.position = 'Question 12 / 50';
+  question.querySelector('.ui-question-card__header').append(navigation);
+  question.querySelector('.ui-question-card__footer').append(actions);
+  const review = actions.querySelector('[data-icon="report"]') || actions.querySelector('button:last-child');
+  review.setAttribute('aria-label', 'À revoir : signaler un problème');
+  review.title = 'À revoir : signaler un problème';
+  main.append(question, el('small', 'ui-learning-shortcuts', '1–4 choisir · Entrée valider'));
 
   const aside = el('aside', 'ui-v2-aside-stack');
-  const progressCard = card();
-  progressCard.append(el('h3', '', 'Mon avancement'), el('strong', 'ui-v2-percent', '68 %'), el('p', '', '5 / 8 modules complétés'), progress(68));
   const note = card();
   const field = el('textarea', 'ui-v2-note');
+  field.setAttribute('aria-label', 'Note rapide');
   field.placeholder = 'Écris une note sur cette question…';
   note.append(el('h3', '', 'Ma note rapide'), el('p', '', 'Garde uniquement ce qui t’aide à retenir.'), field, el('small', 'ui-v2-muted', 'Enregistrement automatique'));
   const next = card();
   next.append(el('h3', '', '→  Prochaine étape'), el('small', 'ui-v2-muted', 'Module suivant'), el('p', 'ui-v2-next-title', 'Gestion des accès conditionnels'), createButton({ label: 'Continuer le parcours', variant: 'secondary' }));
-  aside.append(progressCard, note, next);
+  aside.append(note, next);
   layout.append(main, aside);
-  root.append(layout);
+  root.append(courseSummary(), layout);
   return root;
 }
 
