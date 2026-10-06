@@ -1,87 +1,177 @@
 .ui-icon-button {
-  --icon-button-fg: var(--color-text-secondary);
-  --icon-button-bg: var(--color-surface);
-  --icon-button-border: var(--color-border);
+  --icon-button-accent: var(--color-accent);
+  --icon-button-fg: color-mix(in srgb, var(--icon-button-accent) 64%, var(--color-text-secondary));
+  --icon-button-bg: color-mix(in srgb, var(--color-panel) 88%, var(--color-surface));
+  --icon-button-border: color-mix(in srgb, var(--color-border) 88%, var(--icon-button-accent) 12%);
 
+  position: relative;
   display: inline-grid;
   place-items: center;
   flex: 0 0 auto;
   padding: 0;
-  border: 1px solid var(--icon-button-border);
-  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--icon-button-border);
+  border-radius: 12px;
   background: var(--icon-button-bg);
   color: var(--icon-button-fg);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 22%, transparent),
+    0 3px 10px color-mix(in srgb, var(--color-background) 36%, transparent);
   cursor: pointer;
+  isolation: isolate;
   transition:
     background var(--motion-normal) var(--easing-standard),
     border-color var(--motion-normal) var(--easing-standard),
+    box-shadow var(--motion-normal) var(--easing-standard),
     color var(--motion-normal) var(--easing-standard),
     transform var(--motion-fast) var(--easing-standard);
 }
 
 .ui-icon-button--small {
-  width: 32px;
-  height: 32px;
-}
-
-.ui-icon-button--medium {
   width: 38px;
   height: 38px;
 }
 
+.ui-icon-button--medium {
+  width: 42px;
+  height: 42px;
+}
+
+.ui-icon-button.is-icon-star {
+  --icon-button-accent: #e89b16;
+}
+
+.ui-icon-button.is-icon-note {
+  --icon-button-accent: var(--color-accent);
+}
+
+.ui-icon-button.is-icon-report,
+.ui-icon-button.is-icon-flag {
+  --icon-button-accent: var(--color-error);
+}
+
+.ui-icon-button.is-icon-review {
+  --icon-button-accent: #8a6ee8;
+}
+
+html[data-theme='dark'] .ui-icon-button.is-icon-star {
+  --icon-button-accent: #ffc45f;
+}
+
+html[data-theme='dark'] .ui-icon-button.is-icon-review {
+  --icon-button-accent: #b8a7ff;
+}
+
 .ui-icon-button:hover:not(:disabled) {
-  border-color: var(--color-accent);
-  color: var(--color-text-primary);
+  border-color: color-mix(in srgb, var(--icon-button-accent) 62%, var(--color-border));
+  background: color-mix(in srgb, var(--icon-button-accent) 10%, var(--color-panel));
+  color: var(--icon-button-accent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 28%, transparent),
+    0 7px 18px color-mix(in srgb, var(--icon-button-accent) 14%, transparent);
   transform: translateY(-1px);
 }
 
 .ui-icon-button:active:not(:disabled) {
-  transform: translateY(0);
+  box-shadow: inset 0 1px 4px color-mix(in srgb, var(--color-background) 22%, transparent);
+  transform: translateY(0) scale(.97);
 }
 
 .ui-icon-button:focus-visible {
-  outline: 3px solid var(--color-focus);
+  outline: 3px solid color-mix(in srgb, var(--icon-button-accent) 46%, var(--color-focus));
   outline-offset: 3px;
 }
 
-.ui-icon-button.is-active.is-accent {
-  --icon-button-fg: var(--color-accent);
-  --icon-button-border: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
-  --icon-button-bg: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+.ui-icon-button.is-active {
+  --icon-button-fg: var(--icon-button-accent);
+  --icon-button-border: color-mix(in srgb, var(--icon-button-accent) 68%, var(--color-border));
+  --icon-button-bg: color-mix(in srgb, var(--icon-button-accent) 15%, var(--color-panel));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--icon-button-accent) 18%, transparent),
+    0 6px 18px color-mix(in srgb, var(--icon-button-accent) 16%, transparent);
 }
 
-.ui-icon-button.is-active.is-danger {
-  --icon-button-fg: var(--color-error);
-  --icon-button-border: color-mix(in srgb, var(--color-error) 52%, var(--color-border));
-  --icon-button-bg: color-mix(in srgb, var(--color-error) 10%, var(--color-surface));
+.ui-icon-button.is-active.is-danger,
+.ui-icon-button.is-icon-report.is-active,
+.ui-icon-button.is-icon-flag.is-active {
+  --icon-button-accent: var(--color-error);
 }
 
 .ui-icon-button.is-active.is-warning {
-  --icon-button-fg: var(--color-warning);
-  --icon-button-border: color-mix(in srgb, var(--color-warning) 55%, var(--color-border));
-  --icon-button-bg: color-mix(in srgb, var(--color-warning) 10%, var(--color-surface));
+  --icon-button-accent: var(--color-warning);
+}
+
+.ui-icon-button.is-active.is-accent:not(.is-icon-star):not(.is-icon-note) {
+  --icon-button-accent: var(--color-accent);
 }
 
 .ui-icon-button:disabled {
   cursor: not-allowed;
-  opacity: 0.48;
+  opacity: .44;
+  box-shadow: none;
   transform: none;
 }
 
 .ui-icon-button .ui-icon {
+  width: 20px;
+  height: 20px;
   display: block;
+  overflow: visible;
   pointer-events: none;
+  filter: drop-shadow(0 1px 1px color-mix(in srgb, currentColor 12%, transparent));
 }
 
-@media (max-width: 640px) {
+.ui-icon-button--medium .ui-icon {
+  width: 21px;
+  height: 21px;
+}
+
+.ui-icon-button.is-active.is-icon-star .ui-icon {
+  transform: scale(1.04);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ui-icon-button::after {
+    content: attr(aria-label);
+    position: absolute;
+    z-index: 30;
+    top: calc(100% + 8px);
+    left: 50%;
+    width: max-content;
+    max-width: 220px;
+    padding: 6px 9px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--color-panel) 96%, transparent);
+    color: var(--color-text-primary);
+    box-shadow: var(--shadow);
+    font-size: 10px;
+    font-weight: 750;
+    line-height: 1.2;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -3px);
+    transition: opacity var(--motion-fast) var(--easing-standard), transform var(--motion-fast) var(--easing-standard);
+    white-space: nowrap;
+  }
+
+  .ui-icon-button:hover::after,
+  .ui-icon-button:focus-visible::after {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (max-width: 640px), (pointer: coarse) {
+  .ui-icon-button--small,
   .ui-icon-button--medium {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-icon-button {
+  .ui-icon-button,
+  .ui-icon-button::after {
     transition: none;
   }
 }

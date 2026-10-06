@@ -2,31 +2,12 @@ import { createAppShell } from '../../src/ui/patterns/app-shell/app-shell.js';
 import { createTrainerPage } from '../../src/ui/pages/trainer-pages/trainer-pages.js';
 
 const PAGE_CONFIG = {
-  dashboard: {
-    eyebrow: 'PILOTAGE',
-    title: 'Tableau de bord',
-    subtitle: 'Votre progression, vos faiblesses et vos derniers examens au même endroit.',
-  },
-  study: {
-    eyebrow: 'ENTRAÎNEMENT',
-    title: 'Base de connaissances',
-    subtitle: 'Travaillez toute la banque ou ciblez un domaine.',
-  },
-  mistakes: {
-    eyebrow: 'RÉVISION',
-    title: 'Erreurs',
-    subtitle: 'Priorisez les notions qui vous coûtent encore des points.',
-  },
-  exam: {
-    eyebrow: 'SIMULATION',
-    title: 'Examen blanc',
-    subtitle: 'Préparez une session chronométrée et consultez votre historique.',
-  },
-  settings: {
-    eyebrow: 'APPLICATION',
-    title: 'Paramètres',
-    subtitle: 'Apparence, formations, sauvegardes et installation.',
-  },
+  dashboard: { title: 'Accueil', subtitle: 'Reprends ta préparation AZ-104 là où tu l’as laissée.' },
+  path: { title: 'Parcours AZ-104', subtitle: '8 modules pour couvrir les compétences de l’examen, sans bruit inutile.' },
+  study: { title: 'Entraînement', subtitle: 'Une question à la fois. Progresse, comprends, continue.' },
+  exam: { title: 'Examen blanc', subtitle: 'Simule les conditions de l’AZ-104, puis analyse uniquement ce qui compte.' },
+  mistakes: { title: 'Révisions', subtitle: 'Travaille seulement les notions qui méritent ton attention.' },
+  settings: { title: 'Paramètres', subtitle: 'Personnalise ton espace d’apprentissage sans alourdir l’expérience.' },
 };
 
 function renderPage(args) {
@@ -35,109 +16,33 @@ function renderPage(args) {
     density: args.density,
     activeMode: args.mode,
     trainingCode: 'AZ-104',
-    trainingName: 'Azure Administrator',
-    pageEyebrow: config.eyebrow,
     pageTitle: config.title,
     pageSubtitle: config.subtitle,
-    counts: {
-      study: 568,
-      mistakes: 18,
-      exam: 4,
-    },
     content: createTrainerPage(args.mode),
   });
 }
 
-const meta = {
-  title: 'Pages/Azure Trainer',
-  parameters: {
-    layout: 'fullscreen',
-    a11y: { test: 'error' },
-  },
+export default {
+  title: 'Pages/Azure Trainer V2',
+  parameters: { layout: 'fullscreen', a11y: { test: 'error' } },
   render: renderPage,
   argTypes: {
-    mode: {
-      control: 'select',
-      options: ['dashboard', 'study', 'mistakes', 'exam', 'settings'],
-    },
-    density: {
-      control: 'radio',
-      options: ['balanced', 'compact', 'spacious'],
-    },
+    mode: { control: 'select', options: ['dashboard', 'path', 'study', 'exam', 'mistakes', 'settings'] },
+    density: { control: 'radio', options: ['balanced', 'compact', 'spacious'] },
   },
 };
 
-export default meta;
-
-const base = {
-  density: 'balanced',
-};
-
-export const DashboardDark = {
-  name: 'Dashboard · Sombre',
-  args: { ...base, mode: 'dashboard' },
-  globals: { theme: 'dark' },
-};
-
-export const DashboardLight = {
-  name: 'Dashboard · Clair',
-  args: { ...base, mode: 'dashboard' },
-  globals: { theme: 'light' },
-};
-
-export const KnowledgeDark = {
-  name: 'Base de connaissances · Sombre',
-  args: { ...base, mode: 'study' },
-  globals: { theme: 'dark' },
-};
-
-export const KnowledgeLight = {
-  name: 'Base de connaissances · Clair',
-  args: { ...base, mode: 'study' },
-  globals: { theme: 'light' },
-};
-
-export const MistakesDark = {
-  name: 'Erreurs · Sombre',
-  args: { ...base, mode: 'mistakes' },
-  globals: { theme: 'dark' },
-};
-
-export const MistakesLight = {
-  name: 'Erreurs · Clair',
-  args: { ...base, mode: 'mistakes' },
-  globals: { theme: 'light' },
-};
-
-export const ExamDark = {
-  name: 'Examen blanc · Sombre',
-  args: { ...base, mode: 'exam' },
-  globals: { theme: 'dark' },
-};
-
-export const ExamLight = {
-  name: 'Examen blanc · Clair',
-  args: { ...base, mode: 'exam' },
-  globals: { theme: 'light' },
-};
-
-export const SettingsDark = {
-  name: 'Paramètres · Sombre',
-  args: { ...base, mode: 'settings' },
-  globals: { theme: 'dark' },
-};
-
-export const SettingsLight = {
-  name: 'Paramètres · Clair',
-  args: { ...base, mode: 'settings' },
-  globals: { theme: 'light' },
-};
-
-export const MobileKnowledge = {
-  name: 'Mobile · Base de connaissances',
-  args: { ...base, mode: 'study' },
-  globals: {
-    theme: 'dark',
-    viewport: { value: 'mobile', isRotated: false },
-  },
-};
+const base = { density: 'balanced' };
+export const AccueilLight = { args: { ...base, mode: 'dashboard' }, globals: { theme: 'light' } };
+export const AccueilDark = { args: { ...base, mode: 'dashboard' }, globals: { theme: 'dark' } };
+export const ParcoursLight = { args: { ...base, mode: 'path' }, globals: { theme: 'light' } };
+export const ParcoursDark = { args: { ...base, mode: 'path' }, globals: { theme: 'dark' } };
+export const EntrainementLight = { name: 'Entraînement · Clair', args: { ...base, mode: 'study' }, globals: { theme: 'light' } };
+export const EntrainementDark = { name: 'Entraînement · Sombre', args: { ...base, mode: 'study' }, globals: { theme: 'dark' } };
+export const ExamenLight = { args: { ...base, mode: 'exam' }, globals: { theme: 'light' } };
+export const ExamenDark = { args: { ...base, mode: 'exam' }, globals: { theme: 'dark' } };
+export const RevisionsLight = { name: 'Révisions · Clair', args: { ...base, mode: 'mistakes' }, globals: { theme: 'light' } };
+export const RevisionsDark = { name: 'Révisions · Sombre', args: { ...base, mode: 'mistakes' }, globals: { theme: 'dark' } };
+export const ParametresLight = { name: 'Paramètres · Clair', args: { ...base, mode: 'settings' }, globals: { theme: 'light' } };
+export const ParametresDark = { name: 'Paramètres · Sombre', args: { ...base, mode: 'settings' }, globals: { theme: 'dark' } };
+export const MobileEntrainement = { name: 'Mobile · Entraînement', args: { ...base, mode: 'study' }, globals: { theme: 'light', viewport: { value: 'mobile', isRotated: false } } };

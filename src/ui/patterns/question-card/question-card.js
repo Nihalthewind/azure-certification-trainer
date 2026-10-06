@@ -110,7 +110,7 @@ export function createQuestionCard({
       onClick: onNote,
     }),
     createIconButton({
-      icon: 'flag',
+      icon: 'report',
       label: reported ? 'Modifier le signalement' : 'Signaler un problème',
       active: reported,
       activeTone: 'danger',

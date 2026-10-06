@@ -1,5 +1,12 @@
 # Règles de développement
 
+Codex agit comme orchestrateur unique. Pour chaque modification UI/UX :
+vérifier le dépôt et le document Figma lié dans `figma/project.json`, synchroniser
+Figma, le code et Storybook en réutilisant les composants et tokens existants,
+préserver la logique métier, puis exécuter `npm run validate` et corriger les
+erreurs. Créer un commit clair et pousser `storybook` uniquement après réussite
+des validations et synchronisation des trois versions.
+
 - Travailler uniquement sur la branche `storybook`. Vérifier la branche avant toute modification.
 - Ne jamais supprimer la progression dans `localStorage` sans demande explicite.
 - Préserver le déploiement GitHub Pages et le fonctionnement de la PWA.

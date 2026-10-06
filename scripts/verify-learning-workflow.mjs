@@ -53,7 +53,7 @@ try {
       await page.screenshot({ path: `test-results/ux-study-${theme}-${width}.png` });
       if (width <= 920) {
         assert(!(await page.locator('#studyFilters').isVisible()), 'Mobile filters start expanded');
-        assert.equal(await page.locator('.mobile-nav-label:visible').count(), 4);
+        assert.equal(await page.locator('.mobile-nav-label:visible').count(), 5);
         for (const button of await page.locator('.app-shell-primary-nav .rail-link').all()) {
           const box = await button.boundingBox();
           assert(box && box.x >= 0 && box.x + box.width <= width + 1 && box.y >= 0 && box.y + box.height <= 901 && box.height >= 44, 'Mobile navigation target does not fit');
@@ -115,6 +115,32 @@ try {
       assert(await page.locator('#dashboard').isVisible());
       assert.equal((await storedState(page)).studySession.completed, true);
       assert.equal((await storedState(page)).answers['T1-Q1'].streak, 2);
+      await page.locator('.rail-link[data-mode="path"]').click();
+      await page.locator('#pathPage').waitFor({ state: 'visible' });
+      assert.match(await page.locator('#pathSubtitle').innerText(), /AZ-104/);
+      const module = page.locator('[data-path-domain]').nth(1);
+      const chosenDomain = await module.getAttribute('data-path-domain');
+      await module.click();
+      await page.screenshot({ path: `test-results/v2-path-${theme}-${width}.png` });
+      await page.locator('#startPathButton').click();
+      assert.equal((await storedState(page)).studySession.domain, chosenDomain);
+      const noteId = await page.locator('#questionId').innerText();
+      await page.locator('#quickNote').fill('Note rapide V2 conservée');
+      assert.equal((await storedState(page)).notes[noteId], 'Note rapide V2 conservée');
+      await page.locator('.rail-link[data-mode="dashboard"]').click();
+      await page.locator('#globalSearch').fill('T1-Q1');
+      await page.locator('#globalSearch').press('Enter');
+      assert.equal(await page.locator('#questionId').innerText(), 'T1-Q1');
+      assert.equal((await storedState(page)).studySession.search, 'T1-Q1');
+      await page.locator('#mobileSettingsButton').click();
+      await page.locator('[data-settings-target="#dataSettings"]').click();
+      assert(await page.locator('#dataSettings').evaluate(el => el === document.activeElement));
+      await page.locator('#settingsTrainingSelect').selectOption('az305');
+      await page.locator('.rail-link[data-mode="path"]').click();
+      assert.match(await page.locator('#pathSubtitle').innerText(), /AZ-305/);
+      assert.match(await page.locator('#pathPage').getAttribute('aria-label'), /AZ-305/);
+      assert.equal(await page.evaluate(({ key, id }) => JSON.parse(localStorage.getItem(key)).states.az104.notes[id], { key: appKey, id: noteId }), 'Note rapide V2 conservée');
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       assert.deepEqual(errors, [], 'Application errors');
       console.log(`Learning workflow OK: ${theme}, ${width}px`);
       await context.close();

@@ -97,7 +97,7 @@
   font: 850 13px/1 var(--font-family-display);
 }
 
-.ui-question-navigator__item > span,
+.ui-question-navigator__item > span:not(.ui-question-navigator__markers),
 .question-jump > span:not(.question-markers) {
   max-width: 100%;
   overflow: hidden;

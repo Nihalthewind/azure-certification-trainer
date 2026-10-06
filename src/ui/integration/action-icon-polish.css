@@ -1,0 +1,80 @@
+/* Sprint 14.3 — modern, visible question action iconography. */
+
+:where(.card-header-actions, .ui-question-card__header-actions) {
+  gap: 8px;
+}
+
+:where(.card-header-actions, .ui-question-card__header-actions) > :where(.status-pill, .ui-badge) {
+  margin-left: 3px;
+}
+
+html[data-theme='light'] :where(.card-header-actions, .ui-question-card__header-actions) .ui-icon-button {
+  border-color: color-mix(in srgb, var(--icon-button-accent) 20%, #8ca7c2);
+  background: color-mix(in srgb, #fff 92%, var(--icon-button-accent));
+}
+
+html[data-theme='dark'] :where(.card-header-actions, .ui-question-card__header-actions) .ui-icon-button {
+  background: color-mix(in srgb, var(--color-panel) 88%, var(--icon-button-accent) 4%);
+}
+
+.question-markers,
+.ui-question-navigator__markers {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 14px;
+}
+
+.question-marker,
+.ui-question-navigator__marker {
+  width: 16px;
+  height: 16px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--marker-color, var(--color-accent)) 34%, var(--color-border));
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--marker-color, var(--color-accent)) 11%, var(--color-panel));
+  color: var(--marker-color, var(--color-accent));
+}
+
+.question-marker.favorite-marker,
+.ui-question-navigator__marker.is-favorite {
+  --marker-color: #e89b16;
+}
+
+.question-marker.report-marker,
+.ui-question-navigator__marker.is-report {
+  --marker-color: var(--color-error);
+}
+
+html[data-theme='dark'] .question-marker.favorite-marker,
+html[data-theme='dark'] .ui-question-navigator__marker.is-favorite {
+  --marker-color: #ffc45f;
+}
+
+.question-marker .ui-icon,
+.ui-question-navigator__marker .ui-icon {
+  width: 11px;
+  height: 11px;
+  display: block;
+}
+
+/* The dashboard favorite preview keeps its meaning visible even before hover. */
+.favorite-item > span:first-child {
+  color: #e89b16;
+  font-size: 17px;
+  text-shadow: 0 2px 8px color-mix(in srgb, #e89b16 20%, transparent);
+}
+
+html[data-theme='dark'] .favorite-item > span:first-child {
+  color: #ffc45f;
+}
+
+@media (max-width: 640px) {
+  :where(.card-header-actions, .ui-question-card__header-actions) {
+    gap: 7px;
+  }
+}

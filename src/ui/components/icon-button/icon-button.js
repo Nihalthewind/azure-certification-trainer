@@ -21,6 +21,7 @@ function applyIconButtonState(button, {
   button.className = [
     'ui-icon-button',
     `ui-icon-button--${safeSize}`,
+    `is-icon-${safeIcon}`,
     active ? 'is-active' : '',
     active ? `is-${safeTone}` : '',
   ].filter(Boolean).join(' ');
@@ -28,6 +29,7 @@ function applyIconButtonState(button, {
   button.disabled = Boolean(disabled);
   button.setAttribute('aria-label', label);
   button.title = label;
+  button.dataset.icon = safeIcon;
 
   if (typeof pressed === 'boolean') {
     button.setAttribute('aria-pressed', String(pressed));

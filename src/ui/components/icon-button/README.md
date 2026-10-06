@@ -4,7 +4,7 @@ Icon-only action for compact areas such as QuestionCard headers.
 
 ## API
 
-- icon: star | note | flag | review | close
+- icon: star | note | report | flag | review | close
 - label: accessible name, mandatory in product usage
 - size: small | medium
 - active

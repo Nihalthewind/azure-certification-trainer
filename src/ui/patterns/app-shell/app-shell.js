@@ -2,90 +2,84 @@ import { createNavigationItem } from '../../components/navigation-item/navigatio
 import { createIcon } from '../../icons/icons.js';
 
 export const APP_SHELL_DENSITIES = Object.freeze({
-  balanced: Object.freeze({
-    id: 'balanced',
-    label: 'Équilibré',
-    railWidth: 248,
-    topbarHeight: 60,
-    contentGutter: 32,
-  }),
-  compact: Object.freeze({
-    id: 'compact',
-    label: 'Compact',
-    railWidth: 220,
-    topbarHeight: 52,
-    contentGutter: 24,
-  }),
-  spacious: Object.freeze({
-    id: 'spacious',
-    label: 'Aéré',
-    railWidth: 272,
-    topbarHeight: 64,
-    contentGutter: 44,
-  }),
+  balanced: Object.freeze({ id: 'balanced', label: 'Équilibré', railWidth: 220, topbarHeight: 72, contentGutter: 28 }),
+  compact: Object.freeze({ id: 'compact', label: 'Compact', railWidth: 204, topbarHeight: 64, contentGutter: 22 }),
+  spacious: Object.freeze({ id: 'spacious', label: 'Aéré', railWidth: 236, topbarHeight: 76, contentGutter: 36 }),
 });
 
 export function getAppShellDensity(name = 'balanced') {
   return APP_SHELL_DENSITIES[name] || APP_SHELL_DENSITIES.balanced;
 }
 
-function createSectionLabel(text) {
-  const label = document.createElement('div');
-  label.className = 'ui-app-shell__section-label';
-  label.textContent = text;
-  return label;
-}
-
-function createBrand() {
+function createBrand(trainingCode) {
   const brand = document.createElement('div');
   brand.className = 'ui-app-shell__brand';
 
   const mark = document.createElement('span');
   mark.className = 'ui-app-shell__brand-mark';
-  mark.textContent = 'AZ';
+  mark.textContent = 'A';
   mark.setAttribute('aria-hidden', 'true');
 
   const copy = document.createElement('span');
   copy.className = 'ui-app-shell__brand-copy';
-  copy.innerHTML = '<strong>Azure Trainer</strong><small>Certifications Azure</small>';
+  copy.innerHTML = `<strong>Azure Trainer</strong><small>${trainingCode}</small>`;
 
   brand.append(mark, copy);
   return brand;
 }
 
-function createTrainingCard(trainingCode, trainingName) {
-  const card = document.createElement('button');
-  card.type = 'button';
-  card.className = 'ui-app-shell__training';
-  card.setAttribute('aria-label', `Formation active : ${trainingCode} ${trainingName}`);
+function createSearch() {
+  const label = document.createElement('label');
+  label.className = 'ui-app-shell__search';
+  label.append(createIcon('search', { size: 17 }));
+
+  const input = document.createElement('input');
+  input.type = 'search';
+  input.placeholder = 'Rechercher un sujet, une notion, une question…';
+  input.setAttribute('aria-label', 'Rechercher');
+
+  const shortcut = document.createElement('span');
+  shortcut.className = 'ui-app-shell__shortcut';
+  shortcut.textContent = '⌘ K';
+
+  label.append(input, shortcut);
+  return label;
+}
+
+function createProfile(onNavigate) {
+  const actions = document.createElement('div');
+  actions.className = 'ui-app-shell__profile';
+
+  const notification = document.createElement('button');
+  notification.type = 'button';
+  notification.className = 'ui-app-shell__notification';
+  notification.setAttribute('aria-label', 'Paramètres');notification.addEventListener('click',()=>onNavigate?.('settings'));
+  notification.append(createIcon('settings', { size: 18 }));
+
+  const avatar = document.createElement('span');
+  avatar.className = 'ui-app-shell__avatar';
+  avatar.textContent = 'AZ';
 
   const copy = document.createElement('span');
-  copy.innerHTML = `<small>FORMATION</small><strong>${trainingCode}</strong><span>${trainingName}</span>`;
+  copy.className = 'ui-app-shell__profile-copy';
+  copy.innerHTML = '<strong>Mon espace</strong><small>Progression locale</small>';
 
-  const chevron = document.createElement('span');
-  chevron.className = 'ui-app-shell__training-chevron';
-  chevron.textContent = '⌄';
-  chevron.setAttribute('aria-hidden', 'true');
-
-  card.append(copy, chevron);
-  return card;
+  actions.append(notification, avatar, copy);
+  return actions;
 }
 
 export function createAppShell({
   density = 'balanced',
   activeMode = 'study',
   trainingCode = 'AZ-104',
-  trainingName = 'Azure Administrator',
-  pageEyebrow = 'PRÉPARATION',
-  pageTitle = 'Base de connaissances',
-  pageSubtitle = 'Travaillez la banque complète ou ciblez un domaine.',
-  counts = {},
+  pageTitle = 'Entraînement',
+  pageSubtitle = 'Une question à la fois. Progresse, comprends, continue.',
   content,
   onNavigate,
 } = {}) {
   const metrics = getAppShellDensity(density);
   const root = document.createElement('div');
-  root.className = 'ui-app-shell';
+  root.className = 'ui-app-shell ui-app-shell--v2';
   root.dataset.density = metrics.id;
   root.style.setProperty('--ui-shell-rail-width', `${metrics.railWidth}px`);
   root.style.setProperty('--ui-shell-topbar-height', `${metrics.topbarHeight}px`);
@@ -94,52 +88,33 @@ export function createAppShell({
   const rail = document.createElement('aside');
   rail.className = 'ui-app-shell__rail';
   rail.setAttribute('aria-label', 'Navigation principale');
-
-  rail.append(createBrand(), createTrainingCard(trainingCode, trainingName));
+  rail.append(createBrand(trainingCode));
 
   const nav = document.createElement('nav');
   nav.className = 'ui-app-shell__nav';
-  nav.append(createSectionLabel('PARCOURS'));
-
   const items = [
-    ['dashboard', 'Tableau de bord', 'dashboard', counts.dashboard ?? ''],
-    ['study', 'Base de connaissances', 'knowledge', counts.study ?? 568],
-    ['mistakes', 'Erreurs', 'error', counts.mistakes ?? 18],
-    ['exam', 'Examen blanc', 'exam', counts.exam ?? ''],
+    ['dashboard', 'Accueil', 'dashboard'],
+    ['path', 'Parcours', 'layers'],
+    ['study', 'Entraînement', 'knowledge'],
+    ['exam', 'Examen blanc', 'exam'],
+    ['mistakes', 'Révisions', 'review'],
   ];
-
-  items.forEach(([id, label, icon, count]) => {
+  items.forEach(([id, label, icon]) => {
     nav.append(createNavigationItem({
       label,
+      ariaLabel: label,
       icon,
-      count,
       active: activeMode === id,
       size: density === 'compact' ? 'compact' : 'medium',
       onClick: () => onNavigate?.(id),
     }));
   });
 
-  const domains = document.createElement('div');
-  domains.className = 'ui-app-shell__domains';
-  domains.append(createSectionLabel('DOMAINES'));
-  [
-    ['1', 'Identités et gouvernance'],
-    ['2', 'Stockage'],
-    ['3', 'Compute'],
-    ['4', 'Réseaux'],
-    ['5', 'Monitoring'],
-  ].forEach(([number, label]) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'ui-app-shell__domain';
-    button.innerHTML = `<span>${number}</span><b>${label}</b>`;
-    domains.append(button);
-  });
-
   const railFooter = document.createElement('div');
   railFooter.className = 'ui-app-shell__rail-footer';
   const settings = document.createElement('button');
   settings.type = 'button';
+  settings.setAttribute('aria-label', 'Paramètres');
   settings.className = `ui-app-shell__settings${activeMode === 'settings' ? ' is-active' : ''}`;
   if (activeMode === 'settings') settings.setAttribute('aria-current', 'page');
   settings.addEventListener('click', () => onNavigate?.('settings'));
@@ -148,46 +123,34 @@ export function createAppShell({
   settingsLabel.textContent = 'Paramètres';
   settings.append(settingsLabel);
   railFooter.append(settings);
-
-  rail.append(nav, domains, railFooter);
+  rail.append(nav, railFooter);
 
   const contentRoot = document.createElement('div');
   contentRoot.className = 'ui-app-shell__content';
 
   const topbar = document.createElement('header');
   topbar.className = 'ui-app-shell__topbar';
-
-  const heading = document.createElement('div');
-  heading.className = 'ui-app-shell__page-heading';
-  const eyebrow = document.createElement('span');
-  eyebrow.textContent = pageEyebrow;
-  const title = document.createElement('strong');
-  title.textContent = pageTitle;
-  heading.append(eyebrow, title);
-
-  const actions = document.createElement('div');
-  actions.className = 'ui-app-shell__top-actions';
-  const edition = document.createElement('span');
-  edition.className = 'ui-app-shell__edition';
-  edition.textContent = 'ÉDITION 2026';
-  const language = document.createElement('button');
-  language.type = 'button';
-  language.className = 'ui-app-shell__language';
-  language.textContent = 'EN ⇄ FR';
-  actions.append(edition, language);
-
-  topbar.append(heading, actions);
+  topbar.append(createSearch(), createProfile(onNavigate));
 
   const main = document.createElement('main');
   main.className = 'ui-app-shell__main';
 
   const context = document.createElement('header');
   context.className = 'ui-app-shell__context';
+  const contextCopy = document.createElement('div');
   const h1 = document.createElement('h1');
   h1.textContent = pageTitle;
   const p = document.createElement('p');
   p.textContent = pageSubtitle;
-  context.append(h1, p);
+  contextCopy.append(h1, p);
+  context.append(contextCopy);
+
+  if (activeMode === 'study') {
+    const session = document.createElement('span');
+    session.className = 'ui-app-shell__session-badge';
+    session.textContent = 'Session libre';
+    context.append(session);
+  }
 
   const slot = document.createElement('div');
   slot.className = 'ui-app-shell__slot';
@@ -197,6 +160,5 @@ export function createAppShell({
   main.append(context, slot);
   contentRoot.append(topbar, main);
   root.append(rail, contentRoot);
-
   return root;
 }

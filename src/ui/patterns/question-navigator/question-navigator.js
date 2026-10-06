@@ -1,3 +1,5 @@
+import { createIcon } from '../../icons/icons.js';
+
 export function filterQuestionNavigatorItems(items = [], query = '') {
   const normalized = String(query || '').trim().toLocaleLowerCase('fr-FR');
   if (!normalized) return items;
@@ -44,7 +46,30 @@ export function createQuestionNavigator({
         item.id === currentId ? 'is-current' : '',
         item.flagged ? 'is-flagged' : '',
       ].filter(Boolean).join(' ');
-      button.innerHTML = `<strong>${item.index ?? index + 1}</strong><span>${item.id || ''}</span>${item.favorite ? '<i aria-label="Favori">★</i>' : ''}${item.reported ? '<i aria-label="Signalée">⚑</i>' : ''}`;
+      const number = document.createElement('strong');
+      number.textContent = String(item.index ?? index + 1);
+      const id = document.createElement('span');
+      id.textContent = item.id || '';
+      button.append(number, id);
+      if (item.favorite || item.reported) {
+        const markers = document.createElement('span');
+        markers.className = 'ui-question-navigator__markers';
+        if (item.favorite) {
+          const favorite = document.createElement('i');
+          favorite.className = 'ui-question-navigator__marker is-favorite';
+          favorite.setAttribute('aria-label', 'Favori');
+          favorite.append(createIcon('star', { size: 11, filled: true }));
+          markers.append(favorite);
+        }
+        if (item.reported) {
+          const reported = document.createElement('i');
+          reported.className = 'ui-question-navigator__marker is-report';
+          reported.setAttribute('aria-label', 'Signalée');
+          reported.append(createIcon('report', { size: 11 }));
+          markers.append(reported);
+        }
+        button.append(markers);
+      }
       grid.append(button);
     });
     if (!visible.length) {

@@ -4,7 +4,7 @@ const meta = {
   title: 'Components/IconButton',
   tags: ['autodocs'],
   argTypes: {
-    icon: { control: 'select', options: ['star', 'note', 'flag', 'review', 'close'] },
+    icon: { control: 'select', options: ['star', 'note', 'report', 'flag', 'review', 'close'] },
     label: { control: 'text' },
     size: { control: 'radio', options: ['small', 'medium'] },
     active: { control: 'boolean' },
@@ -31,8 +31,8 @@ export const Favorite = { args: { icon: 'star', label: 'Ajouter aux favoris', pr
 export const FavoriteActive = { args: { icon: 'star', label: 'Retirer des favoris', active: true, pressed: true } };
 export const Note = { args: { icon: 'note', label: 'Ajouter une note', pressed: null } };
 export const NoteSaved = { args: { icon: 'note', label: 'Modifier ma note', active: true, pressed: null } };
-export const Report = { args: { icon: 'flag', label: 'Signaler un probleme', pressed: null } };
-export const ReportActive = { args: { icon: 'flag', label: 'Modifier le signalement', active: true, activeTone: 'danger', pressed: null } };
+export const Report = { args: { icon: 'report', label: 'Signaler un probleme', pressed: null } };
+export const ReportActive = { args: { icon: 'report', label: 'Modifier le signalement', active: true, activeTone: 'danger', pressed: null } };
 export const Review = { args: { icon: 'review', label: 'Marquer a revoir', pressed: false } };
 export const ReviewActive = { args: { icon: 'review', label: 'Retirer de la liste a revoir', active: true, activeTone: 'warning', pressed: true } };
 export const Disabled = { args: { icon: 'star', label: 'Favoris indisponibles', disabled: true } };
@@ -46,13 +46,13 @@ export const Overview = {
       ['Actions', [
         { icon: 'star', label: 'Ajouter aux favoris', pressed: false },
         { icon: 'note', label: 'Ajouter une note', pressed: null },
-        { icon: 'flag', label: 'Signaler un probleme', pressed: null },
+        { icon: 'report', label: 'Signaler un probleme', pressed: null },
         { icon: 'review', label: 'Marquer a revoir', pressed: false },
       ]],
       ['Actifs', [
         { icon: 'star', label: 'Retirer des favoris', active: true, pressed: true },
         { icon: 'note', label: 'Modifier ma note', active: true, pressed: null },
-        { icon: 'flag', label: 'Modifier le signalement', active: true, activeTone: 'danger', pressed: null },
+        { icon: 'report', label: 'Modifier le signalement', active: true, activeTone: 'danger', pressed: null },
         { icon: 'review', label: 'Retirer de la liste a revoir', active: true, activeTone: 'warning', pressed: true },
       ]],
       ['Tailles', [

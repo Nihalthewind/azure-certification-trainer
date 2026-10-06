@@ -1,4 +1,12 @@
 const ICONS = {
+  search: {
+    viewBox: '0 0 24 24',
+    path: 'M21 21 16.65 16.65M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z',
+  },
+  bell: {
+    viewBox: '0 0 24 24',
+    path: 'M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4',
+  },
   dashboard: {
     viewBox: '0 0 24 24',
     path: 'M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z',
@@ -25,19 +33,28 @@ const ICONS = {
   },
   star: {
     viewBox: '0 0 24 24',
-    path: 'M12 3.2l2.75 5.57 6.15.9-4.45 4.34 1.05 6.13L12 18.24 6.5 21.14l1.05-6.13L3.1 10.67l6.15-.9L12 3.2Z',
+    path: 'M12 3.75 14.55 8.9l5.7.83-4.12 4.02.97 5.67L12 16.74l-5.1 2.68.97-5.67-4.12-4.02 5.7-.83L12 3.75Z',
+    strokeWidth: 1.95,
   },
   note: {
     viewBox: '0 0 24 24',
-    path: 'M5 3.5h9.5L19 8v12.5H5V3.5Zm9 1.5v3.5h3.5M8 12h8M8 15.5h6',
+    path: 'M6.5 4.5h8.1l2.9 2.9v12.1h-11v-15Zm8 0v3h3M9 11h6M9 14.5h4.5',
+    strokeWidth: 1.9,
+  },
+  report: {
+    viewBox: '0 0 24 24',
+    path: 'M12 3.8 21 19.5H3L12 3.8Zm0 5.3v4.7m0 2.8h.01',
+    strokeWidth: 1.95,
   },
   flag: {
     viewBox: '0 0 24 24',
-    path: 'M6 21V4m0 1h9.2l-.8 3 2.6 3H6',
+    path: 'M6.5 20.5v-16m0 .8h8.8l-1 3 2.7 3H6.5',
+    strokeWidth: 1.95,
   },
   review: {
     viewBox: '0 0 24 24',
-    path: 'M6.5 3.5h11v17l-5.5-3.2-5.5 3.2v-17Z',
+    path: 'M7 4.5h10v15L12 16.7 7 19.5v-15Zm2.4 6 1.5 1.5 3-3',
+    strokeWidth: 1.9,
   },
   check: {
     viewBox: '0 0 24 24',
@@ -63,7 +80,7 @@ export function createIcon(name, { size = 18, filled = false } = {}) {
   path.setAttribute('d', definition.path);
   path.setAttribute('fill', filled ? 'currentColor' : 'none');
   path.setAttribute('stroke', 'currentColor');
-  path.setAttribute('stroke-width', '1.8');
+  path.setAttribute('stroke-width', String(definition.strokeWidth || 1.9));
   path.setAttribute('stroke-linecap', 'round');
   path.setAttribute('stroke-linejoin', 'round');
   svg.append(path);

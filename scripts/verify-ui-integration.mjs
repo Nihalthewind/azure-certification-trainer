@@ -70,7 +70,7 @@ expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade pro
 expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
 expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
 expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
-expect(serviceWorker.includes("azure-trainer-v2.0.7-ui-sprint15-learning"), 'Service worker cache was not bumped for Sprint 14.2');
+expect(serviceWorker.includes("azure-trainer-v2.1.0-ui-v2-minimal"), 'Service worker cache was not bumped for Sprint 14.2');
 expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
 expect(serviceWorker.includes("'./src/ui/components/icon-button/icon-button.js'"), 'Service worker does not cache IconButton');
 expect(serviceWorker.includes("'./src/ui/components/feedback-panel/feedback-panel.js'"), 'Service worker does not cache FeedbackPanel');
@@ -103,14 +103,14 @@ expect(onboardingSteps[2]?.title?.includes('concentrer'), 'FirstRunExperience do
 const balancedShell = getAppShellDensity('balanced');
 const compactShell = getAppShellDensity('compact');
 const spaciousShell = getAppShellDensity('spacious');
-expect(balancedShell.railWidth === 248 && balancedShell.topbarHeight === 60, 'AppShell balanced density is inconsistent');
+expect(balancedShell.railWidth === 220 && balancedShell.topbarHeight === 72, 'AppShell V2 balanced density is inconsistent');
 expect(compactShell.railWidth < balancedShell.railWidth, 'AppShell compact density must reduce chrome width');
 expect(spaciousShell.contentGutter > balancedShell.contentGutter, 'AppShell spacious density must increase content breathing room');
 expect(uiCss.includes("./components/navigation-item/navigation-item.css"), 'ui.css does not load NavigationItem');
 expect(uiCss.includes("./patterns/app-shell/app-shell.css"), 'ui.css does not load AppShell');
 expect(serviceWorker.includes("'./src/ui/components/navigation-item/navigation-item.css'"), 'Service worker does not cache NavigationItem CSS');
 expect(serviceWorker.includes("'./src/ui/patterns/app-shell/app-shell.css'"), 'Service worker does not cache AppShell CSS');
-const requiredPages = ['dashboard', 'study', 'mistakes', 'exam', 'settings'];
+const requiredPages = ['dashboard', 'path', 'study', 'mistakes', 'exam', 'settings'];
 requiredPages.forEach((page) => {
   expect(typeof trainerPageFactories[page] === 'function', `Missing Storybook page prototype: ${page}`);
 });
