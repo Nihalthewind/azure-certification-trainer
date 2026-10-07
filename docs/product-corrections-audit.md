@@ -1,3 +1,5 @@
+Version historique v3.0.1. La référence actuelle est [Cloud Interactive](cloud-interactive.md), avec un seul bloc Pourquoi et le logo fourni.
+
 # Corrections produit — suivi du 6 octobre 2026
 
 ## Finalisation du 7 octobre — mission active

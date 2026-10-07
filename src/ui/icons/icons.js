@@ -97,4 +97,4 @@ export function createIcon(name, { size = 18, filled = false } = {}) {
 export const iconNames = Object.freeze(Object.keys(ICONS));
 
 /** Exact editable vector exported from CURRENT Figma mark 116:1009. */
-export function createBrandMark(){const template=document.createElement('template');template.innerHTML="<svg width=\"34\" height=\"34\" viewBox=\"0 0 34 34\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"34\" height=\"34\" rx=\"10\" fill=\"var(--color-accent)\"/><path d=\"M11.8 23L15.205 12.2H17.8525L21.2575 23H19.3975L16.3075 13.31H16.7125L13.66 23H11.8ZM13.6975 20.66V18.9725H19.3675V20.66H13.6975Z\" fill=\"var(--color-accent-ink)\"/></svg>\n";const svg=template.content.firstElementChild;svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');return svg;}
+export function createBrandMark(){const img=document.createElement('img');img.src=new URL('../../../assets/cloud-mark.png',import.meta.url).href;img.width=34;img.height=34;img.className='ui-brand-mark';img.alt='';img.setAttribute('aria-hidden','true');return img;}

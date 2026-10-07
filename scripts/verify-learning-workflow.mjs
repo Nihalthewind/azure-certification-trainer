@@ -72,7 +72,7 @@ try {
       await page.locator(submit).click();
       await page.locator('#feedback').waitFor({ state: 'visible' });
       const feedback = (await page.locator('#feedback').innerText()).toLocaleLowerCase('fr');
-      assert(feedback.includes('bonne réponse') && !feedback.includes('pourquoi') && feedback.includes('à retenir'), `Unexpected correction: ${feedback}`);
+      assert(feedback.includes('bonne réponse') && feedback.includes('pourquoi') && !feedback.includes('à retenir'), `Unexpected correction: ${feedback}`);
       assert.equal(await page.locator('#feedback .ui-feedback-panel__takeaway').count(),1);
       assert.equal((await storedState(page)).answers['T1-Q1'].correct, true);
       await page.locator('#feedback .ui-feedback-panel__footer button').click();

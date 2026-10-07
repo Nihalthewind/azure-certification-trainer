@@ -1,12 +1,12 @@
 # Azure Certification Trainer — Design System
 
-[Fichier principal](https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT) : **00 · Start Here**. Courant : **V3 Product Experience**, application 3.0.1. [project.json](project.json) donne pages/frames/composants/variables/mappings, sans secret.
+[Fichier principal](https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT) : **00 · Start Here**. Courant : **Cloud Interactive / Study Workspace**, application 3.1.0. [project.json](project.json) donne pages/frames/composants/variables/mappings, sans secret.
 
 ## Structure / conventions
 
 00 Start Here → 01 Foundations → 02 Components → 03 Patterns → 04 Pages → 05 Mobile → 06 Explorations.
 
-CURRENT = référence validée ; EXPLORATION = proposition ; ARCHIVE = historique. Frames CURRENT · écran · V3 · Light/Dark · largeur. V2/Account clarity archivées sans suppression ; [ancien registre](imported-v2-reference.json).
+CURRENT = référence validée ; EXPLORATION = proposition ; ARCHIVE = historique. La section CURRENT · Cloud Interactive · v3.1.0 dans 04 Pages réunit les écrans et variantes Light/Dark ; leurs IDs sont dans project.json. Les frames v3.0.1 sont archivées. V2/Account clarity archivées sans suppression ; [ancien registre](imported-v2-reference.json).
 
 ## Workflow
 

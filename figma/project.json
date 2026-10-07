@@ -4,9 +4,9 @@
   "fileKey": "jKDnAtVtPXQvQ74xVNFUeT",
   "url": "https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT",
   "branch": "storybook",
-  "appVersion": "3.0.1",
+  "appVersion": "3.1.0",
   "source": {
-    "codeSha256": "b86b137399501156f14647e117f699d63f96498bf6e3c3daddd9374edd7181b8",
+    "codeSha256": "122afd55f73a1a96e2783b25d2b86cda257f7bb2dd0653c7eb9f9f6b614d1a25",
     "hashAlgorithm": "SHA-256 of sorted path + NUL + UTF-8 content normalized to LF + NUL",
     "files": [
       ".storybook/main.js",
@@ -19,6 +19,7 @@
       "package.json",
       "scripts/export-figma-ui.mjs",
       "scripts/verify-account-clarity.mjs",
+      "scripts/verify-cloud-interactive.mjs",
       "scripts/verify-learning-workflow.mjs",
       "scripts/verify-pages.mjs",
       "scripts/verify-product-corrections.mjs",
@@ -64,6 +65,7 @@
       "src/ui/integration/answer-state.js",
       "src/ui/integration/app-shell-production.css",
       "src/ui/integration/azure-fluent.css",
+      "src/ui/integration/cloud-interactive.css",
       "src/ui/integration/learning-experience.css",
       "src/ui/integration/legacy-app.css",
       "src/ui/integration/localization.js",
@@ -88,6 +90,9 @@
       "src/ui/patterns/course-hub/README.md",
       "src/ui/patterns/course-hub/course-hub.css",
       "src/ui/patterns/course-hub/course-hub.js",
+      "src/ui/patterns/document-reader/README.md",
+      "src/ui/patterns/document-reader/document-reader.css",
+      "src/ui/patterns/document-reader/document-reader.js",
       "src/ui/patterns/exam-introduction/exam-introduction.css",
       "src/ui/patterns/exam-introduction/exam-introduction.js",
       "src/ui/patterns/first-run-experience/README.md",
@@ -128,6 +133,7 @@
       "stories/pages/Revisions.stories.js",
       "stories/pages/trainer-page-stories.js",
       "stories/patterns/AppShell.stories.js",
+      "stories/patterns/DocumentReader.stories.js",
       "stories/patterns/FirstRunExperience.stories.js",
       "stories/patterns/QuestionCard.stories.js",
       "stories/patterns/QuestionNavigator.stories.js",
@@ -146,7 +152,8 @@
     "desktop": "6:3",
     "responsive": "6:4",
     "explorations": "2:5",
-    "startHere": "147:2171"
+    "startHere": "147:2171",
+    "current": "6:3"
   },
   "components": {
     "button": {
@@ -162,23 +169,24 @@
       "homeActive": "30:2595",
       "settings": "30:2691"
     },
-    "search": "30:2713",
+    "search": "267:1858",
     "domainSelector": "114:615",
     "moduleRow": "114:611",
-    "introduction": "114:623",
+    "introduction": "276:2674",
     "domainSelectorOpen": "125:1720",
     "mobileNavigation": "150:443",
     "reviewRow": "181:361",
     "pagination": "181:376",
     "moon": "175:301",
     "sun": "175:308",
-    "brandMark": "116:1009",
+    "brandMark": "264:487",
     "reviewSession": "220:4465",
-    "activitiesMenu": "220:4474",
-    "examIntroduction": "220:4491",
+    "activitiesMenu": "283:3152",
+    "examIntroduction": "283:3400",
     "progressBar": "225:457",
     "chevron": "244:438",
-    "examQuestionResponsive": "251:299"
+    "examQuestionResponsive": "251:299",
+    "mobileQuestionCard": "286:3177"
   },
   "variables": {
     "theme": "VariableCollectionId:8:31",
@@ -193,7 +201,7 @@
     "commit": "6034d3458ef5df05043e0e0651f1ea5dc864a7cf",
     "purpose": "Historical V2 import and training workspace reference; main design decisions now use this registry’s primary Design System."
   },
-  "designVersion": "V3 Product Corrections / Study Workspace",
+  "designVersion": "Cloud Interactive / Study Workspace",
   "pageNames": {
     "147:2171": "00 · Start Here",
     "0:1": "01 · Foundations",
@@ -206,90 +214,99 @@
   "frames": {
     "dashboard": {
       "light": {
-        "390": "120:1289",
-        "768": "120:1100",
-        "1440": "116:1006"
+        "390": "264:2319",
+        "768": "279:2795",
+        "1440": "264:489"
       },
       "dark": {
-        "390": "120:1667",
-        "768": "120:1478",
-        "1440": "117:1287"
+        "390": "264:2892",
+        "768": "279:3368",
+        "1440": "264:1746"
       }
     },
     "study": {
       "light": {
-        "390": "120:2069",
-        "768": "120:1856",
-        "1440": "119:897"
+        "390": "264:2599",
+        "768": "279:3075",
+        "1440": "264:771"
       },
       "dark": {
-        "390": "120:2495",
-        "768": "120:2282",
-        "1440": "119:1240"
+        "390": "264:3176",
+        "768": "279:3652",
+        "1440": "264:2027"
       }
     },
     "exam": {
       "light": {
-        "390": "134:2221",
-        "768": "134:1987",
-        "1440": "123:1556"
+        "390": "308:683",
+        "768": "308:1671",
+        "1440": "272:2564"
       },
       "dark": {
-        "390": "134:2689",
-        "768": "134:2455",
-        "1440": "123:1760"
+        "390": "308:1177",
+        "768": "308:2161",
+        "1440": "308:2"
       }
     },
     "mistakes": {
       "light": {
-        "390": "134:3180",
-        "768": "134:2923",
-        "1440": "123:1960"
+        "390": "307:1456",
+        "768": "307:920",
+        "1440": "264:1100"
       },
       "dark": {
-        "390": "134:3694",
-        "768": "134:3437",
-        "1440": "123:2195"
+        "390": "307:1720",
+        "768": "307:1188",
+        "1440": "307:1988"
       }
     },
     "settings": {
       "light": {
-        "390": "134:4122",
-        "768": "134:3951",
-        "1440": "123:2430"
+        "390": "307:566",
+        "768": "307:212",
+        "1440": "307:2"
       },
       "dark": {
-        "390": "134:4464",
-        "768": "134:4293",
-        "1440": "123:2579"
+        "390": "307:741",
+        "768": "307:387",
+        "1440": "307:106"
       }
     },
     "examFocus": {
       "light": {
-        "390": "249:1636",
-        "768": "249:1728",
-        "1440": "223:4153"
+        "390": "308:2747",
+        "768": "308:2906",
+        "1440": "308:2655"
       },
       "dark": {
-        "390": "249:1795",
-        "768": "249:1862",
-        "1440": "223:4242"
+        "390": "308:2839",
+        "768": "308:2973",
+        "1440": "264:1654"
+      }
+    },
+    "documentReader": {
+      "light": {
+        "390": "305:352",
+        "1440": "296:3219"
+      },
+      "dark": {
+        "390": "305:571",
+        "1440": "305:2"
       }
     }
   },
   "introduction": {
     "installAvailable": {
       "light": {
-        "390": "120:2708",
-        "1440": "118:673"
+        "390": "315:486",
+        "1440": "264:1367"
       },
       "dark": {
-        "390": "120:3078",
-        "1440": "118:869"
+        "390": "315:961",
+        "1440": "315:2"
       }
     },
-    "browserOnly": "118:1061",
-    "alreadyInstalled": "118:1259"
+    "component": "276:2674"
   },
   "startHere": {
     "page": "147:2171",
@@ -353,31 +370,31 @@
       "figma": "Accueil",
       "storybook": "Pages/Accueil",
       "code": "stories/pages/Accueil.stories.js",
-      "nodeId": "116:1006"
+      "nodeId": "264:489"
     },
     {
       "figma": "Entraînement",
       "storybook": "Pages/Entraînement",
       "code": "stories/pages/Entrainement.stories.js",
-      "nodeId": "119:897"
+      "nodeId": "264:771"
     },
     {
       "figma": "Examen blanc",
       "storybook": "Pages/Examen blanc",
       "code": "stories/pages/Examen.stories.js",
-      "nodeId": "123:1556"
+      "nodeId": "272:2564"
     },
     {
       "figma": "Révisions",
       "storybook": "Pages/Révisions",
       "code": "stories/pages/Revisions.stories.js",
-      "nodeId": "123:1960"
+      "nodeId": "264:1100"
     },
     {
       "figma": "Paramètres",
       "storybook": "Pages/Paramètres",
       "code": "stories/pages/Parametres.stories.js",
-      "nodeId": "123:2430"
+      "nodeId": "307:2"
     },
     {
       "figma": "Navigation / Mobile",
@@ -395,13 +412,19 @@
       "figma": "ActivitiesMenu",
       "storybook": "Pages/Accueil",
       "code": "src/ui/patterns/activities-menu/activities-menu.js",
-      "nodeId": "220:4474"
+      "nodeId": "283:3152"
     },
     {
       "figma": "ExamIntroduction",
       "storybook": "Pages/Examen blanc",
       "code": "src/ui/patterns/exam-introduction/exam-introduction.js",
-      "nodeId": "220:4491"
+      "nodeId": "283:3400"
+    },
+    {
+      "figma": "DocumentReader",
+      "storybook": "Patterns/DocumentReader",
+      "code": "src/ui/patterns/document-reader/document-reader.js",
+      "nodeId": "296:3509"
     }
   ],
   "codeConnect": {
@@ -629,6 +652,130 @@
       "url": "https://www.figma.com/design/Xs3HfY4USKunAzd3sHmoXR",
       "commit": "6034d3458ef5df05043e0e0651f1ea5dc864a7cf",
       "purpose": "Historical V2 import and training workspace reference; main design decisions now use this registry’s primary Design System."
+    },
+    "cloudPrevious": {
+      "appVersion": "3.0.1",
+      "frames": {
+        "dashboard": {
+          "light": {
+            "390": "120:1289",
+            "768": "120:1100",
+            "1440": "116:1006"
+          },
+          "dark": {
+            "390": "120:1667",
+            "768": "120:1478",
+            "1440": "117:1287"
+          }
+        },
+        "study": {
+          "light": {
+            "390": "120:2069",
+            "768": "120:1856",
+            "1440": "119:897"
+          },
+          "dark": {
+            "390": "120:2495",
+            "768": "120:2282",
+            "1440": "119:1240"
+          }
+        },
+        "exam": {
+          "light": {
+            "390": "134:2221",
+            "768": "134:1987",
+            "1440": "123:1556"
+          },
+          "dark": {
+            "390": "134:2689",
+            "768": "134:2455",
+            "1440": "123:1760"
+          }
+        },
+        "mistakes": {
+          "light": {
+            "390": "134:3180",
+            "768": "134:2923",
+            "1440": "123:1960"
+          },
+          "dark": {
+            "390": "134:3694",
+            "768": "134:3437",
+            "1440": "123:2195"
+          }
+        },
+        "settings": {
+          "light": {
+            "390": "134:4122",
+            "768": "134:3951",
+            "1440": "123:2430"
+          },
+          "dark": {
+            "390": "134:4464",
+            "768": "134:4293",
+            "1440": "123:2579"
+          }
+        },
+        "examFocus": {
+          "light": {
+            "390": "249:1636",
+            "768": "249:1728",
+            "1440": "223:4153"
+          },
+          "dark": {
+            "390": "249:1795",
+            "768": "249:1862",
+            "1440": "223:4242"
+          }
+        }
+      },
+      "introduction": {
+        "installAvailable": {
+          "light": {
+            "390": "120:2708",
+            "1440": "118:673"
+          },
+          "dark": {
+            "390": "120:3078",
+            "1440": "118:869"
+          }
+        },
+        "browserOnly": "118:1061",
+        "alreadyInstalled": "118:1259"
+      },
+      "components": {
+        "button": {
+          "primary": "12:63",
+          "secondary": "12:73",
+          "ghost": "12:83"
+        },
+        "answerOption": {
+          "default": "15:102",
+          "selected": "15:107"
+        },
+        "navigation": {
+          "homeActive": "30:2595",
+          "settings": "30:2691"
+        },
+        "search": "267:1858",
+        "domainSelector": "114:615",
+        "moduleRow": "114:611",
+        "introduction": "276:2674",
+        "domainSelectorOpen": "125:1720",
+        "mobileNavigation": "150:443",
+        "reviewRow": "181:361",
+        "pagination": "181:376",
+        "moon": "175:301",
+        "sun": "175:308",
+        "brandMark": "264:487",
+        "reviewSession": "220:4465",
+        "activitiesMenu": "283:3152",
+        "examIntroduction": "283:3400",
+        "progressBar": "225:457",
+        "chevron": "244:438",
+        "examQuestionResponsive": "251:299",
+        "mobileQuestionCard": "286:3177"
+      }
     }
   },
   "checks": [
@@ -640,7 +787,8 @@
     "node scripts/verify-training-workspace.mjs",
     "npm run build:pages",
     "npm run test:pages",
-    "npm run test:corrections"
+    "npm run test:corrections",
+    "npm run test:cloud"
   ],
   "settingsCategories": {
     "training": {
@@ -661,5 +809,17 @@
     "audit": "docs/product-corrections-audit.md",
     "library": "Simple Design System Tabs (219:448) and Accordion (219:468), adapted with existing Azure Trainer tokens and components",
     "contentTranslation": "Reviewed question translations only; otherwise explicit original-language fallback"
+  },
+  "currentSection": "264:486",
+  "cloudModes": {
+    "theme": {
+      "light": "264:0",
+      "dark": "264:1"
+    },
+    "componentColor": {
+      "light": "264:2",
+      "dark": "264:3"
+    },
+    "scale": "265:0"
   }
 }

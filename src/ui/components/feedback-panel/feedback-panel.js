@@ -93,7 +93,7 @@ export function createFeedbackPanel({
     block.className = 'ui-feedback-panel__takeaway';
     const label = document.createElement('div');
     label.className = 'ui-feedback-panel__section-label';
-    label.textContent = 'À retenir';
+    label.textContent = 'Pourquoi';
     block.append(label);
     for(const value of mergeLearningNotes(context,takeaway)){const p=document.createElement('p');p.textContent=value;block.append(p);}
     root.append(block);
@@ -128,8 +128,7 @@ export function createFeedbackPanel({
     images.forEach((src, index) => {
       const link = document.createElement('a');
       link.href = src;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
+      link.dataset.reader = '';
       const img = document.createElement('img');
       img.src = src;
       img.alt = `Illustration de correction ${index + 1}`;
@@ -149,7 +148,7 @@ export function createFeedbackPanel({
     label.textContent = 'Documentation / source';
     sourceBlock.append(label);
     sources.forEach((source) => appendExternalLink(sourceBlock, source));
-    if (pdfSource?.url) appendExternalLink(sourceBlock, pdfSource);
+    if (pdfSource?.url) {appendExternalLink(sourceBlock,pdfSource);sourceBlock.lastElementChild.dataset.reader='';}
     root.append(sourceBlock);
   }
 

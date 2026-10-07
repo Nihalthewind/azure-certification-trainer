@@ -22,7 +22,7 @@ export function createCourseHub({resumeButton,onSelect,onStart,onContinue,...ini
   const copy=node('div','ui-course-hub__summary-copy'),actions=node('div','ui-course-hub__summary-action');
   const title=node('h3','ui-course-hub__title'),description=node('p','ui-course-hub__muted'),coverage=node('strong','ui-course-hub__coverage');
   const resume=resumeButton||createButton({label:'Reprendre l’entraînement',variant:'primary',onClick:()=>onContinue?.()});
-  copy.append(title,description);actions.append(coverage,resume);course.append(copy,actions);
+  const progress=node('span','ui-course-hub__track ui-course-hub__global');const globalFill=node('span','ui-course-hub__fill');progress.setAttribute('role','progressbar');progress.setAttribute('aria-label','Progression de la formation');progress.setAttribute('aria-valuemin','0');progress.setAttribute('aria-valuemax','100');progress.append(globalFill);copy.append(title,description,progress);actions.append(coverage,resume);course.append(copy,actions);
   const heading=node('h3','ui-course-hub__title'),modules=node('div','ui-course-hub__modules'),pagination=node('div','ui-course-hub__pagination');
   modules.setAttribute('aria-label','Modules de formation');element.append(course,heading,modules,pagination);
   let model={},opened=initial.openedDomain??null,modulePage=0;
@@ -38,7 +38,7 @@ export function createCourseHub({resumeButton,onSelect,onStart,onContinue,...ini
     description.textContent=total?(model.code||'AZ-104')+' · '+explored+' questions explorées sur '+total:'Aucune question disponible dans cette formation.';
     coverage.textContent=total?Math.round(explored/total*100)+' % explorés · '+items.length+' domaines':'Progression indisponible';
     if(model.resumeLabel)(resume.querySelector('.ui-button__label')||resume).textContent=model.resumeLabel;
-    resume.disabled=!total;
+    resume.disabled=!total;const globalPercent=total?Math.round(explored/total*100):0;progress.setAttribute('aria-valuenow',String(globalPercent));globalFill.style.width=globalPercent+'%';
     modules.replaceChildren(...items.slice(modulePage*size,(modulePage+1)*size).map(item=>{
       const wrapper=node('section','ui-course-hub__domain');
       const trigger=node('button','ui-course-hub__module');trigger.type='button';trigger.dataset.pathDomain=item.id;
@@ -55,7 +55,7 @@ export function createCourseHub({resumeButton,onSelect,onStart,onContinue,...ini
       trigger.onclick=()=>{opened=opened===item.id?null:item.id;model.selected=item.id;update();modules.querySelector('[data-path-domain="'+CSS.escape(item.id)+'"]')?.focus({preventScroll:true});onSelect?.(item.id);};
       panel.append(node('p','ui-course-hub__muted',available?item.explored+' questions explorées sur '+item.total:'Aucune question disponible pour ce domaine.'));
       if(item.topics?.length){const topics=node('ul','ui-course-hub__topics');topics.append(...item.topics.map(t=>node('li','',t)));panel.append(topics);}
-      panel.append(createButton({label:'Travailler ce domaine',disabled:!item.total,onClick:()=>onStart?.(item.id)}));
+      panel.append(createButton({label:'Travailler ce domaine',variant:'primary',disabled:!item.total,onClick:()=>onStart?.(item.id)}));
       wrapper.append(trigger,panel);return wrapper;
     }));
     if(!items.length)modules.append(node('p','ui-course-hub__muted','Importez une formation depuis les paramètres.'));

@@ -50,3 +50,6 @@
 @import './patterns/activities-menu/activities-menu.css';
 @import './patterns/app-shell/page-layout.css';
 @import './patterns/exam-introduction/exam-introduction.css';
+
+@import './integration/cloud-interactive.css';
+@import './patterns/document-reader/document-reader.css';

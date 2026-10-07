@@ -1,17 +1,17 @@
 # Design System
 
-Figma = source visuelle ; Storybook = code démontré ; repository = source technique. **V3 Product Experience** : [Figma](https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT), [registre](../figma/project.json).
+Figma = source visuelle ; Storybook = code démontré ; repository = source technique. **Cloud Interactive / Study Workspace** : [Figma](https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT), [registre](../figma/project.json).
 
 ## Tokens
 
-src/ui/foundations/tokens.css expose les aliases ; v2-minimal.css conserve la palette utilisée en V3. Thème data-theme.
+src/ui/foundations/tokens.css expose les aliases ; cloud-interactive.css synchronise les modes Cloud Light/Dark de Figma. Thème data-theme.
 
 | Famille | Références |
 | --- | --- |
 | Couleurs | --color-background/card/surface/border/text-primary/text-secondary/text-subtle/accent/success/error/warning/focus |
 | Typographie | Manrope display, DM Sans body ; --font-family-* et tailles xs/sm/md/lg/xl/2xl |
 | Espacement | --space-1/2/3/4/6/8/12/16 : 4/8/12/16/24/32/48/64 px |
-| Radius | --radius-sm/md/lg/pill : 8/12/18/999 px |
+| Radius | --radius-sm/md/lg/pill : 10/12/16/999 px |
 | Ombres | --shadow de la palette thème |
 | Motion | --motion-fast/normal : 120/180 ms ; --easing-standard et reduced-motion |
 
@@ -50,3 +50,5 @@ Non configuré : aucun .figma.js/.figma.ts. Table et registre = mapping manuel, 
 Finalisation du workspace : Simple Design System Tabs (219:448) et Accordion (219:468), références inspectées pour le lanceur Révisions et les domaines inline. Les deux patterns utilisent exclusivement les composants et variables Azure Trainer. ModuleRow expose Expanded, Progress et Chevron ; la progression correspond à la couverture réelle, et non à la maîtrise. ExamIntroduction et QuestionCard examen disposent de références desktop, tablette et mobile éditables.
 
 CURRENT = référence validée ; EXPLORATION = proposition ; ARCHIVE = historique conservé. [Guide Figma](../figma/README.md).
+
+Détails de la livraison et du lecteur : [Cloud Interactive](cloud-interactive.md).

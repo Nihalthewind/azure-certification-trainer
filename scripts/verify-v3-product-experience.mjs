@@ -449,7 +449,7 @@ try {
         if(name==='empty') assert(await statePage.locator('.ui-review-session__card button').isDisabled());
       }
       if(group==='components-feedbackpanel') {
-        assert.equal(await statePage.getByText('À retenir',{exact:true}).count(),1);
+        assert.equal(await statePage.getByText('Pourquoi',{exact:true}).count(),1);
         if(name==='long-explanation') assert((await statePage.locator('.ui-feedback-panel').innerText()).includes('groupes de sécurité'));
         if(name==='complementary-points') assert((await statePage.locator('.ui-feedback-panel').innerText()).includes('Azure Policy'));
       }

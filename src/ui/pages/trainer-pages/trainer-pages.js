@@ -175,7 +175,7 @@ export function createSettingsPage({ category = 'appearance' } = {}) {
     ]],
     ['app', 'Application', 'Installation et informations de version.', [
       ['Installer l’application', 'Ajoutez Azure Trainer comme application sur cet appareil.', 'Installer'],
-      ['Version', 'Version actuellement chargée.', 'v3.0.1'],
+      ['Version', 'Version actuellement chargée.', 'v3.1.0'],
     ]],
   ];
   groups.forEach(([id, label, description, rows]) => {

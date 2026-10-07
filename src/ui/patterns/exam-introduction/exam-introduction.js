@@ -1,3 +1,4 @@
+import {createBrandMark} from '../../icons/icons.js';
 import {createButton} from '../../components/button/button.js';
 let sequence=0;
 export function createExamIntroduction({code='AZ-104',total=0,durationMinutes=0,resume=false,status='ready',error='',onStart,onBack,startButton}={}) {
@@ -9,5 +10,5 @@ export function createExamIntroduction({code='AZ-104',total=0,durationMinutes=0,
   const message=document.createElement('p');message.className='ui-exam-introduction__status';message.setAttribute('role',status==='error'?'alert':'status');message.textContent=status==='loading'?'Préparation de l’examen…':error;message.hidden=!message.textContent;
   const start=startButton||createButton({variant:'primary',onClick:onStart});(start.querySelector('.ui-button__label')||start).textContent=status==='loading'?'Préparation…':status==='error'?'Réessayer':resume?'Reprendre l’examen':'Démarrer l’examen';start.disabled=status==='loading'||!total;
   const back=createButton({label:'Retour',onClick:onBack});back.disabled=status==='loading';back.dataset.examBack='';
-  element.setAttribute('aria-busy',String(status==='loading'));element.append(title,description,configuration,correction,message,start,back);return {element,start};
+  element.setAttribute('aria-busy',String(status==='loading'));element.append(createBrandMark(),title,description,configuration,correction,message,start,back);return {element,start};
 }
