@@ -1,4 +1,5 @@
 const ICONS = {
+  chevronDown: {viewBox:'0 0 24 24',path:'m6 9 6 6 6-6'},
   search: {
     viewBox: '0 0 24 24',
     path: 'M21 21 16.65 16.65M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z',

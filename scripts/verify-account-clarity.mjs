@@ -45,8 +45,10 @@ try {
     assert(await page.locator('.ui-course-hub__module-copy').first().isVisible());
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
     await page.screenshot({ path: `test-results/account-app-dashboard-${theme}-${width}.png`, fullPage: true, animations: 'disabled' });
-    await page.locator('#dashboardDetails > summary').click();
-    assert(await page.locator('#favoritePreview').isVisible());
+    await page.locator('.ui-activities-menu>button').click();
+    await page.getByRole('menuitem',{name:'Favorites',exact:true}).click();
+    assert.equal(await page.locator('[data-review-filter="favorites"]').getAttribute('aria-pressed'),'true');
+    assert.match(await page.locator('[data-review-count]').innerText(),/^1 /);
     await page.locator('#languageToggle').click();
     await page.waitForFunction(key => localStorage.getItem(`${key}-language`) === 'fr', key);
     assert.equal(await page.locator('#languageToggle').getAttribute('aria-pressed'), 'true');

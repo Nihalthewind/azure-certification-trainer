@@ -84,7 +84,7 @@ expect(serviceWorker.includes("'./src/ui/patterns/workspace-toolbar/workspace-to
 expect(serviceWorker.includes("'./src/ui/patterns/first-run-experience/first-run-experience.css'"), 'Service worker does not cache FirstRunExperience CSS');
 expect(serviceWorker.includes("'./src/ui/patterns/first-run-experience/first-run-experience.js'"), 'Service worker does not cache FirstRunExperience JS');
 expect(atelier.includes("bind('#focusToggleButton','onclick',toggleFocus)"), 'Direct Focus action is not bound in production');
-expect(atelier.includes("if(state.examFocus){e.preventDefault();setFocusMode(false);return}"), 'Escape does not exit Focus mode');
+expect(atelier.includes("if(state.examFocus&&mode!=='exam'){e.preventDefault();setFocusMode(false);return}"), 'Escape must exit study Focus while preserving the dedicated exam layout');
 expect(atelier.includes("(e.key==='f'||e.key==='F')"), 'Focus keyboard shortcut is missing');
 expect(workspaceToolbarCss.includes('body.focus-mode .rail'), 'Focus mode does not own AppShell rail visibility');
 expect(workspaceToolbarCss.includes('display: none !important'), 'Focus mode does not hide the rail cleanly');

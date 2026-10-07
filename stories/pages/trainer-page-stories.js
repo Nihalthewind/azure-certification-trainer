@@ -21,7 +21,7 @@ const PAGE_CONFIG = {
   },
   mistakes: {
     title: "Révisions",
-    subtitle: "Travaille seulement les notions qui méritent ton attention.",
+    subtitle: "Choisissez ce que vous souhaitez retravailler.",
   },
   settings: {
     title: "Paramètres",
@@ -31,7 +31,8 @@ const PAGE_CONFIG = {
 };
 
 export function renderPage(args) {
-  const config = PAGE_CONFIG[args.mode] || PAGE_CONFIG.study;
+  const intro=args.mode==='exam'&&!['focus','finished'].includes(args.examState);
+  const config = PAGE_CONFIG[intro?'dashboard':args.mode] || PAGE_CONFIG.study;
   return createAppShell({
     density: args.density,language:args.language,
     activeMode: args.mode,

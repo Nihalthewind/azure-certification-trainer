@@ -1,0 +1,35 @@
+.ui-exam-introduction-backdrop{position:fixed;inset:0;z-index:100;display:flex;align-items:safe center;justify-content:center;overflow-y:auto;padding:var(--space-4);background:var(--color-overlay);backdrop-filter:blur(var(--space-1));}
+.ui-exam-introduction{display:flex;flex-shrink:0;flex-direction:column;align-items:flex-start;gap:var(--space-4);width:560px;max-width:100%;padding:var(--space-6);border:1px solid var(--color-border);border-radius:var(--radius-lg);background:var(--color-card);color:var(--color-text-primary);font:var(--font-size-md)/1.55 var(--font-family-body);box-shadow:var(--shadow);}
+.ui-exam-introduction :is(h2,p){margin:0;}
+.ui-exam-introduction h2{font:800 var(--font-size-xl)/1.2 var(--font-family-display);}
+.ui-exam-introduction p{color:var(--color-text-secondary);}
+.ui-exam-introduction__configuration{color:var(--color-text-primary)!important;}
+.ui-exam-introduction__status[role=alert]{color:var(--color-error);}
+.ui-exam-introduction>.ui-button{min-height:44px;}
+.ui-exam-enter{animation:exam-enter var(--motion-normal) var(--easing-standard);}
+@keyframes exam-enter{from{opacity:0;}to{opacity:1;}}
+body.exam-focus .app-shell-production{grid-template-columns:minmax(0,1fr);}
+body.exam-focus :is(.rail,.topbar,.v2-course-summary,.v2-study-aside,.v3-domain-control,#focusToggleButton,#filterToggleButton,#studyFilters,#compactButton,#resetExamButton,.card-header-actions,#footerText,#shortcutHelp){display:none!important;}
+body.exam-focus .app-shell-production .production-main{max-width:1100px;margin:0 auto;padding:var(--space-6);width:100%;}
+body.exam-focus .app-shell-production .workbar-copy{display:block!important;}
+body.exam-focus .app-shell-production .workbar{position:sticky;top:0;padding:var(--space-2) 0;margin:0;min-height:0;background:var(--color-background);backdrop-filter:none;flex-direction:column;align-items:stretch;}
+body.exam-focus .app-shell-production .workbar-heading{flex:0 0 auto;width:100%;margin-left:0;align-items:center;justify-content:space-between;}
+body.exam-focus .ui-page-header h2{font-size:var(--font-size-xl)!important;}
+body.exam-focus .ui-page-content--learning{display:flex;flex-direction:column;}
+body.exam-focus #examControls{display:flex;flex-wrap:wrap;gap:var(--space-2);}
+body.exam-focus #examControls:not([hidden])>:is(#questionNavigatorButton,#flagQuestionButton,#finishExamButton,#quitExamButton){display:inline-flex!important;}
+body.exam-focus #workSubtitle{display:none;}
+body.exam-focus .v2-study-main{width:100%;}
+body.exam-focus .after-card{display:flex;}
+body.exam-focus #sessionClock{font-variant-numeric:tabular-nums;color:var(--color-text-primary);}
+body.exam-focus #sessionClock{white-space:nowrap;font-size:var(--font-size-sm);}
+body.exam-focus #examControls .ui-button{min-height:44px;}
+body.exam-focus .ui-question-viewport>.question-card{min-height:0;height:auto;}
+.ui-exam-preview .ui-app-shell__rail,.ui-exam-preview .ui-app-shell__topbar{display:none;}
+.ui-exam-preview{grid-template-columns:1fr!important;}
+.ui-exam-preview .ui-app-shell__context{display:none!important;}
+.ui-exam-preview .ui-app-shell__main{max-width:1100px;margin:0 auto;width:100%;}
+.ui-exam-preview .ui-question-card__header-actions{display:none;}
+.ui-exam-preview .ui-v2-page--exam>.v3-review-filters .ui-button{min-height:44px;}
+@media(max-width:920px){body.exam-focus .app-shell-production .production-main{padding:var(--space-4);padding-bottom:calc(var(--space-16)*2);}}
+@media(prefers-reduced-motion:reduce){.ui-exam-enter{animation:none;}.ui-course-hub__module-header svg{transition:none;}}

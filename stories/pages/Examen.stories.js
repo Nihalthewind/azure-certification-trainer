@@ -18,3 +18,8 @@ export const ExamenDark = {
 
 export const EnglishLight={args:{...base,mode:'exam',language:'en'},globals:{theme:'light'}};
 export const EnglishDark={args:{...base,mode:'exam',language:'en'},globals:{theme:'dark'}};
+export const Resume={args:{...base,mode:'exam',examState:'resume'}};
+export const Loading={args:{...base,mode:'exam',examState:'loading'}};
+export const Error={args:{...base,mode:'exam',examState:'error'}};
+export const Focus={args:{...base,mode:'exam',examState:'focus'}};
+export const Finished={args:{...base,mode:'exam',examState:'finished'}};

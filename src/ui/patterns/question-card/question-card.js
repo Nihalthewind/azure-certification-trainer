@@ -1,6 +1,7 @@
 import { createBadge } from '../../components/badge/badge.js';
 import { createButton } from '../../components/button/button.js';
 import { createIconButton } from '../../components/icon-button/icon-button.js';
+import { createFeedbackPanel } from '../../components/feedback-panel/feedback-panel.js';
 import {
   createAnswerOption,
   setAnswerOptionSelected,
@@ -227,32 +228,7 @@ export function createQuestionCard({
 
   main.append(choices);
 
-  if (feedbackTone && feedbackTitle) {
-    const feedback = document.createElement('section');
-    feedback.className = `ui-question-card__feedback is-${feedbackTone}`;
-    feedback.setAttribute('role', 'status');
-
-    const kicker = document.createElement('div');
-    kicker.className = 'ui-question-card__feedback-kicker';
-    kicker.textContent = feedbackTone === 'success'
-      ? 'BONNE RÉPONSE'
-      : feedbackTone === 'error'
-        ? 'RÉPONSE INCORRECTE'
-        : 'EXPLICATION';
-
-    const feedbackHeading = document.createElement('h3');
-    feedbackHeading.textContent = feedbackTitle;
-
-    feedback.append(kicker, feedbackHeading);
-
-    if (feedbackText) {
-      const feedbackParagraph = document.createElement('p');
-      feedbackParagraph.textContent = feedbackText;
-      feedback.append(feedbackParagraph);
-    }
-
-    main.append(feedback);
-  }
+  if (!isExam && feedbackTone && feedbackTitle) main.append(createFeedbackPanel({tone:feedbackTone,title:feedbackTitle,context:feedbackText}));
 
   const footer = document.createElement('footer');
   footer.className = 'ui-question-card__footer';
@@ -280,9 +256,9 @@ export function createQuestionCard({
 
   footer.append(footerNavigation);
 
-  if (!isExam) {
+  {
     submit = createButton({
-      label: submitLabel,
+      label: isExam ? 'Enregistrer et avancer' : submitLabel,
       variant: 'primary',
       disabled: locked || currentSelected.size === 0,
       onClick: onSubmit,

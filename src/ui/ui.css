@@ -47,3 +47,6 @@
 @import './components/domain-selector/domain-selector.css';
 @import './patterns/course-hub/course-hub.css';
 @import './integration/v3-product-experience.css';
+@import './patterns/activities-menu/activities-menu.css';
+@import './patterns/app-shell/page-layout.css';
+@import './patterns/exam-introduction/exam-introduction.css';

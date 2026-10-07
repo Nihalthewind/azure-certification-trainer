@@ -1,6 +1,22 @@
 const VALID_TONES = new Set(['success', 'error', 'reference']);
 let feedbackSequence = 0;
 
+export function mergeLearningNotes(context='',takeaway='') {
+  const normalize=s=>s.replace(/\s+/g,' ').trim().toLocaleLowerCase();
+  const paragraphs=[];
+  // Preserve source paragraphs in order and remove exact repeated paragraphs.
+  for(const paragraph of String(context).trim().split(/\n\s*\n/).filter(Boolean))
+    if(!paragraphs.some(existing=>normalize(existing)===normalize(paragraph)))paragraphs.push(paragraph);
+  // A takeaway can repeat a context sentence before adding a useful nuance.
+  for(const paragraph of String(takeaway).trim().split(/\n\s*\n/).filter(Boolean)) {
+    const existing=normalize(paragraphs.join(' '));
+    const complementary=(paragraph.match(/[^.!?]+[.!?]+(?:\s|$)|[^.!?]+$/g)||[paragraph])
+      .filter(sentence=>!existing.includes(normalize(sentence))).join('').trim();
+    if(complementary)paragraphs.push(complementary);
+  }
+  return paragraphs.length?paragraphs:['Le support ne fournit pas d’explication détaillée. Consultez la correction et les sources disponibles.'];
+}
+
 export function getLearningTakeaway(context = '') {
   // Reuse the source's first complete sentence; do not invent learning content.
   const text = String(context).trim();
@@ -74,26 +90,12 @@ export function createFeedbackPanel({
 
   {
     const block = document.createElement('div');
-    block.className = 'ui-feedback-panel__context';
-    const label = document.createElement('div');
-    label.className = 'ui-feedback-panel__section-label';
-    label.textContent = 'Pourquoi';
-    const p = document.createElement('p');
-    p.textContent = context || 'Le support ne fournit pas d’explication détaillée. Consultez la correction et les sources disponibles.';
-    block.append(label, p);
-    root.append(block);
-  }
-
-  const summary = takeaway || getLearningTakeaway(context);
-  if (summary) {
-    const block = document.createElement('div');
     block.className = 'ui-feedback-panel__takeaway';
     const label = document.createElement('div');
     label.className = 'ui-feedback-panel__section-label';
     label.textContent = 'À retenir';
-    const p = document.createElement('p');
-    p.textContent = summary;
-    block.append(label, p);
+    block.append(label);
+    for(const value of mergeLearningNotes(context,takeaway)){const p=document.createElement('p');p.textContent=value;block.append(p);}
     root.append(block);
   }
 

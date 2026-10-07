@@ -1,4 +1,6 @@
-import { createReviewRow, createPagination, reviewPage } from '../../patterns/review-list/review-list.js';
+import {createActivitiesMenu} from '../../patterns/activities-menu/activities-menu.js';
+import {createExamIntroduction} from '../../patterns/exam-introduction/exam-introduction.js';
+import { createReviewSession } from '../../patterns/review-list/review-list.js';
 import { createCourseHub } from '../../patterns/course-hub/course-hub.js';
 import { createDomainSelector } from '../../components/domain-selector/domain-selector.js';
 import { createButton } from '../../components/button/button.js';
@@ -67,10 +69,12 @@ function moduleRow(index, title, status, value, active = false) {
 export const courseHubFixture = [
  ['T1','Identités et gouvernance',126,28],['T2','Stockage',89,25],['T3','Calcul et applications',210,22],['T4','Réseaux',109,31],['T5','Supervision et reprise',34,18]
 ].map(([id,label,total,explored],i)=>({id,label,total,explored,percent:Math.round(explored/total*100),status:i===2||i===3?'À renforcer':'En cours',topics:['Gouvernance et tags','Identités et accès','Rôles et autorisations']}));
-export function createDashboardPage({ firstRun = false, highProgress = false, selected = 'T1', manyModules = false, onStart, onResume } = {}) {
- const root=pageRoot('dashboard');const fixture=manyModules?Array.from({length:15},(_,i)=>({...courseHubFixture[i%5],id:'module-'+i,label:'Module '+(i+1)+' · '+courseHubFixture[i%5].label})):courseHubFixture;const modules=fixture.map(m=>({...m,...(firstRun?{explored:0,percent:0,status:'À commencer'}:highProgress?{explored:m.total,percent:100,status:'Terminé'}:{})}));
- root.append(createCourseHub({code:'AZ-104',name:'Microsoft Azure Administrator',modules,selected,nextLabel:firstRun?'Commencer une première session':'Reprendre la question T1-Q12',resumeLabel:firstRun?'Commencer une session de 10 questions':'Reprendre l’entraînement',onStart,onContinue:onResume}).element);
- root.append(el('small','ui-v2-muted','› Historique, favoris et questions à reprendre'));return root;
+export function createDashboardPage({firstRun=false,highProgress=false,selected='T1',openedDomain=null,manyModules=false,noData=false,longLabel=false,activitiesOpen=false,onStart,onResume}={}) {
+ const root=pageRoot('dashboard'),fixture=manyModules?Array.from({length:15},(_,i)=>({...courseHubFixture[i%5],id:'module-'+i,label:'Module '+(i+1)+' · '+courseHubFixture[i%5].label})):courseHubFixture;
+ const modules=fixture.map((m,i)=>({...m,...(firstRun?{explored:0,percent:0,status:'À commencer'}:highProgress?{explored:m.total,percent:100,status:'Terminé'}:{}),...(noData?{total:0,explored:0,percent:null,status:'Donnée indisponible'}:{}),...(longLabel&&i===0?{label:'Identités, gouvernance, accès conditionnel et administration de plusieurs environnements Azure'}:{})}));
+ root.append(createCourseHub({code:'AZ-104',name:'Microsoft Azure Administrator',modules,selected,openedDomain,resumeLabel:firstRun?'Commencer une session de 10 questions':'Reprendre l’entraînement',onStart,onContinue:onResume}).element);
+ const activities=createActivitiesMenu({open:activitiesOpen,onHistory:()=>{const history=el('section','ui-review-session__card');history.append(el('h3','','Historique examens'),el('p','','Aucun examen terminé dans cette démonstration.'));root.replaceChildren(history);},onFavorites:()=>root.replaceChildren(createMistakesPage({initialFilter:'favorites'}))});
+ root.headerActions=activities.element;return root;
 }
 
 export function createPathPage(options) { return createDashboardPage(options); }
@@ -122,18 +126,32 @@ export function createKnowledgePage() {
   return root;
 }
 
-export function createMistakesPage({ reviewCount=24, initialFilter='all' }={}) {
- const root=pageRoot('review'),filters=el('div','v3-review-filters'),queue=el('div','ui-review-list'),summary=el('p','ui-v2-muted'),pagination=el('div'),detail=el('section');let filter=initialFilter,page=0;
- const entries=Array.from({length:reviewCount},(_,i)=>({id:'DEMO-Q'+(i+1),title:i===0?'Une question avec un aperçu volontairement long pour vérifier la lisibilité et la troncature dans une collection paginée.':'Comment configurer les rôles et accès aux ressources Azure ?',domainLabel:'Identités et gouvernance',status:['Erreur','À revoir','Favori'][i%3],filter:['errors','flagged','favorites'][i%3]}));
- function open(id){const item=entries.find(x=>x.id===id);queue.hidden=true;pagination.hidden=true;detail.hidden=false;detail.replaceChildren(el('h3','',item.id),el('p','',item.title),createButton({label:'Retour aux révisions',onClick:()=>{detail.hidden=true;queue.hidden=false;pagination.hidden=false;}}));}
- function render(){const selected=entries.filter(e=>filter==='all'||e.filter===filter),model=reviewPage(selected,page);page=model.page;summary.textContent=selected.length+' questions à reprendre';queue.replaceChildren(...model.items.map(item=>createReviewRow(item,open)));if(!selected.length)queue.append(el('p','','Aucune question dans cette sélection. Continuez votre formation à votre rythme.'));pagination.replaceChildren(createPagination(model,index=>{page=index;render();}));filters.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===filter)));}
- [['all','Toutes'],['errors','Erreurs'],['flagged','À revoir'],['favorites','Favoris']].forEach(([id,label])=>{const b=createButton({label,onClick:()=>{filter=id;page=0;render();}});b.dataset.filter=id;filters.append(b);});detail.hidden=true;render();root.append(summary,createButton({label:'Commencer la révision',variant:'primary',disabled:!entries.length,onClick:()=>entries.length&&open(entries[0].id)}),filters,queue,pagination,detail);return root;
+export function createMistakesPage({reviewCount=24,initialFilter='errors',activeDomain='all'}={}) {
+ const root=pageRoot('review');let source=initialFilter==='all'?'errors':initialFilter,domain=activeDomain;
+ const entries=Array.from({length:reviewCount},(_,i)=>({id:'DEMO-Q'+(i+1),domain:i%2?'T2':'T1',filter:['errors','flagged','favorites'][i%3]}));
+ function render(){const selected=entries.filter(e=>e.filter===source&&(domain==='all'||e.domain===domain));root.replaceChildren(createReviewSession({source,count:selected.length,domain,domains:courseHubFixture.map(m=>[m.id,m.label]),onSource:id=>{source=id;render();root.querySelector('[data-review-filter="'+id+'"]').focus();},onDomain:id=>{domain=id;render();root.querySelector('select').focus();},onStart:()=>root.replaceChildren(createKnowledgePage())}));}
+ render();return root;
 }
 
-export function createExamPage() {
- const root=pageRoot('exam'),setup=card();setup.append(el('h2','','AZ-104 · Microsoft Azure Administrator'),el('p','ui-v2-muted','48 questions · 100 minutes'));
- ['Navigation libre entre les questions','Marquage « À revoir » disponible','Correction détaillée uniquement à la fin','Reprise et réponses sauvegardées'].forEach(label=>setup.append(el('p','',label)));
- setup.append(createButton({label:'Démarrer un examen',variant:'primary'}));const last=card();last.append(el('h3','','Dernier résultat'),el('p','','75 % · 36 / 48 réponses correctes'),createButton({label:'Historique examens'}));root.append(setup,last);return root;
+export function createExamPage({examState='introduction'}={}) {
+ const root=pageRoot('exam');
+ function shellState(state){const shell=root.closest('.ui-app-shell');if(!shell)return;const intro=!['focus','finished','home'].includes(state);shell.classList.toggle('ui-exam-preview',state==='focus');for(const selector of ['.ui-app-shell__rail','.ui-app-shell__topbar','.ui-app-shell__context'])shell.querySelector(selector).inert=intro;}
+ function home(){const page=createDashboardPage();root.replaceChildren(page);shellState('home');const context=root.closest('.ui-app-shell')?.querySelector('.ui-app-shell__context');if(context){context.querySelector('h1').textContent='Votre préparation AZ-104';context.querySelector('.ui-activities-menu')?.remove();context.append(page.headerActions);}}
+ function render(state){
+   root.replaceChildren();root.examState=state;shellState(state);
+   if(state==='focus'){
+     const identity=el('div','ui-page-header');identity.append(el('h2','','Examen blanc AZ-104'),el('p','','Temps restant 100:00'));
+     const controls=el('div','v3-review-filters');controls.append(createButton({label:'Questions'}),createButton({label:'À revoir'}),createButton({label:'Terminer l’examen',onClick:()=>render('finished')}),createButton({label:'Quitter',onClick:home}));
+     const question=createQuestionCard({mode:'exam',status:'exam',submitLabel:'Enregistrer et avancer'});question.querySelector('.ui-question-card__header').append(question.querySelector('.ui-question-card__footer-nav'));root.append(identity,controls,question);return;
+   }
+   if(state==='finished'){root.append(el('h2','','Examen terminé'),el('p','','La correction est maintenant disponible.'),createButton({label:'Retour à l’accueil',onClick:home}));return;}
+   const background=createDashboardPage();background.inert=true;root.headerActions=background.headerActions;root.append(background);
+   const backdrop=el('div','ui-exam-introduction-backdrop');
+   const view=createExamIntroduction({total:48,durationMinutes:100,resume:state==='resume',status:state==='loading'?'loading':state==='error'?'error':'ready',error:state==='error'?'Les questions ne sont pas disponibles. Réessayez.':'',onStart:()=>{render('loading');setTimeout(()=>render('focus'),180);},onBack:home});
+   backdrop.append(view.element);backdrop.addEventListener('keydown',event=>{if(event.key==='Escape'&&state!=='loading'){event.preventDefault();home();}if(event.key==='Tab'){const buttons=[...view.element.querySelectorAll('button:not([disabled])')];if(!buttons.length)return;const first=buttons[0],last=buttons.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}});
+   root.append(backdrop);requestAnimationFrame(()=>state==='loading'?view.element.focus():view.start.focus());
+ }
+ render(examState);return root;
 }
 
 export function createSettingsPage({ category = 'appearance' } = {}) {

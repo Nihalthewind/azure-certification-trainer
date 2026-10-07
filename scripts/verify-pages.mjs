@@ -73,10 +73,13 @@ try {
     await page.locator('#mistakesPage').waitFor({state:'visible'});
     await page.locator('[data-mode="exam"]').click();
     await page.locator('#startExamButton').click();
+    await page.waitForFunction(()=>!!document.querySelector('#sessionClock').textContent&&!document.querySelector('#examIntroductionBackdrop'));
     await page.locator('#questionCard').waitFor({state:'visible'});
     const state=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).states.az104,key);
     assert.equal(state.exam.ids.length,48);
     await page.reload();
+    await page.locator('#startExamButton').click();
+    await page.waitForFunction(()=>!document.querySelector('#examIntroductionBackdrop'));
     await page.locator('#questionCard').waitFor({state:'visible'});
     assert.deepEqual(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).states.az104.exam.ids,key),state.exam.ids);
     assert.deepEqual(errors,[]);assert.deepEqual(missing,[]);

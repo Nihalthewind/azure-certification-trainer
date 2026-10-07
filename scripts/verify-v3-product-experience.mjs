@@ -104,7 +104,7 @@ try {
       assert.equal(await page.locator(".ui-course-hub__coverage").count(), 1);
       await page.locator(".ui-course-hub__module").nth(1).click();
       assert.equal(
-        await page.locator(".ui-course-hub__detail h4").first().innerText(),
+        await page.locator('.ui-course-hub__module[aria-expanded="true"] strong').innerText(),
         labels[1],
       );
       assert((await page.locator(".ui-course-hub__topics li").count()) > 0);
@@ -113,7 +113,7 @@ try {
         fullPage: true,
         animations: "disabled",
       });
-      await page.locator(".ui-course-hub__detail .ui-button").click();
+      await page.locator('.ui-course-hub__panel:not([hidden]) .ui-button').click();
       assert.match(
         await page.locator(".ui-domain-selector>button").innerText(),
         new RegExp(labels[1]),
@@ -153,7 +153,14 @@ try {
         ["flagged", "T4-Q1"],
       ]) {
         await page.locator("[data-review-filter=" + filter + "]").click();
-        assert(await page.locator('[data-mistake-q="' + id + '"]').isVisible());
+        assert.equal(await page.locator('[data-mistake-q]').count(),0,'Review landing contains no question catalogue');
+        assert.match(await page.locator('[data-review-count]').innerText(),filter==='flagged'?/^2 /:/^1 /);
+        await page.locator('#startMistakesSessionButton').click();
+        if(!(await page.locator('#questionNavigatorButton').isVisible()))await page.locator('#filterToggleButton').click();
+        await page.locator('#questionNavigatorButton').click();
+        assert(await page.locator('[data-jump-id="'+id+'"]').isVisible(),'Selected source loads its actual question IDs');
+        await page.locator('#modalClose').click();
+        await page.locator('[data-mode=mistakes]').first().click();
       }
       assert.equal(await page.locator("#mistakesStats:visible").count(), 0);
       await page.screenshot({
@@ -163,7 +170,7 @@ try {
       });
       await page.locator("[data-mode=exam]").first().click();
       assert.match(
-        await page.locator("#examSummaryTitle").innerText(),
+        await page.locator('.ui-exam-introduction__configuration').innerText(),
         /48 questions · 100 minutes/,
       );
       await page.screenshot({
@@ -171,6 +178,7 @@ try {
         fullPage: true,
         animations: "disabled",
       });
+      await page.locator('.ui-exam-introduction .ui-button').last().click();
       await page.locator("#settingsButton").click();
       assert(await page.locator("#appearanceSettings").isVisible());
       await page.screenshot({
@@ -213,7 +221,7 @@ try {
             "&viewMode=story&globals=theme:" +
             theme,
         );
-        await story.locator(".ui-v2-page").waitFor();
+        await story.locator('.ui-app-shell__slot>.ui-v2-page').waitFor();
         if (width === 1440) {
           assert.equal(
             await story
@@ -411,6 +419,58 @@ try {
     assert.equal(await page.locator(".ui-first-run__panel").count(), 1);
   }
   await context.close();
+  // Exercise the actual new states, including the reusable patterns embedded in pages.
+  const states = [
+    ['pages-accueil', ['accueil-premier-usage','accueil-high-progress','unavailable','long-label','accueil-module-selected','activities-open','activities-keyboard','activities-english']],
+    ['pages-revisions', ['empty','single','ready','errors','flagged','favorites','domain-filter']],
+    ['pages-examen-blanc', ['examen-light','resume','loading','error','focus','finished']],
+    ['components-feedbackpanel', ['correct','incorrect','long-explanation','complementary-points']],
+  ];
+  for (const theme of ['light','dark']) for (const width of [390,1440]) {
+    const stateContext = await browser.newContext({viewport:{width,height:900}});
+    const statePage = await stateContext.newPage();
+    const errors=[]; statePage.on('pageerror',error=>errors.push(error.message));
+    for (const [group,names] of states) for (const name of names) {
+      const id=group+'--'+name;
+      await statePage.goto(storyUrl+'/iframe.html?id='+id+'&viewMode=story&globals=theme:'+theme);
+      await statePage.locator(group==='components-feedbackpanel'?'.ui-feedback-panel':'.ui-app-shell').waitFor();
+      await statePage.evaluate(()=>document.fonts.ready);
+      if (group==='pages-accueil') {
+        assert.equal(await statePage.locator('.ui-course-hub__panel:visible').count(),name==='accueil-module-selected'?1:0);
+        if(name==='activities-keyboard') {
+          await statePage.locator('.ui-activities-menu [role=menuitem]:focus').waitFor();
+          assert.match(await statePage.locator('.ui-activities-menu [role=menuitem]:focus').innerText(),/Historique/);
+        }
+        if(name==='activities-english') assert.match(await statePage.locator('.ui-activities-menu>button').innerText(),/My activities/);
+      }
+      if(group==='pages-revisions') {
+        assert.equal(await statePage.locator('.ui-review-session__card').count(),1);
+        assert.equal(await statePage.locator('[data-mistake-q]').count(),0);
+        if(name==='empty') assert(await statePage.locator('.ui-review-session__card button').isDisabled());
+      }
+      if(group==='components-feedbackpanel') {
+        assert.equal(await statePage.getByText('À retenir',{exact:true}).count(),1);
+        if(name==='long-explanation') assert((await statePage.locator('.ui-feedback-panel').innerText()).includes('groupes de sécurité'));
+        if(name==='complementary-points') assert((await statePage.locator('.ui-feedback-panel').innerText()).includes('Azure Policy'));
+      }
+      if(group==='pages-examen-blanc') {
+        if(name==='focus') {
+          assert(await statePage.locator('.ui-app-shell__topbar').isHidden());
+          assert.equal(await statePage.locator('.ui-feedback-panel').count(),0);
+          await statePage.getByRole('button',{name:'Terminer l’examen',exact:true}).click();
+          assert(await statePage.locator('.ui-app-shell__topbar').isVisible());
+        } else if(['examen-light','resume','loading','error'].includes(name)) {
+          assert(await statePage.getByRole('dialog').isVisible());
+          assert(await statePage.locator('.ui-app-shell__topbar').evaluate(n=>n.inert));
+          if(name==='loading') assert(await statePage.getByRole('dialog').locator('button').first().isDisabled());
+        }
+      }
+      assert(await statePage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Story overflow: '+id+' '+width);
+    }
+    assert.deepEqual(errors,[]);
+    console.log('Finalization stories OK:',theme,width,states.reduce((sum,[,names])=>sum+names.length,0),'states');
+    await stateContext.close();
+  }
 } finally {
   await browser?.close();
   await app.close();

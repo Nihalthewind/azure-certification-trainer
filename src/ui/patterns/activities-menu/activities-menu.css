@@ -1,0 +1,5 @@
+.ui-activities-menu{position:relative;flex-shrink:0;}
+.ui-activities-menu>.ui-button{gap:var(--space-2);min-height:44px;}
+.ui-activities-menu [aria-expanded=true]{border-color:var(--color-accent);}
+.ui-activities-menu__popup{position:absolute;right:0;top:calc(100% + var(--space-2));z-index:30;min-width:180px;max-width:calc(100vw - var(--space-8));padding:var(--space-2);display:flex;flex-direction:column;gap:var(--space-1);background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);box-shadow:var(--shadow);}
+.ui-activities-menu__popup .ui-button{justify-content:flex-start;min-height:44px;}

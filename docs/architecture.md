@@ -22,7 +22,9 @@ Les dossiers conceptuels src/domain/, services/, data/ et tests/ n’existent pa
 
 Atelier construit les listes filtrées et gère réponses, correction, auto-évaluation des formats non convertibles, notes/favoris. CourseHub projette les données réelles ; DomainSelector filtre sans moteur parallèle.
 
-Révisions combine erreurs, favoris et marques à revoir. Les nouveaux examens conservent les IDs marqués ; les anciens historiques sans IDs ne permettent pas leur reconstruction. Chronomètre, navigation, réponses et reprise restent existants.
+Révisions sélectionne une source (erreurs, favoris ou marques à revoir) et un domaine dans un lanceur partagé. Le compte, la session et le navigateur de questions utilisent le même instantané d’IDs ; la liste ne rétrécit pas après une réponse corrigée. Les anciens historiques sans IDs ne permettent pas de reconstruire les marques.
+
+Les vues normales adoptent AppShell → PageContainer → PageHeader → PageContent, sans recréer leurs IDs ni leurs handlers. L’examen constitue une exception volontaire : introduction modale sur application inert, préparation protégée contre les doubles clics, puis workspace dédié. Le chronomètre démarre après le rendu de la première question ; une reprise conserve son origine et ses réponses. Quitter restaure le shell sans effacer la session.
 
 ## Stockage
 
@@ -42,7 +44,7 @@ HTML/Vite, modules DOM et CSS partagé ; pages fixtures. Validate contrôle int�
 
 ## Sécurité / limites
 
-Aucun secret frontend/Git. CI : permissions Actions, aucun token du dépôt. Données locales ; pas d’auth serveur, isolation multi-utilisateur ou sync cloud. Traduction Google et polices distantes dépendent du réseau. Aucune conformité réglementaire revendiquée.
+Aucun secret frontend/Git. CI : permissions Actions, aucun token du dépôt. Données locales ; pas d’auth serveur, isolation multi-utilisateur ou sync cloud. La traduction de l’interface utilise le dictionnaire local ; les questions restent dans leur langue d’origine lorsqu’aucune traduction relue n’existe. Les polices distantes disposent de fallbacks. Aucune conformité réglementaire revendiquée.
 
 ## Future SaaS Architecture — non implémentée
 

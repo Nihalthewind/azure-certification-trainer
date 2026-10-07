@@ -1,5 +1,39 @@
 # Corrections produit — suivi du 6 octobre 2026
 
+## Finalisation du 7 octobre — mission active
+
+Base propre : storybook ecb01ba. Les branches rescue sont conservées.
+
+| Point | Cause dans le rendu réellement monté | Décision / contrôle à livrer |
+| --- | --- | --- |
+| Progression | CourseHub affiche seulement le pourcentage de questions explorées | Même valeur pour le texte et la barre ; 0/partiel/100/indisponible |
+| Domaine | CourseHub détache le CTA dans un panneau latéral | Accordéon dans la ligne, un ouvert, IDs stables, retour conservé |
+| Correction | FeedbackPanel extrait la première phrase et la répète | Un À retenir contenant toute l’explication et les points complémentaires |
+| Révisions | renderMistakesPage monte ReviewRow/pagination | Lanceur Mes erreurs / À revoir / Favoris avec compte et IDs identiques |
+| Examen | Landing analytique, focus optionnel, timer créé avant rendu | Introduction accessible, préparation contrôlée, focus automatique et reprise |
+| Cadre | workbar et page-head sont des structures distinctes, CSS concurrent | PageContainer / PageHeader / PageContent partagés ; cycles de navigation |
+| Activités | summary natif masqué visuellement par les styles globaux | Bouton secondaire à chevron, menu clavier, destinations existantes |
+
+Références réellement ouvertes : Simple Design System Tabs (219:448, composant
+b839f8a495ef7b0ef0a47ad1aefd6e05438825b5) et Accordion (219:468, composant
+82ffc91046aa70df8a12275baa65bdf5f0a674b0). La sélection par onglets convient à
+Révisions ; l’accordéon convient au parcours. Adaptation avec nos composants et
+variables, sans dépendance externe. CURRENT Accueil 116:1006 / 117:1287,
+Révisions 123:1960 / 123:2195, Examen 123:1556 / 123:1760.
+
+Captures initiales isolées : test-results/polish-before-{home,training,reviews,settings}-1440-light.png.
+Les origines sont déjà x224/y96, mais le titre Entraînement utilise une hauteur
+28px contre 40.8px ailleurs. Aucun profil utilisateur n’est utilisé pour les tests.
+Implémentation : composants partagés ActivitiesMenu, ReviewSession, ExamIntroduction et PageLayout ; mêmes fabriques dans Storybook et dans l’application. FeedbackPanel conserve tous les paragraphes utiles dans un seul À retenir. Le navigateur Révisions utilise l’instantané de session, et non la banque entière.
+
+Deux régressions supplémentaires reproduites et corrigées : le focus transitoire sur body fermait le menu avant un clic souris (fermeture basée désormais sur relatedTarget) ; Flèche bas remontait jusqu’au gestionnaire du menu et avançait deux fois (propagation arrêtée sur le déclencheur). Le test contrôle les destinations réelles Historique/Favoris, pas seulement aria-expanded.
+
+Preuves : matrice 16 configurations, cycles de navigation avec écart maximal 2 px, reprise d’examen et réponses conservées, préparation bloquée par requestAnimationFrame sans démarrage du timer, double clic et erreur récupérable sans perte de données. Zoom Chromium natif via tabs.setZoom(2), valeur getZoom vérifiée, quatre vues normales et introduction accessibles en FR/EN Light/Dark. Captures après : test-results/polish-after-{dashboard,study,mistakes,settings}-{light,dark}-{fr,en}-{1366,1440,768,390}.png. Références examen focus 223:4153 / 223:4242 et responsive 249:1636 / 249:1795 / 249:1728 / 249:1862.
+
+Contrôles locaux réussis : validate, check:docs, test-ux, test:v3 (25 états ciblés × Light/Dark × mobile/desktop), test:corrections (16 configurations et zoom natif), account-clarity, training-workspace, build:pages et test:pages. Fingerprint source synchronisé avec Start Here dans Figma. Livraison protégée par CI ; le SHA public version.json doit correspondre au commit poussé avant déclaration finale. Installation native OS non effectuée ; événements de prompt testés dans Chromium isolé.
+
+## Historique validé du 6 octobre (remplacé par la mission ci-dessus)
+
 Base : storybook, ea1bcd1. Aucun merge rescue.
 
 ## Causes reproduites avant modification

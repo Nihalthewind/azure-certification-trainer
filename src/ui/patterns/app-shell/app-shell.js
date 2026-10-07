@@ -2,6 +2,7 @@ import { createNavigationItem } from '../../components/navigation-item/navigatio
 import {observeInterfaceLanguage} from '../../integration/localization.js';
 import { createIconButton, updateIconButton } from '../../components/icon-button/icon-button.js';
 import { createIcon, createBrandMark } from '../../icons/icons.js';
+import {mountPageLayout} from './page-layout.js';
 
 export const APP_SHELL_DENSITIES = Object.freeze({
   balanced: Object.freeze({ id: 'balanced', label: 'Équilibré', railWidth: 220, topbarHeight: 72, contentGutter: 28 }),
@@ -156,6 +157,7 @@ export function createAppShell({
   p.textContent = pageSubtitle;
   contextCopy.append(h1, p);
   context.append(contextCopy);
+  if(content?.headerActions)context.append(content.headerActions);
 
   if (activeMode === 'study') {
     const session = document.createElement('span');
@@ -170,8 +172,13 @@ export function createAppShell({
   else if (typeof content === 'string') slot.textContent = content;
 
   main.append(context, slot);
+  mountPageLayout(main,context);
   contentRoot.append(topbar, main);
   root.append(rail, contentRoot);
+  if(content?.examState==='focus')root.classList.add('ui-exam-preview');
+  if(content?.examState&&content.examState!=='focus'&&content.examState!=='finished'){
+    rail.inert=true;topbar.inert=true;context.inert=true;
+  }
   observeInterfaceLanguage(root,()=>shellLanguage);
   return root;
 }

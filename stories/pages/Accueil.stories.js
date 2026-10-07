@@ -36,11 +36,17 @@ export const AccueilHighProgress = {
   globals: { theme: "light" },
 };
 export const AccueilModuleSelected = {
-  args: { ...base, mode: "dashboard", selected: "T3" },
+  args: { ...base, mode: "dashboard", selected: "T3", openedDomain:"T3" },
   globals: { theme: "light" },
 };
 
 export const ManyModules={args:{...base,mode:'dashboard',manyModules:true}};
+export const Unavailable={args:{...base,mode:'dashboard',noData:true}};
+export const LongLabel={args:{...base,mode:'dashboard',longLabel:true}};
+export const ActivitiesOpen={args:{...base,mode:'dashboard',activitiesOpen:true}};
+export const ActivitiesEnglish={args:{...base,mode:'dashboard',activitiesOpen:true,language:'en'}};
+export const ActivitiesMobile={args:{...base,mode:'dashboard',activitiesOpen:true},globals:{viewport:{value:'mobile',isRotated:false}}};
+export const ActivitiesKeyboard={args:{...base,mode:'dashboard'},play:async({canvasElement})=>{const trigger=canvasElement.querySelector('.ui-activities-menu>button');trigger.focus();trigger.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}));}};
 
 export const EnglishLight={args:{...base,mode:'dashboard',language:'en'},globals:{theme:'light'}};
 export const EnglishDark={args:{...base,mode:'dashboard',language:'en'},globals:{theme:'dark'}};

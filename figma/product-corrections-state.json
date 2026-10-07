@@ -1,16 +1,41 @@
 {
-  "date": "2026-10-06",
-  "baseCommit": "ea1bcd1",
+  "date": "2026-10-07",
+  "baseCommit": "ecb01ba5dc50204eafad1aea4fcb49989353517f",
   "appVersion": "3.0.1",
-  "scope": "Product corrections, existing V3 only",
-  "status": "Validated implementation and visual reconciliation; delivery follows the protected storybook CI workflow",
+  "scope": "Finalization: coverage, accordion, feedback, review launcher, exam introduction/focus, shared page layout, activities",
+  "status": "Figma, application and Storybook reconciled; local validation passed; protected publication verified after shipping",
   "fileKey": "jKDnAtVtPXQvQ74xVNFUeT",
   "components": {
     "reviewRow": "181:361",
     "pagination": "181:376",
     "moon": "175:301",
     "sun": "175:308",
-    "brandMark": "116:1009"
+    "brandMark": "116:1009",
+    "button": {
+      "primary": "12:63",
+      "secondary": "12:73",
+      "ghost": "12:83"
+    },
+    "answerOption": {
+      "default": "15:102",
+      "selected": "15:107"
+    },
+    "navigation": {
+      "homeActive": "30:2595",
+      "settings": "30:2691"
+    },
+    "search": "30:2713",
+    "domainSelector": "114:615",
+    "moduleRow": "114:611",
+    "introduction": "114:623",
+    "domainSelectorOpen": "125:1720",
+    "mobileNavigation": "150:443",
+    "reviewSession": "220:4465",
+    "activitiesMenu": "220:4474",
+    "examIntroduction": "220:4491",
+    "progressBar": "225:457",
+    "chevron": "244:438",
+    "examQuestionResponsive": "251:299"
   },
   "frames": {
     "homeLight": "116:1006",
@@ -20,15 +45,90 @@
     "reviewsLight": "123:1960",
     "reviewsDark": "123:2195",
     "mobileHomeLight": "120:1289",
-    "mobileTrainingDark": "120:2495"
+    "mobileTrainingDark": "120:2495",
+    "examFocus": {
+      "light": {
+        "390": "249:1636",
+        "768": "249:1728",
+        "1440": "223:4153"
+      },
+      "dark": {
+        "390": "249:1795",
+        "768": "249:1862",
+        "1440": "223:4242"
+      }
+    }
   },
   "checks": {
     "matrix": "16 FR/EN Light/Dark configurations passed",
     "validate": "passed",
     "nativeInstallation": "not performed; browser prompt events simulated",
-    "zoom": "200% CSS viewport equivalent, not browser zoom controls",
-    "pages": "6 production subpath configurations, cache upgrade and offline passed"
+    "zoom": "Actual Chromium tabs.setZoom(2), getZoom=2 verified, normal routes and exam introduction FR/EN Light/Dark",
+    "pages": "6 subpath configurations and offline cache update passed; localStorage/IndexedDB preserved",
+    "stories": "25 targeted states x 2 themes x mobile/desktop passed, plus V3 page and introduction matrix",
+    "exam": "Timer after usable question, double-start guard, recoverable failure, active resume/reload/exit/finish passed"
   },
   "publication": "The delivered commit is identified by public version.json and the verified Figma Start Here annotation",
-  "englishReferences": [{"source":"116:1006","id":"199:919","name":"CURRENT · EN · CURRENT · Accueil · V3 · Light"},{"source":"117:1287","id":"199:1144","name":"CURRENT · EN · CURRENT · Accueil · V3 · Dark"},{"source":"119:897","id":"199:1373","name":"CURRENT · EN · CURRENT · Entraînement · V3 · Light"},{"source":"119:1240","id":"199:1657","name":"CURRENT · EN · CURRENT · Entraînement · V3 · Dark"},{"source":"123:1960","id":"199:1945","name":"CURRENT · EN · CURRENT · Révisions · V3 · Light"},{"source":"123:2195","id":"199:2242","name":"CURRENT · EN · CURRENT · Révisions · V3 · Dark"},{"source":"123:2430","id":"199:2543","name":"CURRENT · EN · CURRENT · Paramètres · V3 · Light"},{"source":"123:2579","id":"199:2642","name":"CURRENT · EN · CURRENT · Paramètres · V3 · Dark"},{"source":"123:1556","id":"199:2745","name":"CURRENT · EN · CURRENT · Examen blanc · V3 · Light"},{"source":"123:1760","id":"199:2961","name":"CURRENT · EN · CURRENT · Examen blanc · V3 · Dark"}]
+  "englishReferences": [
+    {
+      "source": "116:1006",
+      "id": "199:919",
+      "name": "CURRENT · EN · CURRENT · Accueil · V3 · Light"
+    },
+    {
+      "source": "117:1287",
+      "id": "199:1144",
+      "name": "CURRENT · EN · CURRENT · Accueil · V3 · Dark"
+    },
+    {
+      "source": "119:897",
+      "id": "199:1373",
+      "name": "CURRENT · EN · CURRENT · Entraînement · V3 · Light"
+    },
+    {
+      "source": "119:1240",
+      "id": "199:1657",
+      "name": "CURRENT · EN · CURRENT · Entraînement · V3 · Dark"
+    },
+    {
+      "source": "123:1960",
+      "id": "199:1945",
+      "name": "CURRENT · EN · CURRENT · Révisions · V3 · Light"
+    },
+    {
+      "source": "123:2195",
+      "id": "199:2242",
+      "name": "CURRENT · EN · CURRENT · Révisions · V3 · Dark"
+    },
+    {
+      "source": "123:2430",
+      "id": "199:2543",
+      "name": "CURRENT · EN · CURRENT · Paramètres · V3 · Light"
+    },
+    {
+      "source": "123:2579",
+      "id": "199:2642",
+      "name": "CURRENT · EN · CURRENT · Paramètres · V3 · Dark"
+    },
+    {
+      "source": "123:1556",
+      "id": "199:2745",
+      "name": "CURRENT · EN · CURRENT · Examen blanc · V3 · Light"
+    },
+    {
+      "source": "123:1760",
+      "id": "199:2961",
+      "name": "CURRENT · EN · CURRENT · Examen blanc · V3 · Dark"
+    }
+  ],
+  "references": [
+    {
+      "name": "Simple Design System Tabs",
+      "nodeId": "219:448"
+    },
+    {
+      "name": "Simple Design System Accordion",
+      "nodeId": "219:468"
+    }
+  ]
 }

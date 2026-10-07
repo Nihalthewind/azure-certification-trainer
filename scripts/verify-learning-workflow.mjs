@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { createServer } from 'vite';
 import { chromium } from 'playwright';
-import { getLearningTakeaway } from '../src/ui/components/feedback-panel/feedback-panel.js';
+import { getLearningTakeaway, mergeLearningNotes } from '../src/ui/components/feedback-panel/feedback-panel.js';
 
 const appKey = 'azure-cert-trainer-2026-v3';
 const server = await createServer({ server: { host: '127.0.0.1', port: 0 } });
@@ -24,6 +24,7 @@ async function assertFits(page) {
 try {
   assert.equal(getLearningTakeaway('Première phrase. Deuxième phrase.'), 'Première phrase.');
   assert.equal(getLearningTakeaway(''), '');
+  assert.deepEqual(mergeLearningNotes('Point utile.\n\nPoint utile.', 'Point utile. Une nuance complémentaire.'), ['Point utile.', 'Une nuance complémentaire.']);
   await server.listen();
   browser = await chromium.launch({ headless: true });
   const url = server.resolvedUrls.local[0];
@@ -71,7 +72,8 @@ try {
       await page.locator(submit).click();
       await page.locator('#feedback').waitFor({ state: 'visible' });
       const feedback = (await page.locator('#feedback').innerText()).toLocaleLowerCase('fr');
-      assert(feedback.includes('bonne réponse') && feedback.includes('pourquoi') && feedback.includes('à retenir'), `Unexpected correction: ${feedback}`);
+      assert(feedback.includes('bonne réponse') && !feedback.includes('pourquoi') && feedback.includes('à retenir'), `Unexpected correction: ${feedback}`);
+      assert.equal(await page.locator('#feedback .ui-feedback-panel__takeaway').count(),1);
       assert.equal((await storedState(page)).answers['T1-Q1'].correct, true);
       await page.locator('#feedback .ui-feedback-panel__footer button').click();
       assert.equal((await storedState(page)).answers['T1-Q1'].correct, true, 'Retry deleted the stored result');
@@ -123,7 +125,7 @@ try {
       const chosenDomain = await module.getAttribute('data-path-domain');
       await module.click();
       await page.screenshot({ path: `test-results/v2-path-${theme}-${width}.png` });
-      await page.locator('.ui-course-hub__detail .ui-button').click();
+      await page.locator('.ui-course-hub__panel:not([hidden]) .ui-button').click();
       assert.equal((await storedState(page)).studySession.domain, chosenDomain);
       const noteId = await page.locator('#questionId').innerText();
       await page.locator('#quickNote').fill('Note rapide V2 conservée');
@@ -215,10 +217,13 @@ try {
   assert(await legacyPage.locator('#choices .ui-answer-option.is-incorrect .ui-icon--close').count());
   await legacyPage.locator('.rail-link[data-mode="exam"]').click();
   await legacyPage.locator('#startExamButton').click();
+  await legacyPage.waitForFunction(()=>!!document.querySelector('#sessionClock').textContent);
   const examBefore = (await storedState(legacyPage)).exam;
   assert(examBefore.ids.length > 0);
   assert(!(await legacyPage.locator('#feedback').isVisible()), 'Exam reveals corrections');
   await legacyPage.reload({ waitUntil: 'domcontentloaded' });
+  await legacyPage.locator('#startExamButton').click();
+  await legacyPage.waitForFunction(()=>document.body.classList.contains('exam-focus')&&!document.querySelector('#examIntroductionBackdrop'));
   await legacyPage.locator('#questionCard').waitFor({ state: 'visible' });
   assert.deepEqual((await storedState(legacyPage)).exam.ids, examBefore.ids, 'Reload replaced the active exam');
   assert.equal((await storedState(legacyPage)).exam.start, examBefore.start, 'Reload restarted the exam timer');

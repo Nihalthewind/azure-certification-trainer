@@ -17,13 +17,13 @@
   let catalog=[],cfg=null,bank=[],byId=new Map(),autoQuestions=[],DOMAINS=[],state=null;
   let mode='study',domain='all',pathDomain='',list=[],cursor=0,search='',timer=null,modalCallback=null,sourceUrl='',modalReturnFocus=null,modalEscapeClosable=true;
   let UI={};
-  let onboardingController=null, onboardingReturnFocus=null, onboardingReplay=false, courseHub=null, domainSelector=null, reviewFilter='all', reviewDomain='all', reviewPageIndex=0, installationConfirmed=false;
+  let onboardingController=null, onboardingReturnFocus=null, onboardingReplay=false, courseHub=null, domainSelector=null, reviewFilter='errors', reviewDomain='all', reviewPageIndex=0, installationConfirmed=false;
   const mobileLayout=window.matchMedia('(max-width: 920px)');
-  let filtersOpen=false;
+  let filtersOpen=false, examStarting=false, reviewSessionIds=[];
 
   async function loadDesignSystem(){
     try{
-      const [answerOption,badge,iconButton,feedbackPanel,answerState,questionViewport,workspaceToolbar,firstRunExperience,icons,modalSurface,settingsNavigation,courseHubModule,domainSelectorModule,reviewListModule]=await Promise.all([
+      const [answerOption,badge,iconButton,feedbackPanel,answerState,questionViewport,workspaceToolbar,firstRunExperience,icons,modalSurface,settingsNavigation,courseHubModule,domainSelectorModule,reviewListModule,activitiesMenu,pageLayout,examIntroduction]=await Promise.all([
         import('./src/ui/components/answer-option/answer-option.js'),
         import('./src/ui/components/badge/badge.js'),
         import('./src/ui/components/icon-button/icon-button.js'),
@@ -38,6 +38,9 @@
         import('./src/ui/patterns/course-hub/course-hub.js'),
         import('./src/ui/components/domain-selector/domain-selector.js'),
         import('./src/ui/patterns/review-list/review-list.js'),
+        import('./src/ui/patterns/activities-menu/activities-menu.js'),
+        import('./src/ui/patterns/app-shell/page-layout.js'),
+        import('./src/ui/patterns/exam-introduction/exam-introduction.js'),
       ]);
       UI={
         createAnswerOption:answerOption.createAnswerOption,
@@ -57,7 +60,7 @@
         trapModalTab:modalSurface.trapModalTab,
         bindSettingsNavigation:settingsNavigation.bindSettingsNavigation,
         createCourseHub:courseHubModule.createCourseHub,courseModules:courseHubModule.courseModules,
-        ...reviewListModule,createDomainSelector:domainSelectorModule.createDomainSelector,
+        ...reviewListModule,...activitiesMenu,...pageLayout,...examIntroduction,mergeLearningNotes:feedbackPanel.mergeLearningNotes,createDomainSelector:domainSelectorModule.createDomainSelector,
       };
       document.documentElement.dataset.uiSystem='sprint13';
       return true;
@@ -285,56 +288,67 @@
   function reviewQuestions(){const flagged=flaggedQuestionIds();return bank.filter(q=>(reviewDomain==='all'||q.domain===reviewDomain)).filter(q=>reviewFilter==='errors'?state.answers[q.id]?.correct===false:reviewFilter==='favorites'?state.favorites?.[q.id]:reviewFilter==='flagged'?flagged.has(q.id):state.answers[q.id]?.correct===false||state.favorites?.[q.id]||flagged.has(q.id))}
   function renderMistakesPage(){
     if(mode!=='mistakes')return;
-    const queue=reviewQuestions(),flagged=flaggedQuestionIds();
-    $('#startMistakesSessionButton').textContent='Commencer la révision';
-    let filters=$('#reviewFilters');if(!filters){filters=document.createElement('div');filters.id='reviewFilters';filters.className='v3-review-filters';filters.setAttribute('aria-label','Filtrer les révisions');$('#mistakesStats').before(filters);}
-    filters.innerHTML=[['all','Toutes'],['errors','Erreurs'],['flagged','À revoir'],['favorites','Favoris']].map(([id,label])=>`<button type="button" class="ui-button ui-button--secondary ui-button--medium" data-review-filter="${id}" aria-pressed="${reviewFilter===id}">${label}</button>`).join('');
-    filters.querySelectorAll('button').forEach(button=>button.onclick=()=>{reviewFilter=button.dataset.reviewFilter;reviewPageIndex=0;renderMistakesPage();$('#reviewFilters [data-review-filter="'+reviewFilter+'"]').focus();});
-    let domainFilter=$('#reviewDomainFilter');if(!domainFilter){domainFilter=document.createElement('select');domainFilter.id='reviewDomainFilter';domainFilter.setAttribute('aria-label','Domaine de révision');domainFilter.onchange=()=>{reviewDomain=domainFilter.value;reviewPageIndex=0;renderMistakesPage();domainFilter.focus();};filters.after(domainFilter);}domainFilter.innerHTML='<option value="all">Tous les domaines</option>'+DOMAINS.map(([id,label])=>'<option value="'+clean(id)+'">'+clean(label)+'</option>').join('');domainFilter.value=reviewDomain;
-    const page=UI.reviewPage(queue,reviewPageIndex);reviewPageIndex=page.page;const target=$('#mistakesQueue');target.replaceChildren(...page.items.map(q=>UI.createReviewRow({id:q.id,title:q.prompt,domainLabel:domainTuple(q.domain)?.[1]||q.domain,status:state.answers[q.id]?.correct===false?'Erreur':flagged.has(q.id)?'À revoir':'Favori'},openQuestionById)));if(!queue.length){const empty=document.createElement('p');empty.className='dashboard-empty';empty.textContent='Aucune question dans cette sélection. Continuez votre formation à votre rythme.';target.append(empty);}
-    $('#reviewPagination')?.remove();const pagination=UI.createPagination(page,index=>{reviewPageIndex=index;renderMistakesPage();$('#reviewPagination').focus({preventScroll:true});});pagination.id='reviewPagination';pagination.tabIndex=-1;target.after(pagination);$('#mistakesSubtitle').textContent=queue.length+' questions à reprendre';
-    $('#startMistakesSessionButton').disabled=!queue.length;
-    if(!$('#startMistakesSessionButton').closest('.v3-review-actions')){const actions=document.createElement('div');actions.className='v3-review-actions';actions.append($('#startMistakesSessionButton'));$('#reviewFilters').before(actions);}
+    const queue=reviewQuestions();
+    $('#mistakesSubtitle').textContent='Choisissez ce que vous souhaitez retravailler.';
+    const target=$('#mistakesQueue');
+    target.replaceChildren(UI.createReviewSession({source:reviewFilter,count:queue.length,domains:DOMAINS.map(([id,label])=>[id,label]),domain:reviewDomain,production:true,
+      startButton:$('#startMistakesSessionButton'),onStart:startMistakesSession,
+      onSource:id=>{reviewFilter=id;renderMistakesPage();$('#reviewFilters [data-review-filter="'+id+'"]')?.focus();},
+      onDomain:id=>{reviewDomain=id;renderMistakesPage();$('#reviewDomainFilter')?.focus();}}));
   }
 
-  function renderExamLanding(){
+  function renderExamLanding(status='ready',error=''){
     if(mode!=='exam-home')return;
-    const ec=examConfig(),history=[...(state.examHistory||[])].sort((a,b)=>(b.completedAt||0)-(a.completedAt||0));
-    const active=!!state.exam?.ids?.length,last=history[0];
-    if(!$('#examSetupBenefits')){const benefits=document.createElement('div');benefits.id='examSetupBenefits';benefits.className='v3-exam-benefits';for(const label of ['Navigation libre entre les questions','Marquage « À revoir » disponible','Correction détaillée uniquement à la fin','Reprise et réponses sauvegardées']){const row=document.createElement('p');row.textContent=label;benefits.append(row);}$('.production-exam-hero').append(benefits,$('#startExamButton'));const result=document.createElement('section');result.className='v3-exam-result';const heading=document.createElement('h3');heading.textContent='Dernier résultat';const button=document.createElement('button');button.type='button';button.className='ui-button ui-button--secondary ui-button--medium';button.textContent='Historique examens';button.onclick=openExamHistory;result.append(heading,$('.production-score-card'),button);$('.production-exam-hero').after(result);}
-
-    $('#examTrainingBadge').textContent=cfg.code;
-    $('#examSummaryTitle').textContent=`${Math.min(ec.total,autoQuestions.length)} questions · ${ec.durationMinutes} minutes`;
-    $('#examSummaryDescription').textContent=active?'Une session est déjà en cours. Reprenez-la exactement où vous l’avez laissée.':ec.subtitle||'Les réponses sont enregistrées pendant la session. La correction complète est disponible à la fin.';
-    $('#examLastScore').textContent=last?`${last.percent}%`:'—';
-    $('#examLastScoreDetail').textContent=last?`${last.correct}/${last.total} · ${clean(formatDate(last.completedAt))}`:'Aucun examen terminé';
-    $('#examConfiguration').innerHTML=[
-      ['Nombre de questions',Math.min(ec.total,autoQuestions.length)],
-      ['Durée',`${ec.durationMinutes} min`],
-      ['Correction','À la fin'],
-      ['Questions à revoir','Marquage autorisé'],
-      ['Mode compact','Disponible pendant la session'],
-    ].map(([label,value])=>`<div class="production-setting-item"><span>${clean(label)}</span><strong>${clean(value)}</strong></div>`).join('');
-    $('#examLandingHistory').innerHTML=history.length?history.slice(0,3).map(h=>`<div class="production-history-item"><span>${clean(formatDate(h.completedAt))}</span><strong>${h.percent}% · ${h.correct}/${h.total}</strong></div>`).join(''):'<p class="dashboard-empty">Terminez votre premier examen blanc pour afficher l’historique.</p>';
-    const start=$('#startExamButton');
-    if(start){
-      const label=start.querySelector('.ui-button__label');
-      const text=active?'Reprendre l’examen':'Démarrer un examen';
-      if(label)label.textContent=text;else start.textContent=text;
-    }
+    const ec=examConfig(),active=!!state.exam?.ids?.length;
+    $('#examPage').hidden=true;$('#dashboard').hidden=false;renderCourseHub();
+    let backdrop=$('#examIntroductionBackdrop');
+    if(!backdrop){backdrop=document.createElement('div');backdrop.id='examIntroductionBackdrop';backdrop.className='ui-exam-introduction-backdrop';document.body.append(backdrop);}
+    const view=UI.createExamIntroduction({code:cfg.code,total:active?state.exam.ids.length:Math.min(ec.total,autoQuestions.length),durationMinutes:active?state.exam.duration/60000:ec.durationMinutes,
+      resume:active,status,error,startButton:$('#startExamButton'),onStart:startOrResumeExam,onBack:()=>{closeExamIntroduction();selectMode('dashboard');}});
+    backdrop.replaceChildren(view.element);$('#app').inert=true;document.body.classList.add('ui-modal-open');
+    backdrop.onkeydown=e=>{UI.trapModalTab?.(e,view.element);if(e.key==='Escape'&&!examStarting){e.preventDefault();e.stopPropagation();closeExamIntroduction();selectMode('dashboard');}};
+    requestAnimationFrame(()=>{if(status==='ready')view.start.focus({preventScroll:true});else view.element.focus({preventScroll:true});});
+  }
+  function closeExamIntroduction(){
+    const start=$('#startExamButton');if(start)$('#examPage').append(start);
+    $('#examIntroductionBackdrop')?.remove();$('#app').inert=false;document.body.classList.remove('ui-modal-open');
+  }
+  function quitExam(){
+    if(mode!=='exam')return;
+    $('#modalEyebrow').textContent=cfg.code;$('#modalTitle').textContent='Quitter l’examen ?';
+    $('#modalBody').textContent='Votre session reste sauvegardée. Le chronomètre continue pendant votre absence.';
+    setModalAction('Quitter et sauvegarder',{variant:'secondary'});
+    modalCallback=()=>{save();selectMode('dashboard');};showModal({kind:'default',size:'medium'});
   }
 
   function startMistakesSession(){
-    const wrong=reviewQuestions();
-    if(!wrong.length){toast('Aucune question dans cette sélection.');return}
-    mode='mistakes-session';domain='all';search='';$('#search').value='';cursor=0;list=[];refresh();focusCurrentQuestion({smooth:false});
+    const questions=reviewQuestions();if(!questions.length){toast('Aucune question dans cette sélection.');return;}
+    reviewSessionIds=questions.map(q=>q.id);state.retrying=state.retrying||{};
+    questions.forEach(q=>{if(state.answers[q.id])state.retrying[q.id]=true;});
+    mode='mistakes-session';domain='all';search='';$('#search').value='';cursor=0;list=[];save();refresh(questions[0].id);focusCurrentQuestion({smooth:false});
   }
 
-  function startOrResumeExam(){
-    if(!state.exam&&!buildExam())return;
-    mode='exam';domain='all';search='';$('#search').value='';cursor=Math.min(state.exam?.index||0,Math.max(0,(state.exam?.ids?.length||1)-1));list=[];
-    if(!timer)timer=setInterval(updateClock,1000);
-    refresh();focusCurrentQuestion({smooth:false});
+  async function startOrResumeExam(){
+    if(examStarting)return;
+    examStarting=true;const previousExam=state.exam;
+    try{
+      if(mode==='exam-home')renderExamLanding('loading');
+      await new Promise(requestAnimationFrame);
+      if(!state.exam&&!buildExam())throw new Error('Préparation impossible. Vérifiez les questions disponibles puis réessayez.');
+      if(!state.exam.ids.length||state.exam.ids.some(id=>!byId.has(id)))throw new Error('Certaines questions de la session sont indisponibles. Vos réponses restent sauvegardées.');
+      mode='exam';domain='all';search='';$('#search').value='';cursor=Math.min(state.exam.index||0,state.exam.ids.length-1);list=[];
+      refresh();await new Promise(requestAnimationFrame);
+      if(!list[cursor]||$('#questionCard').hidden)throw new Error('La première question ne peut pas être affichée.');
+      closeExamIntroduction();
+      if(!Number.isFinite(state.exam.start)){state.exam.start=now();save();}
+      if(!timer)timer=setInterval(updateClock,1000);
+      $('.workspace').classList.remove('ui-exam-enter');void $('.workspace').offsetWidth;$('.workspace').classList.add('ui-exam-enter');
+      updateClock();focusCurrentQuestion({smooth:false});
+    }catch(error){
+      // A failed preparation must never overwrite a resumable session.
+      if(!previousExam&&state.exam&&!Number.isFinite(state.exam.start))state.exam=null;
+      mode='exam-home';save();refresh();renderExamLanding('error',error.message);
+    }finally{examStarting=false;}
   }
 
   function startFocusFromSettings(){
@@ -348,7 +362,7 @@
     state=currentState(cfg.id);pathDomain=DOMAINS[0]?.[0]||'';state.answers=state.answers||{};state.drafts=state.drafts||{};state.examHistory=Array.isArray(state.examHistory)?state.examHistory:[];state.favorites=state.favorites||{};state.notes=state.notes||{};state.reports=Array.isArray(state.reports)?state.reports:[];
     if(cfg.sourceFile){try{sourceUrl=URL.createObjectURL(new Blob([cfg.sourceFile],{type:'application/pdf'}));cfg._sourceUrl=sourceUrl}catch{}}
     root.activeTraining=cfg.id;mode=resumeExam&&state.exam?.ids?.length?'exam':'dashboard';domain='all';search='';cursor=mode==='exam'?Math.min(state.exam.index||0,Math.max(0,state.exam.ids.length-1)):0;list=[];$('#search').value='';
-    if(state.exam&&state.exam.version!==(cfg.exam?.version||1)){state.exam=null;mode='study'}
+    // Preparation validates saved questions; never erase a session during activation.
     dynamicMetadata();save();refresh();
   }
 
@@ -392,7 +406,7 @@
     const last=exam?byId.get(state.exam.ids[state.exam.index||0]):session?byId.get(session.questionId):null;
     $('#dashboardSessionSummary').textContent=last?`${domainTuple(last.domain)?.[1]||last.domain} · ${last.id} · position et réponses sauvegardées`:answered.length?'Prêt pour une nouvelle session courte ? Vos résultats sont sauvegardés.':'Vos premiers résultats apparaîtront après votre première session.';
     $('#dashboardWelcome').hidden=!!session||!!exam||answered.length>0;
-    $('#dashboardWeaknessButton').hidden=!answered.length;
+    $('#dashboardWeaknessButton').hidden=true;
     $('#dashboardCards').innerHTML=[
       ['Réussite',rate===null?'—':`${rate}%`,answered.length?`${good} bonnes réponses sur ${answered.length} questions évaluées`:'Répondez à une question pour commencer',false],
       ['Questions maîtrisées',mastered,'Réussies au moins deux fois de suite',false],
@@ -415,23 +429,25 @@
     const favorites=bank.filter(q=>state.favorites?.[q.id]||state.notes?.[q.id]).slice(0,6);
     $('#favoritePreview').closest('.dashboard-panel').hidden=!favorites.length;$('#favoriteCount').textContent=`${favs} favoris`;
     $('#favoritePreview').innerHTML=favorites.map(q=>`<button class="favorite-item" data-dashboard-q="${clean(q.id)}"><span>${state.favorites?.[q.id]?'★':'✎'}</span><div><b>${clean(q.id)}</b><small>${clean((state.notes?.[q.id]||q.prompt||'').slice(0,95))}</small></div></button>`).join('');
-    $('#dashboardDetails').hidden=!answered.length&&!hist.length&&!queue.length&&!favorites.length;
+    $('#dashboardDetails').hidden=true;
     $$('[data-dashboard-q]').forEach(b=>b.onclick=()=>openQuestionById(b.dataset.dashboardQ));
     $$('[data-dashboard-history]').forEach(el=>{el.onclick=openExamHistory;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openExamHistory();}};});
   }
   function renderCourseHub(){
     if(!UI.createCourseHub)return;
     const modules=UI.courseModules({domains:DOMAINS,questions:bank,state}),session=savedStudySession(),exam=state.exam?.ids?.length;
-    const last=exam?byId.get(state.exam.ids[state.exam.index||0]):session?byId.get(session.questionId):null;
+    const last=exam?byId.get(state.exam.ids[state.exam.index||0]):byId.get(session?.questionId);
     if(!pathDomain||!modules.some(m=>m.id===pathDomain))pathDomain=last?.domain||modules[0]?.id;
     if(!courseHub){
-      const heading=document.createElement('h2');heading.className='v3-home-heading';heading.id='courseHubHeading';
-      const subtitle=document.createElement('p');subtitle.className='v3-home-subtitle';subtitle.textContent='Votre formation, vos modules et la prochaine question.';
+      const heading=document.createElement('h2');heading.id='courseHubHeading';
+      const header=document.createElement('header');header.className='ui-page-header';
+      const activities=UI.createActivitiesMenu({onHistory:openExamHistory,onFavorites:()=>{reviewFilter='favorites';reviewDomain='all';selectMode('mistakes');}});
+      activities.trigger.id='activitiesButton';header.append(heading,activities.element);
       courseHub=UI.createCourseHub({resumeButton:$('#startWeaknessButton'),onSelect:id=>{pathDomain=id;},onStart:id=>{pathDomain=id;$('#startPathButton').click();},onContinue:startOrResumeStudy});
-      $('#dashboard').prepend(heading,subtitle,courseHub.element);
+      $('#dashboard').prepend(header,courseHub.element);UI.mountPageLayout($('#dashboard'),header);
     }
     $('#courseHubHeading').textContent='Votre préparation '+cfg.code;
-    courseHub.update({code:cfg.code,name:cfg.id==='az104'?'Microsoft Azure Administrator':cfg.name,modules,selected:pathDomain,nextLabel:last?'Reprendre la question '+last.id:'Commencer une première session',resumeLabel:exam?'Reprendre l’examen':session?'Reprendre l’entraînement':'Commencer une session de 10 questions'});
+    courseHub.update({code:cfg.code,name:cfg.id==='az104'?'Microsoft Azure Administrator':cfg.name,modules,selected:pathDomain,resumeLabel:exam?'Reprendre l’examen':session?'Reprendre l’entraînement':'Commencer une session de 10 questions'});
   }
   function openQuestionById(id){mode='study';domain='all';search='';$('#search').value='';list=[];refresh(id);focusCurrentQuestion({smooth:true})}
   function questionNavStatus(q,examMode){if(examMode){const r=state.exam?.answers?.[q.id];return r?'answered':'pending'}const r=state.answers[q.id];if(r?.correct===true)return'good';if(r?.correct===false)return'bad';if(r?.done)return'answered';return'pending'}
@@ -454,7 +470,7 @@
     });
   }
   function openQuestionNavigator(){
-    const examMode=mode==='exam'&&state.exam?.ids?.length,quickMode=mode==='quick';const items=examMode?(state.exam.ids||[]).map(id=>byId.get(id)).filter(Boolean):quickMode?list:bank;
+    const examMode=mode==='exam'&&state.exam?.ids?.length,quickMode=mode==='quick'||mode==='mistakes-session';const items=examMode?(state.exam.ids||[]).map(id=>byId.get(id)).filter(Boolean):quickMode?list:bank;
     const currentId=list[cursor]?.id;$('#modalEyebrow').textContent=examMode?'NAVIGATION EXAMEN':`${cfg.code} · BANQUE COMPLÈTE`;$('#modalTitle').textContent=examMode?`Naviguer dans les ${items.length} questions`:`Toutes les questions · ${items.length}`;
     const buttons=items.map((q,i)=>{const status=questionNavStatus(q,examMode),current=q.id===currentId?' current':'',caseCls=examMode&&(state.exam.caseStudyIds||[]).includes(q.id)?' case-question':'',examFlagCls=examMode&&state.exam?.flagged?.[q.id]?' flagged':'',favorite=!!state.favorites?.[q.id],reported=(state.reports||[]).some(x=>x.questionId===q.id&&!x.resolved),markers=`${favorite?'<i class="question-marker favorite-marker" data-marker-icon="star" aria-label="Favori" title="Favori"></i>':''}${reported?'<i class="question-marker report-marker" data-marker-icon="report" aria-label="Signalée" title="Signalée"></i>':''}`,searchText=clean([q.id,q.category,domainTuple(q.domain)?.[1],status].filter(Boolean).join(' '));return`<button class="question-jump ${status}${current}${caseCls}${examFlagCls}" data-jump-id="${clean(q.id)}" data-nav-search="${searchText}" title="${clean(q.id)} · ${clean(q.category||domainTuple(q.domain)?.[1]||q.domain||'Question')}"><span class="question-markers">${markers}</span><b>${i+1}</b><span>${clean(q.id)}</span></button>`}).join('');
     $('#modalBody').innerHTML=`<p class="navigator-intro">${examMode?'Accès direct à toutes les questions de cette session. Les réponses déjà enregistrées sont indiquées sans révéler leur correction.':'Accès direct aux questions de cette sélection. Recherchez par numéro, identifiant, catégorie ou domaine.'}</p><div class="navigator-toolbar"><label class="navigator-search"><span aria-hidden="true">⌕</span><input id="questionNavigatorSearch" type="search" autocomplete="off" placeholder="Numéro, ID, domaine…" aria-label="Filtrer les questions"></label><span id="questionNavigatorSummary" class="navigator-summary">${items.length} / ${items.length}</span></div><div class="navigator-legend"><span><i class="nav-dot current"></i>Actuelle</span><span><i class="nav-dot answered"></i>Répondue</span>${examMode?'':`<span><i class="nav-dot good"></i>Réussie</span><span><i class="nav-dot bad"></i>À reprendre</span>`}<span><i class="nav-dot pending"></i>Non répondue</span>${examMode?'<span><i class="nav-dot case-question"></i>Étude de cas</span>':''}</div><div class="question-nav-grid">${buttons}<p id="questionNavigatorEmpty" class="navigator-empty" hidden>Aucune question ne correspond à cette recherche.</p></div>`;
@@ -482,14 +498,15 @@
     for(const q of shuffle(autoQuestions)){if(general.length+caseStudy.length>=total)break;if(!taken.has(q.id)){general.push(q);taken.add(q.id)}}
     if(general.length+caseStudy.length<total){toast('Le corpus ne contient pas assez de questions évaluables pour cet examen.');return false}
     const ids=[...shuffle(general).slice(0,total-caseStudy.length).map(q=>q.id),...caseStudy.map(q=>q.id)];
-    state.exam={version:ec.version,ids,caseStudyIds:caseStudy.map(q=>q.id),multiContextId:multiContext?.id||null,answers:{},drafts:{},flagged:{},index:0,start:now(),duration:ec.durationMinutes*60000};save();return true;
+    state.exam={version:ec.version,ids,caseStudyIds:caseStudy.map(q=>q.id),multiContextId:multiContext?.id||null,answers:{},drafts:{},flagged:{},index:0,start:null,duration:ec.durationMinutes*60000};save();return true;
   }
-  function applyExamView(){const active=mode==='exam',focusAvailable=['study','quick','weakness','mistakes-session','exam'].includes(mode)&&!!list.length,focusActive=focusAvailable&&!!state.examFocus;document.body.classList.toggle('exam-compact',active&&state.examCompact);document.body.classList.toggle('focus-mode',focusActive);$('#examControls').hidden=!active;$('#compactButton').classList.toggle('is-active',active&&state.examCompact);$('#compactButton').setAttribute('aria-pressed',String(active&&state.examCompact));const fm=$('#focusMenuButton');if(fm){const fromSettings=mode==='settings';fm.disabled=!focusAvailable&&!fromSettings;fm.classList.toggle('is-active',focusActive);fm.setAttribute('aria-pressed',String(focusActive));const label=fm.querySelector('.ui-button__label');const text=fromSettings?'Ouvrir en Focus':focusActive?'Quitter Focus':'Mode Focus';if(label)label.textContent=text;else fm.textContent=text}const direct=$('#focusToggleButton');if(direct){direct.hidden=!focusAvailable;if(UI.updateFocusToggle)UI.updateFocusToggle(direct,focusActive);else{direct.classList.toggle('is-active',focusActive);direct.setAttribute('aria-pressed',String(focusActive));const label=direct.querySelector('.ui-button__label');if(label)label.textContent=focusActive?'Quitter Focus':'Mode Focus'}}}
-  function setFocusMode(active,{recenter=true}={}){if(!['study','quick','weakness','mistakes-session','exam'].includes(mode)||!list.length)return;state.examFocus=!!active;applyExamView();updateFilterControls();save();if(recenter)UI.scrollQuestionAfterRender?.({smooth:false})}
+  function applyExamView(){const active=mode==='exam',focusAvailable=['study','quick','weakness','mistakes-session','exam'].includes(mode)&&!!list.length,focusActive=active||(focusAvailable&&!!state.examFocus);document.body.classList.toggle('exam-compact',active&&state.examCompact);document.body.classList.toggle('focus-mode',focusActive);document.body.classList.toggle('exam-focus',active);const controls=$('#examControls'),clock=$('#sessionClock');if(active){$('.workbar').append(controls);$('.workbar-heading').append(clock);}else{$('.v2-study-main').append(controls);$('.after-card').append(clock);}const navigator=$('#questionNavigatorButton');if(navigator){(active?$('#examControls'):$('.workbar-controls')).append(navigator);navigator.textContent=active?'Questions':'Toutes les questions';}$('#examControls').hidden=!active;$('#compactButton').classList.toggle('is-active',active&&state.examCompact);$('#compactButton').setAttribute('aria-pressed',String(active&&state.examCompact));const fm=$('#focusMenuButton');if(fm){const fromSettings=mode==='settings';fm.disabled=!focusAvailable&&!fromSettings;fm.classList.toggle('is-active',focusActive);fm.setAttribute('aria-pressed',String(focusActive));const label=fm.querySelector('.ui-button__label');const text=fromSettings?'Ouvrir en Focus':focusActive?'Quitter Focus':'Mode Focus';if(label)label.textContent=text;else fm.textContent=text}const direct=$('#focusToggleButton');if(direct){direct.hidden=active||!focusAvailable;if(UI.updateFocusToggle)UI.updateFocusToggle(direct,focusActive);else{direct.classList.toggle('is-active',focusActive);direct.setAttribute('aria-pressed',String(focusActive));const label=direct.querySelector('.ui-button__label');if(label)label.textContent=focusActive?'Quitter Focus':'Mode Focus'}}}
+  function setFocusMode(active,{recenter=true}={}){if(mode==='exam')return;if(!['study','quick','weakness','mistakes-session','exam'].includes(mode)||!list.length)return;state.examFocus=!!active;applyExamView();updateFilterControls();save();if(recenter)UI.scrollQuestionAfterRender?.({smooth:false})}
   function toggleFocus(){setFocusMode(!state.examFocus)}
   function resetExam(){if(mode!=='exam'||!state.exam)return;if(window.confirm&&!window.confirm('Recommencer cet examen depuis la question 1 ? Toutes les réponses de cette session seront effacées.'))return;state.exam.answers={};state.exam.drafts={};state.exam.index=0;state.exam.start=now();cursor=0;save();render();const ec=examConfig();toast(`Examen réinitialisé : ${state.exam.ids.length} questions et ${ec.durationMinutes} minutes.`);focusCurrentQuestion({smooth:true})}
   function selectMode(next){
     if(next==='path')next='dashboard';
+    if(next!=='exam'&&$('#examIntroductionBackdrop'))closeExamIntroduction();
     if(next==='study'){
       const session=savedStudySession();
       mode=session?.mode==='quick'?'quick':'study';domain=session?.domain||'all';search=session?.search||'';
@@ -506,7 +523,7 @@
     if(mode==='quick')return(state.studySession?.ids||[]).map(id=>byId.get(id)).filter(Boolean);
     let questions=bank.filter(q=>domain==='all'||q.domain===domain);
     if(mode==='weakness')questions=weaknessQuestions();
-    if(mode==='mistakes-session'){const ids=new Set(reviewQuestions().map(q=>q.id));questions=questions.filter(q=>ids.has(q.id));}
+    if(mode==='mistakes-session'){const ids=new Set(reviewSessionIds);questions=questions.filter(q=>ids.has(q.id));}
     if(search)questions=questions.filter(q=>norm([q.id,q.category,q.prompt,q.solutionAnswer,q.pedagogicalContext,q.sourceExplanation,...(q.options||[])].join(' ')).includes(norm(search)));
     return questions;
   }
@@ -524,8 +541,8 @@
     else if(mode==='study'&&state.lastId&&list.some(q=>q.id===state.lastId))cursor=list.findIndex(q=>q.id===state.lastId);
     else cursor=Math.min(cursor,Math.max(0,list.length-1));
     const ec=examConfig();
-    $('#workTitle').textContent=mode==='quick'?'Entraînement':mode==='exam'?`Examen blanc · ${state.exam?.ids?.length||Math.min(ec.total,autoQuestions.length)} questions`:mode==='weakness'?'Travailler mes faiblesses':mode==='mistakes-session'?'Session de rattrapage':'Entraînement';
-    $('#workSubtitle').textContent=mode==='quick'?'Une question à la fois. Votre session est sauvegardée automatiquement.':mode==='exam'?ec.subtitle:mode==='weakness'?'Priorité aux domaines les moins maîtrisés et aux erreurs actives.':mode==='mistakes-session'?'Travaillez uniquement les questions actuellement en erreur.':`${bank.length} questions disponibles pour ${cfg.code}.`;
+    $('#workTitle').textContent=mode==='quick'?'Entraînement':mode==='exam'?'Examen blanc '+cfg.code:mode==='weakness'?'Travailler mes faiblesses':mode==='mistakes-session'?'Session de rattrapage':'Entraînement';
+    $('#workSubtitle').textContent=mode==='quick'?'Une question à la fois. Votre session est sauvegardée automatiquement.':mode==='exam'?ec.subtitle:mode==='weakness'?'Priorité aux domaines les moins maîtrisés et aux erreurs actives.':mode==='mistakes-session'?'Une session ciblée sur votre sélection de révision.':`${bank.length} questions disponibles pour ${cfg.code}.`;
     $('#modeLabel').textContent={study:'Base complète',quick:'Session courte',weakness:'Faiblesses','mistakes-session':'Erreurs',exam:'Examen blanc'}[mode]||'Base complète';
     $('#search').disabled=mode==='exam'||mode==='quick';$('#resetFilter').hidden=mode==='exam'||mode==='quick';
     $('#empty').hidden=!!list.length;$('#questionCard').hidden=!list.length;
@@ -634,7 +651,7 @@
       return;
     }
 
-    const docs=(q.sources||[]).map(s=>`<a href="${clean(s.url)}" target="_blank" rel="noopener noreferrer">${clean(s.title||s.url)} <span>↗</span></a>`).join('');const solutionPics=imageGrid(q.solutionAssets,'ILLUSTRATION DE CORRECTION');const pdfLink=sourceLink(q,true);const sourceBlock=(docs||pdfLink)?`<div class="source-list"><div class="source-heading">DOCUMENTATION / SOURCE</div>${docs}${pdfLink}</div>`:'';const context=q.pedagogicalContext||q.explanation||'';const contextBlock=context?`<div class="answer-context"><div class="answer-context-title">CONTEXTE PÉDAGOGIQUE</div><p>${clean(context)}</p></div>`:'';const sourceDetail=q.sourceExplanation?`<details class="source-detail"><summary>Détail du support source</summary><p>${clean(q.sourceExplanation)}</p></details>`:'';
+    const docs=(q.sources||[]).map(s=>`<a href="${clean(s.url)}" target="_blank" rel="noopener noreferrer">${clean(s.title||s.url)} <span>↗</span></a>`).join('');const solutionPics=imageGrid(q.solutionAssets,'ILLUSTRATION DE CORRECTION');const pdfLink=sourceLink(q,true);const sourceBlock=(docs||pdfLink)?`<div class="source-list"><div class="source-heading">DOCUMENTATION / SOURCE</div>${docs}${pdfLink}</div>`:'';const context=q.pedagogicalContext||q.explanation||'';const notes=UI.mergeLearningNotes?UI.mergeLearningNotes(context,q.takeaway||q.keyPoint||''):[context,q.takeaway||q.keyPoint||''].filter(Boolean);const contextBlock=notes.length?`<div class="answer-context"><div class="answer-context-title">À retenir</div>${notes.map(value=>'<p>'+clean(value)+'</p>').join('')}</div>`:'';const sourceDetail=q.sourceExplanation?`<details class="source-detail"><summary>Détail du support source</summary><p>${clean(q.sourceExplanation)}</p></details>`:'';
     if(typeof r.correct!=='boolean'){
       el.className='feedback is-reference';el.innerHTML=`<div class="feedback-kicker">◎ AUTO-ÉVALUATION</div><h3>${clean(q.solutionAnswer||'Comparez avec la correction source.')}</h3>${contextBlock}${sourceDetail}${solutionPics}${sourceBlock}<div class="self-grade"><span>Votre réponse correspond-elle à la correction ?</span><div><button id="gradeGood" class="soft-button">✓ Oui, juste</button><button id="gradeBad" class="soft-button">✕ Non, à revoir</button></div></div><button id="tryAgain" class="soft-button">Refaire cette question</button>`;
       $('#gradeGood').onclick=()=>{scheduleRecord(q,r,true);render()};$('#gradeBad').onclick=()=>{scheduleRecord(q,r,false);render()};$('#tryAgain').onclick=retry;return;
@@ -722,8 +739,8 @@
   }
   function submit(skipped=false){const q=list[cursor];if(!q||record(q))return;const d=skipped?{}:draft(q);if(!skipped&&!answerComplete(q,d))return;const scored=skipped?false:score(q,d),result={done:true,correct:scored,selected:d.selected||[],values:d.values||{},text:d.text||'',skipped,ts:now(),pendingSelfGrade:scored===null};if(mode==='exam'){state.exam.answers[q.id]=result;save();if(cursor<list.length-1){cursor++;render();focusCurrentQuestion()}else finishExam();return}if(scored===null){state.answers[q.id]=result;delete state.drafts[q.id];save();render();UI.scrollFeedbackAfterRender?.();toast('Comparez maintenant votre réponse avec la correction puis auto-évaluez-vous.')}else{scheduleRecord(q,result,scored);render();UI.scrollFeedbackAfterRender?.();if(skipped)toast('La réponse et sa documentation sont affichées sous la question.')}}
   function move(delta){if(!list.length)return;const next=Math.max(0,Math.min(list.length-1,cursor+delta));if(next===cursor)return;cursor=next;render();focusCurrentQuestion()}
-  function updateClock(){if(mode!=='exam'||!state.exam)return;const ms=Math.max(0,state.exam.start+state.exam.duration-now()),m=Math.floor(ms/60000),s=Math.floor(ms%60000/1000);$('#sessionClock').textContent=`Temps restant ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;if(ms===0)finishExam()}
-  function finishExam(){if(!state.exam||mode!=='exam')return;const exam=state.exam,ids=exam.ids,finishedAt=now();let correct=0;const data=DOMAINS.map(([id,label])=>{const qs=ids.map(i=>byId.get(i)).filter(q=>q?.domain===id),passed=qs.filter(q=>exam.answers[q.id]?.correct===true).length;correct+=passed;return{label,passed,total:qs.length}}),answered=ids.filter(id=>!!exam.answers[id]).length,skipped=ids.filter(id=>!exam.answers[id]||exam.answers[id]?.skipped).length,percent=ids.length?Math.round(correct/ids.length*100):0;state.examHistory=Array.isArray(state.examHistory)?state.examHistory:[];const elapsedMs=Math.max(0,finishedAt-exam.start),avgMs=answered?Math.round(elapsedMs/answered):0,flaggedIds=Object.keys(exam.flagged||{}).filter(id=>exam.flagged[id]);state.examHistory.unshift({completedAt:finishedAt,startedAt:exam.start,elapsedMs,avgMs,correct,total:ids.length,percent,answered,skipped,flagged:flaggedIds.length,flaggedIds,domains:data.map(d=>({...d})),wrongIds:ids.filter(id=>exam.answers[id]?.correct!==true)});state.examHistory=state.examHistory.slice(0,100);ids.forEach(id=>{const r=exam.answers[id]||{done:true,correct:false,skipped:true};state.answers[id]={...r,streak:r.correct?1:0,due:now()+(r.correct?86400000:0)}});state.exam=null;save();mode='study';domain='all';search='';$('#search').value='';cursor=0;refresh();$('#modalEyebrow').textContent=cfg.code;$('#modalTitle').textContent='Examen terminé';$('#modalBody').innerHTML=`<div class="result-score">${correct}<small> / ${ids.length}</small></div><p>${percent} % de bonnes réponses · temps moyen ${clean(formatDuration(avgMs))} par réponse · ${flaggedIds.length} question(s) marquée(s). Cet examen est maintenant enregistré dans Historique examens.</p><div class="result-rows">${data.filter(d=>d.total).map(d=>`<div><span>${clean(d.label)}</span><b>${d.passed} / ${d.total}</b></div>`).join('')}</div>`;setModalAction('Revoir les erreurs',{variant:'primary'});modalCallback=()=>selectMode('mistakes');showModal({kind:'result',size:'medium'});}
+  function updateClock(){if(mode!=='exam'||!state.exam||!Number.isFinite(state.exam.start))return;const ms=Math.max(0,state.exam.start+state.exam.duration-now()),m=Math.floor(ms/60000),s=Math.floor(ms%60000/1000);$('#sessionClock').textContent=`Temps restant ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;if(ms===0)finishExam()}
+  function finishExam(){if(!state.exam||mode!=='exam')return;const exam=state.exam,ids=exam.ids,finishedAt=now();let correct=0;const data=DOMAINS.map(([id,label])=>{const qs=ids.map(i=>byId.get(i)).filter(q=>q?.domain===id),passed=qs.filter(q=>exam.answers[q.id]?.correct===true).length;correct+=passed;return{label,passed,total:qs.length}}),answered=ids.filter(id=>!!exam.answers[id]).length,skipped=ids.filter(id=>!exam.answers[id]||exam.answers[id]?.skipped).length,percent=ids.length?Math.round(correct/ids.length*100):0;state.examHistory=Array.isArray(state.examHistory)?state.examHistory:[];const elapsedMs=Math.max(0,finishedAt-exam.start),avgMs=answered?Math.round(elapsedMs/answered):0,flaggedIds=Object.keys(exam.flagged||{}).filter(id=>exam.flagged[id]);state.examHistory.unshift({completedAt:finishedAt,startedAt:exam.start,elapsedMs,avgMs,correct,total:ids.length,percent,answered,skipped,flagged:flaggedIds.length,flaggedIds,domains:data.map(d=>({...d})),wrongIds:ids.filter(id=>exam.answers[id]?.correct!==true)});state.examHistory=state.examHistory.slice(0,100);ids.forEach(id=>{const r=exam.answers[id]||{done:true,correct:false,skipped:true};state.answers[id]={...r,streak:r.correct?1:0,due:now()+(r.correct?86400000:0)}});state.exam=null;state.examFocus=false;save();mode='study';domain='all';search='';$('#search').value='';cursor=0;refresh();$('#modalEyebrow').textContent=cfg.code;$('#modalTitle').textContent='Examen terminé';$('#modalBody').innerHTML=`<div class="result-score">${correct}<small> / ${ids.length}</small></div><p>${percent} % de bonnes réponses · temps moyen ${clean(formatDuration(avgMs))} par réponse · ${flaggedIds.length} question(s) marquée(s). Cet examen est maintenant enregistré dans Historique examens.</p><div class="result-rows">${data.filter(d=>d.total).map(d=>`<div><span>${clean(d.label)}</span><b>${d.passed} / ${d.total}</b></div>`).join('')}</div>`;setModalAction('Revoir les erreurs',{variant:'primary'});modalCallback=()=>selectMode('mistakes');showModal({kind:'result',size:'medium'});}
   function closeModal(){const backdrop=$('#modal'),surface=backdrop?.querySelector('.modal');if(backdrop)backdrop.hidden=true;if(surface){surface.classList.remove('modal-wide');surface.dataset.kind='default';surface.dataset.size='medium'}document.body.classList.remove('ui-modal-open');modalCallback=null;modalEscapeClosable=true;const returnFocus=modalReturnFocus;modalReturnFocus=null;if(returnFocus?.isConnected)requestAnimationFrame(()=>returnFocus.focus({preventScroll:true}))}
   function toggleTheme(){root.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme();save();if(mode==='settings')renderSettingsPage();updateThemeToggle();}
   function updateThemeToggle(){const dark=document.documentElement.dataset.theme==='dark';UI.updateIconButton?.($('#topbarThemeButton'),{icon:dark?'sun':'moon',label:dark?'Activer le mode clair':'Activer le mode sombre'});}
@@ -813,10 +830,13 @@
     $('#globalSearch').oninput=e=>{if(['study','weakness','mistakes-session'].includes(mode)){search=e.target.value.trim();$('#search').value=e.target.value;cursor=0;refresh()}};
     $('#globalSearch').onkeydown=e=>{if(e.key==='Enter'&&!['quick','exam'].includes(mode)){e.preventDefault();if(!['study','weakness','mistakes-session'].includes(mode)){mode='study';domain='all'}search=e.target.value.trim();$('#search').value=e.target.value;cursor=0;list=[];const exact=bank.find(q=>norm(q.id)===norm(search));refresh(exact?.id);focusCurrentQuestion()}};
     document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'&&!document.body.classList.contains('ui-modal-open')&&!document.body.classList.contains('ui-first-run-open')&&!document.body.classList.contains('focus-mode')){e.preventDefault();$('#globalSearch').focus()}});
+    for(const id of ['mistakesPage','settingsPage'])UI.mountPageLayout?.($('#'+id),$('#'+id+' .production-page-head'));
+    UI.mountPageLayout?.($('.workspace'),$('.workbar'),{contentClass:'ui-page-content--learning'});
+    const finish=document.createElement('button'),quit=document.createElement('button');finish.id='finishExamButton';quit.id='quitExamButton';for(const b of [finish,quit]){b.type='button';b.className='ui-button ui-button--secondary ui-button--small';}finish.textContent='Terminer l’examen';quit.textContent='Quitter';finish.onclick=()=>{if(window.confirm('Terminer l’examen et afficher le bilan ?'))finishExam();};quit.onclick=quitExam;$('#examControls').append(finish,quit);
     UI.bindSettingsNavigation?.($('#settingsPage'));
     $('#modalClose').onclick=closeModal;$('#modalAction').onclick=async()=>{const fn=modalCallback;if(!fn){closeModal();return}try{await fn();closeModal()}catch(e){console.error(e);toast(e.message||'Opération impossible.')}};$('#modal').onclick=e=>{if(e.target.id==='modal')e.stopPropagation()};$('#modal').addEventListener('keydown',e=>UI.trapModalTab?.(e,$('#modal').querySelector('.modal')));
-    document.addEventListener('keydown',e=>{if(document.body.classList.contains('ui-first-run-open'))return;if(e.key==='Escape'){const modal=$('#modal');if(modal&&!modal.hidden){if(modalEscapeClosable)closeModal();return}if(state.examFocus){e.preventDefault();setFocusMode(false);return}if(filtersOpen){e.preventDefault();filtersOpen=false;updateFilterControls();$('#filterToggleButton').focus();return}}if(e.target.closest('input,select,textarea,button'))return;if((e.key==='f'||e.key==='F')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&['study','quick','weakness','mistakes-session','exam'].includes(mode)&&list.length){e.preventDefault();toggleFocus();return}if(e.key==='ArrowRight'){e.preventDefault();move(1)}else if(e.key==='ArrowLeft'){e.preventDefault();move(-1)}else if(e.key==='Enter'&&!$('#submit').disabled){e.preventDefault();submit()}else if(/^[1-9]$/.test(e.key)&&list[cursor]?.options?.length){$(`#choices [data-choice="${Number(e.key)-1}"]`)?.click()}});
-    const startId=catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:'az104',startState=currentState(startId),resume=!!startState.exam?.ids?.length;activateTraining(startId,{resumeExam:resume});if(!resume&&['#parcours','#path'].includes(location.hash))selectMode('dashboard');
+    document.addEventListener('keydown',e=>{if(document.body.classList.contains('ui-first-run-open'))return;if(e.key==='Escape'){const modal=$('#modal');if(modal&&!modal.hidden){if(modalEscapeClosable)closeModal();return}if(state.examFocus&&mode!=='exam'){e.preventDefault();setFocusMode(false);return}if(filtersOpen){e.preventDefault();filtersOpen=false;updateFilterControls();$('#filterToggleButton').focus();return}}if(document.body.classList.contains('ui-modal-open'))return;if(e.target.closest('input,select,textarea,button'))return;if((e.key==='f'||e.key==='F')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&['study','quick','weakness','mistakes-session','exam'].includes(mode)&&list.length){e.preventDefault();toggleFocus();return}if(e.key==='ArrowRight'){e.preventDefault();move(1)}else if(e.key==='ArrowLeft'){e.preventDefault();move(-1)}else if(e.key==='Enter'&&!$('#submit').disabled){e.preventDefault();submit()}else if(/^[1-9]$/.test(e.key)&&list[cursor]?.options?.length){$(`#choices [data-choice="${Number(e.key)-1}"]`)?.click()}});
+    const startId=catalog.some(t=>t.id===root.activeTraining)?root.activeTraining:'az104',startState=currentState(startId),resume=!!startState.exam?.ids?.length;activateTraining(startId,{resumeExam:false});if(resume)selectMode('exam');if(!resume&&['#parcours','#path'].includes(location.hash))selectMode('dashboard');
     window.addEventListener('hashchange',()=>{if(['#parcours','#path'].includes(location.hash))selectMode('dashboard')});
     updateThemeToggle();checkVersion();setTimeout(()=>openOnboarding(),120);await applyInterfaceLanguage(interfaceLanguage,{silent:true});if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./service-worker.js').then(()=>updateInstallUi()).catch(console.warn);timer=setInterval(updateClock,1000);
   }
