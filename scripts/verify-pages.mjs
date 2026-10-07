@@ -106,6 +106,11 @@ try {
     await page.locator('[data-mode="exam"]').click();
     await page.locator('#startExamButton').click();
     await page.locator('#questionCard').waitFor({state:'visible'});
+    // The question is painted during preparation; capture only the running exam.
+    await page.waitForFunction(key=>{
+      const exam=JSON.parse(localStorage.getItem(key)).states.az104.exam;
+      return Number.isFinite(exam?.start)&&!document.querySelector('#examIntroductionBackdrop')&&!!document.querySelector('#sessionClock').textContent;
+    },key);
     const before=await page.evaluate(key=>localStorage.getItem(key),key);
     let navigations=0;page.on('framenavigated',frame=>{if(frame===page.mainFrame())navigations++;});
     oldWorker=false;
