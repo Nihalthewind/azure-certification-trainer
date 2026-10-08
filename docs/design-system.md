@@ -54,3 +54,5 @@ CURRENT = référence validée ; EXPLORATION = proposition ; ARCHIVE = historiqu
 Détails de la livraison et du lecteur : [Cloud Interactive](cloud-interactive.md).
 
 Parcours : vignettes numéro/ID sans libellé d’état répété, état success/error conservé dans le label accessible et l’infobulle. Toutes les barres CourseHub utilisent le dégradé action-primary-background → brand-cyan du bandeau de formation. Le logo et le favicon partagent assets/favicon.svg : viewport arrondi du PNG original, sans canvas blanc ; les exports PWA sont issus de ce même SVG. Stories : Accueil/QuestionsDuTheme, QuestionNavigator/CourseTheme, Progress et Icons/BrandAssets, avec Light/Dark.
+
+Erreurs actives : chaque domaine affiche son compteur sous le pourcentage, et le bandeau de formation affiche leur somme. Une couverture de 100 % conserve ces compteurs : elle indique les questions explorées, pas la réussite. Le compteur utilise la dernière réponse de chaque question de la banque ; une correction réussie le diminue. États Storybook : premier usage, parcours en cours, CompletedWithErrors, parcours terminé sans erreur, données indisponibles, Light/Dark et mobile.

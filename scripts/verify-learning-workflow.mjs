@@ -47,6 +47,7 @@ try {
       assert.equal(await page.locator('.brand-icon img').evaluate(n=>n.src),await page.locator('link[rel=icon][type="image/svg+xml"]').evaluate(n=>n.href),'Application logo and favicon must use the same artwork');
       assert.match(await page.locator('#startWeaknessButton').innerText(), /Commencer.*10/);
       assert.match(await page.locator('.ui-course-hub__coverage').innerText(), /^0 % explorés/);
+      assert.equal(await page.locator('.ui-course-hub__errors--total').innerText(),'0 erreur à retravailler');
       assert(!/0\/0|streak/.test(await page.locator('#dashboard').innerText()));
       await page.screenshot({ path: `test-results/ux-dashboard-${theme}-${width}.png` });
       await page.locator('#startWeaknessButton').click();
@@ -127,6 +128,13 @@ try {
       assert.equal(await page.locator('.ui-course-hub__topics').count(),0,'Course categories are no longer shown');
       const domainQuestions=await page.evaluate(domain=>window.AZ104_QUESTIONS.filter(q=>q.domain===domain).map(q=>q.id),chosenDomain);
       assert.equal(await panel.locator('[data-course-question-id]').count(),domainQuestions.length,'All questions of this theme are available');
+      const expectedErrors=await page.evaluate(({key,domain})=>{
+        const answers=JSON.parse(localStorage.getItem(key)).states.az104.answers;
+        const errors=window.AZ104_QUESTIONS.filter(q=>answers[q.id]?.correct===false);
+        return{total:errors.length,domain:errors.filter(q=>q.domain===domain).length};
+      },{key:appKey,domain:chosenDomain});
+      assert.match(await page.locator('.ui-course-hub__errors--total').innerText(),new RegExp('^'+expectedErrors.total+' erreur'));
+      assert.match(await module.locator('.ui-course-hub__errors').innerText(),new RegExp('^'+expectedErrors.domain+' erreur'));
       assert.equal(await panel.locator('.ui-question-navigator__status, .ui-question-navigator__legend').count(),0,'Course question states must not repeat visible text');
       assert.match(await panel.locator('[data-course-question-id]').first().getAttribute('aria-label'),/Réussie|À reprendre|Répondue|Non répondue/,'Question state remains accessible');
       const gradients=await page.locator('#dashboard .ui-course-hub__fill').evaluateAll(nodes=>nodes.map(n=>getComputedStyle(n).backgroundImage));
@@ -172,6 +180,28 @@ try {
       console.log(`Learning workflow OK: ${theme}, ${width}px`);
       await context.close();
     }
+  }
+
+  for(const theme of ['light','dark']){
+    const context=await browser.newContext({viewport:{width:390,height:900},colorScheme:theme});
+    const page=await context.newPage();await page.addInitScript(key=>localStorage.setItem(key+'-onboarding-v1','1'),appKey);await page.goto(url);
+    const seed=await page.evaluate(({key,theme})=>{
+      const first=window.AZ104_QUESTIONS[0],answers=Object.fromEntries(window.AZ104_QUESTIONS.map(q=>[q.id,{done:true,correct:q.id!==first.id}]));
+      localStorage.setItem(key,JSON.stringify({activeTraining:'az104',theme,states:{az104:{answers,notes:{[first.id]:'Preserve this note'},favorites:{[first.id]:true}}}}));
+      return{id:first.id,correct:first.answerIndices,answers};
+    },{key:appKey,theme});await page.reload();await page.locator('#dashboard').waitFor({state:'visible'});
+    assert.match(await page.locator('.ui-course-hub__coverage').innerText(),/^100 % explorés/);
+    assert.equal(await page.locator('.ui-course-hub__errors--total').innerText(),'1 erreur à retravailler');
+    assert.deepEqual(await page.locator('.ui-course-hub__module .ui-course-hub__errors').allTextContents(),['1 erreur','0 erreur','0 erreur','0 erreur','0 erreur']);
+    await page.locator('[data-path-domain]').first().click();await page.locator(`[data-course-question-id="${seed.id}"]`).click();
+    await page.locator('#feedback .ui-feedback-panel__footer button').click();for(const choice of seed.correct)await page.locator(`#choices [data-choice="${choice}"]`).click();await page.locator('#mobileSubmitButton').click();
+    await page.locator('.rail-link[data-mode="dashboard"]').click();
+    assert.equal(await page.locator('.ui-course-hub__errors--total').innerText(),'0 erreur à retravailler');
+    assert.equal(await page.locator('.ui-course-hub__module .ui-course-hub__errors').first().innerText(),'0 erreur');
+    assert.match(await page.locator('.ui-course-hub__coverage').innerText(),/^100 % explorés/);
+    const saved=await storedState(page);assert.equal(saved.notes[seed.id],'Preserve this note');assert.equal(saved.favorites[seed.id],true);
+    for(const [id,answer]of Object.entries(seed.answers))if(id!==seed.id)assert.deepEqual(saved.answers[id],answer,'Other recorded answers must remain unchanged');
+    console.log('Completed coverage / active error correction OK:',theme);await context.close();
   }
 
   const legacyContext = await browser.newContext({ viewport: { width: 390, height: 900 } });

@@ -6,7 +6,7 @@
   "branch": "storybook",
   "appVersion": "3.2.0",
   "source": {
-    "codeSha256": "4062ac4fdc5b93bc8d1e9c7004f00551e2afa010579ab2969783d9be1d42cb09",
+    "codeSha256": "b3165432c8b77163a8b2be1f051e0d4e2fee1dccba0f85adc12c849b29f3a6ca",
     "hashAlgorithm": "SHA-256 of sorted path + NUL + UTF-8 content normalized to LF + NUL",
     "files": [
       ".storybook/main.js",
@@ -922,5 +922,22 @@
       "Foundations/Icons/BrandAssets",
       "Foundations/Icons/BrandAssetsDark"
     ]
+  },
+  "courseErrorCounts": {
+    "module": "114:611",
+    "scope": "Latest incorrect answers of questions in the current bank; per-domain counts summed for the course. Explored coverage is independent of success.",
+    "stories": [
+      "Pages/Accueil/CompletedWithErrors",
+      "Pages/Accueil/CompletedWithErrorsDark",
+      "Pages/Accueil/CompletedWithErrorsMobile"
+    ],
+    "checks": [
+      "npm run check-ui",
+      "npm run test-ux"
+    ],
+    "completedFrames": {
+      "light": "409:14129",
+      "dark": "409:15148"
+    }
   }
 }

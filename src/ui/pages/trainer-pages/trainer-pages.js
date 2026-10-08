@@ -70,10 +70,19 @@ function moduleRow(index, title, status, value, active = false) {
 
 export const courseHubFixture = [
  ['T1','Identités et gouvernance',126,28],['T2','Stockage',89,25],['T3','Calcul et applications',210,22],['T4','Réseaux',109,31],['T5','Supervision et reprise',34,18]
-].map(([id,label,total,explored],i)=>({id,label,total,explored,percent:Math.round(explored/total*100),status:i===2||i===3?'À renforcer':'En cours',questions:Array.from({length:total},(_,n)=>({id:id+'-Q'+(n+1),index:1+n+[0,126,215,425,534][i],domain:label,status:n<explored?(n%7===1?'bad':'good'):'pending',favorite:n===4}))}));
-export function createDashboardPage({firstRun=false,highProgress=false,selected='T1',openedDomain=null,manyModules=false,noData=false,longLabel=false,activitiesOpen=false,onStart,onResume,onQuestionSelect}={}) {
+].map(([id,label,total,explored],i)=>{
+ const questions=Array.from({length:total},(_,n)=>({id:id+'-Q'+(n+1),index:1+n+[0,126,215,425,534][i],domain:label,status:n<explored?(n%7===1?'bad':'good'):'pending',favorite:n===4}));
+ const errorCount=questions.filter(q=>q.status==='bad').length;
+ return{id,label,total,explored,errorCount,percent:Math.round(explored/total*100),status:errorCount?'À renforcer':'En cours',questions};
+});
+export function createDashboardPage({firstRun=false,highProgress=false,completedWithErrors=false,selected='T1',openedDomain=null,manyModules=false,noData=false,longLabel=false,activitiesOpen=false,onStart,onResume,onQuestionSelect}={}) {
  const root=pageRoot('dashboard'),fixture=manyModules?Array.from({length:15},(_,i)=>({...courseHubFixture[i%5],id:'module-'+i,label:'Module '+(i+1)+' · '+courseHubFixture[i%5].label})):courseHubFixture;
- const modules=fixture.map((m,i)=>({...m,questions:m.questions.map(q=>({...q,status:firstRun?'pending':highProgress?'good':q.status})),...(firstRun?{explored:0,percent:0,status:'À commencer'}:highProgress?{explored:m.total,percent:100,status:'Terminé'}:{}),...(noData?{total:0,explored:0,percent:null,status:'Donnée indisponible',questions:[]}:{}),...(longLabel&&i===0?{label:'Identités, gouvernance, accès conditionnel et administration de plusieurs environnements Azure'}:{})}));
+ const modules=fixture.map((m,i)=>{
+   const complete=highProgress||completedWithErrors;
+   const questions=noData?[]:m.questions.map(q=>({...q,status:firstRun?'pending':complete?completedWithErrors&&q.status==='bad'?'bad':'good':q.status}));
+   const errorCount=questions.filter(q=>q.status==='bad').length;
+   return{...m,questions,errorCount,...(firstRun?{explored:0,percent:0,status:'À commencer'}:complete?{explored:m.total,percent:100,status:errorCount?'À renforcer':'Terminé'}:{}),...(noData?{total:0,explored:0,percent:null,status:'Donnée indisponible'}:{}),...(longLabel&&i===0?{label:'Identités, gouvernance, accès conditionnel et administration de plusieurs environnements Azure'}:{})};
+ });
  root.append(createCourseHub({code:'AZ-104',name:'Microsoft Azure Administrator',modules,selected,openedDomain,resumeLabel:firstRun?'Commencer une session de 10 questions':'Reprendre l’entraînement',onStart,onContinue:onResume,onQuestionSelect:onQuestionSelect||((id)=>root.replaceChildren(createKnowledgePage({questionNumber:Number(id.split('-Q')[1])})))}).element);
  const activities=createActivitiesMenu({open:activitiesOpen,onHistory:()=>{const history=el('section','ui-review-session__card');history.append(el('h3','','Historique examens'),el('p','','Aucun examen terminé dans cette démonstration.'));root.replaceChildren(history);},onFavorites:()=>root.replaceChildren(createMistakesPage({initialFilter:'favorites'}))});
  root.headerActions=activities.element;return root;

@@ -9,6 +9,8 @@ import { defaultFirstRunSteps } from '../src/ui/patterns/first-run-experience/fi
 import { getAppShellDensity } from '../src/ui/patterns/app-shell/app-shell.js';
 import { trainerPageFactories } from '../src/ui/pages/trainer-pages/trainer-pages.js';
 import { filterQuestionNavigatorItems } from '../src/ui/patterns/question-navigator/question-navigator.js';
+import { courseModules } from '../src/ui/patterns/course-hub/course-hub.js';
+import { uiText } from '../src/ui/integration/localization.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const failures = [];
@@ -20,6 +22,16 @@ async function text(relativePath) {
 function expect(condition, message) {
   if (!condition) failures.push(message);
 }
+
+const courseSample={domains:[['a','Domain A'],['b','Domain B'],['empty','Empty']],questions:[{id:'a1',domain:'a'},{id:'a2',domain:'a'},{id:'b1',domain:'b'}],state:{answers:{a1:{done:true,correct:false},a2:{done:true,correct:true},b1:{read:true},removed:{done:true,correct:false}}}};
+const savedSample=JSON.stringify(courseSample.state),courseResults=courseModules(courseSample);
+expect(courseResults[0].percent===100 && courseResults[0].errorCount===1,'Completed coverage must retain the latest incorrect question count');
+expect(courseResults.reduce((sum,m)=>sum+m.errorCount,0)===1,'Read-only questions and answers outside the bank must not count as errors');
+expect(courseResults[2].errorCount===0 && courseResults[2].percent===null,'Empty domains must not manufacture progress or errors');
+expect(JSON.stringify(courseSample.state)===savedSample,'Course counters must not mutate saved progress');
+const corrected=courseModules({...courseSample,state:{...courseSample.state,answers:{...courseSample.state.answers,a1:{done:true,correct:true}}}});
+expect(corrected[0].errorCount===0 && corrected[0].percent===100,'Correcting an answer must remove its active error without resetting coverage');
+expect(uiText('1 erreur à retravailler','en')==='1 mistake to review' && uiText('0 erreur','en')==='0 mistakes' && uiText('19 erreurs','en')==='19 mistakes','Error counts must handle translated singular, zero and plural');
 
 const [indexHtml, atelier, uiCss, serviceWorker, workspaceToolbarCss, firstRunCss, appShellProductionCss, uxPolishCss, azureFluentCss, visualContrastCss, answerOptionCss, manifestText] = await Promise.all([
   text('index.html'),

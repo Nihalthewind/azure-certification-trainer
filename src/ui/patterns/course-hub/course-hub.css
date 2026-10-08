@@ -109,6 +109,11 @@
   color: var(--accent);
   white-space: nowrap;
 }
+.ui-course-hub__summary-results,.ui-course-hub__module-results{display:flex;flex-direction:column;line-height:1.5;}
+.ui-course-hub__summary-results{align-items:inherit;}
+.ui-course-hub__module-results{align-items:flex-end;flex:0 0 auto;white-space:nowrap;}
+.ui-course-hub .ui-course-hub__errors{font-size:var(--font-size-sm);font-weight:400;color:var(--color-text-secondary);}
+.ui-course-hub .ui-course-hub__errors.has-errors{color:var(--color-error);}
 @media (max-width: 920px) {
   .ui-course-hub__grid {
     grid-template-columns: 1fr;

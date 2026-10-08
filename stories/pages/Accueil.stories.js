@@ -35,6 +35,9 @@ export const AccueilHighProgress = {
   args: { ...base, mode: "dashboard", highProgress: true },
   globals: { theme: "light" },
 };
+export const CompletedWithErrors = {args:{...base,mode:'dashboard',completedWithErrors:true},globals:{theme:'light'}};
+export const CompletedWithErrorsDark = {...CompletedWithErrors,globals:{theme:'dark'}};
+export const CompletedWithErrorsMobile = {...CompletedWithErrors,globals:{theme:'light',viewport:{value:'mobile',isRotated:false}}};
 export const AccueilModuleSelected = {
   args: { ...base, mode: "dashboard", selected: "T3", openedDomain:"T3" },
   globals: { theme: "light" },
