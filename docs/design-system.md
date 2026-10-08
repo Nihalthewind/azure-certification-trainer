@@ -52,3 +52,5 @@ Finalisation du workspace : Simple Design System Tabs (219:448) et Accordion (21
 CURRENT = référence validée ; EXPLORATION = proposition ; ARCHIVE = historique conservé. [Guide Figma](../figma/README.md).
 
 Détails de la livraison et du lecteur : [Cloud Interactive](cloud-interactive.md).
+
+Parcours : vignettes numéro/ID sans libellé d’état répété, état success/error conservé dans le label accessible et l’infobulle. Toutes les barres CourseHub utilisent le dégradé action-primary-background → brand-cyan du bandeau de formation. Le logo et le favicon partagent assets/favicon.svg : viewport arrondi du PNG original, sans canvas blanc ; les exports PWA sont issus de ce même SVG. Stories : Accueil/QuestionsDuTheme, QuestionNavigator/CourseTheme, Progress et Icons/BrandAssets, avec Light/Dark.

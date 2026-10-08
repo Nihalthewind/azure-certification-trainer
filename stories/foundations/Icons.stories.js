@@ -1,4 +1,4 @@
-import { createIcon, iconNames } from '../../src/ui/icons/icons.js';
+import { createBrandMark, createIcon, iconNames } from '../../src/ui/icons/icons.js';
 
 const meta = {
   title: 'Foundations/Icons',
@@ -35,3 +35,27 @@ export const Library = {
     return page;
   },
 };
+
+export const BrandAssets = {
+  render: () => {
+    const grid = document.createElement('div');
+    grid.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-6);padding:var(--space-6);background:var(--color-background);color:var(--color-text-primary)';
+    const mark = createBrandMark();
+    mark.style.cssText = 'width:var(--space-16);height:var(--space-16)';
+    grid.append(mark);
+    for (const size of [16, 32, 48, 192]) {
+      const item = document.createElement('figure');
+      item.style.cssText = 'display:grid;justify-items:center;gap:var(--space-2);margin:0';
+      const image = document.createElement('img');
+      image.src = new URL(`../../assets/${size < 100 ? 'favicon-' : 'app-icon-'}${size}.png`, import.meta.url).href;
+      image.width = image.height = size < 100 ? size : 64;
+      image.alt = `Azure Trainer ${size}px`;
+      const caption = document.createElement('figcaption');
+      caption.textContent = `${size < 100 ? 'Favicon' : 'PWA'} ${size}px`;
+      item.append(image, caption);
+      grid.append(item);
+    }
+    return grid;
+  },
+};
+export const BrandAssetsDark = { ...BrandAssets, globals: { theme: 'dark' } };

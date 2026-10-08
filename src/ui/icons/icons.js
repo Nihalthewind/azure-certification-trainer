@@ -96,5 +96,5 @@ export function createIcon(name, { size = 18, filled = false } = {}) {
 
 export const iconNames = Object.freeze(Object.keys(ICONS));
 
-/** Exact editable vector exported from CURRENT Figma mark 116:1009. */
-export function createBrandMark(){const img=document.createElement('img');img.src=new URL('../../../assets/cloud-mark.png',import.meta.url).href;img.width=34;img.height=34;img.className='ui-brand-mark';img.alt='';img.setAttribute('aria-hidden','true');return img;}
+/** Original artwork with a transparent canvas crop, shared with favicon/PWA exports. */
+export function createBrandMark(){const img=document.createElement('img');img.src=new URL('../../../assets/favicon.svg',import.meta.url).href;img.width=34;img.height=34;img.className='ui-brand-mark';img.alt='';img.setAttribute('aria-hidden','true');return img;}

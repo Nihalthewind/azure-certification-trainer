@@ -6,7 +6,7 @@
   "branch": "storybook",
   "appVersion": "3.2.0",
   "source": {
-    "codeSha256": "374f90164ad4227d4496251e028766348b91e400d194f17e2798570551e4456b",
+    "codeSha256": "4062ac4fdc5b93bc8d1e9c7004f00551e2afa010579ab2969783d9be1d42cb09",
     "hashAlgorithm": "SHA-256 of sorted path + NUL + UTF-8 content normalized to LF + NUL",
     "files": [
       ".storybook/main.js",
@@ -880,7 +880,7 @@
         "next": "338:7283"
       }
     },
-    "favicon": "351:7155",
+    "favicon": "392:19011",
     "motion": {
       "fast": 120,
       "normal": 180,
@@ -905,6 +905,22 @@
       "Patterns/CourseHub",
       "Patterns/QuestionNavigator"
     ],
-    "behavior": "All theme questions replace category details; searchable grid, saved answer states, direct access within the theme."
+    "behavior": "All theme questions in a searchable compact grid; number/ID only, semantic success/error colors, accessible status and direct theme access. Course and theme progress share the Azure-to-cyan gradient."
+  },
+  "brandAssets": {
+    "component": "264:487",
+    "favicon": "392:19011",
+    "original": "assets/cloud-mark.png",
+    "canonical": "assets/favicon.svg",
+    "viewport": {
+      "x": 40,
+      "y": 40,
+      "size": 1174,
+      "radius": 278
+    },
+    "stories": [
+      "Foundations/Icons/BrandAssets",
+      "Foundations/Icons/BrandAssetsDark"
+    ]
   }
 }

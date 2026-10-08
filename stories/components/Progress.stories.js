@@ -5,7 +5,7 @@ export default {title:'Components/Progress',tags:['autodocs'],render:args=>{
   const fill=document.createElement('span');fill.className='ui-course-hub__fill';fill.style.width='22%';track.setAttribute('aria-valuenow','22');track.append(fill);root.append(track);
   if(args.updating)root.append(createButton({label:'Mettre à jour la progression',onClick:()=>{fill.style.width='64%';track.setAttribute('aria-valuenow','64');}}));return root;
 }};
-export const Static={};
+export const Static={parameters:{docs:{description:{story:'Même dégradé Azure → cyan pour la formation et chaque thème, avec les tokens Light/Dark existants.'}}}};
 export const Updating={args:{updating:true}};
 export const Dark={args:{updating:true},globals:{theme:'dark'}};
 export const ReducedMotion={args:{updating:true},parameters:{docs:{description:{story:'Émuler prefers-reduced-motion: reduce dans le navigateur : état final immédiat.'}}}};

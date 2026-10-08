@@ -18,8 +18,9 @@ QuestionCard et ProgressBar. Les prototypes de page montrent sélection,
 validation, navigation, Focus, thème, accordéon et activités ; les données des
 prototypes restent des exemples pédagogiques, sans reproduction du moteur.
 
-Favicon : SVG Cloud simplifié éditable, rendus 16/32/48 et PWA 192/512 issus du
-même SVG. Le PNG du logo original reste intact. Les URLs relatives et le cache
+Favicon : même dessin original que le logo, avec un viewport SVG arrondi qui
+retire le canvas blanc ; rendus 16/32/48 et PWA 192/512 issus du même SVG.
+Le PNG du logo original reste intact. Les URLs relatives et le cache
 PWA sont conservés pour le sous-chemin GitHub Pages.
 
 Validation : `npm run validate`, `npm run test:training`, `npm run test-ux`,

@@ -43,6 +43,8 @@ try {
       page.on('pageerror', (error) => errors.push(error.message));
       await page.goto(url, { waitUntil: 'domcontentloaded' });
       await page.locator('#dashboard').waitFor({ state: 'visible' });
+      assert.equal(await page.locator('.brand-icon').evaluate(n=>getComputedStyle(n).borderWidth),'0px','The logo must not inherit the old pale border');
+      assert.equal(await page.locator('.brand-icon img').evaluate(n=>n.src),await page.locator('link[rel=icon][type="image/svg+xml"]').evaluate(n=>n.href),'Application logo and favicon must use the same artwork');
       assert.match(await page.locator('#startWeaknessButton').innerText(), /Commencer.*10/);
       assert.match(await page.locator('.ui-course-hub__coverage').innerText(), /^0 % explorés/);
       assert(!/0\/0|streak/.test(await page.locator('#dashboard').innerText()));
@@ -125,6 +127,10 @@ try {
       assert.equal(await page.locator('.ui-course-hub__topics').count(),0,'Course categories are no longer shown');
       const domainQuestions=await page.evaluate(domain=>window.AZ104_QUESTIONS.filter(q=>q.domain===domain).map(q=>q.id),chosenDomain);
       assert.equal(await panel.locator('[data-course-question-id]').count(),domainQuestions.length,'All questions of this theme are available');
+      assert.equal(await panel.locator('.ui-question-navigator__status, .ui-question-navigator__legend').count(),0,'Course question states must not repeat visible text');
+      assert.match(await panel.locator('[data-course-question-id]').first().getAttribute('aria-label'),/Réussie|À reprendre|Répondue|Non répondue/,'Question state remains accessible');
+      const gradients=await page.locator('#dashboard .ui-course-hub__fill').evaluateAll(nodes=>nodes.map(n=>getComputedStyle(n).backgroundImage));
+      assert(gradients.length>1 && gradients.every(fill=>fill===gradients[0] && fill.startsWith('linear-gradient')),'Course and theme progress must share the same gradient');
       const directId=domainQuestions.at(-1),filter=panel.locator('input[type=search]');
       await filter.fill(directId);
       assert.equal(await panel.locator('[data-course-question-id]').count(),1);

@@ -49,10 +49,6 @@ export function createQuestionNavigator({
   grid.className = 'ui-question-navigator__grid';
   root.append(toolbar, grid);
   if (embedded) {
-    const legend = document.createElement('p');
-    legend.className = 'ui-question-navigator__legend';
-    legend.textContent = '✓ Réussie · ↻ À reprendre · Répondue · Non répondue';
-    root.insertBefore(legend, grid);
     grid.setAttribute('role', 'region');
     grid.setAttribute('aria-label', label);
     grid.tabIndex = 0;
@@ -78,12 +74,8 @@ export function createQuestionNavigator({
       button.append(number, id);
       const status = statusLabels[item.status] || statusLabels.pending;
       button.setAttribute('aria-label', `Question ${item.index ?? index + 1} · ${item.id} · ${status}`);
-      button.title = [item.id, item.title].filter(Boolean).join(' · ');
+      button.title = [item.id, item.title, status].filter(Boolean).join(' · ');
       if (embedded) {
-        const state = document.createElement('small');
-        state.className = 'ui-question-navigator__status';
-        state.textContent = status;
-        button.append(state);
         button.dataset.courseQuestionId = item.id;
       }
       button.onclick = () => onSelect?.(item.id);

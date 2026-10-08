@@ -17,4 +17,4 @@ Rules:
 - the interactive component owns the accessible label;
 - avoid Unicode glyphs for product actions because rendering changes between platforms.
 
-Brand mark: exact editable Figma node 116:1009, durable SVG in assets/brand-mark.svg; PNG derivatives for the manifest. Sun/Moon: Simple Design System vector paths, adapted to existing semantic tokens, Figma components 175:301 / 175:308. Product action icons retain the existing SVG registry.
+Brand mark: original artwork retained in assets/cloud-mark.png, presented through the self-contained assets/favicon.svg viewport. Its rounded clip removes the white canvas in Light/Dark. Application, favicon and PWA PNG exports share this exact visual; regenerate PNGs with node scripts/generate-app-icons.mjs. CURRENT Figma component 264:487 uses the same original image and crop. Sun/Moon: Simple Design System vector paths, adapted to existing semantic tokens, Figma components 175:301 / 175:308. Product action icons retain the existing SVG registry.
