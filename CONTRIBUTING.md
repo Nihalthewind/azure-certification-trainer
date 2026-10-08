@@ -42,7 +42,7 @@ Le script valide, stage tous les fichiers, commit si changement, puis pousse sto
 
 ## Pull Request / publication
 
-Décrire problème, résultat, frames/stories et validation. PR vers storybook/main contrôlées sans publier. La branche stable reste storybook malgré main par défaut sur GitHub. Vérifier run et SHA public selon [déploiement](docs/deployment.md).
+Décrire problème, résultat, frames/stories et validation. PR vers storybook/main contrôlées sans publier. La branche stable et la branche par défaut sur GitHub sont storybook. Vérifier run et SHA public selon [déploiement](docs/deployment.md).
 
 ## Definition of Done
 
