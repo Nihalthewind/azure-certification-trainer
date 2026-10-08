@@ -1,6 +1,6 @@
 {
   "name": "azure_certification_trainer_2026",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Préparation Azure AZ-104 et AZ-305 : apprentissage, entraînement et révisions ciblées.",
   "main": "atelier.js",
   "scripts": {
@@ -16,7 +16,8 @@
     "test:v3": "node scripts/verify-v3-product-experience.mjs",
     "check:docs": "node scripts/verify-docs.mjs",
     "test:corrections": "node scripts/verify-product-corrections.mjs",
-    "test:cloud": "node scripts/verify-cloud-interactive.mjs"
+    "test:cloud": "node scripts/verify-cloud-interactive.mjs",
+    "test:training": "node scripts/verify-training-flow.mjs"
   },
   "repository": {
     "type": "git",

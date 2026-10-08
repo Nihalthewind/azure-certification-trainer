@@ -59,12 +59,9 @@ try {
           const box = await button.boundingBox();
           assert(box && box.x >= 0 && box.x + box.width <= width + 1 && box.y >= 0 && box.y + box.height <= 901 && box.height >= 44, 'Mobile navigation target does not fit');
         }
-        await page.locator('#filterToggleButton').click();
-        assert(await page.locator('#studyFilters').isVisible());
-        assert.equal(await page.locator('#filterToggleButton').getAttribute('aria-expanded'), 'true');
-        await page.keyboard.press('Escape');
-        assert(!(await page.locator('#studyFilters').isVisible()));
-        assert.equal(await page.evaluate(() => document.activeElement.id), 'filterToggleButton');
+        assert(await page.locator('.ui-training-toolbar').isVisible(), 'Compact filters must be accessible on mobile');
+        assert(await page.locator('#filterToggleButton').isHidden(), 'No duplicate mobile filter toggle');
+        assert(await page.locator('.ui-training-toolbar .ui-domain-selector').isVisible());
       }
       await page.locator('#choices [data-choice="2"]').click();
       assert.equal((await storedState(page)).drafts['T1-Q1'].selected[0], 2);
@@ -104,7 +101,7 @@ try {
         assert(await page.locator('#mobileActionBar').isVisible());
         await page.locator('#focusToggleButton').click();
       }
-      if (width <= 920) await page.locator('#filterToggleButton').click();
+
       await page.locator('#questionNavigatorButton').click();
       const session = (await storedState(page)).studySession;
       assert.equal(await page.locator('[data-jump-id]').count(), 10);
@@ -184,13 +181,13 @@ try {
   }
   const otherTraining = await legacyPage.evaluate(key => JSON.parse(localStorage.getItem(key)).states.az305, appKey);
   assert.deepEqual(otherTraining, legacy.states.az305);
-  await legacyPage.locator('#filterToggleButton').click();
+
   await legacyPage.locator('.ui-domain-selector>button').click();
   const storageDomain = legacyPage.locator('.ui-domain-selector [role=option]').nth(2);
   const domain = await storageDomain.getAttribute('data-value');
   await storageDomain.click();
   const filteredId = await legacyPage.locator('#questionId').innerText();
-  await legacyPage.locator('#search').fill(filteredId);
+  await legacyPage.locator('#globalSearch').fill(filteredId);
   await legacyPage.reload({ waitUntil: 'domcontentloaded' });
   await legacyPage.locator('#dashboard').waitFor({ state: 'visible' });
   await legacyPage.locator('#startWeaknessButton').click();
@@ -199,8 +196,8 @@ try {
   assert.equal(persisted.studySession.search, filteredId);
   assert.equal(await legacyPage.locator('#questionId').innerText(), filteredId);
   console.log('Legacy progression, other training and filtered session preserved across reload.');
-  await legacyPage.locator('#filterToggleButton').click();
-  await legacyPage.locator('#search').fill('');
+
+  await legacyPage.locator('#globalSearch').fill('');
   await legacyPage.locator('#resetFilter').click();
   const multi = await legacyPage.evaluate(() => {
     const q = window.AZ104_QUESTIONS.find(q => q.multi && q.answerIndices.length && q.options.length > q.answerIndices.length);

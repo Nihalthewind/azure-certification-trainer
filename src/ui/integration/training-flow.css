@@ -1,0 +1,100 @@
+/* CURRENT Training Flow: Figma scale, surfaces and motion tokens. */
+.ui-search-bar { cursor: text; transition: border-color var(--motion-fast) var(--easing-standard), box-shadow var(--motion-fast) var(--easing-standard); }
+.ui-search-bar:focus-within { border-color: var(--color-accent); box-shadow: 0 0 0 2px var(--color-accent); }
+.ui-search-bar input:is(:focus, :focus-visible) { outline: none !important; border: 0 !important; box-shadow: none !important; background: transparent; }
+.ui-search-bar input, .ui-search-bar #globalSearch:is(:focus, :focus-visible) { outline: 0 !important; outline-width: 0 !important; border: 0 !important; box-shadow: none !important; transition: none !important; }
+.ui-search-bar :is(svg, .v2-search-icon, .v2-topbar-search__shortcut, .ui-app-shell__shortcut) { pointer-events: none; outline: none; box-shadow: none; }
+.v3-domain-control, .ui-training-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); min-width: 0; grid-column: 1 / -1; }
+.app-shell-production #resetFilter.ui-button--ghost { border-color: transparent; background: transparent; box-shadow: none; border-radius: var(--radius-md); }
+.app-shell-production #questionNavigatorButton { border-radius: var(--radius-md); }
+.ui-training-toolbar > .ui-button, .app-shell-production #questionNavigatorButton { min-height: calc(var(--space-12) - var(--space-1)); }
+:is(.ui-app-shell--learning, .app-shell-production) .ui-button--primary { background: var(--color-action-primary-background) !important; border-color: var(--color-action-primary-background) !important; color: var(--color-action-on-primary) !important; }
+:is(.ui-app-shell--learning, .app-shell-production) .ui-button--primary:hover:not(:disabled) { background: var(--color-action-primary-hover) !important; border-color: var(--color-action-primary-hover) !important; }
+:is(.ui-training-toolbar > .ui-button--ghost, .workspace-focus-toggle, .ui-question-card__focus) { border-color: transparent !important; background: transparent !important; box-shadow: none !important; }
+.ui-app-shell--learning .ui-app-shell__session-badge { display: none; }
+.ui-app-shell--learning .ui-question-card__header { flex-direction: row; flex-wrap: nowrap; }
+.ui-app-shell--learning .ui-question-card__meta { flex: 1; min-width: 0; flex-wrap: wrap; }
+.ui-app-shell--learning .ui-question-card__focus { flex-shrink: 0; }
+.ui-app-shell--learning .ui-question-card__question, .app-shell-production:has(#examControls[hidden]) #questionPrompt { font: 600 var(--font-size-lg)/1.55 var(--font-family-display) !important; letter-spacing: 0; }
+.app-shell-production:has(#examControls[hidden]) .ui-page-content--learning { column-gap: var(--space-6); row-gap: var(--space-4); }
+.app-shell-production:has(#examControls[hidden]) .v3-domain-control { margin-bottom: 0; }
+.app-shell-production:has(#examControls[hidden]) .choices { margin-top: 0; }
+.ui-app-shell--learning .ui-app-shell__main.ui-page-container:not([hidden]) { gap: var(--space-6); }
+.ui-training-toolbar .ui-domain-selector, .v3-domain-control .ui-domain-selector { width: min(100%, calc(var(--space-16) * 4 + var(--space-6))); }
+:is(.ui-training-toolbar, .v3-domain-control) > button { min-height: calc(var(--space-12) - var(--space-1)); }
+.app-shell-production:has(#examControls[hidden]) .study-filters { display: none; }
+.app-shell-production:has(#examControls[hidden]) .v2-course-summary,
+.ui-app-shell--learning .ui-v2-course { background: transparent; border: 0; box-shadow: none; border-radius: 0; padding: var(--space-2) 0; min-height: 0; }
+.app-shell-production:has(#examControls[hidden]) .v2-study-card,
+.ui-app-shell--learning .ui-v2-aside-stack > .ui-v2-card { background: transparent; border: 0; box-shadow: none; }
+.app-shell-production .card-header .footer-left { margin: 0; flex-shrink: 0; }
+.app-shell-production:has(#examControls[hidden]) .workspace,
+.ui-app-shell--learning .ui-v2-study-layout { gap: var(--space-6); }
+.app-shell-production:has(#examControls[hidden]) .v2-study-main > .progress-track { display: none; }
+.app-shell-production:has(#examControls[hidden]) .v2-course-summary { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-2); }
+.ui-app-shell--learning .ui-v2-course { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-2); }
+.ui-app-shell--learning .ui-v2-course__copy, .ui-app-shell--learning .ui-v2-course__score { display: contents; }
+.ui-app-shell--learning .ui-v2-course__copy > .ui-v2-inline { grid-column: 1 / -1; }
+.ui-app-shell--learning .ui-v2-course__copy h2, .ui-v2-course-code { font: 600 var(--font-size-md)/1.5 var(--font-family-body); }
+.ui-app-shell--learning .ui-v2-course__score strong { grid-row: 2; grid-column: 1; font: 500 var(--font-size-sm)/1.5 var(--font-family-body); color: var(--color-accent); }
+.ui-app-shell--learning .ui-v2-course__score small { display: none; }
+.ui-app-shell--learning .ui-v2-course__progress, .app-shell-production:has(#examControls[hidden]) #v2CourseDetail { display: none; }
+.ui-app-shell--learning .ui-v2-course > .ui-v2-progress { grid-column: 1 / -1; height: var(--space-1); }
+.ui-app-shell--learning .ui-v2-course > .ui-v2-progress span { transition: width var(--motion-progress) var(--easing-standard); }
+.ui-v2-question-workspace .ui-question-card__instruction { font: 400 var(--font-size-sm)/1.5 var(--font-family-body); }
+.app-shell-production:has(#examControls[hidden]) #questionTitle { line-height: 1.5; }
+.v2-course-summary > div:first-child, .v2-course-summary__line { display: contents !important; }
+.v2-course-summary__title { grid-column: 1 / -1; }
+.v2-course-summary__title strong { font: 600 var(--font-size-md)/1.5 var(--font-family-body); }
+.v2-course-summary__title #v2CourseCode { background: transparent; padding: 0; color: var(--color-text-primary); font: 600 var(--font-size-md)/1.5 var(--font-family-body); letter-spacing: 0; }
+.v2-course-summary__score { grid-row: 2; grid-column: 1; display: flex; align-items: center; gap: var(--space-1); min-width: 0; text-align: left; }
+.v2-course-summary__score :is(strong, small) { font: 500 var(--font-size-sm)/1.5 var(--font-family-body); margin: 0; color: var(--color-accent); }
+.v2-course-summary__line small { grid-row: 2; grid-column: 2; font-size: var(--font-size-sm); }
+.v2-course-summary__line .v2-course-summary__track { grid-row: 3; grid-column: 1 / -1; width: 100%; height: var(--space-1); }
+:is(.workspace-focus-toggle, .ui-question-card__focus) { min-height: calc(var(--space-12) - var(--space-1)); white-space: nowrap; }
+.app-shell-production :is(.footer-right, .ui-question-card__footer-nav) { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+:is(.ui-question-card__footer-nav, .ui-question-card__submit)[hidden], .footer-right > button[hidden] { display: none; }
+.ui-question-card__footer .ui-question-card__header-actions { margin-left: auto; }
+.ui-question-card__action-zone { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.ui-question-card__position { display: none; }
+.ui-question-card > .ui-feedback-panel, #questionCard > #feedback { margin: 0; padding: var(--space-4); border-top: 1px solid var(--color-border); }
+:is(#questionCard > #feedback, .ui-question-card > .ui-feedback-panel) .ui-feedback-panel,
+.ui-question-card > .ui-feedback-panel { background: transparent; border-radius: 0; box-shadow: none; }
+:is(.ui-answer-option, .choice) { transition: background-color var(--motion-fast) var(--easing-standard), border-color var(--motion-fast) var(--easing-standard); }
+.ui-answer-option:is(.is-correct, .is-incorrect) { transition-duration: var(--motion-feedback); }
+:is(.ui-question-card > .ui-feedback-panel, #questionCard > #feedback):not([hidden]) { animation: flow-feedback var(--motion-feedback) var(--easing-standard); }
+:is(.ui-domain-selector__menu, .ui-activities-menu__popover):not([hidden]) { animation: flow-enter var(--motion-fast) var(--easing-standard); }
+:is(.ui-course-hub__fill, .v2-course-summary__track > i, #v2CourseProgress, #progress) { transition: width var(--motion-progress) var(--easing-standard); }
+:is(.ui-question-card__footer-nav, #questionCard[data-phase="validated"] .footer-right) { animation: flow-enter var(--motion-feedback) var(--easing-standard); }
+.focus-mode #questionCard, .ui-study-focus .ui-question-card { animation: flow-enter var(--motion-normal) var(--easing-standard); }
+.ui-study-focus :is(.ui-app-shell__rail, .ui-app-shell__topbar, .ui-app-shell__context, .ui-training-toolbar, .ui-v2-course, .ui-v2-aside-stack) { display: none; }
+.ui-study-focus .ui-app-shell__frame { grid-template-columns: minmax(0, 1fr); }
+.ui-study-focus { grid-template-columns: minmax(0, 1fr); }
+.ui-study-focus .ui-v2-study-layout { grid-template-columns: minmax(0, 1fr); }
+.ui-study-focus .ui-app-shell__main { max-width: calc(var(--space-16) * 16); margin: 0 auto; width: 100%; }
+@keyframes flow-enter { from { opacity: .6; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes flow-feedback { from { opacity: .6; clip-path: inset(0 0 8px 0); } to { opacity: 1; clip-path: inset(0); } }
+html :is(body, .ui-app-shell__topbar, .ui-question-card, #questionCard, .rail) { transition: background-color var(--motion-feedback) var(--easing-standard), border-color var(--motion-feedback) var(--easing-standard), color var(--motion-feedback) var(--easing-standard); }
+@media (max-width: 920px) {
+  .app-shell-production .card-header .footer-left { display: flex !important; }
+  .app-shell-production:has(#examControls[hidden]) .card-header { flex-wrap: nowrap; }
+  .app-shell-production:has(#examControls[hidden]) .card-meta { min-width: 0; }
+  .ui-app-shell--learning .ui-question-card__action-zone { display: grid; grid-template-columns: auto 1fr; position: fixed; left: 0; right: 0; bottom: calc(var(--space-16) + var(--space-2)); z-index: 50; background: var(--color-card); padding: var(--space-3) var(--space-4); border-top: 1px solid var(--color-border); }
+  .ui-app-shell--learning .ui-question-card__position { display: block; grid-column: 1 / -1; font-size: var(--font-size-sm); color: var(--color-text-secondary); }
+  .ui-app-shell--learning .ui-question-card__action-zone > .ui-question-card__submit { position: static; width: auto; min-width: 0; margin: 0; justify-self: start; }
+  .ui-app-shell--learning .ui-question-card__action-zone > .ui-question-card__footer-nav { grid-column: 1 / -1; position: static; inset: auto; width: 100%; height: auto; padding: 0; margin: 0; background: transparent; border: 0; }
+  .ui-app-shell--learning .ui-question-card__action-zone > .ui-question-card__footer-nav:not([hidden]) { display: flex; }
+  .ui-app-shell--learning .ui-question-card__action-zone > .ui-question-card__footer-nav::before { display: none; }
+  .ui-app-shell--learning .ui-question-card__action-zone > .ui-question-card__footer-nav .ui-button { display: inline-flex; width: auto; min-height: calc(var(--space-12) - var(--space-1)); }
+  .ui-app-shell--learning .ui-app-shell__main { padding-bottom: calc(var(--space-16) * 3); }
+}
+@media (max-width: 600px) {
+  :is(.v3-domain-control, .ui-training-toolbar) .ui-domain-selector { flex-basis: 100%; width: 100%; }
+  :is(.v3-domain-control, .ui-training-toolbar) > button { flex: 1; }
+  .app-shell-production .card-header .card-meta { min-width: 0; flex: 1; }
+  .app-shell-production .card-header { align-items: start; }
+  .app-shell-production .card-header #focusToggleButton { padding: var(--space-2); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

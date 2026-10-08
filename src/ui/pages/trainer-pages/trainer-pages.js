@@ -1,3 +1,5 @@
+import { createWorkspaceToolbar } from '../../patterns/workspace-toolbar/workspace-toolbar.js';
+import { MOTION, reveal, focusTransition } from '../../integration/motion.js';
 import {createActivitiesMenu} from '../../patterns/activities-menu/activities-menu.js';
 import {createExamIntroduction} from '../../patterns/exam-introduction/exam-introduction.js';
 import { createReviewSession } from '../../patterns/review-list/review-list.js';
@@ -39,13 +41,13 @@ function courseSummary() {
   const root = card('ui-v2-course');
   const copy = el('div', 'ui-v2-course__copy');
   const heading = el('div', 'ui-v2-inline');
-  heading.append(badge('AZ-104', 'accent'), el('h2', '', 'Microsoft Azure Administrator'));
+  heading.append(el('span','ui-v2-course-code','AZ-104 ·'), el('h2', '', 'Azure Administrator'));
   const line = el('div', 'ui-v2-course__progress');
   line.append(el('span', '', '124 questions explorées sur 568'));
   copy.append(heading, line);
   const score = el('div', 'ui-v2-course__score');
-  score.append(el('strong', '', '22 %'), el('small', '', 'explorés'));
-  root.append(copy, score);
+  score.append(el('strong', '', '22 % explorés'), el('small', '', 'explorés'));
+  root.append(copy, score, progress(22));
   return root;
 }
 
@@ -79,14 +81,14 @@ export function createDashboardPage({firstRun=false,highProgress=false,selected=
 
 export function createPathPage(options) { return createDashboardPage(options); }
 
-export function createKnowledgePage() {
+export function createKnowledgePage({trainingState='default',focusActive=false,questionNumber=12,selection=null} = {}) {
   const root = pageRoot('study');
   const layout = el('div', 'ui-v2-study-layout');
   const main = el('div', 'ui-v2-study-main');
   const question = createQuestionCard({
-    questionNumber: 12, totalQuestions: 568, questionId: 'T1-Q12',
-    topic: 'Identités & accès', category: 'QCM',
-    title: 'Gestion des identités et des accès · Difficulté moyenne',
+    questionNumber, totalQuestions: 568, questionId: 'T1-Q'+questionNumber,
+    topic: 'Identités et gouvernance', category: 'QCM', answerNote: 'Une réponse attendue',
+    title: 'Choisissez la bonne réponse',
     prompt: 'Vous devez permettre à une application d’accéder à des ressources Azure sans utiliser de compte utilisateur. Quelle solution est la plus appropriée ?',
     answers: [
       'Utiliser un compte Microsoft personnel.',
@@ -94,18 +96,29 @@ export function createKnowledgePage() {
       'Utiliser une identité managée pour l’application.',
       'Créer un utilisateur Azure AD et stocker ses informations d’identification dans l’application.',
     ],
-    selectedIndexes: [2], submitLabel: 'Valider ma réponse',
+      selectedIndexes: selection ?? (trainingState === 'default' ? [] : trainingState === 'validated-incorrect' ? [0] : [2]), submitLabel: 'Valider ma réponse',
+      status:trainingState==='validated-correct'?'mastered':trainingState==='validated-incorrect'?'retry':'discovery',
+      locked: trainingState.startsWith('validated'), correctIndexes: trainingState.startsWith('validated') ? [2] : [],
+      incorrectIndexes: trainingState === 'validated-incorrect' ? [0] : [],
+      feedbackTone: trainingState === 'validated-incorrect' ? 'error' : trainingState.startsWith('validated') ? 'success' : '',
+      feedbackTitle: trainingState.startsWith('validated') ? 'Pourquoi' : '',
+      feedbackText: 'Une identité managée fournit une identité Azure sans conserver de secret dans l’application.',
+      focusActive,
+      onToggleFocus: () => {const shell=root.closest('.ui-app-shell');const active=!shell.classList.contains('ui-study-focus');focusTransition([shell.querySelector('.ui-app-shell__rail'),shell.querySelector('.ui-app-shell__topbar'),root.querySelector('.ui-training-toolbar')],active,()=>shell.classList.toggle('ui-study-focus',active));reveal(question);const b=question.querySelector('.ui-question-card__focus');b.setAttribute('aria-pressed',String(active));b.setAttribute('aria-label',active?'Quitter le mode Focus':'Activer le mode Focus');b.querySelector('.ui-button__label').textContent=active?'Quitter Focus':'Focus';},
+      onSubmit: () => {const selected=[...question.querySelectorAll('input:checked')].map(n=>Number(n.value));const correct=selected.length===1&&selected[0]===2;const replacement=createKnowledgePage({trainingState:correct?'validated-correct':'validated-incorrect',selection:selected,questionNumber,focusActive:root.closest('.ui-study-focus')!==null});root.replaceWith(replacement);reveal(replacement,MOTION.feedback);},
+      onNext: () => {const replacement=createKnowledgePage({questionNumber:questionNumber+1,focusActive:root.closest('.ui-study-focus')!==null});root.replaceWith(replacement);reveal(replacement,MOTION.normal,'horizontal');},
+      onPrevious: () => {const replacement=createKnowledgePage({questionNumber:Math.max(1,questionNumber-1),trainingState:'selected',focusActive:root.closest('.ui-study-focus')!==null});root.replaceWith(replacement);reveal(replacement,MOTION.normal,'horizontal');},
   });
   question.classList.add('ui-v2-question-workspace');
   const meta = question.querySelector('.ui-question-card__meta');
   const eyebrow = question.querySelector('.ui-question-card__eyebrow');
-  eyebrow.textContent = 'Question 12 / 568 · QCM';
+  eyebrow.textContent = 'Question '+questionNumber+' / 568 · QCM';
   meta.prepend(eyebrow);
   const actions = question.querySelector('.ui-question-card__header-actions');
-  meta.append(actions.querySelector('.ui-badge'));
+
   const navigation = question.querySelector('.ui-question-card__footer-nav');
-  navigation.dataset.position = 'Question 12 / 568';
-  question.querySelector('.ui-question-card__header').append(navigation);
+  navigation.dataset.position = 'Question '+questionNumber+' / 568';
+
   question.querySelector('.ui-question-card__footer').append(actions);
   const review = actions.querySelector('[data-icon="report"]') || actions.querySelector('button:last-child');
   review.setAttribute('aria-label', 'À revoir : signaler un problème');
@@ -116,13 +129,14 @@ export function createKnowledgePage() {
   const note = card();
   const field = el('textarea', 'ui-v2-note');
   field.setAttribute('aria-label', 'Note rapide');
-  field.placeholder = 'Écris une note sur cette question…';
-  note.append(el('h3', '', 'Ma note rapide'), el('p', '', 'Garde uniquement ce qui t’aide à retenir.'), field, el('small', 'ui-v2-muted', 'Enregistrement automatique'));
+  field.placeholder = 'Écrivez une note sur cette question…';
+  note.append(el('h3', '', 'Ma note rapide'), el('p', '', 'Gardez uniquement ce qui vous aide à retenir.'), field, el('small', 'ui-v2-muted', 'Enregistrement automatique'));
   const next = card();
   next.append(el('h3', '', '→  Prochaine étape'), el('small', 'ui-v2-muted', 'Module suivant'), el('p', 'ui-v2-next-title', 'Stockage'), createButton({ label: 'Continuer le parcours', variant: 'secondary' }));
   aside.append(note, next);
   layout.append(main, aside);
-  root.append(createDomainSelector({ options: [{value:'all',label:'Tous les domaines'},...courseHubFixture.map(m=>({value:m.id,label:m.label}))] }).element, courseSummary(), layout);
+    root.append(createWorkspaceToolbar({domains:[{value:'all',label:'Tous les domaines'},...courseHubFixture.map(m=>({value:m.id,label:m.label}))]}), courseSummary(), layout);
+    if(focusActive) requestAnimationFrame(()=>root.closest('.ui-app-shell')?.classList.add('ui-study-focus'));
   return root;
 }
 
@@ -142,7 +156,7 @@ export function createExamPage({examState='introduction'}={}) {
    if(state==='focus'){
      const identity=el('div','ui-page-header');identity.append(el('h2','','Examen blanc AZ-104'),el('p','','Temps restant 100:00'));
      const controls=el('div','v3-review-filters');controls.append(createButton({label:'Questions'}),createButton({label:'À revoir'}),createButton({label:'Terminer l’examen',onClick:()=>render('finished')}),createButton({label:'Quitter',onClick:home}));
-     const question=createQuestionCard({mode:'exam',status:'exam',submitLabel:'Enregistrer et avancer'});question.querySelector('.ui-question-card__header').append(question.querySelector('.ui-question-card__footer-nav'));root.append(identity,controls,question);return;
+     const question=createQuestionCard({mode:'exam',status:'exam',submitLabel:'Enregistrer et avancer'});root.append(identity,controls,question);return;
    }
    if(state==='finished'){root.append(el('h2','','Examen terminé'),el('p','','La correction est maintenant disponible.'),createButton({label:'Retour à l’accueil',onClick:home}));return;}
    const background=createDashboardPage();background.inert=true;root.headerActions=background.headerActions;root.append(background);
@@ -175,7 +189,7 @@ export function createSettingsPage({ category = 'appearance' } = {}) {
     ]],
     ['app', 'Application', 'Installation et informations de version.', [
       ['Installer l’application', 'Ajoutez Azure Trainer comme application sur cet appareil.', 'Installer'],
-      ['Version', 'Version actuellement chargée.', 'v3.1.0'],
+      ['Version', 'Version actuellement chargée.', 'v3.2.0'],
     ]],
   ];
   groups.forEach(([id, label, description, rows]) => {

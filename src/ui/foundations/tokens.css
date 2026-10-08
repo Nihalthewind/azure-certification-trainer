@@ -53,5 +53,8 @@
   /* Motion. */
   --motion-fast: 120ms;
   --motion-normal: 180ms;
-  --easing-standard: ease;
+  --motion-feedback: 200ms;
+  --motion-progress: 300ms;
+  --motion-exam: 220ms;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
 }

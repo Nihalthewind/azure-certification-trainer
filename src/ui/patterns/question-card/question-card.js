@@ -1,3 +1,4 @@
+import { getFocusToggleState, updateFocusToggle } from '../workspace-toolbar/workspace-toolbar.js';
 import { createBadge } from '../../components/badge/badge.js';
 import { createButton } from '../../components/button/button.js';
 import { createIconButton } from '../../components/icon-button/icon-button.js';
@@ -53,6 +54,8 @@ export function createQuestionCard({
   markedForReview = false,
   showReviewAction = false,
   submitLabel = 'Valider la réponse',
+  focusActive = false,
+  onToggleFocus,
   previousDisabled = false,
   nextDisabled = false,
   feedbackTone = '',
@@ -131,7 +134,7 @@ export function createQuestionCard({
     }));
   }
 
-  headerActions.append(createBadge({
+  meta.append(createBadge({
     label: statusLabel || statusConfig.label,
     tone: statusConfig.tone,
     shape: 'pill',
@@ -139,7 +142,12 @@ export function createQuestionCard({
     role: 'status',
   }));
 
-  header.append(meta, headerActions);
+  const focusState = getFocusToggleState(focusActive);
+  const focus = createButton({label: focusState.label, leadingIcon: focusState.icon, variant: 'ghost', onClick: onToggleFocus});
+  focus.classList.add('ui-question-card__focus');
+  updateFocusToggle(focus, focusActive);
+  focus.setAttribute('aria-label', focusState.title);
+  if (!isExam) header.append(meta, focus); else header.append(meta);
 
   const main = document.createElement('div');
   main.className = 'ui-question-card__main';
@@ -166,12 +174,14 @@ export function createQuestionCard({
   const choices = document.createElement('fieldset');
   choices.className = 'ui-question-card__choices';
 
-  const legend = document.createElement('legend');
+  const legend = document.createElement('p');
   legend.className = 'ui-question-card__answer-note';
+  legend.id = `ui-question-card-answer-note-${instanceId}`;
   legend.textContent = multi
     ? 'Plusieurs réponses · sélectionnez toutes les réponses correctes'
     : answerNote;
-  choices.append(legend);
+  choices.setAttribute('aria-labelledby', legend.id);
+  main.append(legend);
 
   let currentSelected = new Set(normalizeIndexes(selectedIndexes));
   const correct = new Set(normalizeIndexes(correctIndexes));
@@ -228,7 +238,7 @@ export function createQuestionCard({
 
   main.append(choices);
 
-  if (!isExam && feedbackTone && feedbackTitle) main.append(createFeedbackPanel({tone:feedbackTone,title:feedbackTitle,context:feedbackText}));
+
 
   const footer = document.createElement('footer');
   footer.className = 'ui-question-card__footer';
@@ -246,15 +256,22 @@ export function createQuestionCard({
       onClick: onPrevious,
     }),
     createButton({
-      label: 'Suivant',
-      variant: 'secondary',
+      label: 'Question suivante',
+      variant: locked ? 'primary' : 'secondary',
       trailingIcon: '→',
       disabled: nextDisabled,
       onClick: onNext,
     }),
   );
 
-  footer.append(footerNavigation);
+  footerNavigation.hidden = !locked && !isExam;
+  const actionZone = document.createElement('div');
+  actionZone.className = 'ui-question-card__action-zone';
+  const position = document.createElement('span');
+  position.className = 'ui-question-card__position';
+  position.textContent = `Question ${questionNumber} / ${totalQuestions}`;
+  actionZone.append(position, footerNavigation);
+  footer.append(actionZone);
 
   {
     submit = createButton({
@@ -264,9 +281,13 @@ export function createQuestionCard({
       onClick: onSubmit,
     });
     submit.classList.add('ui-question-card__submit');
-    footer.append(submit);
+    submit.hidden = locked;
+    actionZone.append(submit);
   }
 
+  footer.append(headerActions);
+  article.dataset.phase = locked ? 'validated' : 'answering';
   article.append(header, main, footer);
+  if (!isExam && feedbackTone && feedbackTitle) article.append(createFeedbackPanel({tone:feedbackTone,title:feedbackTitle,context:feedbackText}));
   return article;
 }

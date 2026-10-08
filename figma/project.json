@@ -4,25 +4,28 @@
   "fileKey": "jKDnAtVtPXQvQ74xVNFUeT",
   "url": "https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT",
   "branch": "storybook",
-  "appVersion": "3.1.0",
+  "appVersion": "3.2.0",
   "source": {
-    "codeSha256": "122afd55f73a1a96e2783b25d2b86cda257f7bb2dd0653c7eb9f9f6b614d1a25",
+    "codeSha256": "f85ac16c01737cdcc5a84d9a51721bdcb4b12b31fd6d97a88bdb0a69e42a94d9",
     "hashAlgorithm": "SHA-256 of sorted path + NUL + UTF-8 content normalized to LF + NUL",
     "files": [
       ".storybook/main.js",
       ".storybook/preview.js",
       "assets/app-icon.svg",
       "assets/brand-mark.svg",
+      "assets/favicon.svg",
       "atelier.css",
       "atelier.js",
       "index.html",
       "package.json",
       "scripts/export-figma-ui.mjs",
+      "scripts/generate-app-icons.mjs",
       "scripts/verify-account-clarity.mjs",
       "scripts/verify-cloud-interactive.mjs",
       "scripts/verify-learning-workflow.mjs",
       "scripts/verify-pages.mjs",
       "scripts/verify-product-corrections.mjs",
+      "scripts/verify-training-flow.mjs",
       "scripts/verify-training-workspace.mjs",
       "scripts/verify-ui-integration.mjs",
       "scripts/verify-v3-product-experience.mjs",
@@ -56,6 +59,8 @@
       "src/ui/components/navigation-item/README.md",
       "src/ui/components/navigation-item/navigation-item.css",
       "src/ui/components/navigation-item/navigation-item.js",
+      "src/ui/components/search-bar/README.md",
+      "src/ui/components/search-bar/search-bar.js",
       "src/ui/foundations/foundations.css",
       "src/ui/foundations/tokens.css",
       "src/ui/icons/README.md",
@@ -70,6 +75,8 @@
       "src/ui/integration/legacy-app.css",
       "src/ui/integration/localization.js",
       "src/ui/integration/modal-production.css",
+      "src/ui/integration/motion.js",
+      "src/ui/integration/training-flow.css",
       "src/ui/integration/training-workspace.css",
       "src/ui/integration/ux-polish.css",
       "src/ui/integration/v2-minimal.css",
@@ -123,6 +130,8 @@
       "stories/components/IconButton.stories.js",
       "stories/components/ModalSurface.stories.js",
       "stories/components/NavigationItem.stories.js",
+      "stories/components/Progress.stories.js",
+      "stories/components/SearchBar.stories.js",
       "stories/foundations/Foundations.stories.js",
       "stories/foundations/Icons.stories.js",
       "stories/pages/Accueil.stories.js",
@@ -138,6 +147,8 @@
       "stories/patterns/QuestionCard.stories.js",
       "stories/patterns/QuestionNavigator.stories.js",
       "stories/patterns/QuestionViewport.stories.js",
+      "stories/patterns/QuestionWorkspace.stories.js",
+      "stories/patterns/TrainingToolbar.stories.js",
       "stories/patterns/WorkspaceToolbar.stories.js",
       "stories/quality/ActionIcons.stories.js",
       "stories/quality/ProductCorrections.stories.js",
@@ -425,6 +436,30 @@
       "storybook": "Patterns/DocumentReader",
       "code": "src/ui/patterns/document-reader/document-reader.js",
       "nodeId": "296:3509"
+    },
+    {
+      "figma": "SearchBar",
+      "storybook": "Components/SearchBar",
+      "code": "src/ui/components/search-bar/search-bar.js",
+      "nodeId": "267:1858"
+    },
+    {
+      "figma": "ProgressBar",
+      "storybook": "Components/Progress",
+      "code": "src/ui/pages/trainer-pages/trainer-pages.js",
+      "nodeId": "225:457"
+    },
+    {
+      "figma": "TrainingToolbar",
+      "storybook": "Patterns/TrainingToolbar",
+      "code": "src/ui/patterns/workspace-toolbar/workspace-toolbar.js",
+      "nodeId": "341:7156"
+    },
+    {
+      "figma": "QuestionWorkspace",
+      "storybook": "Patterns/QuestionWorkspace",
+      "code": "src/ui/patterns/question-card/question-card.js",
+      "nodeId": "24:231"
     }
   ],
   "codeConnect": {
@@ -788,7 +823,8 @@
     "npm run build:pages",
     "npm run test:pages",
     "npm run test:corrections",
-    "npm run test:cloud"
+    "npm run test:cloud",
+    "npm run test:training"
   ],
   "settingsCategories": {
     "training": {
@@ -821,5 +857,43 @@
       "dark": "264:3"
     },
     "scale": "265:0"
+  },
+  "trainingFlow": {
+    "version": "3.2.0",
+    "audit": "docs/training-flow-audit.md",
+    "toolbar": "327:6503",
+    "domainSelectorSet": "336:333",
+    "answerHover": "330:324",
+    "states": {
+      "light": {
+        "default": "264:771",
+        "selected": "269:2861",
+        "validated": "331:9697",
+        "focus": "331:10096",
+        "next": "338:6959"
+      },
+      "dark": {
+        "default": "264:2027",
+        "selected": "331:10403",
+        "validated": "331:10608",
+        "focus": "331:10983",
+        "next": "338:7283"
+      }
+    },
+    "favicon": "351:7155",
+    "motion": {
+      "fast": 120,
+      "normal": 180,
+      "feedback": 200,
+      "progress": 300,
+      "exam": 220
+    },
+    "toolbarMobile": "341:7144",
+    "toolbarSet": "341:7156",
+    "questionTextStyle": "S:86fa9e7556e645fe4f1a3c5f05c9256e466bc5d3,",
+    "viewports": {
+      "desktop": "1440x900",
+      "mobile": "390x900"
+    }
   }
 }

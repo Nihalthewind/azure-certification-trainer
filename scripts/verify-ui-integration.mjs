@@ -70,7 +70,7 @@ expect(atelier.includes('UI.updateIconButton'), 'atelier.js does not upgrade pro
 expect(atelier.includes('UI.createFeedbackPanel'), 'atelier.js does not render production feedback through FeedbackPanel');
 expect(!atelier.includes("if(e.target.id==='modal')closeModal()"), 'Modal backdrop still closes dialogs on outside click');
 expect(atelier.includes("scrollIntoView({block:'center',inline:'nearest'})"), 'Question navigator does not recenter the current question');
-expect(serviceWorker.includes("azure-trainer-cloud-interactive-v3.1"), 'Service worker cache was not bumped for the training workspace');
+expect(serviceWorker.includes("azure-trainer-training-flow-v3.2"), 'Service worker cache was not bumped for the training workspace');
 expect(serviceWorker.includes("'./src/ui/integration/training-workspace.css'"), 'Service worker does not cache the training workspace stylesheet');
 expect(serviceWorker.includes("'./src/ui/integration/account-clarity.css'") && serviceWorker.includes("'./src/ui/patterns/settings-navigation/settings-navigation.js'"), 'Service worker does not cache the shared account presentation and settings navigation');
 expect(serviceWorker.includes("'./src/ui/components/badge/badge.js'"), 'Service worker does not cache Badge');
@@ -96,7 +96,7 @@ expect(computeQuestionScrollTop({ scrollY: 0, cardTop: 5, offset: 12 }) === 0, '
 const focusOn = getFocusToggleState(true);
 const focusOff = getFocusToggleState(false);
 expect(focusOn.pressed === true && focusOn.label === 'Quitter Focus', 'Focus toggle active state is inconsistent');
-expect(focusOff.pressed === false && focusOff.label === 'Mode Focus', 'Focus toggle inactive state is inconsistent');
+expect(focusOff.pressed === false && focusOff.label === 'Focus', 'Focus toggle inactive state is inconsistent');
 expect(focusOff.icon === '⛶' && focusOn.icon === '×', 'Focus toggle visual affordance is inconsistent');
 
 const onboardingSteps = defaultFirstRunSteps({ trainingCode: 'AZ-104', trainingName: 'Azure Administrator' });

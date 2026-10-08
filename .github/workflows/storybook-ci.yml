@@ -31,6 +31,8 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Test learning workflow
         run: npm run test-ux
+      - name: Test training flow, search and reduced motion
+        run: npm run test:training
       - name: Test V3 product experience
         run: npm run test:v3
       - name: Test product corrections

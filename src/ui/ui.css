@@ -53,3 +53,5 @@
 
 @import './integration/cloud-interactive.css';
 @import './patterns/document-reader/document-reader.css';
+
+@import './integration/training-flow.css';

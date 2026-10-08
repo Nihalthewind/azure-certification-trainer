@@ -48,7 +48,7 @@ export function scrollQuestionAfterRender(options = {}) {
 }
 
 export function scrollFeedbackIntoView({
-  selector = '#feedback .ui-feedback-panel, #feedback',
+  selector = '#questionCard .card-footer, #feedback .ui-feedback-panel, #feedback',
   offset = 68,
   smooth = false,
 } = {}) {

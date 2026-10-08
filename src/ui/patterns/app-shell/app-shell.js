@@ -2,6 +2,7 @@ import { createNavigationItem } from '../../components/navigation-item/navigatio
 import {observeInterfaceLanguage} from '../../integration/localization.js';
 import { createIconButton, updateIconButton } from '../../components/icon-button/icon-button.js';
 import { createIcon, createBrandMark } from '../../icons/icons.js';
+import { createSearchBar } from '../../components/search-bar/search-bar.js';
 import {mountPageLayout} from './page-layout.js';
 
 export const APP_SHELL_DENSITIES = Object.freeze({
@@ -31,23 +32,7 @@ function createBrand(trainingCode) {
   return brand;
 }
 
-function createSearch() {
-  const label = document.createElement('label');
-  label.className = 'ui-app-shell__search';
-  label.append(createIcon('search', { size: 17 }));
-
-  const input = document.createElement('input');
-  input.type = 'search';
-  input.placeholder = 'Rechercher un sujet, une notion, une question…';
-  input.setAttribute('aria-label', 'Rechercher');
-
-  const shortcut = document.createElement('span');
-  shortcut.className = 'ui-app-shell__shortcut';
-  shortcut.textContent = '⌘ K';
-
-  label.append(input, shortcut);
-  return label;
-}
+function createSearch() { return createSearchBar(); }
 
 function createProfile(onLanguage) {
   const actions = document.createElement('div');

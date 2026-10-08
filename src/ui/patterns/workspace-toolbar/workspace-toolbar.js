@@ -1,3 +1,4 @@
+import { createDomainSelector } from '../../components/domain-selector/domain-selector.js';
 import { createButton } from '../../components/button/button.js';
 
 export function getFocusToggleState(active = false) {
@@ -9,7 +10,7 @@ export function getFocusToggleState(active = false) {
         pressed: true,
       }
     : {
-        label: 'Mode Focus',
+        label: 'Focus',
         title: 'Activer le mode Focus (F)',
         icon: '⛶',
         pressed: false,
@@ -21,6 +22,7 @@ export function updateFocusToggle(button, active = false) {
   const state = getFocusToggleState(active);
   button.setAttribute('aria-pressed', String(state.pressed));
   button.setAttribute('title', state.title);
+  button.setAttribute('aria-label', state.title);
   button.classList.toggle('is-active', Boolean(active));
 
   const label = button.querySelector('.ui-button__label');
@@ -34,6 +36,9 @@ export function updateFocusToggle(button, active = false) {
 }
 
 export function createWorkspaceToolbar({
+  domains = [{value:'all', label:'Tous les domaines'}],
+  domain = 'all',
+  onDomain,
   title = 'Votre parcours',
   subtitle = 'Choisissez un domaine ou poursuivez votre progression.',
   searchValue = '',
@@ -50,6 +55,12 @@ export function createWorkspaceToolbar({
   onToggleFlag,
   onResetExam,
 } = {}) {
+  if (!examMode) {
+    const toolbar = document.createElement('section');toolbar.className = 'ui-training-toolbar';toolbar.setAttribute('aria-label', 'Filtres de l’entraînement');
+    const selector = createDomainSelector({options:domains,value:domain,onChange:onDomain});
+    toolbar.append(selector.element,createButton({label:'Toutes les questions',variant:'secondary',onClick:onOpenNavigator}),createButton({label:'Réinitialiser',variant:'ghost',onClick:onResetDomain}));
+    toolbar.domainSelector = selector;return toolbar;
+  }
   const toolbar = document.createElement('section');
   toolbar.className = 'ui-workspace-toolbar';
   toolbar.setAttribute('aria-label', 'Outils de la session');

@@ -1,3 +1,4 @@
+import { accordionTransition } from '../../integration/motion.js';
 import { createButton } from '../../components/button/button.js';
 import { createIcon } from '../../icons/icons.js';
 
@@ -52,7 +53,7 @@ export function createCourseHub({resumeButton,onSelect,onStart,onContinue,...ini
       track.setAttribute('role','progressbar');track.setAttribute('aria-label',item.label);track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','100');
       if(available)track.setAttribute('aria-valuenow',String(percent));else track.setAttribute('aria-valuetext','Donnée indisponible');
       fill.style.width=(percent??0)+'%';track.append(fill);trigger.append(header,track);
-      trigger.onclick=()=>{opened=opened===item.id?null:item.id;model.selected=item.id;update();modules.querySelector('[data-path-domain="'+CSS.escape(item.id)+'"]')?.focus({preventScroll:true});onSelect?.(item.id);};
+      trigger.onclick=()=>{const previousHeight=wrapper.getBoundingClientRect().height;opened=opened===item.id?null:item.id;model.selected=item.id;update();modules.querySelector('[data-path-domain="'+CSS.escape(item.id)+'"]')?.focus({preventScroll:true});accordionTransition(modules.querySelector('[data-path-domain="'+CSS.escape(item.id)+'"]')?.closest('section'),previousHeight,opened===item.id);onSelect?.(item.id);};
       panel.append(node('p','ui-course-hub__muted',available?item.explored+' questions explorées sur '+item.total:'Aucune question disponible pour ce domaine.'));
       if(item.topics?.length){const topics=node('ul','ui-course-hub__topics');topics.append(...item.topics.map(t=>node('li','',t)));panel.append(topics);}
       panel.append(createButton({label:'Travailler ce domaine',variant:'primary',disabled:!item.total,onClick:()=>onStart?.(item.id)}));
