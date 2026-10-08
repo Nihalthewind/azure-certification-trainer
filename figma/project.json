@@ -6,7 +6,7 @@
   "branch": "storybook",
   "appVersion": "3.2.0",
   "source": {
-    "codeSha256": "f85ac16c01737cdcc5a84d9a51721bdcb4b12b31fd6d97a88bdb0a69e42a94d9",
+    "codeSha256": "374f90164ad4227d4496251e028766348b91e400d194f17e2798570551e4456b",
     "hashAlgorithm": "SHA-256 of sorted path + NUL + UTF-8 content normalized to LF + NUL",
     "files": [
       ".storybook/main.js",
@@ -895,5 +895,16 @@
       "desktop": "1440x900",
       "mobile": "390x900"
     }
+  },
+  "courseQuestions": {
+    "module": "114:611",
+    "navigator": "374:464",
+    "questionItem": "374:460",
+    "stories": [
+      "Pages/Accueil",
+      "Patterns/CourseHub",
+      "Patterns/QuestionNavigator"
+    ],
+    "behavior": "All theme questions replace category details; searchable grid, saved answer states, direct access within the theme."
   }
 }

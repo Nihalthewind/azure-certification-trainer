@@ -40,6 +40,10 @@ export const AccueilModuleSelected = {
   globals: { theme: "light" },
 };
 
+export const QuestionsDuTheme = {args:{...base,mode:'dashboard',openedDomain:'T1'},globals:{theme:'light'}};
+export const QuestionsDuThemeDark = {...QuestionsDuTheme,globals:{theme:'dark'}};
+export const QuestionsDuThemeMobile = {...QuestionsDuTheme,globals:{theme:'light',viewport:{value:'mobile',isRotated:false}}};
+
 export const ManyModules={args:{...base,mode:'dashboard',manyModules:true}};
 export const Unavailable={args:{...base,mode:'dashboard',noData:true}};
 export const LongLabel={args:{...base,mode:'dashboard',longLabel:true}};

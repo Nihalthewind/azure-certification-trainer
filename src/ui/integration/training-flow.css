@@ -95,6 +95,15 @@ html :is(body, .ui-app-shell__topbar, .ui-question-card, #questionCard, .rail) {
   .app-shell-production .card-header { align-items: start; }
   .app-shell-production .card-header #focusToggleButton { padding: var(--space-2); }
 }
+.ui-course-hub .ui-button--primary {
+  background: var(--color-action-primary-background) !important;
+  border-color: var(--color-action-primary-background) !important;
+  color: var(--color-action-on-primary) !important;
+}
+.ui-course-hub .ui-button--primary:hover:not(:disabled) {
+  background: var(--color-action-primary-hover) !important;
+  border-color: var(--color-action-primary-hover) !important;
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }

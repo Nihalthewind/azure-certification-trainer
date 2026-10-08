@@ -30,3 +30,6 @@ export default meta;
 export const Training = { args: { items, currentId: 'AZ104-012', examMode: false } };
 export const Exam = { args: { items: items.map((item, index) => ({ ...item, status: index % 3 === 0 ? 'answered' : 'pending' })), currentId: 'AZ104-020', examMode: true } };
 export const Mobile = { args: { ...Training.args }, globals: { viewport: { value: 'mobile', isRotated: false } } };
+export const CourseTheme = {args:{items,embedded:true,label:'Questions · Identités et gouvernance'}};
+export const CourseThemeDark = {...CourseTheme,globals:{theme:'dark'}};
+export const CourseThemeMobile = {...CourseTheme,globals:{viewport:{value:'mobile',isRotated:false}}};

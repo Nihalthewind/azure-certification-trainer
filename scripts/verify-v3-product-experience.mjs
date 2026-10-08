@@ -107,7 +107,8 @@ try {
         await page.locator('.ui-course-hub__module[aria-expanded="true"] strong').innerText(),
         labels[1],
       );
-      assert((await page.locator(".ui-course-hub__topics li").count()) > 0);
+      assert.equal(await page.locator(".ui-course-hub__topics").count(),0);
+      assert((await page.locator('.ui-course-hub__panel:not([hidden]) [data-course-question-id]').count()) > 0);
       await page.screenshot({
         path: `test-results/v3-home-${theme}-${width}.png`,
         fullPage: true,

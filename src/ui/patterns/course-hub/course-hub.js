@@ -1,6 +1,7 @@
 import { accordionTransition } from '../../integration/motion.js';
 import { createButton } from '../../components/button/button.js';
 import { createIcon } from '../../icons/icons.js';
+import { createQuestionNavigator, questionNavigatorStatus } from '../question-navigator/question-navigator.js';
 
 const node=(tag,className='',text)=>{const el=document.createElement(tag);el.className=className;if(text!==undefined)el.textContent=text;return el;};
 let sequence=0;
@@ -13,11 +14,13 @@ export function courseModules({domains=[],questions=[],state={}}={}) {
     const errors=items.some(q=>state.answers?.[q.id]?.correct===false);
     return {id,label,total:items.length,explored,percent:items.length?Math.round(explored/items.length*100):null,
       status:!items.length?'Donnée indisponible':!explored?'À commencer':errors?'À renforcer':explored===items.length?'Terminé':'En cours',
-      topics:[...new Set(items.map(q=>q.category).filter(Boolean))]};
+      questions:items.map(q=>({id:q.id,index:questions.indexOf(q)+1,category:q.category,domain:label,
+        title:q.prompt||q.question||'',status:questionNavigatorStatus(q,state),favorite:!!state.favorites?.[q.id],
+        reported:(state.reports||[]).some(r=>r.questionId===q.id&&!r.resolved)}))};
   });
 }
 
-export function createCourseHub({resumeButton,onSelect,onStart,onContinue,...initial}={}) {
+export function createCourseHub({resumeButton,onSelect,onStart,onContinue,onQuestionSelect,...initial}={}) {
   const instance=++sequence,element=node('section','ui-course-hub');
   const course=node('section','ui-course-hub__card ui-course-hub__summary');
   const copy=node('div','ui-course-hub__summary-copy'),actions=node('div','ui-course-hub__summary-action');
@@ -54,9 +57,10 @@ export function createCourseHub({resumeButton,onSelect,onStart,onContinue,...ini
       if(available)track.setAttribute('aria-valuenow',String(percent));else track.setAttribute('aria-valuetext','Donnée indisponible');
       fill.style.width=(percent??0)+'%';track.append(fill);trigger.append(header,track);
       trigger.onclick=()=>{const previousHeight=wrapper.getBoundingClientRect().height;opened=opened===item.id?null:item.id;model.selected=item.id;update();modules.querySelector('[data-path-domain="'+CSS.escape(item.id)+'"]')?.focus({preventScroll:true});accordionTransition(modules.querySelector('[data-path-domain="'+CSS.escape(item.id)+'"]')?.closest('section'),previousHeight,opened===item.id);onSelect?.(item.id);};
-      panel.append(node('p','ui-course-hub__muted',available?item.explored+' questions explorées sur '+item.total:'Aucune question disponible pour ce domaine.'));
-      if(item.topics?.length){const topics=node('ul','ui-course-hub__topics');topics.append(...item.topics.map(t=>node('li','',t)));panel.append(topics);}
       panel.append(createButton({label:'Travailler ce domaine',variant:'primary',disabled:!item.total,onClick:()=>onStart?.(item.id)}));
+      if(opened===item.id&&item.questions?.length)panel.append(createQuestionNavigator({items:item.questions,embedded:true,
+        label:'Questions · '+item.label,onSelect:questionId=>onQuestionSelect?.(questionId,item.id)}));
+      else if(!item.total)panel.append(node('p','ui-course-hub__muted','Aucune question disponible pour ce domaine.'));
       wrapper.append(trigger,panel);return wrapper;
     }));
     if(!items.length)modules.append(node('p','ui-course-hub__muted','Importez une formation depuis les paramètres.'));

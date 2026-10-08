@@ -447,13 +447,13 @@
       const header=document.createElement('header');header.className='ui-page-header';
       const activities=UI.createActivitiesMenu({onHistory:openExamHistory,onFavorites:()=>{reviewFilter='favorites';reviewDomain='all';selectMode('mistakes');}});
       activities.trigger.id='activitiesButton';header.append(heading,activities.element);
-      courseHub=UI.createCourseHub({resumeButton:$('#startWeaknessButton'),onSelect:id=>{pathDomain=id;},onStart:id=>{pathDomain=id;$('#startPathButton').click();},onContinue:startOrResumeStudy});
+      courseHub=UI.createCourseHub({resumeButton:$('#startWeaknessButton'),onSelect:id=>{pathDomain=id;},onStart:id=>{pathDomain=id;$('#startPathButton').click();},onContinue:startOrResumeStudy,onQuestionSelect:(questionId,id)=>{pathDomain=id;openQuestionById(questionId,id);}});
       $('#dashboard').prepend(header,courseHub.element);UI.mountPageLayout($('#dashboard'),header);
     }
     $('#courseHubHeading').textContent='Votre préparation '+cfg.code;
     courseHub.update({code:cfg.code,name:cfg.id==='az104'?'Microsoft Azure Administrator':cfg.name,modules,selected:pathDomain,resumeLabel:exam?'Reprendre l’examen':session?'Reprendre l’entraînement':'Commencer une session de 10 questions'});
   }
-  function openQuestionById(id){mode='study';domain='all';search='';$('#search').value='';list=[];refresh(id);focusCurrentQuestion({smooth:true})}
+  function openQuestionById(id,selectedDomain='all'){mode='study';domain=selectedDomain;search='';$('#search').value='';list=[];refresh(id);focusCurrentQuestion({smooth:true})}
   function questionNavStatus(q,examMode){if(examMode){const r=state.exam?.answers?.[q.id];return r?'answered':'pending'}const r=state.answers[q.id];if(r?.correct===true)return'good';if(r?.correct===false)return'bad';if(r?.done)return'answered';return'pending'}
   function setModalAction(label,{variant='primary'}={}){
     const action=$('#modalAction');if(!action)return;
