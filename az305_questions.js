@@ -153,8 +153,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You plan to deploy Azure Databricks to support a machine learning application. Data engineers will mount an Azure Data Lake Storage account to\n\nthe Databricks file system. Permissions to folders are granted directly to the data engineers.\n\nYou need to recommend a design for the planned Databrick deployment. The solution must meet the following requirements:\n\n✑ Ensure that the data engineers can only access folders to which they have permissions.\n\n✑ Minimize development effort.\n\n✑ Minimize costs.\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Premium; Credential passthrough",
-    "explanation": "La correction du support retient « Premium; Credential passthrough ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "Databricks SKU : Premium · Cluster configuration : Credential passthrough",
+    "explanation": "Box 1: Premium - Premium Databricks SKU is required for credential passhtrough. Box 2: Credential passthrough - Athenticate automatically to Azure Data Lake Storage Gen1 (ADLS Gen1) and Azure Data Lake Storage Gen2 (ADLS Gen2) from Azure Databricks clusters using the same Azure Active Directory (Azure AD) identity that you use to log into Azure Databricks. When you enable Azure Data Lake Storage credential passthrough for your cluster, commands that you run on that cluster can read and write data in Azure Data Lake Storage without requiring you to configure service principal credentials for access to storage.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -162,13 +162,22 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Databricks SKU",
+          "choices": [
+            "Premium",
+            "Standard"
+          ],
           "expected": "Premium"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Cluster configuration",
+          "choices": [
+            "Credential passthrough",
+            "Managed identities",
+            "MLflow",
+            "A runtime that contains Photon",
+            "Secret scope"
+          ],
           "expected": "Credential passthrough"
         }
       ]
@@ -190,13 +199,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Premium; Credential passthrough",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 3,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Premium - Premium Databricks SKU is required for credential passhtrough. Box 2: Credential passthrough - Athenticate automatically to Azure Data Lake Storage Gen1 (ADLS Gen1) and Azure Data Lake Storage Gen2 (ADLS Gen2) from Azure Databricks clusters using the same Azure Active Directory (Azure AD) identity that you use to log into Azure Databricks. When you enable Azure Data Lake Storage credential passthrough for your cluster, commands that you run on that cluster can read and write data in Azure Data Lake Storage without requiring you to configure service principal credentials for access to storage.",
-    "pedagogicalContext": "La correction du support retient « Premium; Credential passthrough ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: Premium - Premium Databricks SKU is required for credential passhtrough. Box 2: Credential passthrough - Athenticate automatically to Azure Data Lake Storage Gen1 (ADLS Gen1) and Azure Data Lake Storage Gen2 (ADLS Gen2) from Azure Databricks clusters using the same Azure Active Directory (Azure AD) identity that you use to log into Azure Databricks. When you enable Azure Data Lake Storage credential passthrough for your cluster, commands that you run on that cluster can read and write data in Azure Data Lake Storage without requiring you to configure service principal credentials for access to storage.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q5-p3-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q6",
@@ -205,8 +218,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You plan to deploy an Azure web app named App1 that will use Azure Active Directory (Azure AD) authentication.\n\nApp1 will be accessed from the internet by the users at your company. All the users have computers that run Windows 10 and are joined to Azure\n\nAD.\n\nYou need to recommend a solution to ensure that the users can connect to App1 without being prompted for authentication and can access App1\n\nonly from company-owned computers.\n\nWhat should you recommend for each requirement? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "An Azure AD app registration; A conditional access policy",
-    "explanation": "Conditional Access applique des règles d’accès en fonction de signaux comme l’identité, l’appareil, l’emplacement ou le niveau de risque. Dans un scénario d’architecture, il faut l’associer aux exigences d’accès conditionnel plutôt qu’à l’hébergement de l’application.",
+    "solutionAnswer": "Connect without authentication prompts : An Azure AD app registration · Access only from company-owned computers : A Conditional Access policy",
+    "explanation": "Box 1: An Azure AD app registration Azure active directory (AD) provides cloud based directory and identity management services.You can use azure AD to manage users of your application and authenticate access to your applications using azure active directory. You register your application with Azure active directory tenant. Box 2: A conditional access policy Conditional Access policies at their simplest are if-then statements, if a user wants to access a resource, then they must complete an action. By using Conditional Access policies, you can apply the right access controls when needed to keep your organization secure and stay out of your user's way when not needed.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -214,14 +227,24 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Connect without authentication prompts",
+          "choices": [
+            "An Azure AD app registration",
+            "An Azure AD managed identity",
+            "Azure AD Application Proxy"
+          ],
           "expected": "An Azure AD app registration"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
-          "expected": "A conditional access policy"
+          "label": "Access only from company-owned computers",
+          "choices": [
+            "A Conditional Access policy",
+            "An Azure AD administrative unit",
+            "Azure Application Gateway",
+            "Azure Blueprints",
+            "Azure Policy"
+          ],
+          "expected": "A Conditional Access policy"
         }
       ]
     },
@@ -246,13 +269,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "An Azure AD app registration; A conditional access policy",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 5,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: An Azure AD app registration Azure active directory (AD) provides cloud based directory and identity management services.You can use azure AD to manage users of your application and authenticate access to your applications using azure active directory. You register your application with Azure active directory tenant. Box 2: A conditional access policy Conditional Access policies at their simplest are if-then statements, if a user wants to access a resource, then they must complete an action. By using Conditional Access policies, you can apply the right access controls when needed to keep your organization secure and stay out of your user's way when not needed.",
-    "pedagogicalContext": "Conditional Access applique des règles d’accès en fonction de signaux comme l’identité, l’appareil, l’emplacement ou le niveau de risque. Dans un scénario d’architecture, il faut l’associer aux exigences d’accès conditionnel plutôt qu’à l’hébergement de l’application."
+    "pedagogicalContext": "Box 1: An Azure AD app registration Azure active directory (AD) provides cloud based directory and identity management services.You can use azure AD to manage users of your application and authenticate access to your applications using azure active directory. You register your application with Azure active directory tenant. Box 2: A conditional access policy Conditional Access policies at their simplest are if-then statements, if a user wants to access a resource, then they must complete an action. By using Conditional Access policies, you can apply the right access controls when needed to keep your organization secure and stay out of your user's way when not needed.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q6-p5-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q7",
@@ -363,14 +390,35 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure subscription. The subscription contains Azure virtual machines that run Windows Server 2016 and Linux.\n\nYou need to use Azure Monitor to design an alerting strategy for security-related events.\n\nWhich Azure Monitor Logs tables should you query? To answer, drag the appropriate tables to the correct log types. Each table may be used once,\n\nmore than once, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.\n\nSelect and Place:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Events from Windows event logs : Event · Events from Linux system logging : Syslog",
+    "explanation": "Les événements Windows collectés dans les journaux Windows sont interrogés dans Event. Les journaux système Linux utilisent Syslog. AzureActivity concerne le plan de gestion Azure, pas les journaux du système invité.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Events from Windows event logs",
+          "choices": [
+            "AzureActivity",
+            "AzureDiagnostics",
+            "Event",
+            "Syslog"
+          ],
+          "expected": "Event"
+        },
+        {
+          "label": "Events from Linux system logging",
+          "choices": [
+            "AzureActivity",
+            "AzureDiagnostics",
+            "Event",
+            "Syslog"
+          ],
+          "expected": "Syslog"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q10-p8-1-q.png"
@@ -393,13 +441,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 8,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Les événements Windows collectés dans les journaux Windows sont interrogés dans Event. Les journaux système Linux utilisent Syslog. AzureActivity concerne le plan de gestion Azure, pas les journaux du système invité.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q10-p8-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q11",
@@ -448,8 +500,8 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Your on-premises network contains a server named Server1 that runs an ASP.NET application named App1.\n\nYou have a hybrid deployment of Azure Active Directory (Azure AD).\n\nYou need to recommend a solution to ensure that users sign in by using their Azure AD account and Azure Multi-Factor Authentication (MFA) when\n\nthey connect to App1 from the internet.\n\nWhich three features should you recommend be deployed and configured in sequence? To answer, move the appropriate features from the list of\n\nfeatures to the answer area and arrange them in the correct order.\n\nSelect and Place:",
-    "solutionAnswer": "Azure AD Application Proxy; an Azure AD enterprise application",
-    "explanation": "Application Proxy publie une application web interne via Microsoft Entra ID sans imposer un VPN aux utilisateurs distants. L’application d’entreprise porte ensuite la configuration d’authentification et d’accès.",
+    "solutionAnswer": "Étape 1 : Azure AD Application Proxy · Étape 2 : an Azure AD enterprise application · Étape 3 : a Conditional Access policy",
+    "explanation": "Application Proxy publie l’application locale. L’enterprise application représente cette application dans Azure AD. Une policy Conditional Access impose ensuite MFA aux utilisateurs qui y accèdent.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -458,13 +510,42 @@ window.AZ305_QUESTIONS = [
       "rows": [
         {
           "label": "Étape 1",
-          "choices": [],
+          "choices": [
+            "a public Azure Load Balancer",
+            "a managed identity",
+            "an internal Azure Load Balancer",
+            "a Conditional Access policy",
+            "an Azure App Service plan",
+            "Azure AD Application Proxy",
+            "an Azure AD enterprise application"
+          ],
           "expected": "Azure AD Application Proxy"
         },
         {
           "label": "Étape 2",
-          "choices": [],
+          "choices": [
+            "a public Azure Load Balancer",
+            "a managed identity",
+            "an internal Azure Load Balancer",
+            "a Conditional Access policy",
+            "an Azure App Service plan",
+            "Azure AD Application Proxy",
+            "an Azure AD enterprise application"
+          ],
           "expected": "an Azure AD enterprise application"
+        },
+        {
+          "label": "Étape 3",
+          "choices": [
+            "a public Azure Load Balancer",
+            "a managed identity",
+            "an internal Azure Load Balancer",
+            "a Conditional Access policy",
+            "an Azure App Service plan",
+            "Azure AD Application Proxy",
+            "an Azure AD enterprise application"
+          ],
+          "expected": "a Conditional Access policy"
         }
       ]
     },
@@ -476,8 +557,8 @@ window.AZ305_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Référence du document source",
-        "url": "https://docs.microsoft.com/en-us/azure/active-directory/app-proxy/application-proxy-add-on-premises-application"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/app-proxy/conceptual-application-proxy-integrate-with-sharepoint-server"
       }
     ],
     "sourceScope": "source",
@@ -485,13 +566,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure AD Application Proxy; an Azure AD enterprise application",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 10,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Step 1: Azure AD Application Proxy Start by enabling communication to Azure data centers to prepare your environment for Azure AD Application Proxy. Step 2: an Azure AD enterprise application Add an on-premises app to Azure AD. Now that you've prepared your environment and installed a connector, you're ready to add on-premises applications to Azure AD. 1. Sign in as an administrator in the Azure portal. 2. In the left navigation panel, select Azure Active Directory. 3. Select Enterprise applications, and then select New application. 4. Etc.",
-    "pedagogicalContext": "Application Proxy publie une application web interne via Microsoft Entra ID sans imposer un VPN aux utilisateurs distants. L’application d’entreprise porte ensuite la configuration d’authentification et d’accès."
+    "pedagogicalContext": "Application Proxy publie l’application locale. L’enterprise application représente cette application dans Azure AD. Une policy Conditional Access impose ensuite MFA aux utilisateurs qui y accèdent.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q12-p10-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q13",
@@ -570,8 +655,8 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You need to design an architecture to capture the creation of users and the assignment of roles. The captured data must be stored in Azure\n\nCosmos DB.\n\nWhich services should you include in the design? To answer, drag the appropriate services to the correct targets. Each service may be used once,\n\nmore than once, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.\n\nSelect and Place:",
-    "solutionAnswer": "Azure Event Hubs; Azure Function",
-    "explanation": "Azure Cosmos DB est une base distribuée conçue pour une faible latence, une réplication globale et plusieurs modèles d’accès. Le choix de l’API et du mode de réplication doit suivre le modèle de données et les besoins de disponibilité.",
+    "solutionAnswer": "Audit log ingestion : Azure Event Hubs · Processing before Cosmos DB : Azure Functions",
+    "explanation": "Box 1: Azure Event Hubs - You can route Azure Active Directory (Azure AD) activity logs to several endpoints for long term retention and data insights. The Event Hub is used for streaming. Box 2: Azure Function - Use an Azure Function along with a cosmos DB change feed, and store the data in Cosmos DB.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -579,14 +664,26 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Audit log ingestion",
+          "choices": [
+            "Azure Event Grid",
+            "Azure Event Hubs",
+            "Azure Functions",
+            "Azure Monitor Logs",
+            "Azure Notification Hubs"
+          ],
           "expected": "Azure Event Hubs"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
-          "expected": "Azure Function"
+          "label": "Processing before Cosmos DB",
+          "choices": [
+            "Azure Event Grid",
+            "Azure Event Hubs",
+            "Azure Functions",
+            "Azure Monitor Logs",
+            "Azure Notification Hubs"
+          ],
+          "expected": "Azure Functions"
         }
       ]
     },
@@ -607,13 +704,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure Event Hubs; Azure Function",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 12,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Azure Event Hubs - You can route Azure Active Directory (Azure AD) activity logs to several endpoints for long term retention and data insights. The Event Hub is used for streaming. Box 2: Azure Function - Use an Azure Function along with a cosmos DB change feed, and store the data in Cosmos DB.",
-    "pedagogicalContext": "Azure Cosmos DB est une base distribuée conçue pour une faible latence, une réplication globale et plusieurs modèles d’accès. Le choix de l’API et du mode de réplication doit suivre le modèle de données et les besoins de disponibilité."
+    "pedagogicalContext": "Box 1: Azure Event Hubs - You can route Azure Active Directory (Azure AD) activity logs to several endpoints for long term retention and data insights. The Event Hub is used for streaming. Box 2: Azure Function - Use an Azure Function along with a cosmos DB change feed, and store the data in Cosmos DB.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q15-p12-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q16",
@@ -658,8 +759,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure subscription that contains 300 virtual machines that run Windows Server 2019.\n\nYou need to centrally monitor all warning events in the System logs of the virtual machines.\n\nWhat should you include in the solution? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "A Log Analytics workspace; Install the Azure Monitor agent",
-    "explanation": "Log Analytics centralise les journaux Azure Monitor et permet de les interroger avec KQL. On le choisit lorsque le besoin porte sur la collecte, l’analyse ou la corrélation de logs.",
+    "solutionAnswer": "Resource to create in Azure : A Log Analytics workspace · Configuration on the VMs : Install the Azure Monitor agent",
+    "explanation": "Box 1: A Log Analytics workspace Send resource logs to a Log Analytics workspace to enable the features of Azure Monitor Logs. You must create a diagnostic setting for each Azure resource to send its resource logs to a Log Analytics workspace to use with Azure Monitor Logs. Box 2: Install the Azure Monitor agent Use the Azure Monitor agent if you need to: Collect guest logs and metrics from any machine in Azure, in other clouds, or on-premises. Manage data collection configuration centrally",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -667,13 +768,23 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Resource to create in Azure",
+          "choices": [
+            "An event hub",
+            "A Log Analytics workspace",
+            "A search service",
+            "A storage account"
+          ],
           "expected": "A Log Analytics workspace"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Configuration on the VMs",
+          "choices": [
+            "Create event subscriptions",
+            "Configure Continuous delivery",
+            "Install the Azure Monitor agent",
+            "Modify membership of the Event Log Readers group"
+          ],
           "expected": "Install the Azure Monitor agent"
         }
       ]
@@ -699,13 +810,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "A Log Analytics workspace; Install the Azure Monitor agent",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 15,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: A Log Analytics workspace Send resource logs to a Log Analytics workspace to enable the features of Azure Monitor Logs. You must create a diagnostic setting for each Azure resource to send its resource logs to a Log Analytics workspace to use with Azure Monitor Logs. Box 2: Install the Azure Monitor agent Use the Azure Monitor agent if you need to: Collect guest logs and metrics from any machine in Azure, in other clouds, or on-premises. Manage data collection configuration centrally",
-    "pedagogicalContext": "Log Analytics centralise les journaux Azure Monitor et permet de les interroger avec KQL. On le choisit lorsque le besoin porte sur la collecte, l’analyse ou la corrélation de logs."
+    "pedagogicalContext": "Box 1: A Log Analytics workspace Send resource logs to a Log Analytics workspace to enable the features of Azure Monitor Logs. You must create a diagnostic setting for each Azure resource to send its resource logs to a Log Analytics workspace to use with Azure Monitor Logs. Box 2: Install the Azure Monitor agent Use the Azure Monitor agent if you need to: Collect guest logs and metrics from any machine in Azure, in other clouds, or on-premises. Manage data collection configuration centrally",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q17-p15-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q18",
@@ -714,8 +829,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have several Azure App Service web apps that use Azure Key Vault to store data encryption keys.\n\nSeveral departments have the following requests to support the web app:\n\nWhich service should you recommend for each department's request? To answer, configure the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Azure AD Privileged Identity Management; Azure Managed Identity; Azure AD Privileged Identity Management",
-    "explanation": "PIM permet de limiter dans le temps et de contrôler l’activation des rôles privilégiés. C’est pertinent lorsque le besoin porte sur du juste-à-temps, de l’approbation ou une réduction de l’exposition permanente des privilèges.",
+    "solutionAnswer": "Security : Azure AD Privileged Identity Management · Development : Azure Managed Identity · Quality Assurance : Azure AD Privileged Identity Management",
+    "explanation": "Box 1: Azure AD Privileged Identity Management Privileged Identity Management provides time-based and approval-based role activation to mitigate the risks of excessive, unnecessary, or misused access permissions on resources that you care about. Here are some of the key features of Privileged Identity Management: Provide just-in-time privileged access to Azure AD and Azure resources Assign time-bound access to resources using start and end dates Require approval to activate privileged roles Enforce multi-factor authentication to activate any role Use justification to understand why users activate Get notifications when privileged roles are activated Conduct access reviews to ensure users still need roles Download audit history for internal or external audit Prevents removal of the last active Global Administrator role assignment Box 2: Azure Managed Identity - Managed identities provide an identity for applications to use when connecting to resources that support Azure Active Directory (Azure AD) authentication. Applications may use the managed identity to obtain Azure AD tokens. With Azure Key Vault, developers can use managed identities to access resources. Key Vault stores credentials in a secure manner and gives access to storage accounts. Box 3: Azure AD Privileged Identity Management Privileged Identity Management provides time-based and approval-based role activation to mitigate the risks of excessive, unnecessary, or misused access permissions on resources that you care about. Here are some of the key features of Privileged Identity Management: Provide just-in-time privileged access to Azure AD and Azure resources Assign time-bound access to resources using start and end dates",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -723,18 +838,33 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Security",
+          "choices": [
+            "Azure AD Privileged Identity Management",
+            "Azure Managed Identity",
+            "Azure AD Connect",
+            "Azure AD Identity Protection"
+          ],
           "expected": "Azure AD Privileged Identity Management"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Development",
+          "choices": [
+            "Azure AD Privileged Identity Management",
+            "Azure Managed Identity",
+            "Azure AD Connect",
+            "Azure AD Identity Protection"
+          ],
           "expected": "Azure Managed Identity"
         },
         {
-          "label": "Sélection 3",
-          "choices": [],
+          "label": "Quality Assurance",
+          "choices": [
+            "Azure AD Privileged Identity Management",
+            "Azure Managed Identity",
+            "Azure AD Connect",
+            "Azure AD Identity Protection"
+          ],
           "expected": "Azure AD Privileged Identity Management"
         }
       ]
@@ -761,13 +891,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure AD Privileged Identity Management; Azure Managed Identity; Azure AD Privileged Identity Management",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 16,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Azure AD Privileged Identity Management Privileged Identity Management provides time-based and approval-based role activation to mitigate the risks of excessive, unnecessary, or misused access permissions on resources that you care about. Here are some of the key features of Privileged Identity Management: Provide just-in-time privileged access to Azure AD and Azure resources Assign time-bound access to resources using start and end dates Require approval to activate privileged roles Enforce multi-factor authentication to activate any role Use justification to understand why users activate Get notifications when privileged roles are activated Conduct access reviews to ensure users still need roles Download audit history for internal or external audit Prevents removal of the last active Global Administrator role assignment Box 2: Azure Managed Identity - Managed identities provide an identity for applications to use when connecting to resources that support Azure Active Directory (Azure AD) authentication. Applications may use the managed identity to obtain Azure AD tokens. With Azure Key Vault, developers can use managed identities to access resources. Key Vault stores credentials in a secure manner and gives access to storage accounts. Box 3: Azure AD Privileged Identity Management Privileged Identity Management provides time-based and approval-based role activation to mitigate the risks of excessive, unnecessary, or misused access permissions on resources that you care about. Here are some of the key features of Privileged Identity Management: Provide just-in-time privileged access to Azure AD and Azure resources Assign time-bound access to resources using start and end dates",
-    "pedagogicalContext": "PIM permet de limiter dans le temps et de contrôler l’activation des rôles privilégiés. C’est pertinent lorsque le besoin porte sur du juste-à-temps, de l’approbation ou une réduction de l’exposition permanente des privilèges."
+    "pedagogicalContext": "Box 1: Azure AD Privileged Identity Management Privileged Identity Management provides time-based and approval-based role activation to mitigate the risks of excessive, unnecessary, or misused access permissions on resources that you care about. Here are some of the key features of Privileged Identity Management: Provide just-in-time privileged access to Azure AD and Azure resources Assign time-bound access to resources using start and end dates Require approval to activate privileged roles Enforce multi-factor authentication to activate any role Use justification to understand why users activate Get notifications when privileged roles are activated Conduct access reviews to ensure users still need roles Download audit history for internal or external audit Prevents removal of the last active Global Administrator role assignment Box 2: Azure Managed Identity - Managed identities provide an identity for applications to use when connecting to resources that support Azure Active Directory (Azure AD) authentication. Applications may use the managed identity to obtain Azure AD tokens. With Azure Key Vault, developers can use managed identities to access resources. Key Vault stores credentials in a secure manner and gives access to storage accounts. Box 3: Azure AD Privileged Identity Management Privileged Identity Management provides time-based and approval-based role activation to mitigate the risks of excessive, unnecessary, or misused access permissions on resources that you care about. Here are some of the key features of Privileged Identity Management: Provide just-in-time privileged access to Azure AD and Azure resources Assign time-bound access to resources using start and end dates",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q18-p16-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 767,
+        "height": 269,
+        "sourceWidth": 767,
+        "sourceHeight": 269
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q18-p16-2-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q19",
@@ -776,14 +920,45 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Your company has the divisions shown in the following table.\n\nYou plan to deploy a custom application to each subscription. The application will contain the following:\n\n✑ A resource group\n\n✑ An Azure web app\n\n✑ Custom role assignments\n\n✑ An Azure Cosmos DB account\n\nYou need to use Azure Blueprints to deploy the application to each subscription.\n\nWhat is the minimum number of objects required to deploy the application? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Management groups : 2 · Blueprint definitions : 2 · Blueprint assignments : 4",
+    "explanation": "Chaque tenant a sa propre hiérarchie de management groups et sa définition Blueprint. Le tableau contient deux tenants et quatre abonnements : il faut deux management groups, deux définitions et quatre assignments, un par abonnement. L’illustration de correction indique deux assignments ; cette valeur ne couvre pas les quatre abonnements.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Management groups",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "expected": "2"
+        },
+        {
+          "label": "Blueprint definitions",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "expected": "2"
+        },
+        {
+          "label": "Blueprint assignments",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "expected": "4"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q19-p18-1-q.png",
@@ -792,19 +967,38 @@ window.AZ305_QUESTIONS = [
     "solutionAssets": [
       "assets/az305/AZ305-T1-Q19-p19-1-s.png"
     ],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/governance/blueprints/concepts/deployment-stages"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
-    "originalAnswer": "Voir l’illustration de correction du document source.",
-    "answerRevision": false,
-    "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "originalAnswer": "2 management groups; 2 blueprint definitions; 2 blueprint assignments (illustration source)",
+    "answerRevision": true,
+    "sourceConflict": true,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 18,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Chaque tenant a sa propre hiérarchie de management groups et sa définition Blueprint. Le tableau contient deux tenants et quatre abonnements : il faut deux management groups, deux définitions et quatre assignments, un par abonnement. L’illustration de correction indique deux assignments ; cette valeur ne couvre pas les quatre abonnements.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q19-p18-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 895,
+        "height": 103,
+        "sourceWidth": 895,
+        "sourceHeight": 103
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q19-p18-2-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q20",
@@ -813,8 +1007,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You need to design an Azure policy that will implement the following functionality:\n\n✑ For new resources, assign tags and values that match the tags and values of the resource group to which the resources are deployed.\n\n✑ For existing resources, identify whether the tags and values match the tags and values of the resource group that contains the resources.\n\n✑ For any non-compliant resources, trigger auto-generated remediation tasks to create missing tags and values.\n\nThe solution must use the principle of least privilege.\n\nWhat should you include in the design? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Modify; A managed identity with the Contributor role",
-    "explanation": "Une identité managée permet à une ressource Azure de s’authentifier auprès d’autres services sans stocker de secret dans le code ou sur la machine. Une identité attribuée par l’utilisateur est réutilisable par plusieurs ressources, tandis qu’une identité système suit le cycle de vie d’une ressource.",
+    "solutionAnswer": "Azure Policy effect : Modify · Identity for remediation : A managed identity with the Contributor role",
+    "explanation": "Box 1: Modify - Modify is used to add, update, or remove properties or tags on a subscription or resource during creation or update. A common example is updating tags on resources such as costCenter. Existing non-compliant resources can be remediated with a remediation task. A single Modify rule can have any number of operations. Policy assignments with effect set as Modify require a managed identity to do remediation. Incorrect: * The following effects are deprecated: EnforceOPAConstraint EnforceRegoPolicy * Append is used to add additional fields to the requested resource during creation or update. A common example is specifying allowed IPs for a storage resource. Append is intended for use with non-tag properties. While Append can add tags to a resource during a create or update request, it's recommended to use the Modify effect for tags instead. Box 2: A managed identity with the Contributor role The managed identity needs to be granted the appropriate roles required for remediating resources to grant the managed identity. Contributor - Can create and manage all types of Azure resources but can't grant access to others. Incorrect: User Access Administrator: lets you manage user access to Azure resources.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -822,13 +1016,23 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Azure Policy effect",
+          "choices": [
+            "Append",
+            "EnforceOPAConstraint",
+            "EnforceRegoPolicy",
+            "Modify"
+          ],
           "expected": "Modify"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Identity for remediation",
+          "choices": [
+            "A managed identity with the Contributor role",
+            "A managed identity with the User Access Administrator role",
+            "A service principal with the Contributor role",
+            "A service principal with the User Access Administrator role"
+          ],
           "expected": "A managed identity with the Contributor role"
         }
       ]
@@ -858,13 +1062,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Modify; A managed identity with the Contributor role",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 20,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Modify - Modify is used to add, update, or remove properties or tags on a subscription or resource during creation or update. A common example is updating tags on resources such as costCenter. Existing non-compliant resources can be remediated with a remediation task. A single Modify rule can have any number of operations. Policy assignments with effect set as Modify require a managed identity to do remediation. Incorrect: * The following effects are deprecated: EnforceOPAConstraint EnforceRegoPolicy * Append is used to add additional fields to the requested resource during creation or update. A common example is specifying allowed IPs for a storage resource. Append is intended for use with non-tag properties. While Append can add tags to a resource during a create or update request, it's recommended to use the Modify effect for tags instead. Box 2: A managed identity with the Contributor role The managed identity needs to be granted the appropriate roles required for remediating resources to grant the managed identity. Contributor - Can create and manage all types of Azure resources but can't grant access to others. Incorrect: User Access Administrator: lets you manage user access to Azure resources.",
-    "pedagogicalContext": "Une identité managée permet à une ressource Azure de s’authentifier auprès d’autres services sans stocker de secret dans le code ou sur la machine. Une identité attribuée par l’utilisateur est réutilisable par plusieurs ressources, tandis qu’une identité système suit le cycle de vie d’une ressource."
+    "pedagogicalContext": "Box 1: Modify - Modify is used to add, update, or remove properties or tags on a subscription or resource during creation or update. A common example is updating tags on resources such as costCenter. Existing non-compliant resources can be remediated with a remediation task. A single Modify rule can have any number of operations. Policy assignments with effect set as Modify require a managed identity to do remediation. Incorrect: * The following effects are deprecated: EnforceOPAConstraint EnforceRegoPolicy * Append is used to add additional fields to the requested resource during creation or update. A common example is specifying allowed IPs for a storage resource. Append is intended for use with non-tag properties. While Append can add tags to a resource during a create or update request, it's recommended to use the Modify effect for tags instead. Box 2: A managed identity with the Contributor role The managed identity needs to be granted the appropriate roles required for remediating resources to grant the managed identity. Contributor - Can create and manage all types of Azure resources but can't grant access to others. Incorrect: User Access Administrator: lets you manage user access to Azure resources.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q20-p20-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q21",
@@ -874,16 +1082,16 @@ window.AZ305_QUESTIONS = [
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure subscription that contains the resources shown in the following table.\n\nYou create an Azure SQL database named DB1 that is hosted in the East US Azure region.\n\nTo DB1, you add a diagnostic setting named Settings1. Settings1 archive SQLInsights to storage1 and sends SQLInsights to Workspace1.\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\n\nHot Area:",
     "solutionAnswer": "Yes; Yes; Yes",
-    "explanation": "La correction du support retient « Yes; Yes; Yes ». Dans l’énoncé, le point à résoudre est : « For each of the following statements, select Yes if the statement is true. Otherwise, select No. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "explanation": "Box 1: Yes - A single diagnostic setting can define no more than one of each of the destinations. If you want to send data to more than one of a particular destination type (for example, two different Log Analytics workspaces), then create multiple settings. Each resource can have up to 5 diagnostic settings. Note: This diagnostic telemetry can be streamed to one of the following Azure resources for analysis. * Log Analytics workspace * Azure Event Hubs * Azure Storage Box 2: Yes - Box 3: Yes -",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
       "kind": "yn",
       "labels": [
-        "Proposition 1",
-        "Proposition 2",
-        "Proposition 3"
+        "You can add a new diagnostic setting that archives SQLInsights logs to storage2.",
+        "You can add a new diagnostic setting that sends SQLInsights logs to Workspace2.",
+        "You can add a new diagnostic setting that sends SQLInsights logs to Hub1."
       ],
       "expected": [
         true,
@@ -913,13 +1121,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Yes; Yes; Yes",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 21,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Yes - A single diagnostic setting can define no more than one of each of the destinations. If you want to send data to more than one of a particular destination type (for example, two different Log Analytics workspaces), then create multiple settings. Each resource can have up to 5 diagnostic settings. Note: This diagnostic telemetry can be streamed to one of the following Azure resources for analysis. * Log Analytics workspace * Azure Event Hubs * Azure Storage Box 2: Yes - Box 3: Yes -",
-    "pedagogicalContext": "La correction du support retient « Yes; Yes; Yes ». Dans l’énoncé, le point à résoudre est : « For each of the following statements, select Yes if the statement is true. Otherwise, select No. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: Yes - A single diagnostic setting can define no more than one of each of the destinations. If you want to send data to more than one of a particular destination type (for example, two different Log Analytics workspaces), then create multiple settings. Each resource can have up to 5 diagnostic settings. Note: This diagnostic telemetry can be streamed to one of the following Azure resources for analysis. * Log Analytics workspace * Azure Event Hubs * Azure Storage Box 2: Yes - Box 3: Yes -",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q21-p21-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 607,
+        "height": 403,
+        "sourceWidth": 607,
+        "sourceHeight": 403
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q21-p21-2-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q22",
@@ -1000,8 +1222,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure App Service web app that uses a system-assigned managed identity.\n\nYou need to recommend a solution to store the settings of the web app as secrets in an Azure key vault. The solution must meet the following\n\nrequirements:\n\n✑ Minimize changes to the app code.\n\n✑ Use the principle of least privilege.\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Key Vault references in Application settings; Secrets: Get",
-    "explanation": "Une identité managée permet à une ressource Azure de s’authentifier auprès d’autres services sans stocker de secret dans le code ou sur la machine. Une identité attribuée par l’utilisateur est réutilisable par plusieurs ressources, tandis qu’une identité système suit le cycle de vie d’une ressource.",
+    "solutionAnswer": "Key Vault integration : Key Vault references in Application settings · Key Vault permissions : Secrets: Get",
+    "explanation": "Box 1: Key Vault references in Application settings Source Application Settings from Key Vault. Key Vault references can be used as values for Application Settings, allowing you to keep secrets in Key Vault instead of the site config. Application Settings are securely encrypted at rest, but if you need secret management capabilities, they should go into Key Vault. To use a Key Vault reference for an app setting, set the reference as the value of the setting. Your app can reference the secret through its key as normal. No code changes are required. Box 2: Secrets: Get - In order to read secrets from Key Vault, you need to have a vault created and give your app permission to access it. 1. Create a key vault by following the Key Vault quickstart. 2. Create a managed identity for your application. 3. Key Vault references will use the app's system assigned identity by default, but you can specify a user-assigned identity. 4. Create an access policy in Key Vault for the application identity you created earlier. Enable the \"Get\" secret permission on this policy.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -1009,13 +1231,23 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Key Vault integration",
+          "choices": [
+            "Key Vault references in Application settings",
+            "Key Vault references in Appsettings.json",
+            "Key Vault references in Web.config",
+            "Key Vault SDK"
+          ],
           "expected": "Key Vault references in Application settings"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Key Vault permissions",
+          "choices": [
+            "Keys: Get",
+            "Keys: List and Get",
+            "Secrets: Get",
+            "Secrets: List and Get"
+          ],
           "expected": "Secrets: Get"
         }
       ]
@@ -1041,13 +1273,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Key Vault references in Application settings; Secrets: Get",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 23,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Key Vault references in Application settings Source Application Settings from Key Vault. Key Vault references can be used as values for Application Settings, allowing you to keep secrets in Key Vault instead of the site config. Application Settings are securely encrypted at rest, but if you need secret management capabilities, they should go into Key Vault. To use a Key Vault reference for an app setting, set the reference as the value of the setting. Your app can reference the secret through its key as normal. No code changes are required. Box 2: Secrets: Get - In order to read secrets from Key Vault, you need to have a vault created and give your app permission to access it. 1. Create a key vault by following the Key Vault quickstart. 2. Create a managed identity for your application. 3. Key Vault references will use the app's system assigned identity by default, but you can specify a user-assigned identity. 4. Create an access policy in Key Vault for the application identity you created earlier. Enable the \"Get\" secret permission on this policy.",
-    "pedagogicalContext": "Une identité managée permet à une ressource Azure de s’authentifier auprès d’autres services sans stocker de secret dans le code ou sur la machine. Une identité attribuée par l’utilisateur est réutilisable par plusieurs ressources, tandis qu’une identité système suit le cycle de vie d’une ressource."
+    "pedagogicalContext": "Box 1: Key Vault references in Application settings Source Application Settings from Key Vault. Key Vault references can be used as values for Application Settings, allowing you to keep secrets in Key Vault instead of the site config. Application Settings are securely encrypted at rest, but if you need secret management capabilities, they should go into Key Vault. To use a Key Vault reference for an app setting, set the reference as the value of the setting. Your app can reference the secret through its key as normal. No code changes are required. Box 2: Secrets: Get - In order to read secrets from Key Vault, you need to have a vault created and give your app permission to access it. 1. Create a key vault by following the Key Vault quickstart. 2. Create a managed identity for your application. 3. Key Vault references will use the app's system assigned identity by default, but you can specify a user-assigned identity. 4. Create an access policy in Key Vault for the application identity you created earlier. Enable the \"Get\" secret permission on this policy.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q24-p23-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q25",
@@ -1121,7 +1357,17 @@ window.AZ305_QUESTIONS = [
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Synapse Link permet d’analyser les données opérationnelles de Cosmos DB sans déplacer les données par un ETL classique et en limitant l’impact sur la charge transactionnelle."
+    "pedagogicalContext": "Synapse Link permet d’analyser les données opérationnelles de Cosmos DB sans déplacer les données par un ETL classique et en limitant l’impact sur la charge transactionnelle.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q26-p24-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 494,
+        "height": 89,
+        "sourceWidth": 494,
+        "sourceHeight": 89
+      }
+    }
   },
   {
     "id": "AZ305-T1-Q27",
@@ -1130,8 +1376,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You deploy several Azure SQL Database instances.\n\nYou plan to configure the Diagnostics settings on the databases as shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "90 days; 730 days",
-    "explanation": "La correction du support retient « 90 days; 730 days ». Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "SQLInsights retention in blob storage : 90 days · Maximum Log Analytics retention in this source scenario : 730 days",
+    "explanation": "Box 1: 90 days - As per exhibit. Box 2: 730 days - How long is the data kept? Raw data points (that is, items that you can query in Analytics and inspect in Search) are kept for up to 730 days.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -1139,13 +1385,23 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "SQLInsights retention in blob storage",
+          "choices": [
+            "30 days",
+            "90 days",
+            "730 days",
+            "indefinite"
+          ],
           "expected": "90 days"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Maximum Log Analytics retention in this source scenario",
+          "choices": [
+            "30 days",
+            "90 days",
+            "730 days",
+            "indefinite"
+          ],
           "expected": "730 days"
         }
       ]
@@ -1168,13 +1424,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "90 days; 730 days",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 25,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: 90 days - As per exhibit. Box 2: 730 days - How long is the data kept? Raw data points (that is, items that you can query in Analytics and inspect in Search) are kept for up to 730 days.",
-    "pedagogicalContext": "La correction du support retient « 90 days; 730 days ». Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: 90 days - As per exhibit. Box 2: 730 days - How long is the data kept? Raw data points (that is, items that you can query in Analytics and inspect in Search) are kept for up to 730 days.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q27-p25-1-q.jpeg": {
+        "x": 0,
+        "y": 0,
+        "width": 1135,
+        "height": 863,
+        "sourceWidth": 1135,
+        "sourceHeight": 863
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q27-p25-2-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q28",
@@ -1219,14 +1489,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure subscription that contains a virtual network named VNET1 and 10 virtual machines. The virtual machines are connected to\n\nVNET1.\n\nYou need to design a solution to manage the virtual machines from the internet. The solution must meet the following requirements:\n\n✑ Incoming connections to the virtual machines must be authenticated by using Azure Multi-Factor Authentication (MFA) before network\n\nconnectivity is allowed.\n\n✑ Incoming connections must use TLS and connect to TCP port 443.\n\n✑ The solution must support RDP and SSH.\n\nWhat should you include in the solution? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Access to VMs on VNET1 : Azure Bastion · Enforce Azure MFA : A Conditional Access policy targeting Azure Windows VM Sign-In",
+    "explanation": "Azure Bastion permet des sessions RDP et SSH via HTTPS sur le port 443. Une policy Conditional Access ciblant Azure Windows VM Sign-In impose MFA à la connexion Windows utilisant Azure AD ; le contrôle s’applique à l’authentification concernée.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Access to VMs on VNET1",
+          "choices": [
+            "Azure Bastion",
+            "Just-in-time (JIT) VM access",
+            "Azure Web Application Firewall (WAF) in Azure Front Door"
+          ],
+          "expected": "Azure Bastion"
+        },
+        {
+          "label": "Enforce Azure MFA",
+          "choices": [
+            "An Azure Identity Governance access package",
+            "A Conditional Access policy targeting Azure Windows VM Sign-In",
+            "A Conditional Access policy targeting Microsoft Azure Management"
+          ],
+          "expected": "A Conditional Access policy targeting Azure Windows VM Sign-In"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q29-p27-1-q.png"
@@ -1240,13 +1529,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 27,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Azure Bastion permet des sessions RDP et SSH via HTTPS sur le port 443. Une policy Conditional Access ciblant Azure Windows VM Sign-In impose MFA à la connexion Windows utilisant Azure AD ; le contrôle s’applique à l’authentification concernée.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q29-p27-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q30",
@@ -1328,7 +1621,7 @@ window.AZ305_QUESTIONS = [
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Your company has the divisions shown in the following table.\n\nSub1 contains an Azure App Service web app named App1. App1 uses Azure AD for single-tenant user authentication. Users from contoso.com\n\ncan authenticate to App1.\n\nYou need to recommend a solution to enable users in the fabrikam.com tenant to authenticate to App1.\n\nWhat should you recommend?",
     "solutionAnswer": "Use Azure AD entitlement management to govern external users.",
-    "explanation": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "explanation": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
     "options": [
       "Configure the Azure AD provisioning service.",
       "Enable Azure AD pass-through authentication and update the sign-in endpoint.",
@@ -1344,19 +1637,34 @@ window.AZ305_QUESTIONS = [
       "assets/az305/AZ305-T1-Q32-p29-1-q.jpeg"
     ],
     "solutionAssets": [],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-external-users"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Use Azure AD entitlement management to govern external users.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 29,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q32-p29-1-q.jpeg": {
+        "x": 0,
+        "y": 0,
+        "width": 812,
+        "height": 171,
+        "sourceWidth": 812,
+        "sourceHeight": 171
+      }
+    }
   },
   {
     "id": "AZ305-T1-Q33",
@@ -1365,8 +1673,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Your company has 20 web APIs that were developed in-house.\n\nThe company is developing 10 web apps that will use the web APIs. The web apps and the APIs are registered in the company s Azure Active\n\nDirectory (Azure\n\nAD) tenant. The web APIs are published by using Azure API Management.\n\nYou need to recommend a solution to block unauthorized requests originating from the web apps from reaching the web APIs. The solution must\n\nmeet the following requirements:\n\n✑ Use Azure AD-generated claims.\n\nMinimize configuration and management effort.\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Azure AD; Azure API Management",
-    "explanation": "API Management sert de façade gouvernée devant des API : authentification, validation de jetons, quotas, transformations et politiques peuvent être appliqués sans modifier chaque API backend.",
+    "solutionAnswer": "Grant web apps access to APIs : Azure AD · Validate JSON Web Tokens : Azure API Management",
+    "explanation": "Box 1: Azure AD - Grant permissions in Azure AD. Box 2: Azure API Management - Configure a JWT validation policy to pre-authorize requests. Pre-authorize requests in API Management with the Validate JWT policy, by validating the access tokens of each incoming request. If a request does not have a valid token, API Management blocks it.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -1374,13 +1682,21 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Grant web apps access to APIs",
+          "choices": [
+            "Azure AD",
+            "Azure API Management",
+            "The web APIs"
+          ],
           "expected": "Azure AD"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Validate JSON Web Tokens",
+          "choices": [
+            "Azure AD",
+            "Azure API Management",
+            "The web APIs"
+          ],
           "expected": "Azure API Management"
         }
       ]
@@ -1402,13 +1718,24 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure AD; Azure API Management",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 30,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Azure AD - Grant permissions in Azure AD. Box 2: Azure API Management - Configure a JWT validation policy to pre-authorize requests. Pre-authorize requests in API Management with the Validate JWT policy, by validating the access tokens of each incoming request. If a request does not have a valid token, API Management blocks it.",
-    "pedagogicalContext": "API Management sert de façade gouvernée devant des API : authentification, validation de jetons, quotas, transformations et politiques peuvent être appliqués sans modifier chaque API backend."
+    "pedagogicalContext": "Box 1: Azure AD - Grant permissions in Azure AD. Box 2: Azure API Management - Configure a JWT validation policy to pre-authorize requests. Pre-authorize requests in API Management with the Validate JWT policy, by validating the access tokens of each incoming request. If a request does not have a valid token, API Management blocks it.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q33-p30-2-q.jpeg": {
+        "x": 0,
+        "y": 0,
+        "width": 951,
+        "height": 335,
+        "sourceWidth": 951,
+        "sourceHeight": 335
+      }
+    },
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q34",
@@ -1454,7 +1781,7 @@ window.AZ305_QUESTIONS = [
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Your company has the divisions shown in the following table.\n\nSub1 contains an Azure App Service web app named App1. App1 uses Azure AD for single-tenant user authentication. Users from contoso.com\n\ncan authenticate to App1.\n\nYou need to recommend a solution to enable users in the fabrikam.com tenant to authenticate to App1.\n\nWhat should you recommend?",
     "solutionAnswer": "Use Azure AD entitlement management to govern external users.",
-    "explanation": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "explanation": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
     "options": [
       "Configure the Azure AD provisioning service.",
       "Configure assignments for the fabrikam.com users by using Azure AD Privileged Identity Management (PIM).",
@@ -1470,19 +1797,34 @@ window.AZ305_QUESTIONS = [
       "assets/az305/AZ305-T1-Q35-p31-1-q.jpeg"
     ],
     "solutionAssets": [],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-external-users"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Use Azure AD entitlement management to govern external users.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 31,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q35-p31-1-q.jpeg": {
+        "x": 0,
+        "y": 0,
+        "width": 965,
+        "height": 176,
+        "sourceWidth": 965,
+        "sourceHeight": 176
+      }
+    }
   },
   {
     "id": "AZ305-T1-Q36",
@@ -1528,7 +1870,7 @@ window.AZ305_QUESTIONS = [
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Your company has the divisions shown in the following table.\n\nSub1 contains an Azure App Service web app named App1. App1 uses Azure AD for single-tenant user authentication. Users from contoso.com\n\ncan authenticate to App1.\n\nYou need to recommend a solution to enable users in the fabrikam.com tenant to authenticate to App1.\n\nWhat should you recommend?",
     "solutionAnswer": "Use Azure AD entitlement management to govern external users.",
-    "explanation": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "explanation": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
     "options": [
       "Configure Azure AD join.",
       "Use Azure AD entitlement management to govern external users.",
@@ -1544,19 +1886,34 @@ window.AZ305_QUESTIONS = [
       "assets/az305/AZ305-T1-Q37-p32-1-q.png"
     ],
     "solutionAssets": [],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-external-users"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Use Azure AD entitlement management to govern external users.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 32,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q37-p32-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 569,
+        "height": 100,
+        "sourceWidth": 569,
+        "sourceHeight": 100
+      }
+    }
   },
   {
     "id": "AZ305-T1-Q38",
@@ -1566,7 +1923,7 @@ window.AZ305_QUESTIONS = [
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Your company has the divisions shown in the following table.\n\nSub1 contains an Azure App Service web app named App1. App1 uses Azure AD for single-tenant user authentication. Users from contoso.com\n\ncan authenticate to App1.\n\nYou need to recommend a solution to enable users in the fabrikam.com tenant to authenticate to App1.\n\nWhat should you recommend?",
     "solutionAnswer": "Use Azure AD entitlement management to govern external users.",
-    "explanation": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "explanation": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
     "options": [
       "Configure Azure AD join.",
       "Configure Azure AD Identity Protection.",
@@ -1582,19 +1939,34 @@ window.AZ305_QUESTIONS = [
       "assets/az305/AZ305-T1-Q38-p33-1-q.png"
     ],
     "solutionAssets": [],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-external-users"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Use Azure AD entitlement management to govern external users.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 33,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q38-p33-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 569,
+        "height": 100,
+        "sourceWidth": 569,
+        "sourceHeight": 100
+      }
+    }
   },
   {
     "id": "AZ305-T1-Q39",
@@ -1639,14 +2011,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure subscription that contains an Azure key vault named KV1 and a virtual machine named VM1. VM1 runs Windows Server 2022:\n\nAzure Edition.\n\nYou plan to deploy an ASP.Net Core-based application named App1 to VM1.\n\nYou need to configure App1 to use a system-assigned managed identity to retrieve secrets from KV1. The solution must minimize development\n\neffort.\n\nWhat should you do? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "OAuth 2.0 flow : Client credentials grant flows · Token endpoint : Azure Instance Metadata Service (IMDS) endpoint",
+    "explanation": "L’application agit sans utilisateur avec l’identité managée de VM1. Elle obtient son jeton depuis IMDS sans gérer de secret client, puis utilise ce jeton pour appeler Key Vault avec les permissions attribuées à cette identité.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "OAuth 2.0 flow",
+          "choices": [
+            "Authorization code grant flows",
+            "Client credentials grant flows",
+            "Implicit grant flows"
+          ],
+          "expected": "Client credentials grant flows"
+        },
+        {
+          "label": "Token endpoint",
+          "choices": [
+            "Azure Instance Metadata Service (IMDS) endpoint",
+            "OAuth 2.0 access token endpoint of Azure AD",
+            "OAuth 2.0 access token endpoint of Microsoft Identity Platform"
+          ],
+          "expected": "Azure Instance Metadata Service (IMDS) endpoint"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q40-p34-1-q.png"
@@ -1660,13 +2051,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 34,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "L’application agit sans utilisateur avec l’identité managée de VM1. Elle obtient son jeton depuis IMDS sans gérer de secret client, puis utilise ce jeton pour appeler Key Vault avec les permissions attribuées à cette identité.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q40-p34-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q41",
@@ -1676,7 +2071,7 @@ window.AZ305_QUESTIONS = [
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Your company has the divisions shown in the following table.\n\nSub1 contains an Azure App Service web app named App1. App1 uses Azure AD for single-tenant user authentication. Users from contoso.com\n\ncan authenticate to App1.\n\nYou need to recommend a solution to enable users in the fabrikam.com tenant to authenticate to App1.\n\nWhat should you recommend?",
     "solutionAnswer": "Configure Supported account types in the application registration and update the sign-in endpoint.",
-    "explanation": "La correction du support retient « Configure Supported account types in the application registration and update the sign-in endpoint. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "explanation": "Configurer Supported account types et le point de connexion ouvre l’app aux comptes d’autres tenants. Une policy Conditional Access ou Identity Protection ne modifie pas les comptes acceptés par une app registration.",
     "options": [
       "Configure Azure AD join.",
       "Configure Azure AD Identity Protection.",
@@ -1692,19 +2087,34 @@ window.AZ305_QUESTIONS = [
       "assets/az305/AZ305-T1-Q41-p35-1-q.png"
     ],
     "solutionAssets": [],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/howto-convert-app-to-be-multi-tenant"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Configure Supported account types in the application registration and update the sign-in endpoint.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 35,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Configure Supported account types in the application registration and update the sign-in endpoint. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Configurer Supported account types et le point de connexion ouvre l’app aux comptes d’autres tenants. Une policy Conditional Access ou Identity Protection ne modifie pas les comptes acceptés par une app registration.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q41-p35-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 569,
+        "height": 100,
+        "sourceWidth": 569,
+        "sourceHeight": 100
+      }
+    }
   },
   {
     "id": "AZ305-T1-Q42",
@@ -1749,14 +2159,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure subscription named Sub1 that is linked to an Azure AD tenant named contoso.com.\n\nYou plan to implement two ASP.NET Core apps named App1 and App2 that will be deployed to 100 virtual machines in Sub1. Users will sign in to\n\nApp1 and App2 by using their contoso.com credentials.\n\nApp1 requires read permissions to access the calendar of the signed-in user. App2 requires write permissions to access the calendar of the\n\nsigned-in user.\n\nYou need to recommend an authentication and authorization solution for the apps. The solution must meet the following requirements:\n\n• Use the principle of least privilege.\n\n• Minimize administrative effort.\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Authentication : Application registration in Azure AD · Authorization : Delegated permissions",
+    "explanation": "Les app registrations permettent l’authentification des applications. Puisque les opérations portent sur le calendrier de l’utilisateur connecté, il faut des permissions déléguées : lecture pour App1, écriture pour App2. Des permissions application donneraient un accès sans utilisateur plus large.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Authentication",
+          "choices": [
+            "Application registration in Azure AD",
+            "A system-assigned managed identity",
+            "A user-assigned managed identity"
+          ],
+          "expected": "Application registration in Azure AD"
+        },
+        {
+          "label": "Authorization",
+          "choices": [
+            "Application permissions",
+            "Azure role-based access control (Azure RBAC)",
+            "Delegated permissions"
+          ],
+          "expected": "Delegated permissions"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q43-p36-1-q.png"
@@ -1770,13 +2199,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 36,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Les app registrations permettent l’authentification des applications. Puisque les opérations portent sur le calendrier de l’utilisateur connecté, il faut des permissions déléguées : lecture pour App1, écriture pour App2. Des permissions application donneraient un accès sans utilisateur plus large.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q43-p36-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q44",
@@ -1786,7 +2219,7 @@ window.AZ305_QUESTIONS = [
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Your company has the divisions shown in the following table.\n\nSub1 contains an Azure App Service web app named App1. App1 uses Azure AD for single-tenant user authentication. Users from contoso.com\n\ncan authenticate to App1.\n\nYou need to recommend a solution to enable users in the fabrikam.com tenant to authenticate to App1.\n\nWhat should you recommend?",
     "solutionAnswer": "Use Azure AD entitlement management to govern external users.",
-    "explanation": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "explanation": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
     "options": [
       "Enable Azure AD pass-through authentication and update the sign-in endpoint.",
       "Use Azure AD entitlement management to govern external users.",
@@ -1802,19 +2235,34 @@ window.AZ305_QUESTIONS = [
       "assets/az305/AZ305-T1-Q44-p37-1-q.png"
     ],
     "solutionAssets": [],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-external-users"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Use Azure AD entitlement management to govern external users.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 37,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q44-p37-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 569,
+        "height": 100,
+        "sourceWidth": 569,
+        "sourceHeight": 100
+      }
+    }
   },
   {
     "id": "AZ305-T1-Q45",
@@ -1824,7 +2272,7 @@ window.AZ305_QUESTIONS = [
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Your company has the divisions shown in the following table.\n\nSub1 contains an Azure App Service web app named App1. App1 uses Azure AD for single-tenant user authentication. Users from contoso.com\n\ncan authenticate to App1.\n\nYou need to recommend a solution to enable users in the fabrikam.com tenant to authenticate to App1.\n\nWhat should you recommend?",
     "solutionAnswer": "Configure Supported account types in the application registration and update the sign-in endpoint.",
-    "explanation": "La correction du support retient « Configure Supported account types in the application registration and update the sign-in endpoint. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "explanation": "Configurer Supported account types et le point de connexion ouvre l’app aux comptes d’autres tenants. Une policy Conditional Access ou Identity Protection ne modifie pas les comptes acceptés par une app registration.",
     "options": [
       "Configure the Azure AD provisioning service.",
       "Enable Azure AD pass-through authentication and update the sign-in endpoint.",
@@ -1840,19 +2288,34 @@ window.AZ305_QUESTIONS = [
       "assets/az305/AZ305-T1-Q45-p37-1-q.png"
     ],
     "solutionAssets": [],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/howto-convert-app-to-be-multi-tenant"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Configure Supported account types in the application registration and update the sign-in endpoint.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 37,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Configure Supported account types in the application registration and update the sign-in endpoint. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Configurer Supported account types et le point de connexion ouvre l’app aux comptes d’autres tenants. Une policy Conditional Access ou Identity Protection ne modifie pas les comptes acceptés par une app registration.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q45-p37-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 569,
+        "height": 100,
+        "sourceWidth": 569,
+        "sourceHeight": 100
+      }
+    }
   },
   {
     "id": "AZ305-T1-Q46",
@@ -1861,14 +2324,39 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure AD tenant that contains a management group named MG1.\n\nYou have the Azure subscriptions shown in the following table.\n\nThe subscriptions contain the resource groups shown in the following table.\n\nThe subscription contains the Azure AD security groups shown in the following table.\n\nThe subscription contains the user accounts shown in the following table.\n\nYou perform the following actions:\n\nAssign User3 the Contributor role for Sub1.\n\nAssign Group1 the Virtual Machine Contributor role for MG1.\n\nAssign Group3 the Contributor role for the Tenant Root Group.\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "User1 can create a new VM in RG1 : Yes · User2 can grant permissions to Group2 : No · User3 can create a storage account in RG2 : Yes",
+    "explanation": "Les rôles hérités des groupes et management groups s’appliquent aux abonnements et resource groups descendants. Virtual Machine Contributor permet de créer une VM, Contributor de créer les ressources, mais aucun des deux ne donne la délégation de rôles Azure.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "User1 can create a new VM in RG1",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "Yes"
+        },
+        {
+          "label": "User2 can grant permissions to Group2",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "No"
+        },
+        {
+          "label": "User3 can create a storage account in RG2",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "Yes"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q46-p38-1-q.png",
@@ -1886,13 +2374,51 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 38,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Les rôles hérités des groupes et management groups s’appliquent aux abonnements et resource groups descendants. Virtual Machine Contributor permet de créer une VM, Contributor de créer les ressources, mais aucun des deux ne donne la délégation de rôles Azure.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q46-p38-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 380,
+        "height": 129,
+        "sourceWidth": 380,
+        "sourceHeight": 129
+      },
+      "assets/az305/AZ305-T1-Q46-p38-2-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 377,
+        "height": 128,
+        "sourceWidth": 377,
+        "sourceHeight": 128
+      },
+      "assets/az305/AZ305-T1-Q46-p38-3-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 377,
+        "height": 127,
+        "sourceWidth": 377,
+        "sourceHeight": 127
+      },
+      "assets/az305/AZ305-T1-Q46-p38-4-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 374,
+        "height": 127,
+        "sourceWidth": 374,
+        "sourceHeight": 127
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q46-p38-5-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q47",
@@ -1902,7 +2428,7 @@ window.AZ305_QUESTIONS = [
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Your company has the divisions shown in the following table.\n\nSub1 contains an Azure App Service web app named App1. App1 uses Azure AD for single-tenant user authentication. Users from contoso.com\n\ncan authenticate to App1.\n\nYou need to recommend a solution to enable users in the fabrikam.com tenant to authenticate to App1.\n\nWhat should you recommend?",
     "solutionAnswer": "Configure Supported account types in the application registration and update the sign-in endpoint.",
-    "explanation": "La correction du support retient « Configure Supported account types in the application registration and update the sign-in endpoint. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "explanation": "Configurer Supported account types et le point de connexion ouvre l’app aux comptes d’autres tenants. Une policy Conditional Access ou Identity Protection ne modifie pas les comptes acceptés par une app registration.",
     "options": [
       "Configure Azure AD Identity Protection.",
       "Configure assignments for the fabrikam.com users by using Azure AD Privileged Identity Management (PIM).",
@@ -1918,19 +2444,34 @@ window.AZ305_QUESTIONS = [
       "assets/az305/AZ305-T1-Q47-p39-2-q.png"
     ],
     "solutionAssets": [],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/howto-convert-app-to-be-multi-tenant"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Configure Supported account types in the application registration and update the sign-in endpoint.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 39,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Configure Supported account types in the application registration and update the sign-in endpoint. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Configurer Supported account types et le point de connexion ouvre l’app aux comptes d’autres tenants. Une policy Conditional Access ou Identity Protection ne modifie pas les comptes acceptés par une app registration.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q47-p39-2-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 569,
+        "height": 100,
+        "sourceWidth": 569,
+        "sourceHeight": 100
+      }
+    }
   },
   {
     "id": "AZ305-T1-Q48",
@@ -1940,7 +2481,7 @@ window.AZ305_QUESTIONS = [
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Your company has the divisions shown in the following table.\n\nSub1 contains an Azure App Service web app named App1. App1 uses Azure AD for single-tenant user authentication. Users from contoso.com\n\ncan authenticate to App1.\n\nYou need to recommend a solution to enable users in the fabrikam.com tenant to authenticate to App1.\n\nWhat should you recommend?",
     "solutionAnswer": "Use Azure AD entitlement management to govern external users.",
-    "explanation": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "explanation": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
     "options": [
       "Use Azure AD entitlement management to govern external users.",
       "Enable Azure AD pass-through authentication and update the sign-in endpoint.",
@@ -1956,19 +2497,34 @@ window.AZ305_QUESTIONS = [
       "assets/az305/AZ305-T1-Q48-p40-1-q.png"
     ],
     "solutionAssets": [],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-external-users"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Use Azure AD entitlement management to govern external users.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 40,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q48-p40-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 569,
+        "height": 100,
+        "sourceWidth": 569,
+        "sourceHeight": 100
+      }
+    }
   },
   {
     "id": "AZ305-T1-Q49",
@@ -2085,14 +2641,35 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure AD tenant that contains an administrative unit named MarketingAU. MarketingAU contains 100 users.\n\nYou create two users named User1 and User2.\n\nYou need to ensure that the users can perform the following actions in MarketingAU:\n\n• User1 must be able to create user accounts.\n\n• User2 must be able to reset user passwords.\n\nWhich role should you assign to each user? To answer, drag the appropriate roles to the correct users. Each role may be used once, more than\n\nonce, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "User1 : User Administrator for MarketingAU · User2 : Helpdesk Administrator for MarketingAU",
+    "explanation": "User Administrator permet de créer des comptes ; Helpdesk Administrator permet la réinitialisation de mots de passe dans les limites de ce rôle. Les attribuer à MarketingAU limite leur portée à l’unité administrative plutôt qu’à tout le tenant.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "User1",
+          "choices": [
+            "Helpdesk Administrator for MarketingAU",
+            "Helpdesk Administrator for the tenant",
+            "User Administrator for MarketingAU",
+            "User Administrator for the tenant"
+          ],
+          "expected": "User Administrator for MarketingAU"
+        },
+        {
+          "label": "User2",
+          "choices": [
+            "Helpdesk Administrator for MarketingAU",
+            "Helpdesk Administrator for the tenant",
+            "User Administrator for MarketingAU",
+            "User Administrator for the tenant"
+          ],
+          "expected": "Helpdesk Administrator for MarketingAU"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q52-p42-1-q.png"
@@ -2106,13 +2683,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 42,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "User Administrator permet de créer des comptes ; Helpdesk Administrator permet la réinitialisation de mots de passe dans les limites de ce rôle. Les attribuer à MarketingAU limite leur portée à l’unité administrative plutôt qu’à tout le tenant.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q52-p42-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q53",
@@ -2157,14 +2738,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You are designing an app that will be hosted on Azure virtual machines that run Ubuntu. The app will use a third-party email service to send email\n\nmessages to users. The third-party email service requires that the app authenticate by using an API key.\n\nYou need to recommend an Azure Key Vault solution for storing and accessing the API key. The solution must minimize administrative effort.\n\nWhat should you recommend using to store and access the key? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Storage : Secret · Access : A managed service identity (MSI)",
+    "explanation": "Une clé d’API tierce est une valeur secrète, pas une clé cryptographique Key Vault. Une identité managée permet à la VM de lire ce secret avec les permissions nécessaires sans conserver un autre mot de passe dans l’application.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Storage",
+          "choices": [
+            "Certificate",
+            "Key",
+            "Secret"
+          ],
+          "expected": "Secret"
+        },
+        {
+          "label": "Access",
+          "choices": [
+            "An API token",
+            "A managed service identity (MSI)",
+            "A service principal"
+          ],
+          "expected": "A managed service identity (MSI)"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q54-p43-1-q.jpeg"
@@ -2178,13 +2778,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 43,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Une clé d’API tierce est une valeur secrète, pas une clé cryptographique Key Vault. Une identité managée permet à la VM de lire ce secret avec les permissions nécessaires sans conserver un autre mot de passe dans l’application.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q54-p43-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q55",
@@ -2193,14 +2797,33 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have two app registrations named App1 and App2 in Azure AD. App1 supports role-based access control (RBAC) and includes a role named\n\nWriter.\n\nYou need to ensure that when App2 authenticates to access App1, the tokens issued by Azure AD include the Writer role claim.\n\nWhich blade should you use to modify each app registration? To answer, drag the appropriate blades to the correct app registrations. Each blade\n\nmay be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "App1 : App roles · App2 : API permissions",
+    "explanation": "App1 expose le rôle Writer dans App roles. App2 demande ce rôle dans API permissions. L’attribution et le consentement permettent ensuite au jeton destiné à App1 de contenir la claim de rôle attendue.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "App1",
+          "choices": [
+            "API permissions",
+            "App roles",
+            "Token configuration"
+          ],
+          "expected": "App roles"
+        },
+        {
+          "label": "App2",
+          "choices": [
+            "API permissions",
+            "App roles",
+            "Token configuration"
+          ],
+          "expected": "API permissions"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q55-p44-1-q.jpeg"
@@ -2214,13 +2837,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 44,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "App1 expose le rôle Writer dans App roles. App2 demande ce rôle dans API permissions. L’attribution et le consentement permettent ensuite au jeton destiné à App1 de contenir la claim de rôle attendue.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q55-p44-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q56",
@@ -2337,14 +2964,37 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "Case Study\n\n-\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study\n\n-\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs. When you are ready to answer a question, click the Question button to return to the question.\n\nOverview\n\n-\n\nFabrikam, Inc. is an engineering company that has offices throughout Europe. The company has a main office in London and three branch offices\n\nin Amsterdam, Berlin, and Rome.\n\nExisting Environment: Active Directory Environment\n\nThe network contains two Active Directory forests named corp.fabrikam.com and rd.fabrikam.com. There are no trust relationships between the\n\nforests.\n\nCorp.fabrikam.com is a production forest that contains identities used for internal user and computer authentication.\n\nRd.fabrikam.com is used by the research and development (R&D) department only. The R&D department is restricted to using on-premises\n\nresources only.\n\nExisting Environment: Network Infrastructure\n\nEach office contains at least one domain controller from the corp.fabrikam.com domain. The main office contains all the domain controllers for\n\nthe rd.fabrikam.com forest.\n\nAll the offices have a high-speed connection to the internet.\n\nAn existing application named WebApp1 is hosted in the data center of the London office. WebApp1 is used by customers to place and track\n\norders. WebApp1 has a web tier that uses Microsoft Internet Information Services (IIS) and a database tier that runs Microsoft SQL Server 2016.\n\nThe web tier and the database tier are deployed to virtual machines that run on Hyper-V.\n\nThe IT department currently uses a separate Hyper-V environment to test updates to WebApp1.\n\nFabrikam purchases all Microsoft licenses through a Microsoft Enterprise Agreement that includes Software Assurance.\n\nExisting Environment: Problem Statements\n\nThe use of WebApp1 is unpredictable. At peak times, users often report delays. At other times, many resources for WebApp1 are underutilized.\n\nRequirements: Planned Changes\n\n-\n\nFabrikam plans to move most of its production workloads to Azure during the next few years, including virtual machines that rely on Active\n\nDirectory for authentication.\n\nAs one of its first projects, the company plans to establish a hybrid identity model, facilitating an upcoming Microsoft 365 deployment.\n\nAll R&D operations will remain on-premises.\n\nFabrikam plans to migrate the production and test instances of WebApp1 to Azure.\n\nRequirements: Technical Requirements\n\nFabrikam identifies the following technical requirements:\n\n• Website content must be easily updated from a single point.\n\n• User input must be minimized when provisioning new web app instances.\n\n• Whenever possible, existing on-premises licenses must be used to reduce cost.\n\n• Users must always authenticate by using their corp.fabrikam.com UPN identity.\n\n• Any new deployments to Azure must be redundant in case an Azure region fails.\n\n• Whenever possible, solutions must be deployed to Azure by using the Standard pricing tier of Azure App Service.\n\n• An email distribution group named IT Support must be notified of any issues relating to the directory synchronization services.\n\n• In the event that a link fails between Azure and the on-premises network, ensure that the virtual machines hosted in Azure can authenticate to\n\nActive Directory.\n\n• Directory synchronization between Azure Active Directory (Azure AD) and corp.fabrikam.com must not be affected by a link failure between\n\nAzure and the on-premises network.\n\nRequirements: Database Requirements\n\nFabrikam identifies the following database requirements:\n\n• Database metrics for the production instance of WebApp1 must be available for analysis so that database administrators can optimize the\n\nperformance settings.\n\n• To avoid disrupting customer access, database downtime must be minimized when databases are migrated.\n\n• Database backups must be retained for a minimum of seven years to meet compliance requirements.\n\nRequirements: Security Requirements\n\nFabrikam identifies the following security requirements:\n\n• Company information including policies, templates, and data must be inaccessible to anyone outside the company.\n\n• Users on the on-premises network must be able to authenticate to corp.fabrikam.com if an internet link fails.\n\n• Administrators must be able authenticate to the Azure portal by using their corp.fabrikam.com credentials.\n\n• All administrative access to the Azure portal must be secured by using multi-factor authentication (MFA).\n\n• The testing of WebApp1 updates must not be visible to anyone outside the company.\n\nTo meet the authentication requirements of Fabrikam, what should you include in the solution? To answer, select the appropriate options in the\n\nanswer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Minimum Azure AD tenants : 1 · Minimum Conditional Access policies : 2",
+    "explanation": "Le scénario regroupe l’authentification dans un tenant et impose deux contrôles d’accès distincts. Deux policies Conditional Access permettent d’appliquer séparément ces contraintes sans créer un tenant par abonnement.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Minimum Azure AD tenants",
+          "choices": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "expected": "1"
+        },
+        {
+          "label": "Minimum Conditional Access policies",
+          "choices": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "expected": "2"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q59-p48-1-q.png"
@@ -2358,13 +3008,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 46,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le scénario regroupe l’authentification dans un tenant et impose deux contrôles d’accès distincts. Deux policies Conditional Access permettent d’appliquer séparément ces contraintes sans créer un tenant par abonnement.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q59-p48-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q60",
@@ -2409,14 +3063,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure subscription that contains 50 Azure SQL databases.\n\nYou create an Azure Resource Manager (ARM) template named Template1 that enables Transparent Data Encryption (TDE).\n\nYou need to create an Azure Policy definition named Policy1 that will use Template1 to enable TDE for any noncompliant Azure SQL databases.\n\nHow should you configure Policy1? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Policy effect : DeployIfNotExists · Definition must include : The RBAC roles required to perform remediation",
+    "explanation": "DeployIfNotExists déploie le template de configuration TDE pour les ressources non conformes. La définition doit fournir les roleDefinitionIds requis pour la remédiation ; l’identité managée de l’assignment reçoit ces permissions.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Policy effect",
+          "choices": [
+            "DeployIfNotExists",
+            "EnforceRegoPolicy",
+            "Modify"
+          ],
+          "expected": "DeployIfNotExists"
+        },
+        {
+          "label": "Definition must include",
+          "choices": [
+            "The identity required to perform remediation",
+            "The scopes of policy assignments",
+            "The RBAC roles required to perform remediation"
+          ],
+          "expected": "The RBAC roles required to perform remediation"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q61-p50-1-q.png"
@@ -2430,13 +3103,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 50,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "DeployIfNotExists déploie le template de configuration TDE pour les ressources non conformes. La définition doit fournir les roleDefinitionIds requis pour la remédiation ; l’identité managée de l’assignment reçoit ces permissions.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q61-p50-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q62",
@@ -2481,14 +3158,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure subscription that contains the resources shown in the following table:\n\nLog files from App1 are registered to App1Logs. An average of 120 GB of log data is ingested per day.\n\nYou configure an Azure Monitor alert that will be triggered if the App1 logs contain error messages.\n\nYou need to minimize the Log Analytics costs associated with App1. The solution must meet the following requirements:\n\n• Ensure that all the log files from App1 are ingested to App1Logs.\n\n• Minimize the impact on the Azure Monitor alert.\n\nWhich resource should you modify, and which modification should you perform? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Resource : Workspace1 · Modification : Change to a commitment pricing tier",
+    "explanation": "Les coûts d’ingestion sont gérés au niveau de Workspace1. Avec environ 120 GB par jour, un commitment tier réduit le coût tout en conservant tous les logs et les alertes. Un daily cap interromprait l’ingestion ; le plan Basic Logs ne conserve pas les mêmes capacités d’alerte.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Resource",
+          "choices": [
+            "App1",
+            "App1Logs",
+            "Workspace1"
+          ],
+          "expected": "Workspace1"
+        },
+        {
+          "label": "Modification",
+          "choices": [
+            "Change to a commitment pricing tier",
+            "Change to the Basic Logs data plan",
+            "Set a daily cap"
+          ],
+          "expected": "Change to a commitment pricing tier"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q63-p52-1-q.png",
@@ -2497,19 +3193,38 @@ window.AZ305_QUESTIONS = [
     "solutionAssets": [
       "assets/az305/AZ305-T1-Q63-p52-3-s.png"
     ],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/cost-logs"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 52,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Les coûts d’ingestion sont gérés au niveau de Workspace1. Avec environ 120 GB par jour, un commitment tier réduit le coût tout en conservant tous les logs et les alertes. Un daily cap interromprait l’ingestion ; le plan Basic Logs ne conserve pas les mêmes capacités d’alerte.",
+    "assetCrops": {
+      "assets/az305/AZ305-T1-Q63-p52-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 667,
+        "height": 116,
+        "sourceWidth": 667,
+        "sourceHeight": 116
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q63-p52-2-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q64",
@@ -2556,14 +3271,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure subscription that contains multiple storage accounts.\n\nYou assign Azure Policy definitions to the storage accounts.\n\nYou need to recommend a solution to meet the following requirements:\n\n• Trigger on-demand Azure Policy compliance scans.\n\n• Raise Azure Monitor non-compliance alerts by querying logs collected by Log Analytics.\n\nWhat should you recommend for each requirement? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Trigger compliance scans : The Azure Command-Line Interface (CLI) · Configure diagnostic settings for : Azure activity logs",
+    "explanation": "La CLI peut déclencher un scan de conformité à la demande. Les diagnostic settings de l’Activity Log acheminent les événements de gouvernance vers Log Analytics pour permettre les requêtes et alertes de non-conformité.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Trigger compliance scans",
+          "choices": [
+            "An Azure template",
+            "The Azure Command-Line Interface (CLI)",
+            "The Azure portal"
+          ],
+          "expected": "The Azure Command-Line Interface (CLI)"
+        },
+        {
+          "label": "Configure diagnostic settings for",
+          "choices": [
+            "Azure activity logs",
+            "Log Analytics workspace",
+            "Storage accounts"
+          ],
+          "expected": "Azure activity logs"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q65-p54-1-q.png"
@@ -2577,13 +3311,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 54,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "La CLI peut déclencher un scan de conformité à la demande. Les diagnostic settings de l’Activity Log acheminent les événements de gouvernance vers Log Analytics pour permettre les requêtes et alertes de non-conformité.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q65-p54-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q66",
@@ -2592,14 +3330,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure subscription.\n\nYou plan to deploy five storage accounts that will store block blobs and five storage accounts that will host file shares. The file shares will be\n\naccessed by using the SMB protocol.\n\nYou need to recommend an access authorization solution for the storage accounts. The solution must meet the following requirements:\n\n• Maximize security.\n\n• Prevent the use of shared keys.\n\n• Whenever possible, support time-limited access.\n\nWhat should you include in the solution? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "For the blobs : A user delegation shared access signature (SAS) only · For the file shares : Azure AD credentials",
+    "explanation": "Un user delegation SAS pour les blobs est signé avec une identité Azure AD et peut expirer sans employer la clé du compte. Pour SMB sur Azure Files, l’authentification fondée sur l’identité évite également les shared keys ; un SAS HTTP ne sert pas à authentifier SMB.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "For the blobs",
+          "choices": [
+            "A user delegation shared access signature (SAS) only",
+            "A shared access signature (SAS) and a stored access policy",
+            "A user delegation shared access signature (SAS) and a stored access policy"
+          ],
+          "expected": "A user delegation shared access signature (SAS) only"
+        },
+        {
+          "label": "For the file shares",
+          "choices": [
+            "Azure AD credentials",
+            "A user delegation shared access signature (SAS) only",
+            "A user delegation shared access signature (SAS) and a stored access policy"
+          ],
+          "expected": "Azure AD credentials"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q66-p55-1-q.png"
@@ -2613,13 +3370,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 55,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Un user delegation SAS pour les blobs est signé avec une identité Azure AD et peut expirer sans employer la clé du compte. Pour SMB sur Azure Files, l’authentification fondée sur l’identité évite également les shared keys ; un SAS HTTP ne sert pas à authentifier SMB.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q66-p55-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q67",
@@ -2628,14 +3389,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have an Azure subscription. The subscription contains 100 virtual machines that run Windows Server 2022 and have the Azure Monitor Agent\n\ninstalled.\n\nYou need to recommend a solution that meets the following requirements:\n\n• Forwards JSON-formatted logs from the virtual machines to a Log Analytics workspace\n\n• Transforms the logs and stores the data in a table in the Log Analytics workspace\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Forward custom logs : An Azure Monitor data collection endpoint · Transform and store the logs : A KQL query",
+    "explanation": "Le data collection endpoint fournit le point d’ingestion de cette collecte. La transformation de la data collection rule utilise KQL pour adapter les champs JSON au schéma de la table Log Analytics ; WQL et XPath ne sont pas le langage de transformation.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Forward custom logs",
+          "choices": [
+            "A linked storage account for the Log Analytics workspace",
+            "An Azure Monitor data collection endpoint",
+            "A service endpoint"
+          ],
+          "expected": "An Azure Monitor data collection endpoint"
+        },
+        {
+          "label": "Transform and store the logs",
+          "choices": [
+            "A KQL query",
+            "A WQL query",
+            "An XPath query"
+          ],
+          "expected": "A KQL query"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q67-p56-1-q.png"
@@ -2649,13 +3429,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 56,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le data collection endpoint fournit le point d’ingestion de cette collecte. La transformation de la data collection rule utilise KQL pour adapter les champs JSON au schéma de la table Log Analytics ; WQL et XPath ne sont pas le langage de transformation.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q67-p56-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T1-Q68",
@@ -2664,14 +3448,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’identité, de gouvernance et de supervision",
     "prompt": "You have five Azure subscriptions. Each subscription is linked to a separate Azure AD tenant and contains virtual machines that run Windows\n\nServer 2022.\n\nYou plan to collect Windows security events from the virtual machines and send them to a single Log Analytics workspace.\n\nYou need to recommend a solution that meets the following requirements:\n\n• Collects event logs from multiple subscriptions\n\n• Supports the use of data collection rules (DCRs) to define which events to collect\n\nWhat should you recommend for each requirement? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Collect logs across tenants : Azure Lighthouse · Support data collection rules : The Azure Monitor agent",
+    "explanation": "Azure Lighthouse délègue la gestion entre tenants. Azure Monitor Agent applique les DCR pour collecter les événements Windows et les envoyer vers le workspace central ; l’ancien Log Analytics agent ne fournit pas ce modèle de collecte.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Collect logs across tenants",
+          "choices": [
+            "Azure Event Grid",
+            "Azure Lighthouse",
+            "Azure Purview"
+          ],
+          "expected": "Azure Lighthouse"
+        },
+        {
+          "label": "Support data collection rules",
+          "choices": [
+            "The Log Analytics agent",
+            "The Azure Monitor agent",
+            "The Azure Connected Machine agent"
+          ],
+          "expected": "The Azure Monitor agent"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T1-Q68-p57-1-q.png"
@@ -2685,13 +3488,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 57,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Azure Lighthouse délègue la gestion entre tenants. Azure Monitor Agent applique les DCR pour collecter les événements Windows et les envoyer vers le workspace central ; l’ancien Log Analytics agent ne fournit pas ce modèle de collecte.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T1-Q68-p57-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q1",
@@ -2810,8 +3617,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You need to design a storage solution for an app that will store large amounts of frequently used data. The solution must meet the following\n\nrequirements:\n\n✑ Maximize data throughput.\n\n✑ Prevent the modification of data for one year.\n\n✑ Minimize latency for read and write operations.\n\nWhich Azure Storage account type and storage service should you recommend? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "BlockBlobStorage; Blob",
-    "explanation": "La correction du support retient « BlockBlobStorage; Blob ». Dans l’énoncé, le point à résoudre est : « Which Azure Storage account type and storage service should you recommend? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "Storage account type : BlockBlobStorage · Storage service : Blob",
+    "explanation": "Box 1: BlockBlobStorage - Block Blob is a premium storage account type for block blobs and append blobs. Recommended for scenarios with high transactions rates, or scenarios that use smaller objects or require consistently low storage latency. Box 2: Blob - The Archive tier is an offline tier for storing blob data that is rarely accessed. The Archive tier offers the lowest storage costs, but higher data retrieval costs and latency compared to the online tiers (Hot and Cool). Data must remain in the Archive tier for at least 180 days or be subject to an early deletion charge.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -2819,13 +3626,23 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Storage account type",
+          "choices": [
+            "BlobStorage",
+            "BlockBlobStorage",
+            "FileStorage",
+            "StorageV2 with Premium performance",
+            "StorageV2 with Standard performance"
+          ],
           "expected": "BlockBlobStorage"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Storage service",
+          "choices": [
+            "Blob",
+            "File",
+            "Table"
+          ],
           "expected": "Blob"
         }
       ]
@@ -2847,13 +3664,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "BlockBlobStorage; Blob",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 60,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: BlockBlobStorage - Block Blob is a premium storage account type for block blobs and append blobs. Recommended for scenarios with high transactions rates, or scenarios that use smaller objects or require consistently low storage latency. Box 2: Blob - The Archive tier is an offline tier for storing blob data that is rarely accessed. The Archive tier offers the lowest storage costs, but higher data retrieval costs and latency compared to the online tiers (Hot and Cool). Data must remain in the Archive tier for at least 180 days or be subject to an early deletion charge.",
-    "pedagogicalContext": "La correction du support retient « BlockBlobStorage; Blob ». Dans l’énoncé, le point à résoudre est : « Which Azure Storage account type and storage service should you recommend? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: BlockBlobStorage - Block Blob is a premium storage account type for block blobs and append blobs. Recommended for scenarios with high transactions rates, or scenarios that use smaller objects or require consistently low storage latency. Box 2: Blob - The Archive tier is an offline tier for storing blob data that is rarely accessed. The Archive tier offers the lowest storage costs, but higher data retrieval costs and latency compared to the online tiers (Hot and Cool). Data must remain in the Archive tier for at least 180 days or be subject to an early deletion charge.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q4-p60-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q5",
@@ -2862,8 +3683,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You have an Azure subscription that contains the storage accounts shown in the following table.\n\nYou plan to implement two new apps that have the requirements shown in the following table.\n\nWhich storage accounts should you recommend using for each app? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Storage1 and storage3 only; Storage1 and storage4 only",
-    "explanation": "La correction du support retient « Storage1 and storage3 only; Storage1 and storage4 only ». Dans l’énoncé, le point à résoudre est : « Which storage accounts should you recommend using for each app? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "App1 : storage1 and storage3 only · App2 : storage1 and storage4 only",
+    "explanation": "Box 1: Storage1 and storage3 only Need to use Standard accounts. Data stored in a premium block blob storage account cannot be tiered to hot, cool, or archive using Set Blob Tier or using Azure Blob Storage lifecycle management Box 2: Storage1 and storage4 only Azure File shares requires Premium accounts. Only Storage1 and storage4 are premium.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -2871,14 +3692,24 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
-          "expected": "Storage1 and storage3 only"
+          "label": "App1",
+          "choices": [
+            "storage1 and storage2 only",
+            "storage1 and storage3 only",
+            "storage1, storage2, and storage3 only",
+            "storage1, storage2, storage3, and storage4"
+          ],
+          "expected": "storage1 and storage3 only"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
-          "expected": "Storage1 and storage4 only"
+          "label": "App2",
+          "choices": [
+            "storage4 only",
+            "storage1 and storage4 only",
+            "storage1, storage2, and storage4 only",
+            "storage1, storage2, storage3, and storage4"
+          ],
+          "expected": "storage1 and storage4 only"
         }
       ]
     },
@@ -2905,13 +3736,35 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Storage1 and storage3 only; Storage1 and storage4 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 62,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Storage1 and storage3 only Need to use Standard accounts. Data stored in a premium block blob storage account cannot be tiered to hot, cool, or archive using Set Blob Tier or using Azure Blob Storage lifecycle management Box 2: Storage1 and storage4 only Azure File shares requires Premium accounts. Only Storage1 and storage4 are premium.",
-    "pedagogicalContext": "La correction du support retient « Storage1 and storage3 only; Storage1 and storage4 only ». Dans l’énoncé, le point à résoudre est : « Which storage accounts should you recommend using for each app? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: Storage1 and storage3 only Need to use Standard accounts. Data stored in a premium block blob storage account cannot be tiered to hot, cool, or archive using Set Blob Tier or using Azure Blob Storage lifecycle management Box 2: Storage1 and storage4 only Azure File shares requires Premium accounts. Only Storage1 and storage4 are premium.",
+    "assetCrops": {
+      "assets/az305/AZ305-T2-Q5-p62-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 516,
+        "height": 209,
+        "sourceWidth": 516,
+        "sourceHeight": 209
+      },
+      "assets/az305/AZ305-T2-Q5-p62-2-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 580,
+        "height": 129,
+        "sourceWidth": 580,
+        "sourceHeight": 129
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q5-p62-3-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q6",
@@ -2992,8 +3845,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You have an on-premises database that you plan to migrate to Azure.\n\nYou need to design the database architecture to meet the following requirements:\n\n✑ Support scaling up and down.\n\n✑ Support geo-redundant backups.\n\n✑ Support a database of up to 75 TB.\n\n✑ Be optimized for online transaction processing (OLTP).\n\nWhat should you include in the design? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Azure SQL Database; Hyperscale",
-    "explanation": "Hyperscale est conçu pour les bases Azure SQL qui doivent croître fortement et bénéficier d’une architecture de stockage distribuée, avec une mise à l’échelle indépendante du calcul et du stockage.",
+    "solutionAnswer": "Service : Azure SQL Database · Service tier : Hyperscale",
+    "explanation": "Box 1: Azure SQL Database - Azure SQL Database: Database size always depends on the underlying service tiers (e.g. Basic, Business Critical, Hyperscale). It supports databases of up to 100 TB with Hyperscale service tier model. Active geo-replication is a feature that lets you to create a continuously synchronized readable secondary database for a primary database. The readable secondary database may be in the same Azure region as the primary, or, more commonly, in a different region. This kind of readable secondary databases are also known as geo-secondaries, or geo-replicas. Azure SQL Database and SQL Managed Instance enable you to dynamically add more resources to your database with minimal downtime. Box 2: Hyperscale - Incorrect Answers: ✑ SQL Server on Azure VM: geo-replication not supported. ✑ Azure Synapse Analytics is not optimized for online transaction processing (OLTP). ✑ Azure SQL Managed Instance max database size is up to currently available instance size (depending on the number of vCores). Max instance storage size (reserved) - 2 TB for 4 vCores - 8 TB for 8 vCores - 16 TB for other sizes",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -3001,13 +3854,25 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Service",
+          "choices": [
+            "Azure SQL Database",
+            "Azure SQL Managed Instance",
+            "Azure Synapse Analytics",
+            "SQL Server on Azure Virtual Machines"
+          ],
           "expected": "Azure SQL Database"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Service tier",
+          "choices": [
+            "Basic",
+            "Business Critical",
+            "General Purpose",
+            "Hyperscale",
+            "Premium",
+            "Standard"
+          ],
           "expected": "Hyperscale"
         }
       ]
@@ -3033,13 +3898,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure SQL Database; Hyperscale",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 65,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Azure SQL Database - Azure SQL Database: Database size always depends on the underlying service tiers (e.g. Basic, Business Critical, Hyperscale). It supports databases of up to 100 TB with Hyperscale service tier model. Active geo-replication is a feature that lets you to create a continuously synchronized readable secondary database for a primary database. The readable secondary database may be in the same Azure region as the primary, or, more commonly, in a different region. This kind of readable secondary databases are also known as geo-secondaries, or geo-replicas. Azure SQL Database and SQL Managed Instance enable you to dynamically add more resources to your database with minimal downtime. Box 2: Hyperscale - Incorrect Answers: ✑ SQL Server on Azure VM: geo-replication not supported. ✑ Azure Synapse Analytics is not optimized for online transaction processing (OLTP). ✑ Azure SQL Managed Instance max database size is up to currently available instance size (depending on the number of vCores). Max instance storage size (reserved) - 2 TB for 4 vCores - 8 TB for 8 vCores - 16 TB for other sizes",
-    "pedagogicalContext": "Hyperscale est conçu pour les bases Azure SQL qui doivent croître fortement et bénéficier d’une architecture de stockage distribuée, avec une mise à l’échelle indépendante du calcul et du stockage."
+    "pedagogicalContext": "Box 1: Azure SQL Database - Azure SQL Database: Database size always depends on the underlying service tiers (e.g. Basic, Business Critical, Hyperscale). It supports databases of up to 100 TB with Hyperscale service tier model. Active geo-replication is a feature that lets you to create a continuously synchronized readable secondary database for a primary database. The readable secondary database may be in the same Azure region as the primary, or, more commonly, in a different region. This kind of readable secondary databases are also known as geo-secondaries, or geo-replicas. Azure SQL Database and SQL Managed Instance enable you to dynamically add more resources to your database with minimal downtime. Box 2: Hyperscale - Incorrect Answers: ✑ SQL Server on Azure VM: geo-replication not supported. ✑ Azure Synapse Analytics is not optimized for online transaction processing (OLTP). ✑ Azure SQL Managed Instance max database size is up to currently available instance size (depending on the number of vCores). Max instance storage size (reserved) - 2 TB for 4 vCores - 8 TB for 8 vCores - 16 TB for other sizes",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q8-p65-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q9",
@@ -3122,16 +3991,16 @@ window.AZ305_QUESTIONS = [
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You have an Azure subscription that contains the SQL servers on Azure shown in the following table.\n\nThe subscription contains the storage accounts shown in the following table.\n\nYou create the Azure SQL databases shown in the following table.\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
     "solutionAnswer": "Yes; No; No",
-    "explanation": "La correction du support retient « Yes; No; No ». Dans l’énoncé, le point à résoudre est : « For each of the following statements, select Yes if the statement is true. Otherwise, select No. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "explanation": "Box 1: Yes - Auditing works fine for a Standard account. Box 2: No - Auditing limitations: Premium storage is currently not supported. Box 3: No - Auditing limitations: Premium storage is currently not supported.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
       "kind": "yn",
       "labels": [
-        "Proposition 1",
-        "Proposition 2",
-        "Proposition 3"
+        "When you enable auditing for SQLdb1, you can store the audit information to storage1.",
+        "When you enable auditing for SQLdb2, you can store the audit information to storage2.",
+        "When you enable auditing for SQLdb3, you can store the audit information to storage2."
       ],
       "expected": [
         true,
@@ -3159,13 +4028,43 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Yes; No; No",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 67,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Yes - Auditing works fine for a Standard account. Box 2: No - Auditing limitations: Premium storage is currently not supported. Box 3: No - Auditing limitations: Premium storage is currently not supported.",
-    "pedagogicalContext": "La correction du support retient « Yes; No; No ». Dans l’énoncé, le point à résoudre est : « For each of the following statements, select Yes if the statement is true. Otherwise, select No. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: Yes - Auditing works fine for a Standard account. Box 2: No - Auditing limitations: Premium storage is currently not supported. Box 3: No - Auditing limitations: Premium storage is currently not supported.",
+    "assetCrops": {
+      "assets/az305/AZ305-T2-Q11-p67-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 609,
+        "height": 109,
+        "sourceWidth": 609,
+        "sourceHeight": 109
+      },
+      "assets/az305/AZ305-T2-Q11-p67-2-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 672,
+        "height": 148,
+        "sourceWidth": 672,
+        "sourceHeight": 148
+      },
+      "assets/az305/AZ305-T2-Q11-p67-3-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 607,
+        "height": 139,
+        "sourceWidth": 607,
+        "sourceHeight": 139
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q11-p67-4-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q12",
@@ -3174,8 +4073,8 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You plan to import data from your on-premises environment to Azure. The data is shown in the following table.\n\nWhat should you recommend using to migrate the data? To answer, drag the appropriate tools to the correct data sources. Each tool may be used\n\nonce, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.\n\nSelect and Place:",
-    "solutionAnswer": "Data Migration Assistant; Azure Cosmos DB Data Migration Tool",
-    "explanation": "Azure Cosmos DB est une base distribuée conçue pour une faible latence, une réplication globale et plusieurs modèles d’accès. Le choix de l’API et du mode de réplication doit suivre le modèle de données et les besoins de disponibilité.",
+    "solutionAnswer": "SQL Server 2012 database : Data Migration Assistant · SQL Server 2014 table : Azure Cosmos DB Data Migration Tool",
+    "explanation": "Box 1: Data Migration Assistant - The Data Migration Assistant (DMA) helps you upgrade to a modern data platform by detecting compatibility issues that can impact database functionality in your new version of SQL Server or Azure SQL Database. DMA recommends performance and reliability improvements for your target environment and allows you to move your schema, data, and uncontained objects from your source server to your target server. Incorrect: AzCopy is a command-line utility that you can use to copy blobs or files to or from a storage account. Box 2: Azure Cosmos DB Data Migration Tool Azure Cosmos DB Data Migration Tool can used to migrate a SQL Server Database table to Azure Cosmos.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -3183,13 +4082,23 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "SQL Server 2012 database",
+          "choices": [
+            "AzCopy",
+            "Azure Cosmos DB Data Migration Tool",
+            "Data Management Gateway",
+            "Data Migration Assistant"
+          ],
           "expected": "Data Migration Assistant"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "SQL Server 2014 table",
+          "choices": [
+            "AzCopy",
+            "Azure Cosmos DB Data Migration Tool",
+            "Data Management Gateway",
+            "Data Migration Assistant"
+          ],
           "expected": "Azure Cosmos DB Data Migration Tool"
         }
       ]
@@ -3216,13 +4125,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Data Migration Assistant; Azure Cosmos DB Data Migration Tool",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 68,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Data Migration Assistant - The Data Migration Assistant (DMA) helps you upgrade to a modern data platform by detecting compatibility issues that can impact database functionality in your new version of SQL Server or Azure SQL Database. DMA recommends performance and reliability improvements for your target environment and allows you to move your schema, data, and uncontained objects from your source server to your target server. Incorrect: AzCopy is a command-line utility that you can use to copy blobs or files to or from a storage account. Box 2: Azure Cosmos DB Data Migration Tool Azure Cosmos DB Data Migration Tool can used to migrate a SQL Server Database table to Azure Cosmos.",
-    "pedagogicalContext": "Azure Cosmos DB est une base distribuée conçue pour une faible latence, une réplication globale et plusieurs modèles d’accès. Le choix de l’API et du mode de réplication doit suivre le modèle de données et les besoins de disponibilité."
+    "pedagogicalContext": "Box 1: Data Migration Assistant - The Data Migration Assistant (DMA) helps you upgrade to a modern data platform by detecting compatibility issues that can impact database functionality in your new version of SQL Server or Azure SQL Database. DMA recommends performance and reliability improvements for your target environment and allows you to move your schema, data, and uncontained objects from your source server to your target server. Incorrect: AzCopy is a command-line utility that you can use to copy blobs or files to or from a storage account. Box 2: Azure Cosmos DB Data Migration Tool Azure Cosmos DB Data Migration Tool can used to migrate a SQL Server Database table to Azure Cosmos.",
+    "assetCrops": {
+      "assets/az305/AZ305-T2-Q12-p68-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 753,
+        "height": 124,
+        "sourceWidth": 753,
+        "sourceHeight": 124
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q12-p68-2-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q13",
@@ -3377,14 +4300,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You are planning an Azure Storage solution for sensitive data. The data will be accessed daily. The dataset is less than 10 GB.\n\nYou need to recommend a storage solution that meets the following requirements:\n\n✑ All the data written to storage must be retained for five years.\n\n✑ Once the data is written, the data can only be read. Modifications and deletion must be prevented.\n\n✑ After five years, the data can be deleted, but never modified.\n\n✑ Data access charges must be minimized.\n\nWhat should you recommend? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Storage account type : General purpose v2 with Hot access tier for blobs · Prevent changes and deletion : Container access policy",
+    "explanation": "Les données sont lues quotidiennement : un compte general-purpose v2 avec le tier Hot convient. La protection WORM repose sur une policy d’immutabilité du conteneur avec rétention de cinq ans. Le choix source « Container access policy » désigne ici cette policy de rétention, pas un simple niveau d’accès public ni un verrou ARM.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Storage account type",
+          "choices": [
+            "General purpose v2 with Archive access tier for blobs",
+            "General purpose v2 with Cool access tier for blobs",
+            "General purpose v2 with Hot access tier for blobs"
+          ],
+          "expected": "General purpose v2 with Hot access tier for blobs"
+        },
+        {
+          "label": "Prevent changes and deletion",
+          "choices": [
+            "Container access level",
+            "Container access policy",
+            "Storage account resource lock"
+          ],
+          "expected": "Container access policy"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T2-Q17-p71-1-q.jpeg"
@@ -3398,13 +4340,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 71,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Les données sont lues quotidiennement : un compte general-purpose v2 avec le tier Hot convient. La protection WORM repose sur une policy d’immutabilité du conteneur avec rétention de cinq ans. Le choix source « Container access policy » désigne ici cette policy de rétention, pas un simple niveau d’accès public ni un verrou ARM.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q17-p71-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q18",
@@ -3413,8 +4359,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You are designing a data storage solution to support reporting.\n\nThe solution will ingest high volumes of data in the JSON format by using Azure Event Hubs. As the data arrives, Event Hubs will write the data to\n\nstorage. The solution must meet the following requirements:\n\n✑ Organize data in directories by date and time.\n\n✑ Allow stored data to be queried directly, transformed into summarized tables, and then stored in a data warehouse.\n\n✑ Ensure that the data warehouse can store 50 TB of relational data and support between 200 and 300 concurrent read operations.\n\nWhich service should you recommend for each type of data store? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Azure Data Lake Storage Gen2; Azure SQL Database Hyperscale",
-    "explanation": "Hyperscale est conçu pour les bases Azure SQL qui doivent croître fortement et bénéficier d’une architecture de stockage distribuée, avec une mise à l’échelle indépendante du calcul et du stockage.",
+    "solutionAnswer": "Data store for ingested data : Azure Data Lake Storage Gen2 · Data warehouse : Azure SQL Database Hyperscale",
+    "explanation": "Box 1: Azure Data Lake Storage Gen2 Azure Data Explorer integrates with Azure Blob Storage and Azure Data Lake Storage (Gen1 and Gen2), providing fast, cached, and indexed access to data stored in external storage. You can analyze and query data without prior ingestion into Azure Data Explorer. You can also query across ingested and uningested external data simultaneously. Azure Data Lake Storage is optimized storage for big data analytics workloads. Use cases: Batch, interactive, streaming analytics and machine learning data such as log files, IoT data, click streams, large datasets Box 2: Azure SQL Database Hyperscale Azure SQL Database Hyperscale is optimized for OLTP and high throughput analytics workloads with storage up to 100TB. A Hyperscale database supports up to 100 TB of data and provides high throughput and performance, as well as rapid scaling to adapt to the workload requirements. Connectivity, query processing, database engine features, etc. work like any other database in Azure SQL Database. Hyperscale is a multi-tiered architecture with caching at multiple levels. Effective IOPS will depend on the workload. Compare to: General purpose: 500 IOPS per vCore with 7,000 maximum IOPS Business critical: 5,000 IOPS with 200,000 maximum IOPS Incorrect: * Azure Synapse Analytics Dedicated SQL pool. Max database size: 240 TB - A maximum of 128 concurrent queries will execute and remaining queries will be queued.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -3422,13 +4368,23 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Data store for ingested data",
+          "choices": [
+            "Azure Blob Storage",
+            "Azure Data Lake Storage Gen2",
+            "Azure Files",
+            "Azure NetApp Files"
+          ],
           "expected": "Azure Data Lake Storage Gen2"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Data warehouse",
+          "choices": [
+            "Azure Cosmos DB Cassandra API",
+            "Azure Cosmos DB SQL API",
+            "Azure SQL Database Hyperscale",
+            "Azure Synapse Analytics dedicated SQL pools"
+          ],
           "expected": "Azure SQL Database Hyperscale"
         }
       ]
@@ -3458,13 +4414,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure Data Lake Storage Gen2; Azure SQL Database Hyperscale",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 72,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Azure Data Lake Storage Gen2 Azure Data Explorer integrates with Azure Blob Storage and Azure Data Lake Storage (Gen1 and Gen2), providing fast, cached, and indexed access to data stored in external storage. You can analyze and query data without prior ingestion into Azure Data Explorer. You can also query across ingested and uningested external data simultaneously. Azure Data Lake Storage is optimized storage for big data analytics workloads. Use cases: Batch, interactive, streaming analytics and machine learning data such as log files, IoT data, click streams, large datasets Box 2: Azure SQL Database Hyperscale Azure SQL Database Hyperscale is optimized for OLTP and high throughput analytics workloads with storage up to 100TB. A Hyperscale database supports up to 100 TB of data and provides high throughput and performance, as well as rapid scaling to adapt to the workload requirements. Connectivity, query processing, database engine features, etc. work like any other database in Azure SQL Database. Hyperscale is a multi-tiered architecture with caching at multiple levels. Effective IOPS will depend on the workload. Compare to: General purpose: 500 IOPS per vCore with 7,000 maximum IOPS Business critical: 5,000 IOPS with 200,000 maximum IOPS Incorrect: * Azure Synapse Analytics Dedicated SQL pool. Max database size: 240 TB - A maximum of 128 concurrent queries will execute and remaining queries will be queued.",
-    "pedagogicalContext": "Hyperscale est conçu pour les bases Azure SQL qui doivent croître fortement et bénéficier d’une architecture de stockage distribuée, avec une mise à l’échelle indépendante du calcul et du stockage."
+    "pedagogicalContext": "Box 1: Azure Data Lake Storage Gen2 Azure Data Explorer integrates with Azure Blob Storage and Azure Data Lake Storage (Gen1 and Gen2), providing fast, cached, and indexed access to data stored in external storage. You can analyze and query data without prior ingestion into Azure Data Explorer. You can also query across ingested and uningested external data simultaneously. Azure Data Lake Storage is optimized storage for big data analytics workloads. Use cases: Batch, interactive, streaming analytics and machine learning data such as log files, IoT data, click streams, large datasets Box 2: Azure SQL Database Hyperscale Azure SQL Database Hyperscale is optimized for OLTP and high throughput analytics workloads with storage up to 100TB. A Hyperscale database supports up to 100 TB of data and provides high throughput and performance, as well as rapid scaling to adapt to the workload requirements. Connectivity, query processing, database engine features, etc. work like any other database in Azure SQL Database. Hyperscale is a multi-tiered architecture with caching at multiple levels. Effective IOPS will depend on the workload. Compare to: General purpose: 500 IOPS per vCore with 7,000 maximum IOPS Business critical: 5,000 IOPS with 200,000 maximum IOPS Incorrect: * Azure Synapse Analytics Dedicated SQL pool. Max database size: 240 TB - A maximum of 128 concurrent queries will execute and remaining queries will be queued.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q18-p72-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q19",
@@ -3546,14 +4506,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You are planning an Azure Storage solution for sensitive data. The data will be accessed daily. The dataset is less than 10 GB.\n\nYou need to recommend a storage solution that meets the following requirements:\n\n• All the data written to storage must be retained for five years.\n\n• Once the data is written, the data can only be read. Modifications and deletion must be prevented.\n\n• After five years, the data can be deleted, but never modified.\n\n• Data access charges must be minimized.\n\nWhat should you recommend? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Storage account type : General purpose v2 with Hot access tier for blobs · Prevent changes and deletion : Container access policy",
+    "explanation": "Les données sont lues quotidiennement : un compte general-purpose v2 avec le tier Hot convient. La protection WORM repose sur une policy d’immutabilité du conteneur avec rétention de cinq ans. Le choix source « Container access policy » désigne ici cette policy de rétention, pas un simple niveau d’accès public ni un verrou ARM.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Storage account type",
+          "choices": [
+            "Premium block blobs",
+            "General purpose v2 with Cool access tier for blobs",
+            "General purpose v2 with Hot access tier for blobs"
+          ],
+          "expected": "General purpose v2 with Hot access tier for blobs"
+        },
+        {
+          "label": "Prevent changes and deletion",
+          "choices": [
+            "Container access level",
+            "Container access policy",
+            "Storage account resource lock"
+          ],
+          "expected": "Container access policy"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T2-Q21-p75-1-q.png"
@@ -3567,13 +4546,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 75,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Les données sont lues quotidiennement : un compte general-purpose v2 avec le tier Hot convient. La protection WORM repose sur une policy d’immutabilité du conteneur avec rétention de cinq ans. Le choix source « Container access policy » désigne ici cette policy de rétention, pas un simple niveau d’accès public ni un verrou ARM.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q21-p75-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q22",
@@ -3582,14 +4565,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You are designing a data analytics solution that will use Azure Synapse and Azure Data Lake Storage Gen2.\n\nYou need to recommend Azure Synapse pools to meet the following requirements:\n\n• Ingest data from Data Lake Storage into hash-distributed tables.\n\n• Implement query, and update data in Delta Lake.\n\nWhat should you recommend for each requirement? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Hash-distributed tables : A dedicated SQL pool · Delta Lake : A serverless Apache Spark pool",
+    "explanation": "Les tables hash-distributed appartiennent au dedicated SQL pool. Les opérations sur Delta Lake utilisent Spark ; le serverless SQL pool permet des lectures mais ne fournit pas les opérations Spark de mise à jour demandées.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Hash-distributed tables",
+          "choices": [
+            "A dedicated SQL pool",
+            "A serverless Apache Spark pool",
+            "A serverless SQL pool"
+          ],
+          "expected": "A dedicated SQL pool"
+        },
+        {
+          "label": "Delta Lake",
+          "choices": [
+            "A dedicated SQL pool",
+            "A serverless Apache Spark pool",
+            "A serverless SQL pool"
+          ],
+          "expected": "A serverless Apache Spark pool"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T2-Q22-p76-1-q.png"
@@ -3603,13 +4605,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 76,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Les tables hash-distributed appartiennent au dedicated SQL pool. Les opérations sur Delta Lake utilisent Spark ; le serverless SQL pool permet des lectures mais ne fournit pas les opérations Spark de mise à jour demandées.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q22-p76-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q23",
@@ -3654,14 +4660,35 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You have an on-premises app named App1.\n\nCustomers use App1 to manage digital images.\n\nYou plan to migrate App1 to Azure.\n\nYou need to recommend a data storage solution for App1. The solution must meet the following image storage requirements:\n\n• Encrypt images at rest.\n\n• Allow files up to 50 MB.\n\n• Manage access to the images by using Azure Web Application Firewall (WAF) on Azure Front Door.\n\nThe solution must meet the following customer account requirements:\n\n• Support automatic scale out of the storage.\n\n• Maintain the availability of App1 if a datacenter fails.\n\n• Support reading and writing data from multiple Azure regions.\n\nWhich service should you include in the recommendation for each type of data? To answer, drag the appropriate services to the correct type of\n\ndata. Each service may be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct answer is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Image storage : Azure Blob Storage · Customer accounts : Azure Cosmos DB",
+    "explanation": "Blob Storage conserve les images avec chiffrement au repos et une origine utilisable par Front Door. Cosmos DB fournit le stockage des comptes clients avec réplication multirégion et montée en charge ; stocker ces comptes comme de simples fichiers ne répond pas aux contraintes de base distribuée.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Image storage",
+          "choices": [
+            "Azure Blob Storage",
+            "Azure Cosmos DB",
+            "Azure SQL Database",
+            "Azure Table Storage"
+          ],
+          "expected": "Azure Blob Storage"
+        },
+        {
+          "label": "Customer accounts",
+          "choices": [
+            "Azure Blob Storage",
+            "Azure Cosmos DB",
+            "Azure SQL Database",
+            "Azure Table Storage"
+          ],
+          "expected": "Azure Cosmos DB"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T2-Q24-p78-1-q.png"
@@ -3675,13 +4702,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 78,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Blob Storage conserve les images avec chiffrement au repos et une origine utilisable par Front Door. Cosmos DB fournit le stockage des comptes clients avec réplication multirégion et montée en charge ; stocker ces comptes comme de simples fichiers ne répond pas aux contraintes de base distribuée.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q24-p78-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q25",
@@ -3797,14 +4828,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You have an app that generates 50,000 events daily.\n\nYou plan to stream the events to an Azure event hub and use Event Hubs Capture to implement cold path processing of the events. The output of\n\nEvent Hubs Capture will be consumed by a reporting system.\n\nYou need to identify which type of Azure storage must be provisioned to support Event Hubs Capture, and which inbound data format the reporting\n\nsystem must support.\n\nWhat should you identify? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Storage type : Azure Data Lake Storage Gen2 · Data format : Avro",
+    "explanation": "Event Hubs Capture écrit les événements en Avro dans un stockage standard compatible, ici Data Lake Storage Gen2. Parquet nécessite une configuration de traitement supplémentaire qui n’est pas décrite dans ce scénario.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Storage type",
+          "choices": [
+            "Azure Data Lake Storage Gen2",
+            "Premium block blobs",
+            "Premium file shares"
+          ],
+          "expected": "Azure Data Lake Storage Gen2"
+        },
+        {
+          "label": "Data format",
+          "choices": [
+            "Apache Parquet",
+            "Avro",
+            "JSON"
+          ],
+          "expected": "Avro"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T2-Q28-p81-1-q.png"
@@ -3812,19 +4862,28 @@ window.AZ305_QUESTIONS = [
     "solutionAssets": [
       "assets/az305/AZ305-T2-Q28-p81-2-s.png"
     ],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-capture-overview"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 81,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Event Hubs Capture écrit les événements en Avro dans un stockage standard compatible, ici Data Lake Storage Gen2. Parquet nécessite une configuration de traitement supplémentaire qui n’est pas décrite dans ce scénario.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q28-p81-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q29",
@@ -3862,7 +4921,17 @@ window.AZ305_QUESTIONS = [
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Synapse Link permet d’analyser les données opérationnelles de Cosmos DB sans déplacer les données par un ETL classique et en limitant l’impact sur la charge transactionnelle."
+    "pedagogicalContext": "Synapse Link permet d’analyser les données opérationnelles de Cosmos DB sans déplacer les données par un ETL classique et en limitant l’impact sur la charge transactionnelle.",
+    "assetCrops": {
+      "assets/az305/AZ305-T2-Q29-p82-1-q.jpeg": {
+        "x": 0,
+        "y": 0,
+        "width": 966,
+        "height": 199,
+        "sourceWidth": 966,
+        "sourceHeight": 199
+      }
+    }
   },
   {
     "id": "AZ305-T2-Q30",
@@ -3871,14 +4940,35 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You have an Azure subscription. The subscription contains an Azure SQL managed instance that stores employee details, including social security\n\nnumbers and phone numbers.\n\nYou need to configure the managed instance to meet the following requirements:\n\n• The helpdesk team must see only the last four digits of an employee’s phone number.\n\n• Cloud administrators must be prevented from seeing the employee’s social security numbers.\n\nWhat should you enable for each column in the managed instance? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Phone numbers : Dynamic data masking · Social security numbers : Always Encrypted",
+    "explanation": "Dynamic data masking masque les numéros de téléphone aux utilisateurs non privilégiés. Always Encrypted protège les numéros de sécurité sociale côté client ; le moteur SQL ne reçoit pas leur texte clair. Les deux contraintes nécessitent donc des protections différentes.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Phone numbers",
+          "choices": [
+            "Always Encrypted",
+            "Column encryption",
+            "Dynamic data masking",
+            "Transparent Data Encryption (TDE)"
+          ],
+          "expected": "Dynamic data masking"
+        },
+        {
+          "label": "Social security numbers",
+          "choices": [
+            "Always Encrypted",
+            "Column encryption",
+            "Dynamic data masking",
+            "Transparent Data Encryption (TDE)"
+          ],
+          "expected": "Always Encrypted"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T2-Q30-p83-1-q.png"
@@ -3892,13 +4982,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 83,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Dynamic data masking masque les numéros de téléphone aux utilisateurs non privilégiés. Always Encrypted protège les numéros de sécurité sociale côté client ; le moteur SQL ne reçoit pas leur texte clair. Les deux contraintes nécessitent donc des protections différentes.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q30-p83-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q31",
@@ -3943,14 +5037,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You are designing a storage solution that will ingest, store, and analyze petabytes (PBs) of structured, semi-structured, and unstructured text data.\n\nThe analyzed data will be offloaded to Azure Data Lake Storage Gen2 for long-term retention.\n\nYou need to recommend a storage and analytics solution that meets the following requirements:\n\n• Stores the processed data\n\n• Provides interactive analytics\n\n• Supports manual scaling, built-in autoscaling, and custom autoscaling\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Storage and interactive analytics : Azure Data Explorer · Query language : KQL",
+    "explanation": "Azure Data Explorer est conçu pour l’analyse interactive de grands volumes de données. Ses requêtes utilisent KQL ; U-SQL correspond à Data Lake Analytics et Transact-SQL aux moteurs SQL.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Storage and interactive analytics",
+          "choices": [
+            "Azure Data Explorer",
+            "Azure Data Lake Analytics",
+            "Log Analytics"
+          ],
+          "expected": "Azure Data Explorer"
+        },
+        {
+          "label": "Query language",
+          "choices": [
+            "KQL",
+            "Transact-SQL",
+            "U-SQL"
+          ],
+          "expected": "KQL"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T2-Q32-p85-1-q.png"
@@ -3964,13 +5077,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 85,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Azure Data Explorer est conçu pour l’analyse interactive de grands volumes de données. Ses requêtes utilisent KQL ; U-SQL correspond à Data Lake Analytics et Transact-SQL aux moteurs SQL.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q32-p85-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q33",
@@ -3979,14 +5096,35 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You plan to use Azure SQL as a database platform.\n\nYou need to recommend an Azure SQL product and service tier that meets the following requirements:\n\n• Automatically scales compute resources based on the workload demand\n\n• Provides per second billing\n\nWhat should you recommend? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Azure SQL product : A single Azure SQL database · Service tier : General Purpose",
+    "explanation": "Une base SQL unique correspond au périmètre demandé. General Purpose est le niveau proposé qui satisfait les besoins sans payer les fonctions supplémentaires de Business Critical ou Hyperscale.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Azure SQL product",
+          "choices": [
+            "A single Azure SQL database",
+            "An Azure SQL Database elastic pool",
+            "Azure SQL Managed Instance"
+          ],
+          "expected": "A single Azure SQL database"
+        },
+        {
+          "label": "Service tier",
+          "choices": [
+            "Basic",
+            "Business Critical",
+            "General Purpose",
+            "Hyperscale",
+            "Standard"
+          ],
+          "expected": "General Purpose"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T2-Q33-p86-1-q.png"
@@ -4000,13 +5138,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 86,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Une base SQL unique correspond au périmètre demandé. General Purpose est le niveau proposé qui satisfait les besoins sans payer les fonctions supplémentaires de Business Critical ou Hyperscale.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q33-p86-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q34",
@@ -4015,14 +5157,34 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You have an Azure subscription.\n\nYou need to deploy a solution that will provide point-in-time restore for blobs in storage accounts that have blob versioning and blob soft delete\n\nenabled.\n\nWhich type of blob should you create, and what should you enable for the accounts? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Blob type : Block · Enable : The change feed",
+    "explanation": "Les block blobs stockent les objets du scénario. Le change feed enregistre leurs créations, modifications et suppressions ; l’immutabilité empêche les modifications mais ne fournit pas ce journal de changements.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Blob type",
+          "choices": [
+            "Append",
+            "Block",
+            "Page"
+          ],
+          "expected": "Block"
+        },
+        {
+          "label": "Enable",
+          "choices": [
+            "A stored access policy",
+            "Immutable blob storage",
+            "Object replication",
+            "The change feed"
+          ],
+          "expected": "The change feed"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T2-Q34-p87-1-q.png"
@@ -4036,13 +5198,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 87,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Les block blobs stockent les objets du scénario. Le change feed enregistre leurs créations, modifications et suppressions ; l’immutabilité empêche les modifications mais ne fournit pas ce journal de changements.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q34-p87-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q35",
@@ -4051,14 +5217,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "Your company, named Contoso, Ltd., has an Azure subscription that contains the following resources:\n\n• An Azure Synapse Analytics workspace named contosoworkspace1\n\n• An Azure Data Lake Storage account named contosolake1\n\n• An Azure SQL database named contososql1\n\nThe product data of Contoso is copied from contososql1 to contosolake1.\n\nContoso has a partner company named Fabrikam Inc. Fabrikam has an Azure subscription that contains the following resources:\n\n• A virtual machine named FabrikamVM1 that runs Microsoft SQL Server 2019\n\n• An Azure Storage account named fabrikamsa1\n\nContoso plans to upload the research data on FabrikamVM1 to contosolake1. During the upload, the research data must be transformed to the\n\ndata formats used by Contoso.\n\nThe data in contosolake1 will be analyzed by using contosoworkspace1.\n\nYou need to recommend a solution that meets the following requirements:\n\n• Upload and transform the FabrikamVM1 research data.\n\n• Provide Fabrikam with restricted access to snapshots of the data in contosoworkspace1.\n\nWhat should you recommend for each requirement? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Upload and transform data : Azure Synapse pipelines · Provide restricted access : Azure Data Share",
+    "explanation": "Les pipelines Synapse ingèrent et transforment les données. Azure Data Share organise ensuite leur partage contrôlé avec les destinataires. Ce sont deux besoins distincts : préparer les données et autoriser leur distribution.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Upload and transform data",
+          "choices": [
+            "Azure Data Box Gateway",
+            "Azure Data Share",
+            "Azure Synapse pipelines"
+          ],
+          "expected": "Azure Synapse pipelines"
+        },
+        {
+          "label": "Provide restricted access",
+          "choices": [
+            "Azure Data Box Gateway",
+            "Azure Data Share",
+            "Azure Synapse pipelines"
+          ],
+          "expected": "Azure Data Share"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T2-Q35-p88-1-q.png"
@@ -4072,13 +5257,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 88,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Les pipelines Synapse ingèrent et transforment les données. Azure Data Share organise ensuite leur partage contrôlé avec les destinataires. Ce sont deux besoins distincts : préparer les données et autoriser leur distribution.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q35-p88-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q36",
@@ -4087,14 +5276,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You are designing a data pipeline that will integrate large amounts of data from multiple on-premises Microsoft SQL Server databases into an\n\nanalytics platform in Azure. The pipeline will include the following actions:\n\n• Database updates will be exported periodically into a staging area in Azure Blob storage.\n\n• Data from the blob storage will be cleansed and transformed by using a highly parallelized load process.\n\n• The transformed data will be loaded to a data warehouse.\n\n• Each batch of updates will be used to refresh an online analytical processing (OLAP) model in a managed serving layer.\n\n• The managed serving layer will be used by thousands of end users.\n\nYou need to implement the data warehouse and serving layers.\n\nWhat should you use? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Data warehouse : An Azure Synapse Analytics dedicated SQL pool · Serving layer : Azure Analysis Services",
+    "explanation": "Le dedicated SQL pool est le moteur de l’entrepôt relationnel. Azure Analysis Services fournit le modèle sémantique de la couche de consultation ; un pool Spark sert à un autre type de traitement.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Data warehouse",
+          "choices": [
+            "An Apache Spark pool in Azure Synapse Analytics",
+            "An Azure Synapse Analytics dedicated SQL pool",
+            "Azure Data Lake Analytics"
+          ],
+          "expected": "An Azure Synapse Analytics dedicated SQL pool"
+        },
+        {
+          "label": "Serving layer",
+          "choices": [
+            "Azure Analysis Services",
+            "An Apache Spark pool in Azure Synapse Analytics",
+            "An Azure Synapse Analytics dedicated SQL pool"
+          ],
+          "expected": "Azure Analysis Services"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T2-Q36-p89-1-q.png"
@@ -4108,13 +5316,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 89,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le dedicated SQL pool est le moteur de l’entrepôt relationnel. Azure Analysis Services fournit le modèle sémantique de la couche de consultation ; un pool Spark sert à un autre type de traitement.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q36-p89-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q37",
@@ -4123,14 +5335,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de stockage de données",
     "prompt": "You have an Azure subscription.\n\nYou need to deploy a relational database. The solution must meet the following requirements:\n\n• Support multiple read-only replicas.\n\n• Automatically load balance read-only requests across all the read-only replicas.\n\n• Minimize administrative effort\n\nWhat should you use? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Service : A single Azure SQL database · Service tier : Hyperscale",
+    "explanation": "Une base SQL unique en Hyperscale répond à la croissance et aux réplicas de lecture du scénario. Un elastic pool partage du calcul entre plusieurs bases ; il ne remplace pas le niveau de stockage Hyperscale d’une base.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Service",
+          "choices": [
+            "A single Azure SQL database",
+            "An Azure SQL Database elastic pool",
+            "Azure SQL Managed Instances"
+          ],
+          "expected": "A single Azure SQL database"
+        },
+        {
+          "label": "Service tier",
+          "choices": [
+            "Business Critical",
+            "Hyperscale",
+            "Premium"
+          ],
+          "expected": "Hyperscale"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T2-Q37-p90-1-q.png"
@@ -4144,13 +5375,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 90,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Une base SQL unique en Hyperscale répond à la croissance et aux réplicas de lecture du scénario. Un elastic pool partage du calcul entre plusieurs bases ; il ne remplace pas le niveau de stockage Hyperscale d’une base.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T2-Q37-p90-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T2-Q38",
@@ -4267,14 +5502,36 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You plan to deploy the backup policy shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Maximum recovery history : 36 months · Minimum recovery point objective : 1 day",
+    "explanation": "La rétention mensuelle conserve 36 points mensuels, soit trois ans d’historique dans la policy illustrée. Une sauvegarde quotidienne laisse au maximum une journée de données à reconstituer : le RPO de cette planification est un jour.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Maximum recovery history",
+          "choices": [
+            "90 days",
+            "26 weeks",
+            "36 months",
+            "45 months"
+          ],
+          "expected": "36 months"
+        },
+        {
+          "label": "Minimum recovery point objective",
+          "choices": [
+            "1 hour",
+            "1 day",
+            "1 week",
+            "1 month",
+            "1 year"
+          ],
+          "expected": "1 day"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T3-Q2-p93-1-q.png",
@@ -4289,13 +5546,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 93,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "La rétention mensuelle conserve 36 points mensuels, soit trois ans d’historique dans la policy illustrée. Une sauvegarde quotidienne laisse au maximum une journée de données à reconstituer : le RPO de cette planification est un jour.",
+    "assetCrops": {
+      "assets/az305/AZ305-T3-Q2-p93-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 618,
+        "height": 1097,
+        "sourceWidth": 618,
+        "sourceHeight": 1097
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q2-p94-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q3",
@@ -4372,8 +5643,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You plan to create an Azure Storage account that will host file shares. The shares will be accessed from on-premises applications that are\n\ntransaction intensive.\n\nYou need to recommend a solution to minimize latency when accessing the file shares. The solution must provide the highest-level of resiliency\n\nfor the selected storage tier.\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Premium; Zone-redundant storage (ZRS):",
-    "explanation": "La correction du support retient « Premium; Zone-redundant storage (ZRS): ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "Storage tier : Premium · Redundancy : Zone-redundant storage (ZRS)",
+    "explanation": "Box 1: Premium - Premium: Premium file shares are backed by solid-state drives (SSDs) and provide consistent high performance and low latency, within single- digit milliseconds for most IO operations, for IO-intensive workloads. Incorrect Answers: ✑ Hot: Hot file shares offer storage optimized for general purpose file sharing scenarios such as team shares. Hot file shares are offered on the standard storage hardware backed by HDDs. ✑ Transaction optimized: Transaction optimized file shares enable transaction heavy workloads that don't need the latency offered by premium file shares. Transaction optimized file shares are offered on the standard storage hardware backed by hard disk drives (HDDs). Transaction optimized has historically been called \"standard\", however this refers to the storage media type rather than the tier itself (the hot and cool are also \"standard\" tiers, because they are on standard storage hardware). Box 2: Zone-redundant storage (ZRS): Premium Azure file shares only support LRS and ZRS. Zone-redundant storage (ZRS): With ZRS, three copies of each file stored, however these copies are physically isolated in three distinct storage clusters in different Azure availability zones.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -4381,14 +5652,22 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Storage tier",
+          "choices": [
+            "Hot",
+            "Premium",
+            "Transaction optimized"
+          ],
           "expected": "Premium"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
-          "expected": "Zone-redundant storage (ZRS):"
+          "label": "Redundancy",
+          "choices": [
+            "Geo-redundant storage (GRS)",
+            "Zone-redundant storage (ZRS)",
+            "Locally-redundant storage (LRS)"
+          ],
+          "expected": "Zone-redundant storage (ZRS)"
         }
       ]
     },
@@ -4409,13 +5688,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Premium; Zone-redundant storage (ZRS):",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 96,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Premium - Premium: Premium file shares are backed by solid-state drives (SSDs) and provide consistent high performance and low latency, within single- digit milliseconds for most IO operations, for IO-intensive workloads. Incorrect Answers: ✑ Hot: Hot file shares offer storage optimized for general purpose file sharing scenarios such as team shares. Hot file shares are offered on the standard storage hardware backed by HDDs. ✑ Transaction optimized: Transaction optimized file shares enable transaction heavy workloads that don't need the latency offered by premium file shares. Transaction optimized file shares are offered on the standard storage hardware backed by hard disk drives (HDDs). Transaction optimized has historically been called \"standard\", however this refers to the storage media type rather than the tier itself (the hot and cool are also \"standard\" tiers, because they are on standard storage hardware). Box 2: Zone-redundant storage (ZRS): Premium Azure file shares only support LRS and ZRS. Zone-redundant storage (ZRS): With ZRS, three copies of each file stored, however these copies are physically isolated in three distinct storage clusters in different Azure availability zones.",
-    "pedagogicalContext": "La correction du support retient « Premium; Zone-redundant storage (ZRS): ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: Premium - Premium: Premium file shares are backed by solid-state drives (SSDs) and provide consistent high performance and low latency, within single- digit milliseconds for most IO operations, for IO-intensive workloads. Incorrect Answers: ✑ Hot: Hot file shares offer storage optimized for general purpose file sharing scenarios such as team shares. Hot file shares are offered on the standard storage hardware backed by HDDs. ✑ Transaction optimized: Transaction optimized file shares enable transaction heavy workloads that don't need the latency offered by premium file shares. Transaction optimized file shares are offered on the standard storage hardware backed by hard disk drives (HDDs). Transaction optimized has historically been called \"standard\", however this refers to the storage media type rather than the tier itself (the hot and cool are also \"standard\" tiers, because they are on standard storage hardware). Box 2: Zone-redundant storage (ZRS): Premium Azure file shares only support LRS and ZRS. Zone-redundant storage (ZRS): With ZRS, three copies of each file stored, however these copies are physically isolated in three distinct storage clusters in different Azure availability zones.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q5-p96-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q6",
@@ -4458,8 +5741,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You need to recommend an Azure Storage account configuration for two applications named Application1 and Application2. The configuration\n\nmust meet the following requirements:\n\n✑ Storage for Application1 must provide the highest possible transaction rates and the lowest possible latency.\n\n✑ Storage for Application2 must provide the lowest possible storage costs per GB.\n\n✑ Storage for both applications must be available in an event of datacenter failure.\n\n✑ Storage for both applications must be optimized for uploads and downloads.\n\nWhat should you recommend? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "BlobStorage with Premium Performance,‫ג‬€¦; General purpose v2 with Standard Performance,..",
-    "explanation": "La correction du support retient « BlobStorage with Premium Performance,‫ג‬€¦; General purpose v2 with Standard Performance,.. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "Application1 : BlockBlobStorage, Premium, ZRS · Application2 : General purpose v2, Standard, Cool, RA-GRS",
+    "explanation": "Box 1: BlobStorage with Premium Performance,‫ג‬€¦ Application1 requires high transaction rates and the lowest possible latency. We need to use Premium, not Standard. Box 2: General purpose v2 with Standard Performance,.. General Purpose v2 provides access to the latest Azure storage features, including Cool and Archive storage, with pricing optimized for the lowest GB storage prices. These accounts provide access to Block Blobs, Page Blobs, Files, and Queues. Recommended for most scenarios using Azure Storage.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -4467,14 +5750,24 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
-          "expected": "BlobStorage with Premium Performance,‫ג‬€¦"
+          "label": "Application1",
+          "choices": [
+            "BlobStorage, Standard, Hot, RA-GRS",
+            "BlockBlobStorage, Premium, ZRS",
+            "General purpose v1, Premium, LRS",
+            "General purpose v2, Standard, Hot, LRS"
+          ],
+          "expected": "BlockBlobStorage, Premium, ZRS"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
-          "expected": "General purpose v2 with Standard Performance,.."
+          "label": "Application2",
+          "choices": [
+            "BlobStorage, Standard, Cool, GRS",
+            "BlockBlobStorage, Premium, ZRS",
+            "General purpose v1, Standard, RA-GRS",
+            "General purpose v2, Standard, Cool, RA-GRS"
+          ],
+          "expected": "General purpose v2, Standard, Cool, RA-GRS"
         }
       ]
     },
@@ -4495,13 +5788,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "BlobStorage with Premium Performance,‫ג‬€¦; General purpose v2 with Standard Performance,..",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 98,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: BlobStorage with Premium Performance,‫ג‬€¦ Application1 requires high transaction rates and the lowest possible latency. We need to use Premium, not Standard. Box 2: General purpose v2 with Standard Performance,.. General Purpose v2 provides access to the latest Azure storage features, including Cool and Archive storage, with pricing optimized for the lowest GB storage prices. These accounts provide access to Block Blobs, Page Blobs, Files, and Queues. Recommended for most scenarios using Azure Storage.",
-    "pedagogicalContext": "La correction du support retient « BlobStorage with Premium Performance,‫ג‬€¦; General purpose v2 with Standard Performance,.. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: BlobStorage with Premium Performance,‫ג‬€¦ Application1 requires high transaction rates and the lowest possible latency. We need to use Premium, not Standard. Box 2: General purpose v2 with Standard Performance,.. General Purpose v2 provides access to the latest Azure storage features, including Cool and Archive storage, with pricing optimized for the lowest GB storage prices. These accounts provide access to Block Blobs, Page Blobs, Files, and Queues. Recommended for most scenarios using Azure Storage.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q7-p98-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q8",
@@ -4510,14 +5807,32 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You plan to develop a new app that will store business critical data. The app must meet the following requirements:\n\n✑ Prevent new data from being modified for one year.\n\n✑ Maximize data resiliency.\n\n✑ Minimize read latency.\n\nWhat storage solution should you recommend for the app? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Storage account type : Premium block blobs · Redundancy : Zone-redundant storage (ZRS)",
+    "explanation": "Le compte Premium block blobs fournit les performances de stockage objet demandées. ZRS réplique les données entre les zones d’une région afin de conserver leur disponibilité si une zone tombe, contrairement à LRS.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Storage account type",
+          "choices": [
+            "Premium block blobs",
+            "Standard general-purpose v1",
+            "Standard general-purpose v2"
+          ],
+          "expected": "Premium block blobs"
+        },
+        {
+          "label": "Redundancy",
+          "choices": [
+            "Zone-redundant storage (ZRS)",
+            "Locally-redundant storage (LRS)"
+          ],
+          "expected": "Zone-redundant storage (ZRS)"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T3-Q8-p99-1-q.jpeg"
@@ -4531,13 +5846,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 99,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le compte Premium block blobs fournit les performances de stockage objet demandées. ZRS réplique les données entre les zones d’une région afin de conserver leur disponibilité si une zone tombe, contrairement à LRS.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q8-p99-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q9",
@@ -4582,8 +5901,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You have an on-premises file server that stores 2 TB of data files.\n\nYou plan to move the data files to Azure Blob Storage in the West Europe Azure region.\n\nYou need to recommend a storage account type to store the data files and a replication solution for the storage account. The solution must meet\n\nthe following requirements:\n\n✑ Be available if a single Azure datacenter fails.\n\n✑ Support storage tiers.\n\n✑ Minimize cost.\n\nWhat should you recommend? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Standard general-purpose v2; Zone-redundant storage (ZRS)",
-    "explanation": "Blob Storage est adapté au stockage d’objets non structurés comme documents, sauvegardes, médias et données analytiques. Les tiers d’accès permettent d’arbitrer coût de stockage et fréquence d’accès.",
+    "solutionAnswer": "Storage account type : Standard general-purpose v2 · Redundancy : Zone-redundant storage (ZRS)",
+    "explanation": "Box 1: Standard general-purpose v2 Standard general-purpose v2 meets the requirements and minimizes the costs. Box 2: Zone-redundant storage (ZRS) ZRS protects against a Datacenter failure, while minimizing the costs.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -4591,13 +5910,22 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Storage account type",
+          "choices": [
+            "Premium block blobs",
+            "Standard general-purpose v1",
+            "Standard general-purpose v2"
+          ],
           "expected": "Standard general-purpose v2"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Redundancy",
+          "choices": [
+            "Geo-redundant storage (GRS)",
+            "Zone-redundant storage (ZRS)",
+            "Locally-redundant storage (LRS)",
+            "Read-access geo-redundant storage (RA-GRS)"
+          ],
           "expected": "Zone-redundant storage (ZRS)"
         }
       ]
@@ -4619,13 +5947,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Standard general-purpose v2; Zone-redundant storage (ZRS)",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 101,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Standard general-purpose v2 Standard general-purpose v2 meets the requirements and minimizes the costs. Box 2: Zone-redundant storage (ZRS) ZRS protects against a Datacenter failure, while minimizing the costs.",
-    "pedagogicalContext": "Blob Storage est adapté au stockage d’objets non structurés comme documents, sauvegardes, médias et données analytiques. Les tiers d’accès permettent d’arbitrer coût de stockage et fréquence d’accès."
+    "pedagogicalContext": "Box 1: Standard general-purpose v2 Standard general-purpose v2 meets the requirements and minimizes the costs. Box 2: Zone-redundant storage (ZRS) ZRS protects against a Datacenter failure, while minimizing the costs.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q10-p101-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q11",
@@ -4634,8 +5966,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You have an Azure web app named App1 and an Azure key vault named KV1.\n\nApp1 stores database connection strings in KV1.\n\nApp1 performs the following types of requests to KV1:\n\n✑ Get\n\n✑ List\n\n✑ Wrap\n\n✑ Delete\n\nUnwrap -\n\n✑ Backup\n\n✑ Decrypt\n\n✑ Encrypt\n\nYou are evaluating the continuity of service for App1.\n\nYou need to identify the following if the Azure region that hosts KV1 becomes unavailable:\n\n✑ To where will KV1 fail over?\n\n✑ During the failover, which request type will be unavailable?\n\nWhat should you identify? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "A server in the paired region; Delete",
-    "explanation": "Key Vault centralise les secrets, clés et certificats. Les références Key Vault permettent à une application d’utiliser un secret sans le copier dans sa configuration, avec des permissions limitées au strict nécessaire.",
+    "solutionAnswer": "KV1 failover destination : A server in the paired region · Unavailable request during failover : Delete",
+    "explanation": "Box 1: A server in the paired region The contents of your key vault are replicated within the region and to a secondary region at least 150 miles away, but within the same geography to maintain high durability of your keys and secrets. Regions are paired for cross-region replication based on proximity and other factors. Box 2: Delete - During failover, your key vault is in read-only mode. Requests that are supported in this mode are: List certificates - Get certificates - List secrets - Get secrets - List keys - Get (properties of) keys - Encrypt - Decrypt - Wrap - Unwrap - Verify - Sign - Backup -",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -4643,13 +5975,27 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "KV1 failover destination",
+          "choices": [
+            "A server in the same availability set",
+            "A server in the same fault domain",
+            "A server in the paired region",
+            "A virtual machine in a scale set"
+          ],
           "expected": "A server in the paired region"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Unavailable request during failover",
+          "choices": [
+            "Get",
+            "List",
+            "Wrap",
+            "Delete",
+            "Unwrap",
+            "Backup",
+            "Decrypt",
+            "Encrypt"
+          ],
           "expected": "Delete"
         }
       ]
@@ -4671,13 +6017,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "A server in the paired region; Delete",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 102,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: A server in the paired region The contents of your key vault are replicated within the region and to a secondary region at least 150 miles away, but within the same geography to maintain high durability of your keys and secrets. Regions are paired for cross-region replication based on proximity and other factors. Box 2: Delete - During failover, your key vault is in read-only mode. Requests that are supported in this mode are: List certificates - Get certificates - List secrets - Get secrets - List keys - Get (properties of) keys - Encrypt - Decrypt - Wrap - Unwrap - Verify - Sign - Backup -",
-    "pedagogicalContext": "Key Vault centralise les secrets, clés et certificats. Les références Key Vault permettent à une application d’utiliser un secret sans le copier dans sa configuration, avec des permissions limitées au strict nécessaire."
+    "pedagogicalContext": "Box 1: A server in the paired region The contents of your key vault are replicated within the region and to a secondary region at least 150 miles away, but within the same geography to maintain high durability of your keys and secrets. Regions are paired for cross-region replication based on proximity and other factors. Box 2: Delete - During failover, your key vault is in read-only mode. Requests that are supported in this mode are: List certificates - Get certificates - List secrets - Get secrets - List keys - Get (properties of) keys - Encrypt - Decrypt - Wrap - Unwrap - Verify - Sign - Backup -",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q11-p102-2-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q12",
@@ -4686,8 +6036,8 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "Your company identifies the following business continuity and disaster recovery objectives for virtual machines that host sales, finance, and\n\nreporting applications in the company's on-premises data center:\n\n✑ The sales application must be able to fail over to a second on-premises data center.\n\n✑ The reporting application must be able to recover point-in-time data at a daily granularity. The RTO is eight hours.\n\n✑ The finance application requires that data be retained for seven years. In the event of a disaster, the application must be able to run from\n\nAzure. The recovery time objective (RTO) is 10 minutes.\n\nYou need to recommend which services meet the business continuity and disaster recovery objectives. The solution must minimize costs.\n\nWhat should you recommend for each application? To answer, drag the appropriate services to the correct applications. Each service may be used\n\nonce, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.\n\nSelect and Place:",
-    "solutionAnswer": "Azure Site Recovery; Azure Site Recovery and Azure Backup; Azure Backup only",
-    "explanation": "Azure Site Recovery orchestre la réplication et le basculement de machines pour la reprise après sinistre. Il complète la sauvegarde, qui répond à un autre objectif : restaurer des données ou des points dans le temps.",
+    "solutionAnswer": "Sales : Azure Site Recovery only · Finance : Azure Site Recovery and Azure Backup · Reporting : Azure Backup only",
+    "explanation": "Box 1: Azure Site Recovery - Azure Site Recovery - Coordinates virtual-machine and physical-server replication, failover, and fullback. DR solutions have low Recovery point objectives; DR copy can be behind by a few seconds/minutes. DR needs only operational recovery data, which can take hours to a day. Using DR data for long-term retention is not recommended because of the fine-grained data capture. Disaster recovery solutions have smaller Recovery time objectives because they are more in sync with the source. Remote monitor the health of machines and create customizable recovery plans. Box 2: Azure Site Recovery and Azure Backup Backup ensures that your data is safe and recoverable while Site Recovery keeps your workloads available when/if an outage occurs. Box 3: Azure Backup only - Azure Backup - Backs up data on-premises and in the cloud Have wide variability in their acceptable Recovery point objective. VM backups usually one day while database backups as low as 15 minutes. Backup data is typically retained for 30 days or less. From a compliance view, data may need to be saved for years. Backup data is ideal for archiving in such instances. Because of a larger Recovery point objective, the amount of data a backup solution needs to process is usually much higher, which leads to a longer Recovery time objective.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -4695,18 +6045,30 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
-          "expected": "Azure Site Recovery"
+          "label": "Sales",
+          "choices": [
+            "Azure Backup only",
+            "Azure Site Recovery and Azure Backup",
+            "Azure Site Recovery only"
+          ],
+          "expected": "Azure Site Recovery only"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Finance",
+          "choices": [
+            "Azure Backup only",
+            "Azure Site Recovery and Azure Backup",
+            "Azure Site Recovery only"
+          ],
           "expected": "Azure Site Recovery and Azure Backup"
         },
         {
-          "label": "Sélection 3",
-          "choices": [],
+          "label": "Reporting",
+          "choices": [
+            "Azure Backup only",
+            "Azure Site Recovery and Azure Backup",
+            "Azure Site Recovery only"
+          ],
           "expected": "Azure Backup only"
         }
       ]
@@ -4728,13 +6090,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure Site Recovery; Azure Site Recovery and Azure Backup; Azure Backup only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 104,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Azure Site Recovery - Azure Site Recovery - Coordinates virtual-machine and physical-server replication, failover, and fullback. DR solutions have low Recovery point objectives; DR copy can be behind by a few seconds/minutes. DR needs only operational recovery data, which can take hours to a day. Using DR data for long-term retention is not recommended because of the fine-grained data capture. Disaster recovery solutions have smaller Recovery time objectives because they are more in sync with the source. Remote monitor the health of machines and create customizable recovery plans. Box 2: Azure Site Recovery and Azure Backup Backup ensures that your data is safe and recoverable while Site Recovery keeps your workloads available when/if an outage occurs. Box 3: Azure Backup only - Azure Backup - Backs up data on-premises and in the cloud Have wide variability in their acceptable Recovery point objective. VM backups usually one day while database backups as low as 15 minutes. Backup data is typically retained for 30 days or less. From a compliance view, data may need to be saved for years. Backup data is ideal for archiving in such instances. Because of a larger Recovery point objective, the amount of data a backup solution needs to process is usually much higher, which leads to a longer Recovery time objective.",
-    "pedagogicalContext": "Azure Site Recovery orchestre la réplication et le basculement de machines pour la reprise après sinistre. Il complète la sauvegarde, qui répond à un autre objectif : restaurer des données ou des points dans le temps."
+    "pedagogicalContext": "Box 1: Azure Site Recovery - Azure Site Recovery - Coordinates virtual-machine and physical-server replication, failover, and fullback. DR solutions have low Recovery point objectives; DR copy can be behind by a few seconds/minutes. DR needs only operational recovery data, which can take hours to a day. Using DR data for long-term retention is not recommended because of the fine-grained data capture. Disaster recovery solutions have smaller Recovery time objectives because they are more in sync with the source. Remote monitor the health of machines and create customizable recovery plans. Box 2: Azure Site Recovery and Azure Backup Backup ensures that your data is safe and recoverable while Site Recovery keeps your workloads available when/if an outage occurs. Box 3: Azure Backup only - Azure Backup - Backs up data on-premises and in the cloud Have wide variability in their acceptable Recovery point objective. VM backups usually one day while database backups as low as 15 minutes. Backup data is typically retained for 30 days or less. From a compliance view, data may need to be saved for years. Backup data is ideal for archiving in such instances. Because of a larger Recovery point objective, the amount of data a backup solution needs to process is usually much higher, which leads to a longer Recovery time objective.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q12-p104-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q13",
@@ -4885,14 +6251,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You have an on-premises Microsoft SQL Server database named SQL1.\n\nYou plan to migrate SQL1 to Azure.\n\nYou need to recommend a hosting solution for SQL1. The solution must meet the following requirements:\n\n• Support the deployment of multiple secondary, read-only replicas.\n\n• Support automatic replication between primary and secondary replicas.\n\n• Support failover between primary and secondary replicas within a 15-minute recovery time objective (RTO).\n\nWhat should you include in the solution? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Azure service or tier : The Hyperscale service tier · Replication : Active geo-replication",
+    "explanation": "Hyperscale permet la grande capacité de stockage demandée. Active geo-replication crée une base secondaire dans une autre région ; elle répond au besoin de réplication sans confondre cette base avec un simple backup.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Azure service or tier",
+          "choices": [
+            "Azure SQL Database",
+            "Azure SQL Managed Instance",
+            "The Hyperscale service tier"
+          ],
+          "expected": "The Hyperscale service tier"
+        },
+        {
+          "label": "Replication",
+          "choices": [
+            "Active geo-replication",
+            "Auto-failover groups",
+            "Standard geo-replication"
+          ],
+          "expected": "Active geo-replication"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T3-Q17-p107-1-q.png"
@@ -4906,13 +6291,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 107,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Hyperscale permet la grande capacité de stockage demandée. Active geo-replication crée une base secondaire dans une autre région ; elle répond au besoin de réplication sans confondre cette base avec un simple backup.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q17-p107-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q18",
@@ -4921,14 +6310,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You have two on-premises Microsoft SQL Server 2017 instances that host an Always On availability group named AG1. AG1 contains a single\n\ndatabase named DB1.\n\nYou have an Azure subscription that contains a virtual machine named VM1. VM1 runs Linux and contains a SQL Server 2019 instance.\n\nYou need to migrate DB1 to VM1. The solution must minimize downtime on DB1.\n\nWhat should you do? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Prepare the migration : Creating an Always On availability group on VM1 · Perform the migration : Azure Migrate",
+    "explanation": "Le scénario prépare une destination SQL Server sur VM1 avec un availability group, puis utilise Azure Migrate pour déplacer le serveur source. Un distributed availability group serait une autre architecture de réplication ; ce n’est pas le mécanisme de migration choisi dans la correction.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Prepare the migration",
+          "choices": [
+            "Adding a secondary replica to AG1",
+            "Creating an Always On availability group on VM1",
+            "Upgrading the on-premises SQL Server instances"
+          ],
+          "expected": "Creating an Always On availability group on VM1"
+        },
+        {
+          "label": "Perform the migration",
+          "choices": [
+            "A distributed availability group",
+            "Azure Migrate",
+            "Log shipping"
+          ],
+          "expected": "Azure Migrate"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T3-Q18-p108-1-q.png"
@@ -4942,13 +6350,24 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 108,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le scénario prépare une destination SQL Server sur VM1 avec un availability group, puis utilise Azure Migrate pour déplacer le serveur source. Un distributed availability group serait une autre architecture de réplication ; ce n’est pas le mécanisme de migration choisi dans la correction.",
+    "assetCrops": {
+      "assets/az305/AZ305-T3-Q18-p108-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 760,
+        "height": 291,
+        "sourceWidth": 760,
+        "sourceHeight": 291
+      }
+    },
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q19",
@@ -4957,14 +6376,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You are building an Azure web app that will store the Personally Identifiable Information (PII) of employees.\n\nYou need to recommend an Azure SQL. Database solution for the web app. The solution must meet the following requirements:\n\n• Maintain availability in the event of a single datacenter outage.\n\n• Support the encryption of specific columns that contain PII.\n\n• Automatically scale up during payroll operations.\n\n• Minimize costs.\n\nWhat should you include in the recommendations? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Service and compute tier : General Purpose and Serverless · Encryption method : Always Encrypted",
+    "explanation": "General Purpose avec Serverless ajuste le calcul à la demande. Always Encrypted protège les valeurs sensibles côté client afin que le moteur SQL ne voie pas leur texte clair ; TDE protège les fichiers au repos mais ne répond pas à cette séparation d’accès.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Service and compute tier",
+          "choices": [
+            "Business Critical and Serverless",
+            "General Purpose and Serverless",
+            "Hyperscale and Provisioned"
+          ],
+          "expected": "General Purpose and Serverless"
+        },
+        {
+          "label": "Encryption method",
+          "choices": [
+            "Always Encrypted",
+            "Microsoft SQL Server and database encryption keys",
+            "Transparent Data Encryption (TDE)"
+          ],
+          "expected": "Always Encrypted"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T3-Q19-p109-1-q.png"
@@ -4978,13 +6416,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 109,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "General Purpose avec Serverless ajuste le calcul à la demande. Always Encrypted protège les valeurs sensibles côté client afin que le moteur SQL ne voie pas leur texte clair ; TDE protège les fichiers au repos mais ne répond pas à cette séparation d’accès.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q19-p109-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q20",
@@ -5058,7 +6500,17 @@ window.AZ305_QUESTIONS = [
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Gateway Load Balancer ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "La correction du support retient « Gateway Load Balancer ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "assetCrops": {
+      "assets/az305/AZ305-T3-Q21-p110-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 646,
+        "height": 245,
+        "sourceWidth": 646,
+        "sourceHeight": 245
+      }
+    }
   },
   {
     "id": "AZ305-T3-Q22",
@@ -5067,14 +6519,37 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You have the Azure subscriptions shown in the following table.\n\nContoso.onmicrosft.com contains a user named User1.\n\nYou need to deploy a solution to protect against ransomware attacks. The solution must meet the following requirements:\n\n• Ensure that all the resources in Sub1 are backed up by using Azure Backup.\n\n• Require that User1 first be assigned a role for Sub2 before the user can make major changes to the backup configuration.\n\nWhat should you create in each subscription? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Sub1 : A Recovery Services vault · Sub2 : A Resource Guard",
+    "explanation": "Le Recovery Services vault gère les sauvegardes. Resource Guard apporte l’autorisation supplémentaire pour les opérations sensibles ; le placer dans Sub2 sépare ce contrôle des administrateurs du coffre de Sub1.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Sub1",
+          "choices": [
+            "A Recovery Services vault",
+            "A Resource Guard",
+            "An Azure Site Recovery job",
+            "Microsoft Azure Backup Server (MABS)",
+            "The Microsoft Azure Recovery Services (MARS) agent"
+          ],
+          "expected": "A Recovery Services vault"
+        },
+        {
+          "label": "Sub2",
+          "choices": [
+            "A Recovery Services vault",
+            "A Resource Guard",
+            "An Azure Site Recovery job",
+            "Microsoft Azure Backup Server (MABS)",
+            "The Microsoft Azure Recovery Services (MARS) agent"
+          ],
+          "expected": "A Resource Guard"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T3-Q22-p111-1-q.png",
@@ -5089,13 +6564,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 111,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le Recovery Services vault gère les sauvegardes. Resource Guard apporte l’autorisation supplémentaire pour les opérations sensibles ; le placer dans Sub2 sépare ce contrôle des administrateurs du coffre de Sub1.",
+    "assetCrops": {
+      "assets/az305/AZ305-T3-Q22-p111-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 606,
+        "height": 103,
+        "sourceWidth": 606,
+        "sourceHeight": 103
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q22-p111-2-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q23",
@@ -5104,14 +6593,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You have 10 on-premises servers that run Windows Server.\n\nYou need to perform daily backups of the servers to a Recovery Services vault. The solution must meet the following requirements:\n\n• Back up all the files and folders on the servers.\n\n• Maintain three copies of the backups in Azure.\n\n• Minimize costs.\n\nWhat should you configure? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "On the servers : The Microsoft Azure Recovery Services (MARS) agent · Storage : Locally-redundant storage (LRS)",
+    "explanation": "MARS sauvegarde les fichiers et dossiers des serveurs Windows vers le coffre. LRS est la redondance choisie pour minimiser le coût lorsque le scénario n’exige pas de reprise dans une seconde région.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "On the servers",
+          "choices": [
+            "The Azure Site Recovery Mobility service",
+            "The Microsoft Azure Recovery Services (MARS) agent",
+            "Volume Shadow Copy Service (VSS)"
+          ],
+          "expected": "The Microsoft Azure Recovery Services (MARS) agent"
+        },
+        {
+          "label": "Storage",
+          "choices": [
+            "Geo-redundant storage (GRS)",
+            "Locally-redundant storage (LRS)",
+            "Zone-redundant storage (ZRS)"
+          ],
+          "expected": "Locally-redundant storage (LRS)"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T3-Q23-p112-1-q.png"
@@ -5125,13 +6633,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 112,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "MARS sauvegarde les fichiers et dossiers des serveurs Windows vers le coffre. LRS est la redondance choisie pour minimiser le coût lorsque le scénario n’exige pas de reprise dans une seconde région.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q23-p112-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q24",
@@ -5140,14 +6652,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You plan to deploy a containerized web-app that will be hosted in five Azure Kubernetes Service (AKS) clusters. Each cluster will be hosted in a\n\ndifferent Azure region.\n\nYou need to provide access to the app from the internet. The solution must meet the following requirements:\n\n• Incoming HTTPS requests must be routed to the cluster that has the lowest network latency.\n\n• HTTPS traffic to individual pods must be routed via an ingress controller.\n\n• In the event of an AKS cluster outage, failover time must be minimized.\n\nWhat should you include in the solution? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Global load balancing : Azure Front Door · Ingress controller : Azure Application Gateway",
+    "explanation": "Front Door répartit globalement les requêtes web entre les régions. Application Gateway fournit l’ingress HTTP/HTTPS dans chaque région ou cluster ; un load balancer TCP ne fournit pas ces fonctions applicatives.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Global load balancing",
+          "choices": [
+            "Azure Front Door",
+            "Azure Traffic Manager",
+            "Cross-region load balancing in Azure Standard Load Balancer"
+          ],
+          "expected": "Azure Front Door"
+        },
+        {
+          "label": "Ingress controller",
+          "choices": [
+            "Azure Application Gateway",
+            "Azure Standard Load Balancer",
+            "Basic Azure Load Balancer"
+          ],
+          "expected": "Azure Application Gateway"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T3-Q24-p113-1-q.png"
@@ -5161,13 +6692,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 113,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Front Door répartit globalement les requêtes web entre les régions. Application Gateway fournit l’ingress HTTP/HTTPS dans chaque région ou cluster ; un load balancer TCP ne fournit pas ces fonctions applicatives.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q24-p113-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q25",
@@ -5176,14 +6711,43 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You have an Azure subscription.\n\nYou create a storage account that will store documents.\n\nYou need to configure the storage account to meet the following requirements:\n\n• Ensure that retention policies are standardized across the subscription.\n\n• Ensure that data can be purged if the data is copied to an unauthorized location.\n\nWhich two settings should you enable? To answer, select the appropriate settings in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Standardize retention policies : Enable operational backup with Azure Backup · Purge copied data : Enable permanent delete for soft deleted items",
+    "explanation": "Operational backup permet d’appliquer une policy de protection et de rétention aux blobs. Permanent delete permet la purge définitive des éléments soft-deleted quand cette suppression est exigée, au lieu de simplement les masquer.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Standardize retention policies",
+          "choices": [
+            "Enable operational backup with Azure Backup",
+            "Enable point-in-time restore for containers",
+            "Enable soft delete for blobs",
+            "Enable soft delete for containers",
+            "Enable permanent delete for soft deleted items",
+            "Enable versioning for blobs",
+            "Enable blob change feed",
+            "Enable version-level immutability support"
+          ],
+          "expected": "Enable operational backup with Azure Backup"
+        },
+        {
+          "label": "Purge copied data",
+          "choices": [
+            "Enable operational backup with Azure Backup",
+            "Enable point-in-time restore for containers",
+            "Enable soft delete for blobs",
+            "Enable soft delete for containers",
+            "Enable permanent delete for soft deleted items",
+            "Enable versioning for blobs",
+            "Enable blob change feed",
+            "Enable version-level immutability support"
+          ],
+          "expected": "Enable permanent delete for soft deleted items"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T3-Q25-p114-1-q.jpeg"
@@ -5197,13 +6761,24 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 114,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Operational backup permet d’appliquer une policy de protection et de rétention aux blobs. Permanent delete permet la purge définitive des éléments soft-deleted quand cette suppression est exigée, au lieu de simplement les masquer.",
+    "assetCrops": {
+      "assets/az305/AZ305-T3-Q25-p114-1-q.jpeg": {
+        "x": 0,
+        "y": 0,
+        "width": 543,
+        "height": 647,
+        "sourceWidth": 543,
+        "sourceHeight": 647
+      }
+    },
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q26",
@@ -5212,14 +6787,35 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You have an Azure subscription.\n\nYou are designing a solution for containerized apps. The solution must meet the following requirements:\n\n• Automatically scale the apps by creating additional instances.\n\n• Minimize administrative effort to maintain nodes and clusters.\n\n• Ensure that containerized apps are highly available across multiple availability zones.\n\n• Provide a central location for the lifecycle management and storage of container images.\n\nWhat should you include in the solution? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Run containerized apps : Azure Container Apps · Container image lifecycle and storage : Azure Container Registry",
+    "explanation": "Container Apps exécute les applications conteneurisées sans gérer les nœuds Kubernetes. Container Registry stocke et gère les images utilisées pour leur déploiement ; il n’exécute pas les applications.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Run containerized apps",
+          "choices": [
+            "Azure Container Apps",
+            "Azure Container Instances",
+            "Azure Container Registry",
+            "Azure Kubernetes Service (AKS)"
+          ],
+          "expected": "Azure Container Apps"
+        },
+        {
+          "label": "Container image lifecycle and storage",
+          "choices": [
+            "Azure Container Apps",
+            "Azure Container Instances",
+            "Azure Container Registry",
+            "Azure Service Fabric"
+          ],
+          "expected": "Azure Container Registry"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T3-Q26-p116-1-q.png"
@@ -5233,13 +6829,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 116,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Container Apps exécute les applications conteneurisées sans gérer les nœuds Kubernetes. Container Registry stocke et gère les images utilisées pour leur déploiement ; il n’exécute pas les applications.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q26-p116-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T3-Q27",
@@ -5248,14 +6848,48 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions de continuité d’activité",
     "prompt": "You plan to use Azure Storage to store data assets.\n\nYou need to identify the procedure to fail over a general-purpose v2 account as part of a disaster recovery plan. The solution must meet the\n\nfollowing requirements:\n\n• Apps must be able to access the storage account after a failover.\n\n• You must be able to fail back the storage account to the original location.\n\n• Downtime must be minimized.\n\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and\n\narrange them in the correct order.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Étape 1 : Before failover, configure GRS replication · Étape 2 : Initiate a failover · Étape 3 : After failover, configure GRS replication",
+    "explanation": "Configurez la réplication GRS avant le failover. Le failover bascule vers la région secondaire et remet le compte en LRS ; réactivez ensuite GRS pour retrouver la protection géographique.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Étape 1",
+          "choices": [
+            "After failover, configure GRS replication",
+            "Initiate a failover",
+            "Before failover, configure ZRS replication",
+            "Before failover, configure GRS replication",
+            "After failover, configure ZRS replication"
+          ],
+          "expected": "Before failover, configure GRS replication"
+        },
+        {
+          "label": "Étape 2",
+          "choices": [
+            "After failover, configure GRS replication",
+            "Initiate a failover",
+            "Before failover, configure ZRS replication",
+            "Before failover, configure GRS replication",
+            "After failover, configure ZRS replication"
+          ],
+          "expected": "Initiate a failover"
+        },
+        {
+          "label": "Étape 3",
+          "choices": [
+            "After failover, configure GRS replication",
+            "Initiate a failover",
+            "Before failover, configure ZRS replication",
+            "Before failover, configure GRS replication",
+            "After failover, configure ZRS replication"
+          ],
+          "expected": "After failover, configure GRS replication"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T3-Q27-p117-1-q.png"
@@ -5269,13 +6903,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 117,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Configurez la réplication GRS avant le failover. Le failover bascule vers la région secondaire et remet le compte en LRS ; réactivez ensuite GRS pour retrouver la protection géographique.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T3-Q27-p117-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q1",
@@ -5313,7 +6951,17 @@ window.AZ305_QUESTIONS = [
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Azure Virtual WAN centralise la connectivité de succursales, VPN, ExpressRoute et hubs Azure. Un hub sécurisé ajoute des fonctions de sécurité et de routage centralisées."
+    "pedagogicalContext": "Azure Virtual WAN centralise la connectivité de succursales, VPN, ExpressRoute et hubs Azure. Un hub sécurisé ajoute des fonctions de sécurité et de routage centralisées.",
+    "assetCrops": {
+      "assets/az305/AZ305-T4-Q1-p118-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 580,
+        "height": 122,
+        "sourceWidth": 580,
+        "sourceHeight": 122
+      }
+    }
   },
   {
     "id": "AZ305-T4-Q2",
@@ -5387,7 +7035,17 @@ window.AZ305_QUESTIONS = [
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Azure AD Domain Services (Azure AD DS) ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "La correction du support retient « Azure AD Domain Services (Azure AD DS) ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "assetCrops": {
+      "assets/az305/AZ305-T4-Q3-p119-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 233,
+        "sourceWidth": 768,
+        "sourceHeight": 233
+      }
+    }
   },
   {
     "id": "AZ305-T4-Q4",
@@ -5468,8 +7126,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You have an Azure subscription named Subscription1 that is linked to a hybrid Azure Active Directory (Azure AD) tenant.\n\nYou have an on-premises datacenter that does NOT have a VPN connection to Subscription1. The datacenter contains a computer named Server1\n\nthat has\n\nMicrosoft SQL Server 2016 installed. Server is prevented from accessing the internet.\n\nAn Azure logic app resource named LogicApp1 requires write access to a database on Server1.\n\nYou need to recommend a solution to provide LogicApp1 with the ability to access Server1.\n\nWhat should you recommend deploying on-premises and in Azure? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "An on-premises data gateway; A connection gateway resource",
-    "explanation": "La correction du support retient « An on-premises data gateway; A connection gateway resource ». Dans l’énoncé, le point à résoudre est : « What should you recommend deploying on-premises and in Azure? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "On-premises : An on-premises data gateway · Azure : A connection gateway resource",
+    "explanation": "Box 1: An on-premises data gateway For logic apps in global, multi-tenant Azure that connect to on-premises SQL Server, you need to have the on-premises data gateway installed on a local computer and a data gateway resource that's already created in Azure. Box 2: A connection gateway resource",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -5477,13 +7135,23 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "On-premises",
+          "choices": [
+            "A Web Application Proxy for Windows Server",
+            "An Azure AD Application Proxy connector",
+            "An on-premises data gateway",
+            "Hybrid Connection Manager"
+          ],
           "expected": "An on-premises data gateway"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Azure",
+          "choices": [
+            "A connection gateway resource",
+            "An Azure Application Gateway",
+            "An Azure Event Grid domain",
+            "An enterprise application"
+          ],
           "expected": "A connection gateway resource"
         }
       ]
@@ -5505,13 +7173,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "An on-premises data gateway; A connection gateway resource",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 121,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: An on-premises data gateway For logic apps in global, multi-tenant Azure that connect to on-premises SQL Server, you need to have the on-premises data gateway installed on a local computer and a data gateway resource that's already created in Azure. Box 2: A connection gateway resource",
-    "pedagogicalContext": "La correction du support retient « An on-premises data gateway; A connection gateway resource ». Dans l’énoncé, le point à résoudre est : « What should you recommend deploying on-premises and in Azure? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: An on-premises data gateway For logic apps in global, multi-tenant Azure that connect to on-premises SQL Server, you need to have the on-premises data gateway installed on a local computer and a data gateway resource that's already created in Azure. Box 2: A connection gateway resource",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q6-p121-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q7",
@@ -5520,14 +7192,39 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "Your company develops a web service that is deployed to an Azure virtual machine named VM1. The web service allows an API to access real-\n\ntime data from\n\nVM1.\n\nThe current virtual machine deployment is shown in the Deployment exhibit.\n\nThe chief technology officer (CTO) sends you the following email message: \"Our developers have deployed the web service to a virtual machine\n\nnamed VM1.\n\nTesting has shown that the API is accessible from VM1 and VM2. Our partners must be able to connect to the API over the Internet. Partners will\n\nuse this data in applications that they develop.\"\n\nYou deploy an Azure API Management (APIM) service. The relevant API Management configuration is shown in the API exhibit.\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "The API is available to partners over the internet : Yes · The APIM instance can access real-time data from VM1 : Yes · A VPN gateway is required for partner access : No",
+    "explanation": "Le mode External d’API Management permet aux partenaires d’appeler le frontend public tout en accédant aux backends du réseau virtuel. Les partenaires n’ont donc pas besoin d’une passerelle VPN pour joindre cette API publique.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "The API is available to partners over the internet",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "Yes"
+        },
+        {
+          "label": "The APIM instance can access real-time data from VM1",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "Yes"
+        },
+        {
+          "label": "A VPN gateway is required for partner access",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "No"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q7-p122-1-q.png",
@@ -5548,13 +7245,35 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 122,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le mode External d’API Management permet aux partenaires d’appeler le frontend public tout en accédant aux backends du réseau virtuel. Les partenaires n’ont donc pas besoin d’une passerelle VPN pour joindre cette API publique.",
+    "assetCrops": {
+      "assets/az305/AZ305-T4-Q7-p122-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 618,
+        "height": 325,
+        "sourceWidth": 618,
+        "sourceHeight": 325
+      },
+      "assets/az305/AZ305-T4-Q7-p122-2-q.jpeg": {
+        "x": 0,
+        "y": 0,
+        "width": 784,
+        "height": 192,
+        "sourceWidth": 784,
+        "sourceHeight": 192
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q7-p122-3-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q8",
@@ -5563,8 +7282,8 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "Your company has an existing web app that runs on Azure virtual machines.\n\nYou need to ensure that the app is protected from SQL injection attempts and uses a layer-7 load balancer. The solution must minimize\n\ndisruptions to the code of the app.\n\nWhat should you recommend? To answer, drag the appropriate services to the correct targets. Each service may be used once, more than once, or\n\nnot at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.\n\nSelect and Place:",
-    "solutionAnswer": "Azure Application Gateway; Web Application Firewall (WAF)",
-    "explanation": "Application Gateway est un équilibreur de charge applicatif régional de couche 7. Avec WAF, il peut aussi protéger les applications HTTP(S) contre des attaques web courantes.",
+    "solutionAnswer": "Azure service : Azure Application Gateway · Feature : Web Application Firewall (WAF)",
+    "explanation": "Box 1: Azure Application Gateway The Azure Application Gateway Web Application Firewall (WAF) provides protection for web applications. These protections are provided by the Open Web Application Security Project (OWASP) Core Rule Set (CRS). Box 2: Web Application Firewall (WAF)",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -5572,13 +7291,27 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Azure service",
+          "choices": [
+            "Web Application Firewall (WAF)",
+            "Azure Application Gateway",
+            "Azure Load Balancer",
+            "Azure Traffic Manager",
+            "SSL offloading",
+            "URL-based content routing"
+          ],
           "expected": "Azure Application Gateway"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Feature",
+          "choices": [
+            "Web Application Firewall (WAF)",
+            "Azure Application Gateway",
+            "Azure Load Balancer",
+            "Azure Traffic Manager",
+            "SSL offloading",
+            "URL-based content routing"
+          ],
           "expected": "Web Application Firewall (WAF)"
         }
       ]
@@ -5600,13 +7333,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure Application Gateway; Web Application Firewall (WAF)",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 124,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Azure Application Gateway The Azure Application Gateway Web Application Firewall (WAF) provides protection for web applications. These protections are provided by the Open Web Application Security Project (OWASP) Core Rule Set (CRS). Box 2: Web Application Firewall (WAF)",
-    "pedagogicalContext": "Application Gateway est un équilibreur de charge applicatif régional de couche 7. Avec WAF, il peut aussi protéger les applications HTTP(S) contre des attaques web courantes."
+    "pedagogicalContext": "Box 1: Azure Application Gateway The Azure Application Gateway Web Application Firewall (WAF) provides protection for web applications. These protections are provided by the Open Web Application Security Project (OWASP) Core Rule Set (CRS). Box 2: Web Application Firewall (WAF)",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q8-p124-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q9",
@@ -5716,7 +7453,17 @@ window.AZ305_QUESTIONS = [
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « 3 ». Dans l’énoncé, le point à résoudre est : « You need to deploy a new Azure Firewall policy that will contain mandatory rules for all Azure Firewall deployments. The new policy will be » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "La correction du support retient « 3 ». Dans l’énoncé, le point à résoudre est : « You need to deploy a new Azure Firewall policy that will contain mandatory rules for all Azure Firewall deployments. The new policy will be » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "assetCrops": {
+      "assets/az305/AZ305-T4-Q11-p126-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 597,
+        "height": 231,
+        "sourceWidth": 597,
+        "sourceHeight": 231
+      }
+    }
   },
   {
     "id": "AZ305-T4-Q12",
@@ -5754,7 +7501,17 @@ window.AZ305_QUESTIONS = [
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « vCore-based General Purpose ». Dans l’énoncé, le point à résoudre est : « Which service tier should you use? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "La correction du support retient « vCore-based General Purpose ». Dans l’énoncé, le point à résoudre est : « Which service tier should you use? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "assetCrops": {
+      "assets/az305/AZ305-T4-Q12-p126-2-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 408,
+        "height": 220,
+        "sourceWidth": 408,
+        "sourceHeight": 220
+      }
+    }
   },
   {
     "id": "AZ305-T4-Q13",
@@ -5871,8 +7628,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You are designing an Azure App Service web app.\n\nYou plan to deploy the web app to the North Europe Azure region and the West Europe Azure region.\n\nYou need to recommend a solution for the web app. The solution must meet the following requirements:\n\n✑ Users must always access the web app from the North Europe region, unless the region fails.\n\n✑ The web app must be available to users if an Azure region is unavailable.\n\n✑ Deployment costs must be minimized.\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "A Traffic Manager profile; Priority traffic routing",
-    "explanation": "Traffic Manager effectue un routage DNS entre plusieurs points de terminaison selon une méthode comme priorité, performance ou géographie. Il n’agit pas comme un proxy HTTP en ligne.",
+    "solutionAnswer": "Request routing : A Traffic Manager profile · Routing configuration : Priority traffic routing",
+    "explanation": "Box 1: A Traffic Manager profile To support load balancing across the regions we need a Traffic Manager. Box 2: Priority traffic routing - Priority traffic-routing method. Often an organization wants to provide reliability for their services. To do so, they deploy one or more backup services in case their primary goes down. The 'Priority' traffic-routing method allows Azure customers to easily implement this failover pattern.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -5880,13 +7637,22 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Request routing",
+          "choices": [
+            "A Traffic Manager profile",
+            "Azure Application Gateway",
+            "Azure Load Balancer"
+          ],
           "expected": "A Traffic Manager profile"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Routing configuration",
+          "choices": [
+            "Cookie-based session affinity",
+            "Performance traffic routing",
+            "Priority traffic routing",
+            "Weighted traffic routing"
+          ],
           "expected": "Priority traffic routing"
         }
       ]
@@ -5912,13 +7678,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "A Traffic Manager profile; Priority traffic routing",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 128,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: A Traffic Manager profile To support load balancing across the regions we need a Traffic Manager. Box 2: Priority traffic routing - Priority traffic-routing method. Often an organization wants to provide reliability for their services. To do so, they deploy one or more backup services in case their primary goes down. The 'Priority' traffic-routing method allows Azure customers to easily implement this failover pattern.",
-    "pedagogicalContext": "Traffic Manager effectue un routage DNS entre plusieurs points de terminaison selon une méthode comme priorité, performance ou géographie. Il n’agit pas comme un proxy HTTP en ligne."
+    "pedagogicalContext": "Box 1: A Traffic Manager profile To support load balancing across the regions we need a Traffic Manager. Box 2: Priority traffic routing - Priority traffic-routing method. Often an organization wants to provide reliability for their services. To do so, they deploy one or more backup services in case their primary goes down. The 'Priority' traffic-routing method allows Azure customers to easily implement this failover pattern.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q16-p128-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q17",
@@ -6029,8 +7799,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "Your company has two on-premises sites in New York and Los Angeles and Azure virtual networks in the East US Azure region and the West US\n\nAzure region.\n\nEach on-premises site has ExpressRoute Global Reach circuits to both regions.\n\nYou need to recommend a solution that meets the following requirements:\n\n✑ Outbound traffic to the internet from workloads hosted on the virtual networks must be routed through the closest available on-premises site.\n\n✑ If an on-premises site fails, traffic from the workloads on the virtual networks to the internet must reroute automatically to the other site.\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Border Gateway Protocol (BGP); Border Gateway Protocol (BGP)",
-    "explanation": "La correction du support retient « Border Gateway Protocol (BGP); Border Gateway Protocol (BGP) ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "Routes to on-premises : Border Gateway Protocol (BGP) · Automatic routing after failover : Border Gateway Protocol (BGP)",
+    "explanation": "Box 1: Border Gateway Protocol (BGP) An on-premises network gateway can exchange routes with an Azure virtual network gateway using the border gateway protocol (BGP). Using BGP with an Azure virtual network gateway is dependent on the type you selected when you created the gateway. If the type you selected were: ExpressRoute: You must use BGP to advertise on-premises routes to the Microsoft Edge router. You cannot create user-defined routes to force traffic to the ExpressRoute virtual network gateway if you deploy a virtual network gateway deployed as type: ExpressRoute. You can use user-defined routes for forcing traffic from the Express Route to, for example, a Network Virtual Appliance. Box 2: Border Gateway Protocol (BGP) Incorrect: Microsoft does not support HSRP or VRRP for high availability configurations.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -6038,13 +7808,21 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Routes to on-premises",
+          "choices": [
+            "Azure default routes",
+            "Border Gateway Protocol (BGP)",
+            "User-defined routes"
+          ],
           "expected": "Border Gateway Protocol (BGP)"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Automatic routing after failover",
+          "choices": [
+            "Border Gateway Protocol (BGP)",
+            "Hot Standby Routing Protocol (HSRP)",
+            "Virtual Router Redundancy Protocol (VRRP)"
+          ],
           "expected": "Border Gateway Protocol (BGP)"
         }
       ]
@@ -6070,13 +7848,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Border Gateway Protocol (BGP); Border Gateway Protocol (BGP)",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 131,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Border Gateway Protocol (BGP) An on-premises network gateway can exchange routes with an Azure virtual network gateway using the border gateway protocol (BGP). Using BGP with an Azure virtual network gateway is dependent on the type you selected when you created the gateway. If the type you selected were: ExpressRoute: You must use BGP to advertise on-premises routes to the Microsoft Edge router. You cannot create user-defined routes to force traffic to the ExpressRoute virtual network gateway if you deploy a virtual network gateway deployed as type: ExpressRoute. You can use user-defined routes for forcing traffic from the Express Route to, for example, a Network Virtual Appliance. Box 2: Border Gateway Protocol (BGP) Incorrect: Microsoft does not support HSRP or VRRP for high availability configurations.",
-    "pedagogicalContext": "La correction du support retient « Border Gateway Protocol (BGP); Border Gateway Protocol (BGP) ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: Border Gateway Protocol (BGP) An on-premises network gateway can exchange routes with an Azure virtual network gateway using the border gateway protocol (BGP). Using BGP with an Azure virtual network gateway is dependent on the type you selected when you created the gateway. If the type you selected were: ExpressRoute: You must use BGP to advertise on-premises routes to the Microsoft Edge router. You cannot create user-defined routes to force traffic to the ExpressRoute virtual network gateway if you deploy a virtual network gateway deployed as type: ExpressRoute. You can use user-defined routes for forcing traffic from the Express Route to, for example, a Network Virtual Appliance. Box 2: Border Gateway Protocol (BGP) Incorrect: Microsoft does not support HSRP or VRRP for high availability configurations.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q20-p131-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q21",
@@ -6085,14 +7867,42 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You are designing an application that will use Azure Linux virtual machines to analyze video files. The files will be uploaded from corporate offices\n\nthat connect to\n\nAzure by using ExpressRoute.\n\nYou plan to provision an Azure Storage account to host the files.\n\nYou need to ensure that the storage account meets the following requirements:\n\n✑ Supports video files of up to 7 TB\n\n✑ Provides the highest availability possible\n\n✑ Ensures that storage is optimized for the large video files\n\n✑ Ensures that files from the on-premises network are uploaded by using ExpressRoute\n\nHow should you configure the storage account? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Storage account type : Standard general-purpose v2 · Data redundancy : Geo-redundant storage (GRS) · Networking : A private endpoint",
+    "explanation": "Un compte standard general-purpose v2 prend en charge les gros block blobs demandés et la réplication GRS. Un private endpoint donne une adresse privée au service pour l’accès via ExpressRoute, sans exposer un endpoint public aux clients.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Storage account type",
+          "choices": [
+            "Premium file shares",
+            "Premium page blobs",
+            "Standard general-purpose v2"
+          ],
+          "expected": "Standard general-purpose v2"
+        },
+        {
+          "label": "Data redundancy",
+          "choices": [
+            "Zone-redundant storage (ZRS)",
+            "Locally-redundant storage (LRS)",
+            "Geo-redundant storage (GRS)"
+          ],
+          "expected": "Geo-redundant storage (GRS)"
+        },
+        {
+          "label": "Networking",
+          "choices": [
+            "Azure Route Server",
+            "A private endpoint",
+            "A service endpoint"
+          ],
+          "expected": "A private endpoint"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q21-p132-1-q.png"
@@ -6106,13 +7916,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 132,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Un compte standard general-purpose v2 prend en charge les gros block blobs demandés et la réplication GRS. Un private endpoint donne une adresse privée au service pour l’accès via ExpressRoute, sans exposer un endpoint public aux clients.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q21-p132-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q22",
@@ -6121,8 +7935,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "A company plans to implement an HTTP-based API to support a web app. The web app allows customers to check the status of their orders.\n\nThe API must meet the following requirements:\n\n✑ Implement Azure Functions.\n\n✑ Provide public read-only operations.\n\n✑ Prevent write operations.\n\nYou need to recommend which HTTP methods and authorization level to configure.\n\nWhat should you recommend? To answer, configure the appropriate options in the dialog box in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "GET only; Anonymous",
-    "explanation": "Azure Functions exécute du code piloté par événements avec une gestion d’infrastructure minimale. Le plan choisi détermine notamment le démarrage, la durée d’exécution et les capacités réseau.",
+    "solutionAnswer": "HTTP methods : GET only · Authorization level : Anonymous",
+    "explanation": "Box 1: GET only - Get for read-only- Box 2: Anonymous - Anonymous for public operations.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -6130,13 +7944,22 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "HTTP methods",
+          "choices": [
+            "API methods",
+            "GET only",
+            "GET and POST only",
+            "GET, POST, and OPTIONS only"
+          ],
           "expected": "GET only"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Authorization level",
+          "choices": [
+            "Function",
+            "Anonymous",
+            "Admin"
+          ],
           "expected": "Anonymous"
         }
       ]
@@ -6153,13 +7976,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "GET only; Anonymous",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 133,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: GET only - Get for read-only- Box 2: Anonymous - Anonymous for public operations.",
-    "pedagogicalContext": "Azure Functions exécute du code piloté par événements avec une gestion d’infrastructure minimale. Le plan choisi détermine notamment le démarrage, la durée d’exécution et les capacités réseau."
+    "pedagogicalContext": "Box 1: GET only - Get for read-only- Box 2: Anonymous - Anonymous for public operations.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q22-p133-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q23",
@@ -6204,14 +8031,35 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You have an on-premises network that uses an IP address space of 172.16.0.0/16.\n\nYou plan to deploy 30 virtual machines to a new Azure subscription.\n\nYou identify the following technical requirements:\n\n✑ All Azure virtual machines must be placed on the same subnet named Subnet1.\n\n✑ All the Azure virtual machines must be able to communicate with all on-premises servers.\n\n✑ The servers must be able to communicate between the on-premises network and Azure by using a site-to-site VPN.\n\nYou need to recommend a subnet design that meets the technical requirements.\n\nWhat should you include in the recommendation? To answer, drag the appropriate network addresses to the correct subnets. Each network\n\naddress may be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.\n\nSelect and Place:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Subnet1 : 192.168.0.0/24 · Gateway subnet : 192.168.1.0/27",
+    "explanation": "Les plages Azure doivent éviter le réseau local 172.16.0.0/16. Azure réserve cinq adresses par subnet : /27 ne suffit pas à 30 VM, donc Subnet1 utilise 192.168.0.0/24. Le gateway subnet séparé utilise 192.168.1.0/27.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Subnet1",
+          "choices": [
+            "172.16.0.0/16",
+            "172.16.1.0/27",
+            "192.168.0.0/24",
+            "192.168.1.0/27"
+          ],
+          "expected": "192.168.0.0/24"
+        },
+        {
+          "label": "Gateway subnet",
+          "choices": [
+            "172.16.0.0/16",
+            "172.16.1.0/27",
+            "192.168.0.0/24",
+            "192.168.1.0/27"
+          ],
+          "expected": "192.168.1.0/27"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q24-p134-1-q.jpeg"
@@ -6225,13 +8073,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 134,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Les plages Azure doivent éviter le réseau local 172.16.0.0/16. Azure réserve cinq adresses par subnet : /27 ne suffit pas à 30 VM, donc Subnet1 utilise 192.168.0.0/24. Le gateway subnet séparé utilise 192.168.1.0/27.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q24-p134-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q25",
@@ -6312,8 +8164,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "Your on-premises network contains a file server named Server1 that stores 500 GB of data.\n\nYou need to use Azure Data Factory to copy the data from Server1 to Azure Storage.\n\nYou add a new data factory.\n\nWhat should you do next? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Install a self-hosted integration runtime.; Create a pipeline.",
-    "explanation": "Azure Data Factory orchestre les mouvements et transformations de données entre sources et destinations. C’est un service d’intégration de données, pas un moteur transactionnel.",
+    "solutionAnswer": "Server1 : Install a self-hosted integration runtime · Data factory : Create a pipeline",
+    "explanation": "Box 1: Install a self-hosted integration runtime. If your data store is located inside an on-premises network, an Azure virtual network, or Amazon Virtual Private Cloud, you need to configure a self-hosted integration runtime to connect to it. The Integration Runtime to be used to connect to the data store. You can use Azure Integration Runtime or Self-hosted Integration Runtime (if your data store is located in private network). If not specified, it uses the default Azure Integration Runtime. Box 2: Create a pipeline. You perform the Copy activity with a pipeline.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -6321,14 +8173,22 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
-          "expected": "Install a self-hosted integration runtime."
+          "label": "Server1",
+          "choices": [
+            "Install an Azure File Sync agent",
+            "Install a self-hosted integration runtime",
+            "Install the File Server Resource Manager role service"
+          ],
+          "expected": "Install a self-hosted integration runtime"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
-          "expected": "Create a pipeline."
+          "label": "Data factory",
+          "choices": [
+            "Create a pipeline",
+            "Create an Azure Import/Export job",
+            "Provision an Azure-SSIS integration runtime"
+          ],
+          "expected": "Create a pipeline"
         }
       ]
     },
@@ -6349,13 +8209,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Install a self-hosted integration runtime.; Create a pipeline.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 136,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Install a self-hosted integration runtime. If your data store is located inside an on-premises network, an Azure virtual network, or Amazon Virtual Private Cloud, you need to configure a self-hosted integration runtime to connect to it. The Integration Runtime to be used to connect to the data store. You can use Azure Integration Runtime or Self-hosted Integration Runtime (if your data store is located in private network). If not specified, it uses the default Azure Integration Runtime. Box 2: Create a pipeline. You perform the Copy activity with a pipeline.",
-    "pedagogicalContext": "Azure Data Factory orchestre les mouvements et transformations de données entre sources et destinations. C’est un service d’intégration de données, pas un moteur transactionnel."
+    "pedagogicalContext": "Box 1: Install a self-hosted integration runtime. If your data store is located inside an on-premises network, an Azure virtual network, or Amazon Virtual Private Cloud, you need to configure a self-hosted integration runtime to connect to it. The Integration Runtime to be used to connect to the data store. You can use Azure Integration Runtime or Self-hosted Integration Runtime (if your data store is located in private network). If not specified, it uses the default Azure Integration Runtime. Box 2: Create a pipeline. You perform the Copy activity with a pipeline.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q27-p136-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q28",
@@ -6429,7 +8293,17 @@ window.AZ305_QUESTIONS = [
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Une file Service Bus fournit une messagerie fiable point-à-point avec des fonctions avancées de livraison, verrouillage et reprise. Un message est consommé par un traitement plutôt que diffusé à plusieurs abonnés."
+    "pedagogicalContext": "Une file Service Bus fournit une messagerie fiable point-à-point avec des fonctions avancées de livraison, verrouillage et reprise. Un message est consommé par un traitement plutôt que diffusé à plusieurs abonnés.",
+    "assetCrops": {
+      "assets/az305/AZ305-T4-Q29-p137-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 789,
+        "height": 161,
+        "sourceWidth": 789,
+        "sourceHeight": 161
+      }
+    }
   },
   {
     "id": "AZ305-T4-Q30",
@@ -6584,8 +8458,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You have the resources shown in the following table.\n\nYou create a new resource group in Azure named RG2.\n\nYou need to move the virtual machines to RG2.\n\nWhat should you use to move each virtual machine? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Azure Resource Mover; Azure Migrate",
-    "explanation": "Azure Migrate regroupe l’évaluation et la migration de serveurs et charges vers Azure. C’est le point d’entrée à privilégier pour inventorier, dimensionner et migrer des workloads existants.",
+    "solutionAnswer": "VM1 : Azure Resource Mover · VM2 : Azure Migrate",
+    "explanation": "Box 1: Azure Resource Mover - To move Azure VMs to another region, Microsoft now recommends using Azure Resource Mover. Incorrect: Not Azure Migrate: We are not migrating, only moving a VM between resource groups. Box 2: Azure Migrate - Azure Migrate provides a centralized hub to assess and migrate on-premises servers, infrastructure, applications, and data to Azure. Azure migrate includes Azure Migrate Server Migration: Migrate VMware VMs, Hyper-V VMs, physical servers, other virtualized servers, and public cloud VMs to Azure. Incorrect: Not Arc: Azure Migrate is adequate. No need to use Azure Arc. Not Data Migration Assistant: Data Migration Assistant is a stand-alone tool to assess SQL Servers. It is used to assess SQL Server databases for migration to Azure SQL Database, Azure SQL Managed Instance, or Azure VMs running SQL Server. Not Lighthouse: Azure Lighthouse enables multi-tenant management with scalability, higher automation, and enhanced governance across resources. With Azure Lighthouse, service providers can deliver managed services using comprehensive and robust tooling built into the Azure platform. Customers maintain control over who has access to their tenant, which resources they can access, and what actions can be taken.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -6593,13 +8467,25 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "VM1",
+          "choices": [
+            "Azure Arc",
+            "Azure Lighthouse",
+            "Azure Migrate",
+            "Azure Resource Mover",
+            "The Data Migration Assistant (DMA)"
+          ],
           "expected": "Azure Resource Mover"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "VM2",
+          "choices": [
+            "Azure Arc",
+            "Azure Lighthouse",
+            "Azure Migrate",
+            "Azure Resource Mover",
+            "The Data Migration Assistant (DMA)"
+          ],
           "expected": "Azure Migrate"
         }
       ]
@@ -6630,13 +8516,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure Resource Mover; Azure Migrate",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 140,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Azure Resource Mover - To move Azure VMs to another region, Microsoft now recommends using Azure Resource Mover. Incorrect: Not Azure Migrate: We are not migrating, only moving a VM between resource groups. Box 2: Azure Migrate - Azure Migrate provides a centralized hub to assess and migrate on-premises servers, infrastructure, applications, and data to Azure. Azure migrate includes Azure Migrate Server Migration: Migrate VMware VMs, Hyper-V VMs, physical servers, other virtualized servers, and public cloud VMs to Azure. Incorrect: Not Arc: Azure Migrate is adequate. No need to use Azure Arc. Not Data Migration Assistant: Data Migration Assistant is a stand-alone tool to assess SQL Servers. It is used to assess SQL Server databases for migration to Azure SQL Database, Azure SQL Managed Instance, or Azure VMs running SQL Server. Not Lighthouse: Azure Lighthouse enables multi-tenant management with scalability, higher automation, and enhanced governance across resources. With Azure Lighthouse, service providers can deliver managed services using comprehensive and robust tooling built into the Azure platform. Customers maintain control over who has access to their tenant, which resources they can access, and what actions can be taken.",
-    "pedagogicalContext": "Azure Migrate regroupe l’évaluation et la migration de serveurs et charges vers Azure. C’est le point d’entrée à privilégier pour inventorier, dimensionner et migrer des workloads existants."
+    "pedagogicalContext": "Box 1: Azure Resource Mover - To move Azure VMs to another region, Microsoft now recommends using Azure Resource Mover. Incorrect: Not Azure Migrate: We are not migrating, only moving a VM between resource groups. Box 2: Azure Migrate - Azure Migrate provides a centralized hub to assess and migrate on-premises servers, infrastructure, applications, and data to Azure. Azure migrate includes Azure Migrate Server Migration: Migrate VMware VMs, Hyper-V VMs, physical servers, other virtualized servers, and public cloud VMs to Azure. Incorrect: Not Arc: Azure Migrate is adequate. No need to use Azure Arc. Not Data Migration Assistant: Data Migration Assistant is a stand-alone tool to assess SQL Servers. It is used to assess SQL Server databases for migration to Azure SQL Database, Azure SQL Managed Instance, or Azure VMs running SQL Server. Not Lighthouse: Azure Lighthouse enables multi-tenant management with scalability, higher automation, and enhanced governance across resources. With Azure Lighthouse, service providers can deliver managed services using comprehensive and robust tooling built into the Azure platform. Customers maintain control over who has access to their tenant, which resources they can access, and what actions can be taken.",
+    "assetCrops": {
+      "assets/az305/AZ305-T4-Q34-p140-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 659,
+        "height": 119,
+        "sourceWidth": 659,
+        "sourceHeight": 119
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q34-p140-2-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q35",
@@ -6681,14 +8581,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You have the Azure resources shown in the following table.\n\nYou need to design a solution that provides on-premises network connectivity to SQLDB1 through PE1.\n\nHow should you configure name resolution? To answer select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Azure configuration : Configure VM1 to forward contoso.com to the Azure-provided DNS at 168.63.129.16 · On-premises DNS : Forward contoso.com to VM1",
+    "explanation": "Le DNS sur site transmet les requêtes de la zone privée à VM1 dans Azure. VM1 les relaie au DNS Azure 168.63.129.16 qui résout la zone liée au VNet. Cette adresse Azure n’est pas directement joignable comme résolveur depuis le réseau local.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Azure configuration",
+          "choices": [
+            "Configure VM1 to forward contoso.com to the public DNS zone",
+            "Configure VM1 to forward contoso.com to the Azure-provided DNS at 168.63.129.16",
+            "In VNet1, configure custom DNS set to 168.63.129.16"
+          ],
+          "expected": "Configure VM1 to forward contoso.com to the Azure-provided DNS at 168.63.129.16"
+        },
+        {
+          "label": "On-premises DNS",
+          "choices": [
+            "Forward contoso.com to VM1",
+            "Forward contoso.com to the public DNS zone",
+            "Forward contoso.com to 168.63.129.16"
+          ],
+          "expected": "Forward contoso.com to VM1"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q36-p142-1-q.png",
@@ -6703,13 +8622,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 142,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le DNS sur site transmet les requêtes de la zone privée à VM1 dans Azure. VM1 les relaie au DNS Azure 168.63.129.16 qui résout la zone liée au VNet. Cette adresse Azure n’est pas directement joignable comme résolveur depuis le réseau local.",
+    "assetCrops": {
+      "assets/az305/AZ305-T4-Q36-p142-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 700,
+        "height": 260,
+        "sourceWidth": 700,
+        "sourceHeight": 260
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q36-p142-2-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q37",
@@ -7040,8 +8973,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You are designing a software as a service (SaaS) application that will enable Azure Active Directory (Azure AD) users to create and publish online\n\nsurveys. The\n\nSaaS application will have a front-end web app and a back-end web API. The web app will rely on the web API to handle updates to customer\n\nsurveys.\n\nYou need to design an authorization flow for the SaaS application. The solution must meet the following requirements:\n\n✑ To access the back-end web API, the web app must authenticate by using OAuth 2 bearer tokens.\n\n✑ The web app must authenticate by using the identities of individual users.\n\nWhat should you include in the solution? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Azure AD; A web API",
-    "explanation": "La correction du support retient « Azure AD; A web API ». Dans l’énoncé, le point à résoudre est : « What should you include in the solution? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "Access tokens generated by : Azure AD · Authorization decisions by : A web API",
+    "explanation": "Box 1: Azure AD - The Azure AD server issues tokens (access & refresh token). See step 5 below in graphic. OAuth 2.0 authentication with Azure Active Directory. The OAuth 2.0 is the industry protocol for authorization. It allows a user to grant limited access to its protected resources. Designed to work specifically with Hypertext Transfer Protocol (HTTP), OAuth separates the role of the client from the resource owner. The client requests access to the resources controlled by the resource owner and hosted by the resource server (here the Azure AD server). The resource server issues access tokens with the approval of the resource owner. The client uses the access tokens to access the protected resources hosted by the resource server. Box 2: A web API - Delegated access is used. The bearer token sent to the web API contains the user identity. The web API makes authorization decisions based on the user identity.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -7049,13 +8982,21 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Access tokens generated by",
+          "choices": [
+            "Azure AD",
+            "A web app",
+            "A web API"
+          ],
           "expected": "Azure AD"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Authorization decisions by",
+          "choices": [
+            "Azure AD",
+            "A web app",
+            "A web API"
+          ],
           "expected": "A web API"
         }
       ]
@@ -7082,13 +9023,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure AD; A web API",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 147,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: Azure AD - The Azure AD server issues tokens (access & refresh token). See step 5 below in graphic. OAuth 2.0 authentication with Azure Active Directory. The OAuth 2.0 is the industry protocol for authorization. It allows a user to grant limited access to its protected resources. Designed to work specifically with Hypertext Transfer Protocol (HTTP), OAuth separates the role of the client from the resource owner. The client requests access to the resources controlled by the resource owner and hosted by the resource server (here the Azure AD server). The resource server issues access tokens with the approval of the resource owner. The client uses the access tokens to access the protected resources hosted by the resource server. Box 2: A web API - Delegated access is used. The bearer token sent to the web API contains the user identity. The web API makes authorization decisions based on the user identity.",
-    "pedagogicalContext": "La correction du support retient « Azure AD; A web API ». Dans l’énoncé, le point à résoudre est : « What should you include in the solution? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: Azure AD - The Azure AD server issues tokens (access & refresh token). See step 5 below in graphic. OAuth 2.0 authentication with Azure Active Directory. The OAuth 2.0 is the industry protocol for authorization. It allows a user to grant limited access to its protected resources. Designed to work specifically with Hypertext Transfer Protocol (HTTP), OAuth separates the role of the client from the resource owner. The client requests access to the resources controlled by the resource owner and hosted by the resource server (here the Azure AD server). The resource server issues access tokens with the approval of the resource owner. The client uses the access tokens to access the protected resources hosted by the resource server. Box 2: A web API - Delegated access is used. The bearer token sent to the web API contains the user identity. The web API makes authorization decisions based on the user identity.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q46-p147-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q47",
@@ -7097,14 +9042,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You plan to create an Azure environment that will contain a root management group and 10 child management groups. Each child management\n\ngroup will contain five Azure subscriptions. You plan to have between 10 and 30 resource groups in each subscription.\n\nYou need to design an Azure governance solution. The solution must meet the following requirements:\n\n✑ Use Azure Blueprints to control governance across all the subscriptions and resource groups.\n\n✑ Ensure that Blueprints-based configurations are consistent across all the subscriptions and resource groups.\n\n✑ Minimize the number of blueprint definitions and assignments.\n\nWhat should you include in the solution? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Define blueprints : The root management group · Create blueprint assignments : The subscriptions",
+    "explanation": "La définition placée au root management group est disponible aux abonnements descendants. Le déploiement d’un Blueprint se fait par un assignment sur chaque abonnement cible, pas par un assignment unique sur le root management group.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Define blueprints",
+          "choices": [
+            "The child management groups",
+            "The root management group",
+            "The subscriptions"
+          ],
+          "expected": "The root management group"
+        },
+        {
+          "label": "Create blueprint assignments",
+          "choices": [
+            "The child management groups",
+            "The root management group",
+            "The subscriptions"
+          ],
+          "expected": "The subscriptions"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q47-p149-1-q.jpeg"
@@ -7112,19 +9076,28 @@ window.AZ305_QUESTIONS = [
     "solutionAssets": [
       "assets/az305/AZ305-T4-Q47-p149-2-s.png"
     ],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/governance/blueprints/concepts/deployment-stages"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 149,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "La définition placée au root management group est disponible aux abonnements descendants. Le déploiement d’un Blueprint se fait par un assignment sur chaque abonnement cible, pas par un assignment unique sur le root management group.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q47-p149-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q48",
@@ -7133,8 +9106,8 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You are designing a virtual machine that will run Microsoft SQL Server and contain two data disks. The first data disk will store log files, and the\n\nsecond data disk will store data. Both disks are P40 managed disks.\n\nYou need to recommend a host caching method for each disk. The method must provide the best overall performance for the virtual machine\n\nwhile preserving the integrity of the SQL data and logs.\n\nWhich host caching method should you recommend for each disk? To answer, drag the appropriate methods to the correct disks. Each method\n\nmay be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.\n\nSelect and Place:",
-    "solutionAnswer": "None; ReadOnly",
-    "explanation": "La correction du support retient « None; ReadOnly ». Dans l’énoncé, le point à résoudre est : « Which host caching method should you recommend for each disk? To answer, drag the appropriate methods to the correct disks. Each method » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "Log disk host caching : None · Data disk host caching : ReadOnly",
+    "explanation": "Box 1: None - No data disk caching for the Log files. Box 2: ReadOnly - Guidelines to optimize performance for your SQL Server on Azure Virtual Machines (VMs) include: Set host caching to read-only for data file disks. Set host caching to none for log file disks.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -7142,13 +9115,21 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Log disk host caching",
+          "choices": [
+            "None",
+            "ReadOnly",
+            "ReadWrite"
+          ],
           "expected": "None"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Data disk host caching",
+          "choices": [
+            "None",
+            "ReadOnly",
+            "ReadWrite"
+          ],
           "expected": "ReadOnly"
         }
       ]
@@ -7170,13 +9151,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "None; ReadOnly",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 150,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: None - No data disk caching for the Log files. Box 2: ReadOnly - Guidelines to optimize performance for your SQL Server on Azure Virtual Machines (VMs) include: Set host caching to read-only for data file disks. Set host caching to none for log file disks.",
-    "pedagogicalContext": "La correction du support retient « None; ReadOnly ». Dans l’énoncé, le point à résoudre est : « Which host caching method should you recommend for each disk? To answer, drag the appropriate methods to the correct disks. Each method » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: None - No data disk caching for the Log files. Box 2: ReadOnly - Guidelines to optimize performance for your SQL Server on Azure Virtual Machines (VMs) include: Set host caching to read-only for data file disks. Set host caching to none for log file disks.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q48-p150-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q49",
@@ -7260,14 +9245,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You plan to migrate on-premises Microsoft SQL Server databases to Azure.\n\nYou need to recommend a deployment and resiliency solution that meets the following requirements:\n\n✑ Supports user-initiated backups\n\n✑ Supports multiple automatically replicated instances across Azure regions\n\n✑ Minimizes administrative effort to implement and maintain business continuity\n\nWhat should you recommend? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Deployment : Azure SQL Managed Instance · Resiliency : Auto-failover group",
+    "explanation": "SQL Managed Instance prend en charge les sauvegardes initiées par l’utilisateur. Un failover group organise la réplication et le basculement entre instances dans des régions différentes, avec moins de gestion qu’une infrastructure SQL Server sur VM.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Deployment",
+          "choices": [
+            "Azure SQL Managed Instance",
+            "SQL Server on Azure Virtual Machines",
+            "An Azure SQL Database single database"
+          ],
+          "expected": "Azure SQL Managed Instance"
+        },
+        {
+          "label": "Resiliency",
+          "choices": [
+            "Auto-failover group",
+            "Active geo-replication",
+            "Zone-redundant deployment"
+          ],
+          "expected": "Auto-failover group"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q51-p152-1-q.jpeg"
@@ -7281,13 +9285,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 152,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "SQL Managed Instance prend en charge les sauvegardes initiées par l’utilisateur. Un failover group organise la réplication et le basculement entre instances dans des régions différentes, avec moins de gestion qu’une infrastructure SQL Server sur VM.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q51-p152-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q52",
@@ -7650,8 +9658,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You manage a database environment for a Microsoft Volume Licensing customer named Contoso, Ltd. Contoso uses License Mobility through\n\nSoftware\n\nAssurance.\n\nYou need to deploy 50 databases. The solution must meet the following requirements:\n\n✑ Support automatic scaling.\n\n✑ Minimize Microsoft SQL Server licensing costs.\n\nWhat should you include in the solution? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "vCore; An Azure SQL Database elastic pool",
-    "explanation": "Un elastic pool mutualise un ensemble de ressources de calcul entre plusieurs bases Azure SQL dont l’activité varie. Il est utile lorsque les pics de charge des bases ne se produisent pas tous au même moment.",
+    "solutionAnswer": "Purchase model : vCore · Deployment : An Azure SQL Database elastic pool",
+    "explanation": "Box 1: vCore - You can only apply the Azure Hybrid licensing model when you choose a vCore-based purchasing model and the provisioned compute tier for your Azure SQL Database. Azure Hybrid Benefit isn't available for service tiers under the DTU-based purchasing model or for the serverless compute tier. Box 2: An Azure SQL Database elastic pool Azure SQL Database elastic pools are a simple, cost-effective solution for managing and scaling multiple databases that have varying and unpredictable usage demands. The databases in an elastic pool are on a single server and share a set number of resources at a set price. Elastic pools in SQL Database enable software as a service (SaaS) developers to optimize the price performance for a group of databases within a prescribed budget while delivering performance elasticity for each database.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -7659,13 +9667,21 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Purchase model",
+          "choices": [
+            "DTU",
+            "vCore",
+            "Azure reserved virtual machine instances"
+          ],
           "expected": "vCore"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Deployment",
+          "choices": [
+            "An Azure SQL managed instance",
+            "An Azure SQL Database elastic pool",
+            "A SQL Server Always On availability group"
+          ],
           "expected": "An Azure SQL Database elastic pool"
         }
       ]
@@ -7691,13 +9707,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "vCore; An Azure SQL Database elastic pool",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 158,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: vCore - You can only apply the Azure Hybrid licensing model when you choose a vCore-based purchasing model and the provisioned compute tier for your Azure SQL Database. Azure Hybrid Benefit isn't available for service tiers under the DTU-based purchasing model or for the serverless compute tier. Box 2: An Azure SQL Database elastic pool Azure SQL Database elastic pools are a simple, cost-effective solution for managing and scaling multiple databases that have varying and unpredictable usage demands. The databases in an elastic pool are on a single server and share a set number of resources at a set price. Elastic pools in SQL Database enable software as a service (SaaS) developers to optimize the price performance for a group of databases within a prescribed budget while delivering performance elasticity for each database.",
-    "pedagogicalContext": "Un elastic pool mutualise un ensemble de ressources de calcul entre plusieurs bases Azure SQL dont l’activité varie. Il est utile lorsque les pics de charge des bases ne se produisent pas tous au même moment."
+    "pedagogicalContext": "Box 1: vCore - You can only apply the Azure Hybrid licensing model when you choose a vCore-based purchasing model and the provisioned compute tier for your Azure SQL Database. Azure Hybrid Benefit isn't available for service tiers under the DTU-based purchasing model or for the serverless compute tier. Box 2: An Azure SQL Database elastic pool Azure SQL Database elastic pools are a simple, cost-effective solution for managing and scaling multiple databases that have varying and unpredictable usage demands. The databases in an elastic pool are on a single server and share a set number of resources at a set price. Elastic pools in SQL Database enable software as a service (SaaS) developers to optimize the price performance for a group of databases within a prescribed budget while delivering performance elasticity for each database.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q62-p158-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q63",
@@ -7744,8 +9764,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You are designing a cost-optimized solution that uses Azure Batch to run two types of jobs on Linux nodes. The first job type will consist of short-\n\nrunning tasks for a development environment. The second job type will consist of long-running Message Passing Interface (MPI) applications for\n\na production environment that requires timely job completion.\n\nYou need to recommend the pool type and node type for each job type. The solution must minimize compute charges and leverage Azure Hybrid\n\nBenefit whenever possible.\n\nWhat should you recommend? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "User subscription and low-priority virtual machines; Batch service and dedicate virtual machines",
-    "explanation": "Azure Batch exécute des traitements parallèles ou HPC sur un pool de machines géré. Il est adapté aux travaux massivement parallélisables plutôt qu’à l’hébergement d’une application interactive.",
+    "solutionAnswer": "First job : User subscription and low-priority virtual machines · Second job : Batch service and dedicated virtual machines",
+    "explanation": "Box 1: User subscription and low-priority virtual machines The first job type will consist of short-running tasks for a development environment. Among the many ways to purchase and consume Azure resources are Azure low priority VMs and Spot VMs. These virtual machines are compute instances allocated from spare capacity, offered at a highly discounted rate compared to ‫ג‬€on demand‫ג‬€ VMs. This means they can be a great option for cost savings ‫ג‬€\" for the right workloads Box 2: Batch service and dedicate virtual machines The second job type will consist of long-running Message Passing Interface (MPI) applications for a production environment that requires timely job completion. Azure Batch Service is a cloud based job scheduling and compute management platform that enables running large-scale parallel and high performance computing applications efficiently in the cloud. Azure Batch Service provides job scheduling and in automatically scaling and managing virtual machines running those jobs.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -7753,14 +9773,22 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "First job",
+          "choices": [
+            "Batch service and dedicated virtual machines",
+            "User subscription and dedicated virtual machines",
+            "User subscription and low-priority virtual machines"
+          ],
           "expected": "User subscription and low-priority virtual machines"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
-          "expected": "Batch service and dedicate virtual machines"
+          "label": "Second job",
+          "choices": [
+            "Batch service and dedicated virtual machines",
+            "User subscription and dedicated virtual machines",
+            "User subscription and low-priority virtual machines"
+          ],
+          "expected": "Batch service and dedicated virtual machines"
         }
       ]
     },
@@ -7785,13 +9813,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "User subscription and low-priority virtual machines; Batch service and dedicate virtual machines",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 160,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "Box 1: User subscription and low-priority virtual machines The first job type will consist of short-running tasks for a development environment. Among the many ways to purchase and consume Azure resources are Azure low priority VMs and Spot VMs. These virtual machines are compute instances allocated from spare capacity, offered at a highly discounted rate compared to ‫ג‬€on demand‫ג‬€ VMs. This means they can be a great option for cost savings ‫ג‬€\" for the right workloads Box 2: Batch service and dedicate virtual machines The second job type will consist of long-running Message Passing Interface (MPI) applications for a production environment that requires timely job completion. Azure Batch Service is a cloud based job scheduling and compute management platform that enables running large-scale parallel and high performance computing applications efficiently in the cloud. Azure Batch Service provides job scheduling and in automatically scaling and managing virtual machines running those jobs.",
-    "pedagogicalContext": "Azure Batch exécute des traitements parallèles ou HPC sur un pool de machines géré. Il est adapté aux travaux massivement parallélisables plutôt qu’à l’hébergement d’une application interactive."
+    "pedagogicalContext": "Box 1: User subscription and low-priority virtual machines The first job type will consist of short-running tasks for a development environment. Among the many ways to purchase and consume Azure resources are Azure low priority VMs and Spot VMs. These virtual machines are compute instances allocated from spare capacity, offered at a highly discounted rate compared to ‫ג‬€on demand‫ג‬€ VMs. This means they can be a great option for cost savings ‫ג‬€\" for the right workloads Box 2: Batch service and dedicate virtual machines The second job type will consist of long-running Message Passing Interface (MPI) applications for a production environment that requires timely job completion. Azure Batch Service is a cloud based job scheduling and compute management platform that enables running large-scale parallel and high performance computing applications efficiently in the cloud. Azure Batch Service provides job scheduling and in automatically scaling and managing virtual machines running those jobs.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q64-p160-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q65",
@@ -8159,14 +10191,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You have two Azure AD tenants named contoso.com and fabrikam.com. Each tenant is linked to 50 Azure subscriptions. Contoso.com contains\n\ntwo users named User1 and User2.\n\nYou need to meet the following requirements:\n\n• Ensure that User1 can change the Azure AD tenant linked to specific Azure subscriptions.\n\n• If an Azure subscription is liked to a new Azure AD tenant, and no available Azure AD accounts have full subscription-level permissions to the\n\nsubscription, elevate the access of User2 to the subscription.\n\nThe solution must use the principle of least privilege.\n\nWhich role should you assign to each user? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "User1 : Owner · User2 : Owner",
+    "explanation": "Le changement de tenant d’un abonnement nécessite des permissions Owner sur cet abonnement. La récupération d’accès après transfert doit également aboutir à une attribution Owner ; les anciens rôles classic administrator ne sont pas le modèle RBAC à utiliser.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "User1",
+          "choices": [
+            "Co-administrator",
+            "Owner",
+            "Service administrator"
+          ],
+          "expected": "Owner"
+        },
+        {
+          "label": "User2",
+          "choices": [
+            "Co-administrator",
+            "Owner",
+            "Service administrator"
+          ],
+          "expected": "Owner"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q75-p166-1-q.png"
@@ -8180,13 +10231,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 166,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le changement de tenant d’un abonnement nécessite des permissions Owner sur cet abonnement. La récupération d’accès après transfert doit également aboutir à une attribution Owner ; les anciens rôles classic administrator ne sont pas le modèle RBAC à utiliser.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q75-p166-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q76",
@@ -8196,7 +10251,7 @@ window.AZ305_QUESTIONS = [
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "Your company has the divisions shown in the following table.\n\nSub1 contains an Azure App Service web app named App1. App1 uses Azure AD for single-tenant user authentication. Users from contoso.com\n\ncan authenticate to App1.\n\nYou need to recommend a solution to enable users in the fabrikam.com tenant to authenticate to App1.\n\nWhat should you recommend?",
     "solutionAnswer": "Use Azure AD entitlement management to govern external users.",
-    "explanation": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "explanation": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
     "options": [
       "Configure a Conditional Access policy.",
       "Use Azure AD entitlement management to govern external users.",
@@ -8212,19 +10267,34 @@ window.AZ305_QUESTIONS = [
       "assets/az305/AZ305-T4-Q76-p167-1-q.png"
     ],
     "solutionAssets": [],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-external-users"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Use Azure AD entitlement management to govern external users.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 167,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Use Azure AD entitlement management to govern external users. ». Dans l’énoncé, le point à résoudre est : « What should you recommend? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Entitlement management peut inviter les utilisateurs de fabrikam.com comme invités B2B dans le tenant contoso.com et leur attribuer un access package pour App1. Ils peuvent alors utiliser leurs identités externes dans le tenant de ressources sans transformer l’app single-tenant en app multitenant.",
+    "assetCrops": {
+      "assets/az305/AZ305-T4-Q76-p167-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 569,
+        "height": 100,
+        "sourceWidth": 569,
+        "sourceHeight": 100
+      }
+    }
   },
   {
     "id": "AZ305-T4-Q77",
@@ -8298,7 +10368,17 @@ window.AZ305_QUESTIONS = [
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Azure Front Door fournit une entrée globale HTTP(S), du routage applicatif et des fonctions de résilience/accélération à l’échelle mondiale. Il se distingue d’un load balancer régional ou d’un équipement réseau L4."
+    "pedagogicalContext": "Azure Front Door fournit une entrée globale HTTP(S), du routage applicatif et des fonctions de résilience/accélération à l’échelle mondiale. Il se distingue d’un load balancer régional ou d’un équipement réseau L4.",
+    "assetCrops": {
+      "assets/az305/AZ305-T4-Q78-p168-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 640,
+        "height": 162,
+        "sourceWidth": 640,
+        "sourceHeight": 162
+      }
+    }
   },
   {
     "id": "AZ305-T4-Q79",
@@ -8343,14 +10423,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You need to deploy an instance of SQL Server on Azure Virtual Machines. The solution must meet the following requirements:\n\n• Support 15,000 disk IOPS.\n\n• Support SR-IOV.\n\n• Minimize costs.\n\nWhat should you include in the solution? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "VM series : DS · Disk type : Premium SSD",
+    "explanation": "La série DS prend en charge les disques Premium SSD et les fonctions réseau accélérées requises. Les Premium SSD peuvent fournir les 15 000 IOPS demandées avec un coût inférieur aux GPU NC/NV ou aux Ultra Disks inutiles ici.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "VM series",
+          "choices": [
+            "DS",
+            "NC",
+            "NV"
+          ],
+          "expected": "DS"
+        },
+        {
+          "label": "Disk type",
+          "choices": [
+            "Standard SSD",
+            "Premium SSD",
+            "Ultra Disk"
+          ],
+          "expected": "Premium SSD"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q80-p169-1-q.png"
@@ -8364,13 +10463,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 169,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "La série DS prend en charge les disques Premium SSD et les fonctions réseau accélérées requises. Les Premium SSD peuvent fournir les 15 000 IOPS demandées avec un coût inférieur aux GPU NC/NV ou aux Ultra Disks inutiles ici.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q80-p169-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q81",
@@ -8559,14 +10662,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You company has offices in New York City, Sydney, Paris, and Johannesburg.\n\nThe company has an Azure subscription.\n\nYou plan to deploy a new Azure networking solution that meets the following requirements:\n\n• Connects to ExpressRoute circuits in the Azure regions of East US, Southeast Asia, North Europe, and South Africa\n\n• Minimizes latency by supporting connection in three regions\n\n• Supports Site-to-site VPN connections\n\n• Minimizes costs\n\nYou need to identify the minimum number of Azure Virtual WAN hubs that you must deploy, and which virtual WAN SKU to use.\n\nWhat should you identify? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Virtual WAN hubs : 3 · Virtual WAN SKU : Standard",
+    "explanation": "Trois hubs couvrent les trois régions de connexion exigées. Le SKU Standard prend en charge ExpressRoute et le transit, en plus du VPN Site-to-Site ; le SKU Basic ne couvre pas cet ensemble de fonctions.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Virtual WAN hubs",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "expected": "3"
+        },
+        {
+          "label": "Virtual WAN SKU",
+          "choices": [
+            "Basic",
+            "Standard"
+          ],
+          "expected": "Standard"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q86-p173-1-q.png"
@@ -8580,13 +10702,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 173,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Trois hubs couvrent les trois régions de connexion exigées. Le SKU Standard prend en charge ExpressRoute et le transit, en plus du VPN Site-to-Site ; le SKU Basic ne couvre pas cet ensemble de fonctions.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q86-p173-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q87",
@@ -9137,14 +11263,35 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You are developing a multi-tier app named App1 that will be hosted on Azure virtual machines. The peak utilization periods for App1 will be from 8\n\nAM to 9 AM and 4 PM to 5 PM on weekdays.\n\nYou need to deploy the infrastructure for App1. The solution must meet the following requirements:\n\n• Support virtual machines deployed to four availability zones across two Azure regions.\n\n• Minimize costs by accumulating CPU credits during periods of low utilization.\n\nWhat is the minimum number of virtual networks you should deploy, and which virtual machine size should you use? To answer, select the\n\nappropriate options in the answer area.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Virtual networks : 2 · VM size : B-Series",
+    "explanation": "Un réseau virtuel est régional : les deux régions nécessitent donc deux VNets, pas un VNet par availability zone. Les VM B-Series accumulent des crédits CPU pendant les périodes calmes et les utilisent pendant les pointes.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Virtual networks",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "expected": "2"
+        },
+        {
+          "label": "VM size",
+          "choices": [
+            "A-Series",
+            "B-Series",
+            "D-Series",
+            "M-Series"
+          ],
+          "expected": "B-Series"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q102-p181-1-q.jpeg"
@@ -9152,19 +11299,28 @@ window.AZ305_QUESTIONS = [
     "solutionAssets": [
       "assets/az305/AZ305-T4-Q102-p181-2-s.png"
     ],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 181,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Un réseau virtuel est régional : les deux régions nécessitent donc deux VNets, pas un VNet par availability zone. Les VM B-Series accumulent des crédits CPU pendant les périodes calmes et les utilisent pendant les pointes.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q102-p181-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q103",
@@ -9353,14 +11509,33 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You plan to deploy an infrastructure solution that will contain the following configurations:\n\n• External users will access the infrastructure by using Azure Front Door.\n\n• External user access to the backend APIs hosted in Azure Kubernetes Service (AKS) will be controlled by using Azure API Management.\n\n• External users will be authenticated by an Azure AD B2C tenant that uses OpenID Connect-based federation with a third-party identity provider.\n\nWhich function does each service provide? To answer, drag the appropriate functions to the correct services. Each function may be used once,\n\nmore than once, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Front Door : Protection against OWASP vulnerabilities · API Management : Validation of Azure B2C JSON Web Tokens (JWTs)",
+    "explanation": "Le WAF de Front Door filtre les vulnérabilités web OWASP à l’entrée globale. API Management valide les JWT B2C avant d’autoriser l’appel du backend ; ces contrôles agissent à des niveaux complémentaires.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Front Door",
+          "choices": [
+            "Protection against OWASP vulnerabilities",
+            "IP filtering on a per-API level",
+            "Validation of Azure B2C JSON Web Tokens (JWTs)"
+          ],
+          "expected": "Protection against OWASP vulnerabilities"
+        },
+        {
+          "label": "API Management",
+          "choices": [
+            "Protection against OWASP vulnerabilities",
+            "IP filtering on a per-API level",
+            "Validation of Azure B2C JSON Web Tokens (JWTs)"
+          ],
+          "expected": "Validation of Azure B2C JSON Web Tokens (JWTs)"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q108-p184-1-q.png"
@@ -9374,13 +11549,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 184,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le WAF de Front Door filtre les vulnérabilités web OWASP à l’entrée globale. API Management valide les JWT B2C avant d’autoriser l’appel du backend ; ces contrôles agissent à des niveaux complémentaires.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q108-p184-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q109",
@@ -9459,14 +11638,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You have an Azure App Service web app named Webapp1 that connects to an Azure SQL database named DB1. Webapp1 and DB1 are deployed to\n\nthe East US Azure region.\n\nYou need to ensure that all the traffic between Webapp1 and DB1 is sent via a private connection.\n\nWhat should you do? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Minimum subnets : 2 subnets · Name resolution : A private DNS zone",
+    "explanation": "L’intégration VNet d’App Service utilise un subnet délégué. Le private endpoint SQL doit être dans un autre subnet, non délégué : il faut deux subnets. Une private DNS zone résout le nom SQL vers l’adresse privée. La correction source indiquant un seul subnet ne respecte pas cette séparation.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Minimum subnets",
+          "choices": [
+            "1 subnet",
+            "2 subnets",
+            "3 subnets"
+          ],
+          "expected": "2 subnets"
+        },
+        {
+          "label": "Name resolution",
+          "choices": [
+            "A private DNS zone",
+            "A public DNS zone",
+            "The Azure DNS Private Resolver"
+          ],
+          "expected": "A private DNS zone"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q111-p187-1-q.png"
@@ -9474,19 +11672,28 @@ window.AZ305_QUESTIONS = [
     "solutionAssets": [
       "assets/az305/AZ305-T4-Q111-p187-2-s.png"
     ],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
-    "originalAnswer": "Voir l’illustration de correction du document source.",
-    "answerRevision": false,
-    "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "originalAnswer": "1 subnet; A private DNS zone (illustration source)",
+    "answerRevision": true,
+    "sourceConflict": true,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 187,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "L’intégration VNet d’App Service utilise un subnet délégué. Le private endpoint SQL doit être dans un autre subnet, non délégué : il faut deux subnets. Une private DNS zone résout le nom SQL vers l’adresse privée. La correction source indiquant un seul subnet ne respecte pas cette séparation.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q111-p187-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q112",
@@ -9495,14 +11702,34 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "Your on-premises network contains an Active Directory Domain Services (AD DS) domain. The domain contains a server named Server1. Server1\n\ncontains an app named App1 that uses AD DS authentication. Remote users access App1 by using a VPN connection to the on-premises network.\n\nYou have an Azure AD tenant that syncs with the AD DS domain by using Azure AD Connect.\n\nYou need to ensure that the remote users can access App1 without using a VPN. The solution must meet the following requirements:\n\n• Ensure that the users authenticate by using Azure Multi-Factor Authentication (MFA).\n\n• Minimize administrative effort.\n\nWhat should you include in the solution? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "In Azure AD : An enterprise application · On-premises server : Windows Server with the Azure AD Application Proxy connector",
+    "explanation": "L’enterprise application représente l’app locale publiée. Le connecteur Application Proxy établit la connexion sortante vers Azure depuis Windows Server ; la pré-authentification Azure AD et Conditional Access permettent MFA sans VPN utilisateur.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "In Azure AD",
+          "choices": [
+            "A managed identity",
+            "An access package",
+            "An app registration",
+            "An enterprise application"
+          ],
+          "expected": "An enterprise application"
+        },
+        {
+          "label": "On-premises server",
+          "choices": [
+            "Windows Server with the Azure AD Application Proxy connector",
+            "Windows Server with on-premises data gateway (standard mode)",
+            "Windows Server with the Web Application Proxy role"
+          ],
+          "expected": "Windows Server with the Azure AD Application Proxy connector"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q112-p188-1-q.png"
@@ -9516,13 +11743,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 188,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "L’enterprise application représente l’app locale publiée. Le connecteur Application Proxy établit la connexion sortante vers Azure depuis Windows Server ; la pré-authentification Azure AD et Conditional Access permettent MFA sans VPN utilisateur.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q112-p188-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q113",
@@ -9567,14 +11798,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You need to recommend a solution to integrate Azure Cosmos DB and Azure Synapse. The solution must meet the following requirements:\n\n• Traffic from an Azure Synapse workspace to the Azure Cosmos DB account must be sent via the Microsoft backbone network.\n\n• Traffic from the Azure Synapse workspace to the Azure Cosmos DB account must NOT be routed over the internet.\n\n• Implementation effort must be minimized.\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Azure Synapse workspace : Configure a dedicated managed virtual network · Azure Cosmos DB connectivity : Managed private endpoints",
+    "explanation": "Un managed virtual network dédié à Synapse et ses managed private endpoints assurent l’accès privé à Cosmos DB via le réseau Microsoft. Désactiver seulement l’endpoint public ou ajouter une règle de firewall ne crée pas cette connexion privée.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Azure Synapse workspace",
+          "choices": [
+            "Configure a dedicated managed virtual network",
+            "Disable public network access to workspace endpoints",
+            "Enable Azure AD authentication"
+          ],
+          "expected": "Configure a dedicated managed virtual network"
+        },
+        {
+          "label": "Azure Cosmos DB connectivity",
+          "choices": [
+            "Managed private endpoints",
+            "Server-level firewall rules",
+            "Service endpoint policies"
+          ],
+          "expected": "Managed private endpoints"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q114-p190-1-q.png"
@@ -9588,13 +11838,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 190,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Un managed virtual network dédié à Synapse et ses managed private endpoints assurent l’accès privé à Cosmos DB via le réseau Microsoft. Désactiver seulement l’endpoint public ou ajouter une règle de firewall ne crée pas cette connexion privée.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q114-p190-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q115",
@@ -9639,14 +11893,35 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You have an on-premises datacenter named Site1. Site1 contains a VMware vSphere cluster named Cluster1 that hosts 100 virtual machines.\n\nCluster1 is managed by using VMware vCenter.\n\nYou have an Azure subscription named Sub1.\n\nYou plan to migrate the virtual machines from Cluster1 to Sub1.\n\nYou need to identify which resources are required to run the virtual machines in Azure. The solution must minimize administrative effort.\n\nWhat should you configure? To answer, drag the appropriate resources to the correct targets. Each resource may be used once, more than once, or\n\nnot at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Sub1 : An Azure Migrate project · Cluster1 : An Azure Migrate appliance",
+    "explanation": "Le projet Azure Migrate centralise l’évaluation et la migration dans Sub1. L’appliance déployée dans Cluster1 découvre les VM VMware et leurs caractéristiques ; un private cloud Azure VMware Solution n’est pas nécessaire pour migrer ces VM vers Azure.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Sub1",
+          "choices": [
+            "An Azure Migrate appliance",
+            "An Azure Migrate project",
+            "An Azure VMware Solution private cloud",
+            "An Azure VMware Solution host"
+          ],
+          "expected": "An Azure Migrate project"
+        },
+        {
+          "label": "Cluster1",
+          "choices": [
+            "An Azure Migrate appliance",
+            "An Azure Migrate project",
+            "An Azure VMware Solution private cloud",
+            "An Azure VMware Solution host"
+          ],
+          "expected": "An Azure Migrate appliance"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q116-p191-1-q.png"
@@ -9660,13 +11935,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 191,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le projet Azure Migrate centralise l’évaluation et la migration dans Sub1. L’appliance déployée dans Cluster1 découvre les VM VMware et leurs caractéristiques ; un private cloud Azure VMware Solution n’est pas nécessaire pour migrer ces VM vers Azure.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q116-p191-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q117",
@@ -9675,14 +11954,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "Your on-premises datacenter contains a server named Server1 that runs Microsoft SQL Server 2022. Server1 contains a 30-TB database named\n\nDB1 that stores customer data. Server1 runs a custom application named App1 that verifies the compliance of records in DB1. App1 must run on\n\nthe same server as DB1.\n\nYou have an Azure subscription.\n\nYou need to migrate DB1 to Azure. The solution must minimize administrative effort.\n\nTo which service should you migrate DB1, and what should you use to perform the migration? To answer, select the appropriate options in the\n\nanswer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Migrate to : SQL Server on Azure Virtual Machines · Migration tool : Azure Migrate",
+    "explanation": "App1 doit rester sur le même serveur que SQL Server et la base fait 30 TB. SQL Server sur Azure Virtual Machines préserve cette cohabitation et cette capacité. Azure Migrate déplace le serveur et l’application ensemble plutôt qu’une base seule vers PaaS.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Migrate to",
+          "choices": [
+            "Azure SQL Database",
+            "Azure SQL Managed Instance",
+            "SQL Server on Azure Virtual Machines"
+          ],
+          "expected": "SQL Server on Azure Virtual Machines"
+        },
+        {
+          "label": "Migration tool",
+          "choices": [
+            "Azure Database Migration Service",
+            "Azure Migrate",
+            "The Azure SQL Migration extension for Azure Data Studio"
+          ],
+          "expected": "Azure Migrate"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q117-p192-1-q.png"
@@ -9696,13 +11994,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 192,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "App1 doit rester sur le même serveur que SQL Server et la base fait 30 TB. SQL Server sur Azure Virtual Machines préserve cette cohabitation et cette capacité. Azure Migrate déplace le serveur et l’application ensemble plutôt qu’une base seule vers PaaS.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q117-p192-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q118",
@@ -9927,14 +12229,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You have an Azure subscription that contains the resources shown in the following table.\n\nVNet1, VNet2, and VNet3 each has multiple virtual machines connected. The virtual machines use the Azure DNS service for name resolution.\n\nYou need to recommend an Azure Monitor log routing solution that meets the following requirements:\n\n• Ensures that the logs collected from the virtual machines and sent to Workspace1 are routed over the Microsoft backbone network\n\n• Minimizes administrative effort\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Minimum AMPLS objects : 1 · Minimum private endpoints : 2",
+    "explanation": "Un AMPLS peut regrouper les ressources Monitor à exposer en privé. Les réseaux qui ne partagent pas une connectivité privée utilisable vers le même endpoint ont besoin de leurs propres private endpoints : le schéma en nécessite deux, tout en réutilisant un seul scope.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Minimum AMPLS objects",
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "expected": "1"
+        },
+        {
+          "label": "Minimum private endpoints",
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "expected": "2"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q124-p196-1-q.png",
@@ -9949,13 +12270,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 196,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Un AMPLS peut regrouper les ressources Monitor à exposer en privé. Les réseaux qui ne partagent pas une connectivité privée utilisable vers le même endpoint ont besoin de leurs propres private endpoints : le schéma en nécessite deux, tout en réutilisant un seul scope.",
+    "assetCrops": {
+      "assets/az305/AZ305-T4-Q124-p196-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 802,
+        "height": 320,
+        "sourceWidth": 802,
+        "sourceHeight": 320
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q124-p196-2-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q125",
@@ -10000,14 +12335,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Concevoir des solutions d’infrastructure",
     "prompt": "You have 100 Azure Storage accounts.\n\nAccess to the accounts is restricted by using Azure role-based access control (Azure RBAC) assignments.\n\nYou need to recommend a solution that uses role assignment conditions based on the tags assigned to individual resources within the storage\n\naccounts.\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Role assignment conditions : Attribute-based access control (ABAC) · Assign permissions to : Blobs",
+    "explanation": "Azure ABAC ajoute des conditions aux attributions RBAC selon les attributs des blobs, notamment leurs index tags. Une ACL ou un SAS ne fournit pas ce modèle de condition sur l’attribution de rôle.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Role assignment conditions",
+          "choices": [
+            "Access control lists (ACLs)",
+            "Attribute-based access control (ABAC)",
+            "Shared access signatures (SAS)"
+          ],
+          "expected": "Attribute-based access control (ABAC)"
+        },
+        {
+          "label": "Assign permissions to",
+          "choices": [
+            "Blobs",
+            "Files",
+            "Tables"
+          ],
+          "expected": "Blobs"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T4-Q126-p198-1-q.png"
@@ -10015,19 +12369,28 @@ window.AZ305_QUESTIONS = [
     "solutionAssets": [
       "assets/az305/AZ305-T4-Q126-p198-2-s.png"
     ],
-    "sources": [],
+    "sources": [
+      {
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/conditions-overview"
+      }
+    ],
     "sourceScope": "source",
     "format": "exercise",
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 198,
     "caseStudyId": null,
     "caseContext": null,
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Azure ABAC ajoute des conditions aux attributions RBAC selon les attributs des blobs, notamment leurs index tags. Une ACL ou un SAS ne fournit pas ce modèle de condition sur l’attribution de rôle.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T4-Q126-p198-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T4-Q127",
@@ -10072,8 +12435,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Études de cas",
     "prompt": "You need to ensure that users managing the production environment are registered for Azure MFA and must authenticate by using Azure MFA\n\nwhen they sign in to the Azure portal. The solution must meet the authentication and authorization requirements.\n\nWhat should you do? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Azure AD Identity Protection; Grant control in capolicy1",
-    "explanation": "La correction du support retient « Azure AD Identity Protection; Grant control in capolicy1 ». Dans l’énoncé, le point à résoudre est : « What should you do? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "Register users for Azure MFA : Azure AD Identity Protection · Enforce MFA : Grant control in capolicy1",
+    "explanation": "Box 1: Azure AD Identity Protection Only users that manage the production environment by using the Azure portal must connect from a hybrid Azure AD-joined device and authenticate by using Azure Multi-Factor Authentication (MFA). Note: Policy configuration - 1. Navigate to the Azure portal. 2. Browse to Azure Active Directory > Security > Identity Protection > MFA registration policy. 3. Under Assignments 4. Users - Choose All users or Select individuals and groups if limiting your rollout. 5. Optionally you can choose to exclude users from the policy. 6. Enforce Policy - On 7. Save Box 2: Grant control in capolicy1 The litware.com tenant has a Conditional Access policy named Capolicy1. Capolicy1 requires that when users manage the Azure subscription for a production environment by using the Azure portal, they must connect from a hybrid Azure AD-joined device. Note: We need to configure the policy conditions for capolicy1 that prompt for MFA.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10081,13 +12444,21 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Register users for Azure MFA",
+          "choices": [
+            "Azure AD Identity Protection",
+            "Security defaults in Azure AD",
+            "Azure AD authentication methods policy"
+          ],
           "expected": "Azure AD Identity Protection"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Enforce MFA",
+          "choices": [
+            "Grant control in capolicy1",
+            "Session control in capolicy1",
+            "Sign-in risk policy in Azure AD Identity Protection"
+          ],
           "expected": "Grant control in capolicy1"
         }
       ]
@@ -10114,13 +12485,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure AD Identity Protection; Grant control in capolicy1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 200,
     "caseStudyId": "AZ305-T5",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nLitware, Inc. is a medium-sized finance company that has a main office in Boston.\n\nExisting Environment -\n\nIdentity Environment -\n\nThe network contains an Active Directory forest named litware.com that is linked to an Azure Active Directory (Azure AD) tenant named\n\nlitware.com. All users have Azure Active Directory Premium P2 licenses.\n\nLitware has a second Azure AD tenant named dev.litware.com that is used as a development environment.\n\nThe litware.com tenant has a Conditional Access policy named Capolicy1. Capolicy1 requires that when users manage the Azure subscription for\n\na production environment by using the Azure portal, they must connect from a hybrid Azure AD-joined device.\n\nAzure Environment -\n\nLitware has 10 Azure subscriptions that are linked to the Litware.com tenant and five Azure subscriptions that are linked to the dev.litware.com\n\ntenant. All the subscriptions are in an Enterprise Agreement (EA).\n\nThe litware.com tenant contains a custom Azure role-based access control (Azure RBAC) role named Role1 that grants the DataActions read\n\npermission to the blobs and files in Azure Storage.\n\nOn-Premises Environment -\n\nThe on-premises network of Litware contains the resources shown in the following table.\n\nNetwork Environment -\n\nLitware has ExpressRoute connectivity to Azure.\n\nPlanned Changes and Requirements\n\nPlanned Changes -\n\nLitware plans to implement the following changes:\n\nMigrate DB1 and DB2 to Azure.\n\nMigrate App1 to Azure virtual machines.\n\nMigrate the external storage used by App1 to Azure Storage.\n\nDeploy the Azure virtual machines that will host App1 to Azure dedicated hosts.\n\nAuthentication and Authorization Requirements\n\nLitware identifies the following authentication and authorization requirements:\n\nOnly users that manage the production environment by using the Azure portal must connect from a hybrid Azure AD-joined device and\n\nauthenticate by using\n\nAzure Multi-Factor Authentication (MFA).\n\nThe Network Contributor built-in RBAC role must be used to grant permissions to the network administrators for all the virtual networks in all the\n\nAzure subscriptions.\n\nTo access the resources in Azure, App1 must use the managed identity of the virtual machines that will host the app.\n\nRBAC roles must be applied to management groups.\n\nResiliency Requirements -\n\nLitware identifies the following resiliency requirements:\n\nOnce migrated to Azure, DB1 and DB2 must meet the following requirements:\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\n- Fail over automatically.\n\n- Minimize I/O latency.\n\nApp1 must meet the following requirements:\n\n- Be hosted in an Azure region that supports availability zones.\n\n- Be hosted on Azure virtual machines that support automatic scaling.\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\nSecurity and Compliance Requirements\n\nLitware identifies the following security and compliance requirements:\n\nOnce App1 is migrated to Azure, you must ensure that new data can be written to the app, and the modification of new and existing data is\n\nprevented for a period of three years.\n\nOn-premises users and services must be able to access the Azure Storage account that will host the data in App1.\n\nAccess to the public endpoint of the Azure Storage account that will host the App1 data must be prevented.\n\nAll Azure SQL databases in the production environment must have Transparent Data Encryption (TDE) enabled.\n\nApp1 must NOT share physical hardware with other workloads.\n\nBusiness Requirements -\n\nLitware identifies the following business requirements:\n\nMinimize administrative effort.\n\nMinimize costs.",
     "sourceExplanation": "Box 1: Azure AD Identity Protection Only users that manage the production environment by using the Azure portal must connect from a hybrid Azure AD-joined device and authenticate by using Azure Multi-Factor Authentication (MFA). Note: Policy configuration - 1. Navigate to the Azure portal. 2. Browse to Azure Active Directory > Security > Identity Protection > MFA registration policy. 3. Under Assignments 4. Users - Choose All users or Select individuals and groups if limiting your rollout. 5. Optionally you can choose to exclude users from the policy. 6. Enforce Policy - On 7. Save Box 2: Grant control in capolicy1 The litware.com tenant has a Conditional Access policy named Capolicy1. Capolicy1 requires that when users manage the Azure subscription for a production environment by using the Azure portal, they must connect from a hybrid Azure AD-joined device. Note: We need to configure the policy conditions for capolicy1 that prompt for MFA.",
-    "pedagogicalContext": "La correction du support retient « Azure AD Identity Protection; Grant control in capolicy1 ». Dans l’énoncé, le point à résoudre est : « What should you do? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: Azure AD Identity Protection Only users that manage the production environment by using the Azure portal must connect from a hybrid Azure AD-joined device and authenticate by using Azure Multi-Factor Authentication (MFA). Note: Policy configuration - 1. Navigate to the Azure portal. 2. Browse to Azure Active Directory > Security > Identity Protection > MFA registration policy. 3. Under Assignments 4. Users - Choose All users or Select individuals and groups if limiting your rollout. 5. Optionally you can choose to exclude users from the policy. 6. Enforce Policy - On 7. Save Box 2: Grant control in capolicy1 The litware.com tenant has a Conditional Access policy named Capolicy1. Capolicy1 requires that when users manage the Azure subscription for a production environment by using the Azure portal, they must connect from a hybrid Azure AD-joined device. Note: We need to configure the policy conditions for capolicy1 that prompt for MFA.",
+    "assetCrops": {
+      "assets/az305/AZ305-T5-Q1-p200-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 842,
+        "height": 394,
+        "sourceWidth": 842,
+        "sourceHeight": 394
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T5-Q1-p202-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T5-Q2",
@@ -10158,7 +12543,17 @@ window.AZ305_QUESTIONS = [
     "caseStudyId": "AZ305-T5",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nLitware, Inc. is a medium-sized finance company that has a main office in Boston.\n\nExisting Environment -\n\nIdentity Environment -\n\nThe network contains an Active Directory forest named litware.com that is linked to an Azure Active Directory (Azure AD) tenant named\n\nlitware.com. All users have Azure Active Directory Premium P2 licenses.\n\nLitware has a second Azure AD tenant named dev.litware.com that is used as a development environment.\n\nThe litware.com tenant has a Conditional Access policy named Capolicy1. Capolicy1 requires that when users manage the Azure subscription for\n\na production environment by using the Azure portal, they must connect from a hybrid Azure AD-joined device.\n\nAzure Environment -\n\nLitware has 10 Azure subscriptions that are linked to the Litware.com tenant and five Azure subscriptions that are linked to the dev.litware.com\n\ntenant. All the subscriptions are in an Enterprise Agreement (EA).\n\nThe litware.com tenant contains a custom Azure role-based access control (Azure RBAC) role named Role1 that grants the DataActions read\n\npermission to the blobs and files in Azure Storage.\n\nOn-Premises Environment -\n\nThe on-premises network of Litware contains the resources shown in the following table.\n\nNetwork Environment -\n\nLitware has ExpressRoute connectivity to Azure.\n\nPlanned Changes and Requirements\n\nPlanned Changes -\n\nLitware plans to implement the following changes:\n\nMigrate DB1 and DB2 to Azure.\n\nMigrate App1 to Azure virtual machines.\n\nMigrate the external storage used by App1 to Azure Storage.\n\nDeploy the Azure virtual machines that will host App1 to Azure dedicated hosts.\n\nAuthentication and Authorization Requirements\n\nLitware identifies the following authentication and authorization requirements:\n\nOnly users that manage the production environment by using the Azure portal must connect from a hybrid Azure AD-joined device and\n\nauthenticate by using\n\nAzure Multi-Factor Authentication (MFA).\n\nThe Network Contributor built-in RBAC role must be used to grant permissions to the network administrators for all the virtual networks in all the\n\nAzure subscriptions.\n\nTo access the resources in Azure, App1 must use the managed identity of the virtual machines that will host the app.\n\nRBAC roles must be applied to management groups.\n\nResiliency Requirements -\n\nLitware identifies the following resiliency requirements:\n\nOnce migrated to Azure, DB1 and DB2 must meet the following requirements:\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\n- Fail over automatically.\n\n- Minimize I/O latency.\n\nApp1 must meet the following requirements:\n\n- Be hosted in an Azure region that supports availability zones.\n\n- Be hosted on Azure virtual machines that support automatic scaling.\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\nSecurity and Compliance Requirements\n\nLitware identifies the following security and compliance requirements:\n\nOnce App1 is migrated to Azure, you must ensure that new data can be written to the app, and the modification of new and existing data is\n\nprevented for a period of three years.\n\nOn-premises users and services must be able to access the Azure Storage account that will host the data in App1.\n\nAccess to the public endpoint of the Azure Storage account that will host the App1 data must be prevented.\n\nAll Azure SQL databases in the production environment must have Transparent Data Encryption (TDE) enabled.\n\nApp1 must NOT share physical hardware with other workloads.\n\nBusiness Requirements -\n\nLitware identifies the following business requirements:\n\nMinimize administrative effort.\n\nMinimize costs.",
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « Create an access policy for the blob service. ». Dans l’énoncé, le point à résoudre est : « What should you do? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "La correction du support retient « Create an access policy for the blob service. ». Dans l’énoncé, le point à résoudre est : « What should you do? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "assetCrops": {
+      "assets/az305/AZ305-T5-Q2-p203-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 842,
+        "height": 394,
+        "sourceWidth": 842,
+        "sourceHeight": 394
+      }
+    }
   },
   {
     "id": "AZ305-T6-Q1",
@@ -10275,14 +12670,34 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Études de cas",
     "prompt": "You need to recommend a solution to ensure that App1 can access the third-party credentials and access strings. The solution must meet the\n\nsecurity requirements.\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Authenticate App1 : A system-assigned managed identity · Authorize Key Vault access : A role assignment",
+    "explanation": "L’identité managée system-assigned suit le cycle de vie d’App1 et évite un secret d’authentification dans son code. Une attribution de rôle Key Vault lui donne l’accès aux secrets requis selon le modèle RBAC du scénario.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Authenticate App1",
+          "choices": [
+            "A certificate",
+            "A system-assigned managed identity",
+            "A user-assigned managed identity"
+          ],
+          "expected": "A system-assigned managed identity"
+        },
+        {
+          "label": "Authorize Key Vault access",
+          "choices": [
+            "An access policy",
+            "A connected service",
+            "A private link",
+            "A role assignment"
+          ],
+          "expected": "A role assignment"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T6-Q4-p213-2-q.png"
@@ -10296,13 +12711,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 212,
     "caseStudyId": "AZ305-T6",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs. When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nContoso, Ltd. is a research company that has a main office in Montreal.\n\nExisting Environment -\n\nTechnical Environment -\n\nThe on-premises network contains a single Active Directory domain named contoso.com.\n\nContoso has a single Azure subscription.\n\nBusiness Partnerships -\n\nContoso has a business partnership with Fabrikam, Inc. Fabrikam users access some Contoso applications over the internet by using Azure Active\n\nDirectory\n\n(Azure AD) guest accounts.\n\nRequirements -\n\nPlanned Changes -\n\nContoso plans to deploy two applications named App1 and App2 to Azure.\n\nApp1 -\n\nApp1 will be a Python web app hosted in Azure App Service that requires a Linux runtime. Users from Contoso and Fabrikam will access App1.\n\nApp1 will access several services that require third-party credentials and access strings. The credentials and access strings are stored in Azure\n\nKey Vault.\n\nApp1 will have six instances: three in the East US Azure region and three in the West Europe Azure region.\n\nApp1 has the following data requirements:\n\nEach instance will write data to a data store in the same availability zone as the instance.\n\nData written by any App1 instance must be visible to all App1 instances.\n\nApp1 will only be accessible from the internet. App1 has the following connection requirements:\n\nConnections to App1 must pass through a web application firewall (WAF).\n\nConnections to App1 must be active-active load balanced between instances.\n\nAll connections to App1 from North America must be directed to the East US region. All other connections must be directed to the West Europe\n\nregion.\n\nEvery hour, you will run a maintenance task by invoking a PowerShell script that copies files from all the App1 instances. The PowerShell script\n\nwill run from a central location.\n\nApp2 -\n\nApp2 will be a .NET app hosted in App Service that requires a Windows runtime. App2 has the following file storage requirements:\n\nSave files to an Azure Storage account.\n\nReplicate files to an on-premises location.\n\nEnsure that on-premises clients can read the files over the LAN by using the SMB protocol.\n\nYou need to monitor App2 to analyze how long it takes to perform different transactions within the application. The solution must not require\n\nchanges to the application code.\n\nApplication Development Requirements\n\nApplication developers will constantly develop new versions of App1 and App2. The development process must meet the following requirements:\n\nA staging instance of a new application version must be deployed to the application host before the new version is used in production.\n\nAfter testing the new version, the staging version of the application will replace the production version.\n\nThe switch to the new application version from staging to production must occur without any downtime of the application.\n\nIdentity Requirements -\n\nContoso identifies the following requirements for managing Fabrikam access to resources:\n\nEvery month, an account manager at Fabrikam must review which Fabrikam users have access permissions to App1. Accounts that no longer\n\nneed permissions must be removed as guests.\n\nThe solution must minimize development effort.\n\nSecurity Requirement -\n\nAll secrets used by Azure services must be stored in Azure Key Vault.\n\nServices that require credentials must have the credentials tied to the service instance. The credentials must NOT be shared between services.",
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "L’identité managée system-assigned suit le cycle de vie d’App1 et évite un secret d’authentification dans son code. Une attribution de rôle Key Vault lui donne l’accès aux secrets requis selon le modèle RBAC du scénario.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T6-Q4-p213-2-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T7-Q1",
@@ -10311,14 +12730,39 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Études de cas",
     "prompt": "You are evaluating the components of the migration to Azure that require you to provision an Azure Storage account. For each of the following\n\nstatements, select\n\nYes if the statement is true. Otherwise, select No.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Storage account for SQL Server migration : Yes · Storage account for website content : No · Storage account for database metrics : No",
+    "explanation": "Le scénario de migration SQL utilise un compte de stockage explicitement provisionné pour les fichiers de migration. Le contenu App Service et les métriques du service géré ne nécessitent pas chacun un compte de stockage client supplémentaire.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Storage account for SQL Server migration",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "Yes"
+        },
+        {
+          "label": "Storage account for website content",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "No"
+        },
+        {
+          "label": "Storage account for database metrics",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "No"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T7-Q1-p216-1-q.png"
@@ -10332,13 +12776,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 215,
     "caseStudyId": "AZ305-T7",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs. When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nFabrikam, Inc. is an engineering company that has offices throughout Europe. The company has a main office in London and three branch offices\n\nin Amsterdam,\n\nBerlin, and Rome.\n\nExisting Environment: Active Directory Environment\n\nThe network contains two Active Directory forests named corp.fabrikam.com and rd.fabrikam.com. There are no trust relationships between the\n\nforests.\n\nCorp.fabrikam.com is a production forest that contains identities used for internal user and computer authentication.\n\nRd.fabrikam.com is used by the research and development (R&D) department only. The R&D department is restricted to using on-premises\n\nresources only.\n\nExisting Environment: Network Infrastructure\n\nEach office contains at least one domain controller from the corp.fabrikam.com domain. The main office contains all the domain controllers for\n\nthe rd.fabrikam.com forest.\n\nAll the offices have a high-speed connection to the internet.\n\nAn existing application named WebApp1 is hosted in the data center of the London office. WebApp1 is used by customers to place and track\n\norders. WebApp1 has a web tier that uses Microsoft Internet Information Services (IIS) and a database tier that runs Microsoft SQL Server 2016.\n\nThe web tier and the database tier are deployed to virtual machines that run on Hyper-V.\n\nThe IT department currently uses a separate Hyper-V environment to test updates to WebApp1.\n\nFabrikam purchases all Microsoft licenses through a Microsoft Enterprise Agreement that includes Software Assurance.\n\nExisting Environment: Problem Statements\n\nThe use of WebApp1 is unpredictable. At peak times, users often report delays. At other times, many resources for WebApp1 are underutilized.\n\nRequirements: Planned Changes -\n\nFabrikam plans to move most of its production workloads to Azure during the next few years, including virtual machines that rely on Active\n\nDirectory for authentication.\n\nAs one of its first projects, the company plans to establish a hybrid identity model, facilitating an upcoming Microsoft 365 deployment.\n\nAll R&D operations will remain on-premises.\n\nFabrikam plans to migrate the production and test instances of WebApp1 to Azure.\n\nRequirements: Technical Requirements\n\nFabrikam identifies the following technical requirements:\n\nWebsite content must be easily updated from a single point.\n\nUser input must be minimized when provisioning new web app instances.\n\nWhenever possible, existing on-premises licenses must be used to reduce cost.\n\nUsers must always authenticate by using their corp.fabrikam.com UPN identity.\n\nAny new deployments to Azure must be redundant in case an Azure region fails.\n\nWhenever possible, solutions must be deployed to Azure by using the Standard pricing tier of Azure App Service.\n\nAn email distribution group named IT Support must be notified of any issues relating to the directory synchronization services.\n\nIn the event that a link fails between Azure and the on-premises network, ensure that the virtual machines hosted in Azure can authenticate to\n\nActive Directory.\n\nDirectory synchronization between Azure Active Directory (Azure AD) and corp.fabrikam.com must not be affected by a link failure between Azure\n\nand the on- premises network.\n\nRequirements: Database Requirements\n\nFabrikam identifies the following database requirements:\n\nDatabase metrics for the production instance of WebApp1 must be available for analysis so that database administrators can optimize the\n\nperformance settings.\n\nTo avoid disrupting customer access, database downtime must be minimized when databases are migrated.\n\nDatabase backups must be retained for a minimum of seven years to meet compliance requirements.\n\nRequirements: Security Requirements\n\nFabrikam identifies the following security requirements:\n\nCompany information including policies, templates, and data must be inaccessible to anyone outside the company.\n\nUsers on the on-premises network must be able to authenticate to corp.fabrikam.com if an internet link fails.\n\nAdministrators must be able authenticate to the Azure portal by using their corp.fabrikam.com credentials.\n\nAll administrative access to the Azure portal must be secured by using multi-factor authentication (MFA).\n\nThe testing of WebApp1 updates must not be visible to anyone outside the company.",
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le scénario de migration SQL utilise un compte de stockage explicitement provisionné pour les fichiers de migration. Le contenu App Service et les métriques du service géré ne nécessitent pas chacun un compte de stockage client supplémentaire.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T7-Q1-p216-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T7-Q2",
@@ -10383,8 +12831,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Études de cas",
     "prompt": "You plan to migrate App1 to Azure.\n\nYou need to recommend a high-availability solution for App1. The solution must meet the resiliency requirements.\n\nWhat should you include in the recommendation? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "3; 3",
-    "explanation": "La correction du support retient « 3; 3 ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "Host groups : 3 · Virtual machine scale sets : 3",
+    "explanation": "Box 1: 3 - Need three host groups to meet the third scenario requirement below. Scenario: App1 must meet the following requirements: Be hosted in an Azure region that supports availability zones. Be hosted on Azure virtual machines that support automatic scaling. Maintain availability if two availability zones in the local Azure region fail. Box 2: 3 - The availability setting of your host group should match your scale set. * The host group and the scale set must be using the same availability zone. * The fault domain count for the host group level should match the fault domain count for your scale set.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10392,13 +12840,22 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Host groups",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "6"
+          ],
           "expected": "3"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Virtual machine scale sets",
+          "choices": [
+            "0",
+            "1",
+            "3"
+          ],
           "expected": "3"
         }
       ]
@@ -10421,13 +12878,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "3; 3",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 219,
     "caseStudyId": "AZ305-T8",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nLitware, Inc. is a medium-sized finance company that has a main office in Boston.\n\nExisting Environment -\n\nIdentity Environment -\n\nThe network contains an Active Directory forest named litware.com that is linked to an Azure Active Directory (Azure AD) tenant named\n\nlitware.com. All users have Azure Active Directory Premium P2 licenses.\n\nLitware has a second Azure AD tenant named dev.litware.com that is used as a development environment.\n\nThe litware.com tenant has a Conditional Access policy named Capolicy1. Capolicy1 requires that when users manage the Azure subscription for\n\na production environment by using the Azure portal, they must connect from a hybrid Azure AD-joined device.\n\nAzure Environment -\n\nLitware has 10 Azure subscriptions that are linked to the Litware.com tenant and five Azure subscriptions that are linked to the dev.litware.com\n\ntenant. All the subscriptions are in an Enterprise Agreement (EA).\n\nThe litware.com tenant contains a custom Azure role-based access control (Azure RBAC) role named Role1 that grants the DataActions read\n\npermission to the blobs and files in Azure Storage.\n\nOn-Premises Environment -\n\nThe on-premises network of Litware contains the resources shown in the following table.\n\nNetwork Environment -\n\nLitware has ExpressRoute connectivity to Azure.\n\nPlanned Changes and Requirements\n\nPlanned Changes -\n\nLitware plans to implement the following changes:\n\nMigrate DB1 and DB2 to Azure.\n\nMigrate App1 to Azure virtual machines.\n\nMigrate the external storage used by App1 to Azure Storage.\n\nDeploy the Azure virtual machines that will host App1 to Azure dedicated hosts.\n\nAuthentication and Authorization Requirements\n\nLitware identifies the following authentication and authorization requirements:\n\nOnly users that manage the production environment by using the Azure portal must connect from a hybrid Azure AD-joined device and\n\nauthenticate by using\n\nAzure Multi-Factor Authentication (MFA).\n\nThe Network Contributor built-in RBAC role must be used to grant permissions to the network administrators for all the virtual networks in all the\n\nAzure subscriptions.\n\nTo access the resources in Azure, App1 must use the managed identity of the virtual machines that will host the app.\n\nRBAC roles must be applied to management groups.\n\nResiliency Requirements -\n\nLitware identifies the following resiliency requirements:\n\nOnce migrated to Azure, DB1 and DB2 must meet the following requirements:\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\n- Fail over automatically.\n\n- Minimize I/O latency.\n\nApp1 must meet the following requirements:\n\n- Be hosted in an Azure region that supports availability zones.\n\n- Be hosted on Azure virtual machines that support automatic scaling.\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\nSecurity and Compliance Requirements\n\nLitware identifies the following security and compliance requirements:\n\nOnce App1 is migrated to Azure, you must ensure that new data can be written to the app, and the modification of new and existing data is\n\nprevented for a period of three years.\n\nOn-premises users and services must be able to access the Azure Storage account that will host the data in App1.\n\nAccess to the public endpoint of the Azure Storage account that will host the App1 data must be prevented.\n\nAll Azure SQL databases in the production environment must have Transparent Data Encryption (TDE) enabled.\n\nApp1 must NOT share physical hardware with other workloads.\n\nBusiness Requirements -\n\nLitware identifies the following business requirements:\n\nMinimize administrative effort.\n\nMinimize costs.",
     "sourceExplanation": "Box 1: 3 - Need three host groups to meet the third scenario requirement below. Scenario: App1 must meet the following requirements: Be hosted in an Azure region that supports availability zones. Be hosted on Azure virtual machines that support automatic scaling. Maintain availability if two availability zones in the local Azure region fail. Box 2: 3 - The availability setting of your host group should match your scale set. * The host group and the scale set must be using the same availability zone. * The fault domain count for the host group level should match the fault domain count for your scale set.",
-    "pedagogicalContext": "La correction du support retient « 3; 3 ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? To answer, select the appropriate options in the answer area. » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: 3 - Need three host groups to meet the third scenario requirement below. Scenario: App1 must meet the following requirements: Be hosted in an Azure region that supports availability zones. Be hosted on Azure virtual machines that support automatic scaling. Maintain availability if two availability zones in the local Azure region fail. Box 2: 3 - The availability setting of your host group should match your scale set. * The host group and the scale set must be using the same availability zone. * The fault domain count for the host group level should match the fault domain count for your scale set.",
+    "assetCrops": {
+      "assets/az305/AZ305-T8-Q1-p219-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 842,
+        "height": 394,
+        "sourceWidth": 842,
+        "sourceHeight": 394
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T8-Q1-p221-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T8-Q2",
@@ -10436,8 +12907,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Études de cas",
     "prompt": "You plan to migrate App1 to Azure.\n\nYou need to recommend a storage solution for App1 that meets the security and compliance requirements.\n\nWhich type of storage should you recommend, and how should you recommend configuring the storage? To answer, select the appropriate options\n\nin the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Standard general-purpose v2; Hierarchical namespace",
-    "explanation": "La correction du support retient « Standard general-purpose v2; Hierarchical namespace ». Dans l’énoncé, le point à résoudre est : « Which type of storage should you recommend, and how should you recommend configuring the storage? To answer, select the appropriate options » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "Storage account type : Standard general-purpose v2 · Configuration : Hierarchical namespace",
+    "explanation": "Box 1: Standard general-purpose v2 Standard general-purpose v2 supports Blob Storage. Azure Storage provides data protection for Blob Storage and Azure Data Lake Storage Gen2. Scenario: Litware identifies the following security and compliance requirements: ✑ Once App1 is migrated to Azure, you must ensure that new data can be written to the app, and the modification of new and existing data is prevented for a period of three years. ✑ On-premises users and services must be able to access the Azure Storage account that will host the data in App1. ✑ Access to the public endpoint of the Azure Storage account that will host the App1 data must be prevented. All Azure SQL databases in the production environment must have Transparent Data Encryption (TDE) enabled. ✑ App1 must NOT share physical hardware with other workloads. Box 2: Hierarchical namespace - Scenario: Plan: Migrate App1 to Azure virtual machines. Azure Data Lake Storage Gen2 implements an access control model that supports both Azure role-based access control (Azure RBAC) and POSIX-like access control lists (ACLs). Data Lake Storage Gen2 and the Network File System (NFS) 3.0 protocol both require a storage account with a hierarchical namespace enabled.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10445,13 +12916,21 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Storage account type",
+          "choices": [
+            "Premium page blobs",
+            "Premium file shares",
+            "Standard general-purpose v2"
+          ],
           "expected": "Standard general-purpose v2"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Configuration",
+          "choices": [
+            "NFSv3",
+            "Large file shares",
+            "Hierarchical namespace"
+          ],
           "expected": "Hierarchical namespace"
         }
       ]
@@ -10478,13 +12957,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Standard general-purpose v2; Hierarchical namespace",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 222,
     "caseStudyId": "AZ305-T8",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nLitware, Inc. is a medium-sized finance company that has a main office in Boston.\n\nExisting Environment -\n\nIdentity Environment -\n\nThe network contains an Active Directory forest named litware.com that is linked to an Azure Active Directory (Azure AD) tenant named\n\nlitware.com. All users have Azure Active Directory Premium P2 licenses.\n\nLitware has a second Azure AD tenant named dev.litware.com that is used as a development environment.\n\nThe litware.com tenant has a Conditional Access policy named Capolicy1. Capolicy1 requires that when users manage the Azure subscription for\n\na production environment by using the Azure portal, they must connect from a hybrid Azure AD-joined device.\n\nAzure Environment -\n\nLitware has 10 Azure subscriptions that are linked to the Litware.com tenant and five Azure subscriptions that are linked to the dev.litware.com\n\ntenant. All the subscriptions are in an Enterprise Agreement (EA).\n\nThe litware.com tenant contains a custom Azure role-based access control (Azure RBAC) role named Role1 that grants the DataActions read\n\npermission to the blobs and files in Azure Storage.\n\nOn-Premises Environment -\n\nThe on-premises network of Litware contains the resources shown in the following table.\n\nNetwork Environment -\n\nLitware has ExpressRoute connectivity to Azure.\n\nPlanned Changes and Requirements\n\nPlanned Changes -\n\nLitware plans to implement the following changes:\n\nMigrate DB1 and DB2 to Azure.\n\nMigrate App1 to Azure virtual machines.\n\nMigrate the external storage used by App1 to Azure Storage.\n\nDeploy the Azure virtual machines that will host App1 to Azure dedicated hosts.\n\nAuthentication and Authorization Requirements\n\nLitware identifies the following authentication and authorization requirements:\n\nOnly users that manage the production environment by using the Azure portal must connect from a hybrid Azure AD-joined device and\n\nauthenticate by using\n\nAzure Multi-Factor Authentication (MFA).\n\nThe Network Contributor built-in RBAC role must be used to grant permissions to the network administrators for all the virtual networks in all the\n\nAzure subscriptions.\n\nTo access the resources in Azure, App1 must use the managed identity of the virtual machines that will host the app.\n\nRBAC roles must be applied to management groups.\n\nResiliency Requirements -\n\nLitware identifies the following resiliency requirements:\n\nOnce migrated to Azure, DB1 and DB2 must meet the following requirements:\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\n- Fail over automatically.\n\n- Minimize I/O latency.\n\nApp1 must meet the following requirements:\n\n- Be hosted in an Azure region that supports availability zones.\n\n- Be hosted on Azure virtual machines that support automatic scaling.\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\nSecurity and Compliance Requirements\n\nLitware identifies the following security and compliance requirements:\n\nOnce App1 is migrated to Azure, you must ensure that new data can be written to the app, and the modification of new and existing data is\n\nprevented for a period of three years.\n\nOn-premises users and services must be able to access the Azure Storage account that will host the data in App1.\n\nAccess to the public endpoint of the Azure Storage account that will host the App1 data must be prevented.\n\nAll Azure SQL databases in the production environment must have Transparent Data Encryption (TDE) enabled.\n\nApp1 must NOT share physical hardware with other workloads.\n\nBusiness Requirements -\n\nLitware identifies the following business requirements:\n\nMinimize administrative effort.\n\nMinimize costs.",
     "sourceExplanation": "Box 1: Standard general-purpose v2 Standard general-purpose v2 supports Blob Storage. Azure Storage provides data protection for Blob Storage and Azure Data Lake Storage Gen2. Scenario: Litware identifies the following security and compliance requirements: ✑ Once App1 is migrated to Azure, you must ensure that new data can be written to the app, and the modification of new and existing data is prevented for a period of three years. ✑ On-premises users and services must be able to access the Azure Storage account that will host the data in App1. ✑ Access to the public endpoint of the Azure Storage account that will host the App1 data must be prevented. All Azure SQL databases in the production environment must have Transparent Data Encryption (TDE) enabled. ✑ App1 must NOT share physical hardware with other workloads. Box 2: Hierarchical namespace - Scenario: Plan: Migrate App1 to Azure virtual machines. Azure Data Lake Storage Gen2 implements an access control model that supports both Azure role-based access control (Azure RBAC) and POSIX-like access control lists (ACLs). Data Lake Storage Gen2 and the Network File System (NFS) 3.0 protocol both require a storage account with a hierarchical namespace enabled.",
-    "pedagogicalContext": "La correction du support retient « Standard general-purpose v2; Hierarchical namespace ». Dans l’énoncé, le point à résoudre est : « Which type of storage should you recommend, and how should you recommend configuring the storage? To answer, select the appropriate options » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: Standard general-purpose v2 Standard general-purpose v2 supports Blob Storage. Azure Storage provides data protection for Blob Storage and Azure Data Lake Storage Gen2. Scenario: Litware identifies the following security and compliance requirements: ✑ Once App1 is migrated to Azure, you must ensure that new data can be written to the app, and the modification of new and existing data is prevented for a period of three years. ✑ On-premises users and services must be able to access the Azure Storage account that will host the data in App1. ✑ Access to the public endpoint of the Azure Storage account that will host the App1 data must be prevented. All Azure SQL databases in the production environment must have Transparent Data Encryption (TDE) enabled. ✑ App1 must NOT share physical hardware with other workloads. Box 2: Hierarchical namespace - Scenario: Plan: Migrate App1 to Azure virtual machines. Azure Data Lake Storage Gen2 implements an access control model that supports both Azure role-based access control (Azure RBAC) and POSIX-like access control lists (ACLs). Data Lake Storage Gen2 and the Network File System (NFS) 3.0 protocol both require a storage account with a hierarchical namespace enabled.",
+    "assetCrops": {
+      "assets/az305/AZ305-T8-Q2-p222-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 842,
+        "height": 394,
+        "sourceWidth": 842,
+        "sourceHeight": 394
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T8-Q2-p224-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T8-Q3",
@@ -10522,7 +13015,17 @@ window.AZ305_QUESTIONS = [
     "caseStudyId": "AZ305-T8",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nLitware, Inc. is a medium-sized finance company that has a main office in Boston.\n\nExisting Environment -\n\nIdentity Environment -\n\nThe network contains an Active Directory forest named litware.com that is linked to an Azure Active Directory (Azure AD) tenant named\n\nlitware.com. All users have Azure Active Directory Premium P2 licenses.\n\nLitware has a second Azure AD tenant named dev.litware.com that is used as a development environment.\n\nThe litware.com tenant has a Conditional Access policy named Capolicy1. Capolicy1 requires that when users manage the Azure subscription for\n\na production environment by using the Azure portal, they must connect from a hybrid Azure AD-joined device.\n\nAzure Environment -\n\nLitware has 10 Azure subscriptions that are linked to the Litware.com tenant and five Azure subscriptions that are linked to the dev.litware.com\n\ntenant. All the subscriptions are in an Enterprise Agreement (EA).\n\nThe litware.com tenant contains a custom Azure role-based access control (Azure RBAC) role named Role1 that grants the DataActions read\n\npermission to the blobs and files in Azure Storage.\n\nOn-Premises Environment -\n\nThe on-premises network of Litware contains the resources shown in the following table.\n\nNetwork Environment -\n\nLitware has ExpressRoute connectivity to Azure.\n\nPlanned Changes and Requirements\n\nPlanned Changes -\n\nLitware plans to implement the following changes:\n\nMigrate DB1 and DB2 to Azure.\n\nMigrate App1 to Azure virtual machines.\n\nMigrate the external storage used by App1 to Azure Storage.\n\nDeploy the Azure virtual machines that will host App1 to Azure dedicated hosts.\n\nAuthentication and Authorization Requirements\n\nLitware identifies the following authentication and authorization requirements:\n\nOnly users that manage the production environment by using the Azure portal must connect from a hybrid Azure AD-joined device and\n\nauthenticate by using\n\nAzure Multi-Factor Authentication (MFA).\n\nThe Network Contributor built-in RBAC role must be used to grant permissions to the network administrators for all the virtual networks in all the\n\nAzure subscriptions.\n\nTo access the resources in Azure, App1 must use the managed identity of the virtual machines that will host the app.\n\nRBAC roles must be applied to management groups.\n\nResiliency Requirements -\n\nLitware identifies the following resiliency requirements:\n\nOnce migrated to Azure, DB1 and DB2 must meet the following requirements:\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\n- Fail over automatically.\n\n- Minimize I/O latency.\n\nApp1 must meet the following requirements:\n\n- Be hosted in an Azure region that supports availability zones.\n\n- Be hosted on Azure virtual machines that support automatic scaling.\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\nSecurity and Compliance Requirements\n\nLitware identifies the following security and compliance requirements:\n\nOnce App1 is migrated to Azure, you must ensure that new data can be written to the app, and the modification of new and existing data is\n\nprevented for a period of three years.\n\nOn-premises users and services must be able to access the Azure Storage account that will host the data in App1.\n\nAccess to the public endpoint of the Azure Storage account that will host the App1 data must be prevented.\n\nAll Azure SQL databases in the production environment must have Transparent Data Encryption (TDE) enabled.\n\nApp1 must NOT share physical hardware with other workloads.\n\nBusiness Requirements -\n\nLitware identifies the following business requirements:\n\nMinimize administrative effort.\n\nMinimize costs.",
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « a private endpoint ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "La correction du support retient « a private endpoint ». Dans l’énoncé, le point à résoudre est : « What should you include in the recommendation? » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "assetCrops": {
+      "assets/az305/AZ305-T8-Q3-p225-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 842,
+        "height": 394,
+        "sourceWidth": 842,
+        "sourceHeight": 394
+      }
+    }
   },
   {
     "id": "AZ305-T8-Q4",
@@ -10561,7 +13064,17 @@ window.AZ305_QUESTIONS = [
     "caseStudyId": "AZ305-T8",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nLitware, Inc. is a medium-sized finance company that has a main office in Boston.\n\nExisting Environment -\n\nIdentity Environment -\n\nThe network contains an Active Directory forest named litware.com that is linked to an Azure Active Directory (Azure AD) tenant named\n\nlitware.com. All users have Azure Active Directory Premium P2 licenses.\n\nLitware has a second Azure AD tenant named dev.litware.com that is used as a development environment.\n\nThe litware.com tenant has a Conditional Access policy named Capolicy1. Capolicy1 requires that when users manage the Azure subscription for\n\na production environment by using the Azure portal, they must connect from a hybrid Azure AD-joined device.\n\nAzure Environment -\n\nLitware has 10 Azure subscriptions that are linked to the Litware.com tenant and five Azure subscriptions that are linked to the dev.litware.com\n\ntenant. All the subscriptions are in an Enterprise Agreement (EA).\n\nThe litware.com tenant contains a custom Azure role-based access control (Azure RBAC) role named Role1 that grants the DataActions read\n\npermission to the blobs and files in Azure Storage.\n\nOn-Premises Environment -\n\nThe on-premises network of Litware contains the resources shown in the following table.\n\nNetwork Environment -\n\nLitware has ExpressRoute connectivity to Azure.\n\nPlanned Changes and Requirements\n\nPlanned Changes -\n\nLitware plans to implement the following changes:\n\nMigrate DB1 and DB2 to Azure.\n\nMigrate App1 to Azure virtual machines.\n\nMigrate the external storage used by App1 to Azure Storage.\n\nDeploy the Azure virtual machines that will host App1 to Azure dedicated hosts.\n\nAuthentication and Authorization Requirements\n\nLitware identifies the following authentication and authorization requirements:\n\nOnly users that manage the production environment by using the Azure portal must connect from a hybrid Azure AD-joined device and\n\nauthenticate by using\n\nAzure Multi-Factor Authentication (MFA).\n\nThe Network Contributor built-in RBAC role must be used to grant permissions to the network administrators for all the virtual networks in all the\n\nAzure subscriptions.\n\nTo access the resources in Azure, App1 must use the managed identity of the virtual machines that will host the app.\n\nRBAC roles must be applied to management groups.\n\nResiliency Requirements -\n\nLitware identifies the following resiliency requirements:\n\nOnce migrated to Azure, DB1 and DB2 must meet the following requirements:\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\n- Fail over automatically.\n\n- Minimize I/O latency.\n\nApp1 must meet the following requirements:\n\n- Be hosted in an Azure region that supports availability zones.\n\n- Be hosted on Azure virtual machines that support automatic scaling.\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\nSecurity and Compliance Requirements\n\nLitware identifies the following security and compliance requirements:\n\nOnce App1 is migrated to Azure, you must ensure that new data can be written to the app, and the modification of new and existing data is\n\nprevented for a period of three years.\n\nOn-premises users and services must be able to access the Azure Storage account that will host the data in App1.\n\nAccess to the public endpoint of the Azure Storage account that will host the App1 data must be prevented.\n\nAll Azure SQL databases in the production environment must have Transparent Data Encryption (TDE) enabled.\n\nApp1 must NOT share physical hardware with other workloads.\n\nBusiness Requirements -\n\nLitware identifies the following business requirements:\n\nMinimize administrative effort.\n\nMinimize costs.",
     "sourceExplanation": "",
-    "pedagogicalContext": "La correction du support retient « 2 ». Dans l’énoncé, le point à résoudre est : « You need to implement the Azure RBAC role assignments for the Network Contributor role. The solution must meet the authentication and » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "La correction du support retient « 2 ». Dans l’énoncé, le point à résoudre est : « You need to implement the Azure RBAC role assignments for the Network Contributor role. The solution must meet the authentication and » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "assetCrops": {
+      "assets/az305/AZ305-T8-Q4-p228-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 842,
+        "height": 394,
+        "sourceWidth": 842,
+        "sourceHeight": 394
+      }
+    }
   },
   {
     "id": "AZ305-T8-Q5",
@@ -10570,8 +13083,8 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Études de cas",
     "prompt": "You need to configure an Azure policy to ensure that the Azure SQL databases have Transparent Data Encryption (TDE) enabled. The solution must\n\nmeet the security and compliance requirements.\n\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and\n\narrange them in the correct order.\n\nSelect and Place:",
-    "solutionAnswer": "Create an Azure policy definition that uses the deployIfNotExists; Create an Azure policy assignment; Invoke a remediation task.",
-    "explanation": "Azure Policy évalue la conformité des ressources et peut imposer, auditer ou corriger une configuration. Les effets comme Modify ou DeployIfNotExists sont à distinguer selon qu’on modifie une propriété ou qu’on déploie une ressource/configuration manquante.",
+    "solutionAnswer": "Étape 1 : Create a policy definition using deployIfNotExists · Étape 2 : Create a policy assignment · Étape 3 : Invoke a remediation task",
+    "explanation": "Step 1: Create an Azure policy definition that uses the deployIfNotExists The first step is to define the roles that deployIfNotExists and modify needs in the policy definition to successfully deploy the content of your included template. Step 2: Create an Azure policy assignment When creating an assignment using the portal, Azure Policy both generates the managed identity and grants it the roles defined in roleDefinitionIds. Step 3: Invoke a remediation task. Resources that are non-compliant to a deployIfNotExists or modify policy can be put into a compliant state through Remediation. Remediation is accomplished by instructing Azure Policy to run the deployIfNotExists effect or the modify operations of the assigned policy on your existing resources and subscriptions, whether that assignment is to a management group, a subscription, a resource group, or an individual resource. During evaluation, the policy assignment with deployIfNotExists or modify effects determines if there are non-compliant resources or subscriptions. When non- compliant resources or subscriptions are found, the details are provided on the Remediation page.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10580,18 +13093,36 @@ window.AZ305_QUESTIONS = [
       "rows": [
         {
           "label": "Étape 1",
-          "choices": [],
-          "expected": "Create an Azure policy definition that uses the deployIfNotExists"
+          "choices": [
+            "Create a policy definition using deployIfNotExists",
+            "Invoke a remediation task",
+            "Create a policy definition using Modify",
+            "Create a policy assignment",
+            "Create a user-assigned managed identity"
+          ],
+          "expected": "Create a policy definition using deployIfNotExists"
         },
         {
           "label": "Étape 2",
-          "choices": [],
-          "expected": "Create an Azure policy assignment"
+          "choices": [
+            "Create a policy definition using deployIfNotExists",
+            "Invoke a remediation task",
+            "Create a policy definition using Modify",
+            "Create a policy assignment",
+            "Create a user-assigned managed identity"
+          ],
+          "expected": "Create a policy assignment"
         },
         {
           "label": "Étape 3",
-          "choices": [],
-          "expected": "Invoke a remediation task."
+          "choices": [
+            "Create a policy definition using deployIfNotExists",
+            "Invoke a remediation task",
+            "Create a policy definition using Modify",
+            "Create a policy assignment",
+            "Create a user-assigned managed identity"
+          ],
+          "expected": "Invoke a remediation task"
         }
       ]
     },
@@ -10613,13 +13144,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Create an Azure policy definition that uses the deployIfNotExists; Create an Azure policy assignment; Invoke a remediation task.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 231,
     "caseStudyId": "AZ305-T8",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nLitware, Inc. is a medium-sized finance company that has a main office in Boston.\n\nExisting Environment -\n\nIdentity Environment -\n\nThe network contains an Active Directory forest named litware.com that is linked to an Azure Active Directory (Azure AD) tenant named\n\nlitware.com. All users have Azure Active Directory Premium P2 licenses.\n\nLitware has a second Azure AD tenant named dev.litware.com that is used as a development environment.\n\nThe litware.com tenant has a Conditional Access policy named Capolicy1. Capolicy1 requires that when users manage the Azure subscription for\n\na production environment by using the Azure portal, they must connect from a hybrid Azure AD-joined device.\n\nAzure Environment -\n\nLitware has 10 Azure subscriptions that are linked to the Litware.com tenant and five Azure subscriptions that are linked to the dev.litware.com\n\ntenant. All the subscriptions are in an Enterprise Agreement (EA).\n\nThe litware.com tenant contains a custom Azure role-based access control (Azure RBAC) role named Role1 that grants the DataActions read\n\npermission to the blobs and files in Azure Storage.\n\nOn-Premises Environment -\n\nThe on-premises network of Litware contains the resources shown in the following table.\n\nNetwork Environment -\n\nLitware has ExpressRoute connectivity to Azure.\n\nPlanned Changes and Requirements\n\nPlanned Changes -\n\nLitware plans to implement the following changes:\n\nMigrate DB1 and DB2 to Azure.\n\nMigrate App1 to Azure virtual machines.\n\nMigrate the external storage used by App1 to Azure Storage.\n\nDeploy the Azure virtual machines that will host App1 to Azure dedicated hosts.\n\nAuthentication and Authorization Requirements\n\nLitware identifies the following authentication and authorization requirements:\n\nOnly users that manage the production environment by using the Azure portal must connect from a hybrid Azure AD-joined device and\n\nauthenticate by using\n\nAzure Multi-Factor Authentication (MFA).\n\nThe Network Contributor built-in RBAC role must be used to grant permissions to the network administrators for all the virtual networks in all the\n\nAzure subscriptions.\n\nTo access the resources in Azure, App1 must use the managed identity of the virtual machines that will host the app.\n\nRBAC roles must be applied to management groups.\n\nResiliency Requirements -\n\nLitware identifies the following resiliency requirements:\n\nOnce migrated to Azure, DB1 and DB2 must meet the following requirements:\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\n- Fail over automatically.\n\n- Minimize I/O latency.\n\nApp1 must meet the following requirements:\n\n- Be hosted in an Azure region that supports availability zones.\n\n- Be hosted on Azure virtual machines that support automatic scaling.\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\nSecurity and Compliance Requirements\n\nLitware identifies the following security and compliance requirements:\n\nOnce App1 is migrated to Azure, you must ensure that new data can be written to the app, and the modification of new and existing data is\n\nprevented for a period of three years.\n\nOn-premises users and services must be able to access the Azure Storage account that will host the data in App1.\n\nAccess to the public endpoint of the Azure Storage account that will host the App1 data must be prevented.\n\nAll Azure SQL databases in the production environment must have Transparent Data Encryption (TDE) enabled.\n\nApp1 must NOT share physical hardware with other workloads.\n\nBusiness Requirements -\n\nLitware identifies the following business requirements:\n\nMinimize administrative effort.\n\nMinimize costs.",
     "sourceExplanation": "Step 1: Create an Azure policy definition that uses the deployIfNotExists The first step is to define the roles that deployIfNotExists and modify needs in the policy definition to successfully deploy the content of your included template. Step 2: Create an Azure policy assignment When creating an assignment using the portal, Azure Policy both generates the managed identity and grants it the roles defined in roleDefinitionIds. Step 3: Invoke a remediation task. Resources that are non-compliant to a deployIfNotExists or modify policy can be put into a compliant state through Remediation. Remediation is accomplished by instructing Azure Policy to run the deployIfNotExists effect or the modify operations of the assigned policy on your existing resources and subscriptions, whether that assignment is to a management group, a subscription, a resource group, or an individual resource. During evaluation, the policy assignment with deployIfNotExists or modify effects determines if there are non-compliant resources or subscriptions. When non- compliant resources or subscriptions are found, the details are provided on the Remediation page.",
-    "pedagogicalContext": "Azure Policy évalue la conformité des ressources et peut imposer, auditer ou corriger une configuration. Les effets comme Modify ou DeployIfNotExists sont à distinguer selon qu’on modifie une propriété ou qu’on déploie une ressource/configuration manquante."
+    "pedagogicalContext": "Step 1: Create an Azure policy definition that uses the deployIfNotExists The first step is to define the roles that deployIfNotExists and modify needs in the policy definition to successfully deploy the content of your included template. Step 2: Create an Azure policy assignment When creating an assignment using the portal, Azure Policy both generates the managed identity and grants it the roles defined in roleDefinitionIds. Step 3: Invoke a remediation task. Resources that are non-compliant to a deployIfNotExists or modify policy can be put into a compliant state through Remediation. Remediation is accomplished by instructing Azure Policy to run the deployIfNotExists effect or the modify operations of the assigned policy on your existing resources and subscriptions, whether that assignment is to a management group, a subscription, a resource group, or an individual resource. During evaluation, the policy assignment with deployIfNotExists or modify effects determines if there are non-compliant resources or subscriptions. When non- compliant resources or subscriptions are found, the details are provided on the Remediation page.",
+    "assetCrops": {
+      "assets/az305/AZ305-T8-Q5-p231-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 842,
+        "height": 394,
+        "sourceWidth": 842,
+        "sourceHeight": 394
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T8-Q5-p233-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T9-Q1",
@@ -10628,8 +13173,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Études de cas",
     "prompt": "To meet the authentication requirements of Fabrikam, what should you include in the solution? To answer, select the appropriate options in the\n\nanswer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "1; 1; 2",
-    "explanation": "La correction du support retient « 1; 1; 2 ». Dans l’énoncé, le point à résoudre est : « To meet the authentication requirements of Fabrikam, what should you include in the solution? To answer, select the appropriate options in the » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin.",
+    "solutionAnswer": "Minimum Azure AD tenants : 1 · Minimum custom domains to add : 1 · Minimum Conditional Access policies : 2",
+    "explanation": "Box 1: 1 - One single Azure AD tenant is needed as only the Corp tenant is migrated. Box 2: 1 - Box 3: 2 - One conditional access policy for Multi-Factor Authentication (MFA) will be used for administative access, and a second conditional access policy in order to prevent external access.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10637,18 +13182,36 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Minimum Azure AD tenants",
+          "choices": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
           "expected": "1"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Minimum custom domains to add",
+          "choices": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
           "expected": "1"
         },
         {
-          "label": "Sélection 3",
-          "choices": [],
+          "label": "Minimum Conditional Access policies",
+          "choices": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
           "expected": "2"
         }
       ]
@@ -10674,13 +13237,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "1; 1; 2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 234,
     "caseStudyId": "AZ305-T9",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs. When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nFabrikam, Inc. is an engineering company that has offices throughout Europe. The company has a main office in London and three branch offices\n\nin Amsterdam,\n\nBerlin, and Rome.\n\nExisting Environment: Active Directory Environment\n\nThe network contains two Active Directory forests named corp.fabrikam.com and rd.fabrikam.com. There are no trust relationships between the\n\nforests.\n\nCorp.fabrikam.com is a production forest that contains identities used for internal user and computer authentication.\n\nRd.fabrikam.com is used by the research and development (R&D) department only. The R&D department is restricted to using on-premises\n\nresources only.\n\nExisting Environment: Network Infrastructure\n\nEach office contains at least one domain controller from the corp.fabrikam.com domain. The main office contains all the domain controllers for\n\nthe rd.fabrikam.com forest.\n\nAll the offices have a high-speed connection to the internet.\n\nAn existing application named WebApp1 is hosted in the data center of the London office. WebApp1 is used by customers to place and track\n\norders. WebApp1 has a web tier that uses Microsoft Internet Information Services (IIS) and a database tier that runs Microsoft SQL Server 2016.\n\nThe web tier and the database tier are deployed to virtual machines that run on Hyper-V.\n\nThe IT department currently uses a separate Hyper-V environment to test updates to WebApp1.\n\nFabrikam purchases all Microsoft licenses through a Microsoft Enterprise Agreement that includes Software Assurance.\n\nExisting Environment: Problem Statements\n\nThe use of WebApp1 is unpredictable. At peak times, users often report delays. At other times, many resources for WebApp1 are underutilized.\n\nRequirements: Planned Changes -\n\nFabrikam plans to move most of its production workloads to Azure during the next few years, including virtual machines that rely on Active\n\nDirectory for authentication.\n\nAs one of its first projects, the company plans to establish a hybrid identity model, facilitating an upcoming Microsoft 365 deployment.\n\nAll R&D operations will remain on-premises.\n\nFabrikam plans to migrate the production and test instances of WebApp1 to Azure.\n\nRequirements: Technical Requirements\n\nFabrikam identifies the following technical requirements:\n\nWebsite content must be easily updated from a single point.\n\nUser input must be minimized when provisioning new web app instances.\n\nWhenever possible, existing on-premises licenses must be used to reduce cost.\n\nUsers must always authenticate by using their corp.fabrikam.com UPN identity.\n\nAny new deployments to Azure must be redundant in case an Azure region fails.\n\nWhenever possible, solutions must be deployed to Azure by using the Standard pricing tier of Azure App Service.\n\nAn email distribution group named IT Support must be notified of any issues relating to the directory synchronization services.\n\nIn the event that a link fails between Azure and the on-premises network, ensure that the virtual machines hosted in Azure can authenticate to\n\nActive Directory.\n\nDirectory synchronization between Azure Active Directory (Azure AD) and corp.fabrikam.com must not be affected by a link failure between Azure\n\nand the on- premises network.\n\nRequirements: Database Requirements\n\nFabrikam identifies the following database requirements:\n\nDatabase metrics for the production instance of WebApp1 must be available for analysis so that database administrators can optimize the\n\nperformance settings.\n\nTo avoid disrupting customer access, database downtime must be minimized when databases are migrated.\n\nDatabase backups must be retained for a minimum of seven years to meet compliance requirements.\n\nRequirements: Security Requirements\n\nFabrikam identifies the following security requirements:\n\nCompany information including policies, templates, and data must be inaccessible to anyone outside the company.\n\nUsers on the on-premises network must be able to authenticate to corp.fabrikam.com if an internet link fails.\n\nAdministrators must be able authenticate to the Azure portal by using their corp.fabrikam.com credentials.\n\nAll administrative access to the Azure portal must be secured by using multi-factor authentication (MFA).\n\nThe testing of WebApp1 updates must not be visible to anyone outside the company.",
     "sourceExplanation": "Box 1: 1 - One single Azure AD tenant is needed as only the Corp tenant is migrated. Box 2: 1 - Box 3: 2 - One conditional access policy for Multi-Factor Authentication (MFA) will be used for administative access, and a second conditional access policy in order to prevent external access.",
-    "pedagogicalContext": "La correction du support retient « 1; 1; 2 ». Dans l’énoncé, le point à résoudre est : « To meet the authentication requirements of Fabrikam, what should you include in the solution? To answer, select the appropriate options in the » Pour mémoriser la réponse, rattachez d’abord la contrainte principale du scénario au service ou au niveau de service qui y répond, puis éliminez les options qui ne couvrent qu’une partie du besoin."
+    "pedagogicalContext": "Box 1: 1 - One single Azure AD tenant is needed as only the Corp tenant is migrated. Box 2: 1 - Box 3: 2 - One conditional access policy for Multi-Factor Authentication (MFA) will be used for administative access, and a second conditional access policy in order to prevent external access.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T9-Q1-p235-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T9-Q2",
@@ -10761,8 +13328,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Études de cas",
     "prompt": "What should you implement to meet the identity requirements? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Azure AD Identity Governance; Access reviews",
-    "explanation": "Les Access Reviews servent à réévaluer périodiquement des droits existants et peuvent retirer automatiquement les accès qui ne sont plus justifiés. C’est le mécanisme à reconnaître dès qu’un scénario demande une validation récurrente des autorisations.",
+    "solutionAnswer": "Service : Azure AD Identity Governance · Feature : Access reviews",
+    "explanation": "Requirements: Identity Requirements Contoso identifies the following requirements for managing Fabrikam access to resources: * Every month, an account manager at Fabrikam must review which Fabrikam users have access permissions to App1. Accounts that no longer need permissions must be removed as guests. * The solution must minimize development effort. Box 1: Azure AD Identity Governance Incorrect: Not PIM: Life Cycle Requirements must be met. Box 2: Access reviews - Azure Active Directory (Azure AD) access reviews enable organizations to efficiently manage group memberships, access to enterprise applications, and role assignments. User's access can be reviewed on a regular basis to make sure only the right people have continued access.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10770,13 +13337,23 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Service",
+          "choices": [
+            "Azure AD Identity Governance",
+            "Azure AD Identity Protection",
+            "Azure AD Privileged Identity Management (PIM)",
+            "Azure Automation"
+          ],
           "expected": "Azure AD Identity Governance"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Feature",
+          "choices": [
+            "Access packages",
+            "Access reviews",
+            "Approvals",
+            "Runbooks"
+          ],
           "expected": "Access reviews"
         }
       ]
@@ -10798,13 +13375,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure AD Identity Governance; Access reviews",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 241,
     "caseStudyId": "AZ305-T10",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs. When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nContoso, Ltd. is a research company that has a main office in Montreal.\n\nExisting Environment: Technical Environment\n\nThe on-premises network contains a single Active Directory domain named contoso.com.\n\nContoso has a single Azure subscription.\n\nExisting Environment: Business Partnerships\n\nContoso has a business partnership with Fabrikam, Inc. Fabrikam users access some Contoso applications over the internet by using Azure Active\n\nDirectory\n\n(Azure AD) guest accounts.\n\nRequirements: Planned Changes -\n\nContoso plans to deploy two applications named App1 and App2 to Azure.\n\nRequirements: App1 -\n\nApp1 will be a Python web app hosted in Azure App Service that requires a Linux runtime. Users from Contoso and Fabrikam will access App1.\n\nApp1 will access several services that require third-party credentials and access strings. The credentials and access strings are stored in Azure\n\nKey Vault.\n\nApp1 will have six instances: three in the East US Azure region and three in the West Europe Azure region.\n\nApp1 has the following data requirements:\n\nEach instance will write data to a data store in the same availability zone as the instance.\n\nData written by any App1 instance must be visible to all App1 instances.\n\nApp1 will only be accessible from the internet. App1 has the following connection requirements:\n\nConnections to App1 must pass through a web application firewall (WAF).\n\nConnections to App1 must be active-active load balanced between instances.\n\nAll connections to App1 from North America must be directed to the East US region. All other connections must be directed to the West Europe\n\nregion.\n\nEvery hour, you will run a maintenance task by invoking a PowerShell script that copies files from all the App1 instances. The PowerShell script\n\nwill run from a central location.\n\nRequirements: App2 -\n\nApp2 will be a .NET app hosted in App Service that requires a Windows runtime. App2 has the following file storage requirements:\n\nSave files to an Azure Storage account.\n\nReplicate files to an on-premises location.\n\nEnsure that on-premises clients can read the files over the LAN by using the SMB protocol.\n\nYou need to monitor App2 to analyze how long it takes to perform different transactions within the application. The solution must not require\n\nchanges to the application code.\n\nApplication Development Requirements\n\nApplication developers will constantly develop new versions of App1 and App2. The development process must meet the following requirements:\n\nA staging instance of a new application version must be deployed to the application host before the new version is used in production.\n\nAfter testing the new version, the staging version of the application will replace the production version.\n\nThe switch to the new application version from staging to production must occur without any downtime of the application.\n\nIdentity Requirements -\n\nContoso identifies the following requirements for managing Fabrikam access to resources:\n\nEvery month, an account manager at Fabrikam must review which Fabrikam users have access permissions to App1. Accounts that no longer\n\nneed permissions must be removed as guests.\n\nThe solution must minimize development effort.\n\nSecurity Requirement -\n\nAll secrets used by Azure services must be stored in Azure Key Vault.\n\nServices that require credentials must have the credentials tied to the service instance. The credentials must NOT be shared between services.",
     "sourceExplanation": "Requirements: Identity Requirements Contoso identifies the following requirements for managing Fabrikam access to resources: * Every month, an account manager at Fabrikam must review which Fabrikam users have access permissions to App1. Accounts that no longer need permissions must be removed as guests. * The solution must minimize development effort. Box 1: Azure AD Identity Governance Incorrect: Not PIM: Life Cycle Requirements must be met. Box 2: Access reviews - Azure Active Directory (Azure AD) access reviews enable organizations to efficiently manage group memberships, access to enterprise applications, and role assignments. User's access can be reviewed on a regular basis to make sure only the right people have continued access.",
-    "pedagogicalContext": "Les Access Reviews servent à réévaluer périodiquement des droits existants et peuvent retirer automatiquement les accès qui ne sont plus justifiés. C’est le mécanisme à reconnaître dès qu’un scénario demande une validation récurrente des autorisations."
+    "pedagogicalContext": "Requirements: Identity Requirements Contoso identifies the following requirements for managing Fabrikam access to resources: * Every month, an account manager at Fabrikam must review which Fabrikam users have access permissions to App1. Accounts that no longer need permissions must be removed as guests. * The solution must minimize development effort. Box 1: Azure AD Identity Governance Incorrect: Not PIM: Life Cycle Requirements must be met. Box 2: Access reviews - Azure Active Directory (Azure AD) access reviews enable organizations to efficiently manage group memberships, access to enterprise applications, and role assignments. User's access can be reviewed on a regular basis to make sure only the right people have continued access.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T10-Q1-p242-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T10-Q2",
@@ -10885,8 +13466,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Études de cas",
     "prompt": "You plan to migrate DB1 and DB2 to Azure.\n\nYou need to ensure that the Azure database and the service tier meet the resiliency and business requirements.\n\nWhat should you configure? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "An Azure SQL Database elastic pool; Business Critical",
-    "explanation": "Le niveau Business Critical d’Azure SQL Database privilégie les performances, la faible latence et la haute disponibilité grâce à plusieurs réplicas et un stockage local rapide.",
+    "solutionAnswer": "Database : An Azure SQL Database elastic pool · Service tier : Business Critical",
+    "explanation": "Box 1: An Azure SQL Database elastic pool Scenario: * Resiliency Requirements. Once migrated to Azure, DB1 and DB2 must meet the following requirements: Maintain availability if two availability zones in the local Azure region fail. Fail over automatically. Minimize I/O latency. * Litware identifies the following business requirements: Minimize administrative effort. Minimize costs. Box 2: Business Critical",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10894,13 +13475,21 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Database",
+          "choices": [
+            "A single Azure SQL database",
+            "Azure SQL Managed Instance",
+            "An Azure SQL Database elastic pool"
+          ],
           "expected": "An Azure SQL Database elastic pool"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Service tier",
+          "choices": [
+            "Hyperscale",
+            "Business Critical",
+            "General Purpose"
+          ],
           "expected": "Business Critical"
         }
       ]
@@ -10918,13 +13507,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "An Azure SQL Database elastic pool; Business Critical",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 248,
     "caseStudyId": "AZ305-T12",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nLitware, Inc. is a medium-sized finance company that has a main office in Boston.\n\nExisting Environment -\n\nIdentity Environment -\n\nThe network contains an Active Directory forest named litware.com that is linked to an Azure Active Directory (Azure AD) tenant named\n\nlitware.com. All users have Azure Active Directory Premium P2 licenses.\n\nLitware has a second Azure AD tenant named dev.litware.com that is used as a development environment.\n\nThe litware.com tenant has a Conditional Access policy named Capolicy1. Capolicy1 requires that when users manage the Azure subscription for\n\na production environment by using the Azure portal, they must connect from a hybrid Azure AD-joined device.\n\nAzure Environment -\n\nLitware has 10 Azure subscriptions that are linked to the Litware.com tenant and five Azure subscriptions that are linked to the dev.litware.com\n\ntenant. All the subscriptions are in an Enterprise Agreement (EA).\n\nThe litware.com tenant contains a custom Azure role-based access control (Azure RBAC) role named Role1 that grants the DataActions read\n\npermission to the blobs and files in Azure Storage.\n\nOn-Premises Environment -\n\nThe on-premises network of Litware contains the resources shown in the following table.\n\nNetwork Environment -\n\nLitware has ExpressRoute connectivity to Azure.\n\nPlanned Changes and Requirements\n\nPlanned Changes -\n\nLitware plans to implement the following changes:\n\nMigrate DB1 and DB2 to Azure.\n\nMigrate App1 to Azure virtual machines.\n\nMigrate the external storage used by App1 to Azure Storage.\n\nDeploy the Azure virtual machines that will host App1 to Azure dedicated hosts.\n\nAuthentication and Authorization Requirements\n\nLitware identifies the following authentication and authorization requirements:\n\nOnly users that manage the production environment by using the Azure portal must connect from a hybrid Azure AD-joined device and\n\nauthenticate by using\n\nAzure Multi-Factor Authentication (MFA).\n\nThe Network Contributor built-in RBAC role must be used to grant permissions to the network administrators for all the virtual networks in all the\n\nAzure subscriptions.\n\nTo access the resources in Azure, App1 must use the managed identity of the virtual machines that will host the app.\n\nRBAC roles must be applied to management groups.\n\nResiliency Requirements -\n\nLitware identifies the following resiliency requirements:\n\nOnce migrated to Azure, DB1 and DB2 must meet the following requirements:\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\n- Fail over automatically.\n\n- Minimize I/O latency.\n\nApp1 must meet the following requirements:\n\n- Be hosted in an Azure region that supports availability zones.\n\n- Be hosted on Azure virtual machines that support automatic scaling.\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\nSecurity and Compliance Requirements\n\nLitware identifies the following security and compliance requirements:\n\nOnce App1 is migrated to Azure, you must ensure that new data can be written to the app, and the modification of new and existing data is\n\nprevented for a period of three years.\n\nOn-premises users and services must be able to access the Azure Storage account that will host the data in App1.\n\nAccess to the public endpoint of the Azure Storage account that will host the App1 data must be prevented.\n\nAll Azure SQL databases in the production environment must have Transparent Data Encryption (TDE) enabled.\n\nApp1 must NOT share physical hardware with other workloads.\n\nBusiness Requirements -\n\nLitware identifies the following business requirements:\n\nMinimize administrative effort.\n\nMinimize costs.",
     "sourceExplanation": "Box 1: An Azure SQL Database elastic pool Scenario: * Resiliency Requirements. Once migrated to Azure, DB1 and DB2 must meet the following requirements: Maintain availability if two availability zones in the local Azure region fail. Fail over automatically. Minimize I/O latency. * Litware identifies the following business requirements: Minimize administrative effort. Minimize costs. Box 2: Business Critical",
-    "pedagogicalContext": "Le niveau Business Critical d’Azure SQL Database privilégie les performances, la faible latence et la haute disponibilité grâce à plusieurs réplicas et un stockage local rapide."
+    "pedagogicalContext": "Box 1: An Azure SQL Database elastic pool Scenario: * Resiliency Requirements. Once migrated to Azure, DB1 and DB2 must meet the following requirements: Maintain availability if two availability zones in the local Azure region fail. Fail over automatically. Minimize I/O latency. * Litware identifies the following business requirements: Minimize administrative effort. Minimize costs. Box 2: Business Critical",
+    "assetCrops": {
+      "assets/az305/AZ305-T12-Q1-p248-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 842,
+        "height": 394,
+        "sourceWidth": 842,
+        "sourceHeight": 394
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T12-Q1-p250-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T13-Q1",
@@ -10933,8 +13536,8 @@ window.AZ305_QUESTIONS = [
     "category": "DRAG DROP",
     "domain": "Études de cas",
     "prompt": "You need to recommend a solution that meets the file storage requirements for App2.\n\nWhat should you deploy to the Azure subscription and the on-premises network? To answer, drag the appropriate services to the correct locations.\n\nEach service may be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.\n\nSelect and Place:",
-    "solutionAnswer": "Azure Files; Azure File Sync",
-    "explanation": "Azure File Sync met en cache un partage Azure Files sur des serveurs Windows et synchronise les fichiers avec le cloud. Il permet de conserver une expérience de serveur de fichiers local tout en centralisant les données.",
+    "solutionAnswer": "Azure subscription : Azure Files · On-premises network : Azure File Sync",
+    "explanation": "Box 1: Azure Files - Scenario: App2 has the following file storage requirements: ✑ Save files to an Azure Storage account. ✑ Replicate files to an on-premises location. ✑ Ensure that on-premises clients can read the files over the LAN by using the SMB protocol. Box 2: Azure File Sync - Use Azure File Sync to centralize your organization's file shares in Azure Files, while keeping the flexibility, performance, and compatibility of an on-premises file server. Azure File Sync transforms Windows Server into a quick cache of your Azure file share. You can use any protocol that's available on Windows Server to access your data locally, including SMB, NFS, and FTPS. You can have as many caches as you need across the world.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10942,13 +13545,27 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Azure subscription",
+          "choices": [
+            "Azure Blob Storage",
+            "Azure Data Box",
+            "Azure Data Box Gateway",
+            "Azure Data Lake Storage",
+            "Azure File Sync",
+            "Azure Files"
+          ],
           "expected": "Azure Files"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "On-premises network",
+          "choices": [
+            "Azure Blob Storage",
+            "Azure Data Box",
+            "Azure Data Box Gateway",
+            "Azure Data Lake Storage",
+            "Azure File Sync",
+            "Azure Files"
+          ],
           "expected": "Azure File Sync"
         }
       ]
@@ -10970,13 +13587,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Azure Files; Azure File Sync",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 251,
     "caseStudyId": "AZ305-T13",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs. When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nContoso, Ltd. is a research company that has a main office in Montreal.\n\nExisting Environment: Technical Environment\n\nThe on-premises network contains a single Active Directory domain named contoso.com.\n\nContoso has a single Azure subscription.\n\nExisting Environment: Business Partnerships\n\nContoso has a business partnership with Fabrikam, Inc. Fabrikam users access some Contoso applications over the internet by using Azure Active\n\nDirectory\n\n(Azure AD) guest accounts.\n\nRequirements: Planned Changes -\n\nContoso plans to deploy two applications named App1 and App2 to Azure.\n\nRequirements: App1 -\n\nApp1 will be a Python web app hosted in Azure App Service that requires a Linux runtime. Users from Contoso and Fabrikam will access App1.\n\nApp1 will access several services that require third-party credentials and access strings. The credentials and access strings are stored in Azure\n\nKey Vault.\n\nApp1 will have six instances: three in the East US Azure region and three in the West Europe Azure region.\n\nApp1 has the following data requirements:\n\nEach instance will write data to a data store in the same availability zone as the instance.\n\nData written by any App1 instance must be visible to all App1 instances.\n\nApp1 will only be accessible from the internet. App1 has the following connection requirements:\n\nConnections to App1 must pass through a web application firewall (WAF).\n\nConnections to App1 must be active-active load balanced between instances.\n\nAll connections to App1 from North America must be directed to the East US region. All other connections must be directed to the West Europe\n\nregion.\n\nEvery hour, you will run a maintenance task by invoking a PowerShell script that copies files from all the App1 instances. The PowerShell script\n\nwill run from a central location.\n\nRequirements: App2 -\n\nApp2 will be a .NET app hosted in App Service that requires a Windows runtime. App2 has the following file storage requirements:\n\nSave files to an Azure Storage account.\n\nReplicate files to an on-premises location.\n\nEnsure that on-premises clients can read the files over the LAN by using the SMB protocol.\n\nYou need to monitor App2 to analyze how long it takes to perform different transactions within the application. The solution must not require\n\nchanges to the application code.\n\nApplication Development Requirements\n\nApplication developers will constantly develop new versions of App1 and App2. The development process must meet the following requirements:\n\nA staging instance of a new application version must be deployed to the application host before the new version is used in production.\n\nAfter testing the new version, the staging version of the application will replace the production version.\n\nThe switch to the new application version from staging to production must occur without any downtime of the application.\n\nIdentity Requirements -\n\nContoso identifies the following requirements for managing Fabrikam access to resources:\n\nEvery month, an account manager at Fabrikam must review which Fabrikam users have access permissions to App1. Accounts that no longer\n\nneed permissions must be removed as guests.\n\nThe solution must minimize development effort.\n\nSecurity Requirement -\n\nAll secrets used by Azure services must be stored in Azure Key Vault.\n\nServices that require credentials must have the credentials tied to the service instance. The credentials must NOT be shared between services.",
     "sourceExplanation": "Box 1: Azure Files - Scenario: App2 has the following file storage requirements: ✑ Save files to an Azure Storage account. ✑ Replicate files to an on-premises location. ✑ Ensure that on-premises clients can read the files over the LAN by using the SMB protocol. Box 2: Azure File Sync - Use Azure File Sync to centralize your organization's file shares in Azure Files, while keeping the flexibility, performance, and compatibility of an on-premises file server. Azure File Sync transforms Windows Server into a quick cache of your Azure file share. You can use any protocol that's available on Windows Server to access your data locally, including SMB, NFS, and FTPS. You can have as many caches as you need across the world.",
-    "pedagogicalContext": "Azure File Sync met en cache un partage Azure Files sur des serveurs Windows et synchronise les fichiers avec le cloud. Il permet de conserver une expérience de serveur de fichiers local tout en centralisant les données."
+    "pedagogicalContext": "Box 1: Azure Files - Scenario: App2 has the following file storage requirements: ✑ Save files to an Azure Storage account. ✑ Replicate files to an on-premises location. ✑ Ensure that on-premises clients can read the files over the LAN by using the SMB protocol. Box 2: Azure File Sync - Use Azure File Sync to centralize your organization's file shares in Azure Files, while keeping the flexibility, performance, and compatibility of an on-premises file server. Azure File Sync transforms Windows Server into a quick cache of your Azure file share. You can use any protocol that's available on Windows Server to access your data locally, including SMB, NFS, and FTPS. You can have as many caches as you need across the world.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T13-Q1-p252-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T13-Q2",
@@ -11020,8 +13641,8 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Études de cas",
     "prompt": "You are evaluating whether to use Azure Traffic Manager and Azure Application Gateway to meet the connection requirements for App1.\n\nWhat is the minimum numbers of instances required for each service? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "1; 2",
-    "explanation": "Application Gateway est un équilibreur de charge applicatif régional de couche 7. Avec WAF, il peut aussi protéger les applications HTTP(S) contre des attaques web courantes.",
+    "solutionAnswer": "Azure Traffic Manager : 1 · Azure Application Gateway : 2",
+    "explanation": "Box 1: 1 - App1 will only be accessible from the internet. App1 has the following connection requirements: ‫ג‬€¢ Connections to App1 must be active-active load balanced between instances. ‫ג‬€¢ All connections to App1 from North America must be directed to the East US region. All other connections must be directed to the West Europe region. App1 will have six instances: three in the East US Azure region and three in the West Europe Azure region. Note: Azure Traffic Manager is a DNS-based traffic load balancer. This service allows you to distribute traffic to your public facing applications across the global Azure regions. Box 2: 2 - For production workloads, run at least two gateway instances. A single Application Gateway deployment can run multiple instances of the gateway. Use one Application Gateway in East US Region, and one in the West Europe region.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -11029,13 +13650,23 @@ window.AZ305_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "choices": [],
+          "label": "Azure Traffic Manager",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "6"
+          ],
           "expected": "1"
         },
         {
-          "label": "Sélection 2",
-          "choices": [],
+          "label": "Azure Application Gateway",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "6"
+          ],
           "expected": "2"
         }
       ]
@@ -11057,13 +13688,17 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "1; 2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
+    "reviewedAt": "2026-10-08",
     "autoScorable": true,
     "sourcePage": 256,
     "caseStudyId": "AZ305-T14",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs. When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nContoso, Ltd. is a research company that has a main office in Montreal.\n\nExisting Environment: Technical Environment\n\nThe on-premises network contains a single Active Directory domain named contoso.com.\n\nContoso has a single Azure subscription.\n\nExisting Environment: Business Partnerships\n\nContoso has a business partnership with Fabrikam, Inc. Fabrikam users access some Contoso applications over the internet by using Azure Active\n\nDirectory\n\n(Azure AD) guest accounts.\n\nRequirements: Planned Changes -\n\nContoso plans to deploy two applications named App1 and App2 to Azure.\n\nRequirements: App1 -\n\nApp1 will be a Python web app hosted in Azure App Service that requires a Linux runtime. Users from Contoso and Fabrikam will access App1.\n\nApp1 will access several services that require third-party credentials and access strings. The credentials and access strings are stored in Azure\n\nKey Vault.\n\nApp1 will have six instances: three in the East US Azure region and three in the West Europe Azure region.\n\nApp1 has the following data requirements:\n\nEach instance will write data to a data store in the same availability zone as the instance.\n\nData written by any App1 instance must be visible to all App1 instances.\n\nApp1 will only be accessible from the internet. App1 has the following connection requirements:\n\nConnections to App1 must pass through a web application firewall (WAF).\n\nConnections to App1 must be active-active load balanced between instances.\n\nAll connections to App1 from North America must be directed to the East US region. All other connections must be directed to the West Europe\n\nregion.\n\nEvery hour, you will run a maintenance task by invoking a PowerShell script that copies files from all the App1 instances. The PowerShell script\n\nwill run from a central location.\n\nRequirements: App2 -\n\nApp2 will be a .NET app hosted in App Service that requires a Windows runtime. App2 has the following file storage requirements:\n\nSave files to an Azure Storage account.\n\nReplicate files to an on-premises location.\n\nEnsure that on-premises clients can read the files over the LAN by using the SMB protocol.\n\nYou need to monitor App2 to analyze how long it takes to perform different transactions within the application. The solution must not require\n\nchanges to the application code.\n\nApplication Development Requirements\n\nApplication developers will constantly develop new versions of App1 and App2. The development process must meet the following requirements:\n\nA staging instance of a new application version must be deployed to the application host before the new version is used in production.\n\nAfter testing the new version, the staging version of the application will replace the production version.\n\nThe switch to the new application version from staging to production must occur without any downtime of the application.\n\nIdentity Requirements -\n\nContoso identifies the following requirements for managing Fabrikam access to resources:\n\nEvery month, an account manager at Fabrikam must review which Fabrikam users have access permissions to App1. Accounts that no longer\n\nneed permissions must be removed as guests.\n\nThe solution must minimize development effort.\n\nSecurity Requirement -\n\nAll secrets used by Azure services must be stored in Azure Key Vault.\n\nServices that require credentials must have the credentials tied to the service instance. The credentials must NOT be shared between services.",
     "sourceExplanation": "Box 1: 1 - App1 will only be accessible from the internet. App1 has the following connection requirements: ‫ג‬€¢ Connections to App1 must be active-active load balanced between instances. ‫ג‬€¢ All connections to App1 from North America must be directed to the East US region. All other connections must be directed to the West Europe region. App1 will have six instances: three in the East US Azure region and three in the West Europe Azure region. Note: Azure Traffic Manager is a DNS-based traffic load balancer. This service allows you to distribute traffic to your public facing applications across the global Azure regions. Box 2: 2 - For production workloads, run at least two gateway instances. A single Application Gateway deployment can run multiple instances of the gateway. Use one Application Gateway in East US Region, and one in the West Europe region.",
-    "pedagogicalContext": "Application Gateway est un équilibreur de charge applicatif régional de couche 7. Avec WAF, il peut aussi protéger les applications HTTP(S) contre des attaques web courantes."
+    "pedagogicalContext": "Box 1: 1 - App1 will only be accessible from the internet. App1 has the following connection requirements: ‫ג‬€¢ Connections to App1 must be active-active load balanced between instances. ‫ג‬€¢ All connections to App1 from North America must be directed to the East US region. All other connections must be directed to the West Europe region. App1 will have six instances: three in the East US Azure region and three in the West Europe Azure region. Note: Azure Traffic Manager is a DNS-based traffic load balancer. This service allows you to distribute traffic to your public facing applications across the global Azure regions. Box 2: 2 - For production workloads, run at least two gateway instances. A single Application Gateway deployment can run multiple instances of the gateway. Use one Application Gateway in East US Region, and one in the West Europe region.",
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T14-Q1-p257-1-q.jpeg"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T15-Q1",
@@ -11072,14 +13707,33 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Études de cas",
     "prompt": "How should the migrated databases DB1 and DB2 be implemented in Azure?\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "Database : An Azure SQL Database elastic pool · Service tier : Business Critical",
+    "explanation": "Un elastic pool partage les ressources entre DB1 et DB2. Business Critical fournit la haute disponibilité et les réplicas requis par ce cas ; les paramètres du pool doivent aussi activer la redondance de zone demandée.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "Database",
+          "choices": [
+            "A single Azure SQL database",
+            "Azure SQL Managed Instance",
+            "An Azure SQL Database elastic pool"
+          ],
+          "expected": "An Azure SQL Database elastic pool"
+        },
+        {
+          "label": "Service tier",
+          "choices": [
+            "Hyperscale",
+            "Business Critical",
+            "General Purpose"
+          ],
+          "expected": "Business Critical"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T15-Q1-p259-1-q.png",
@@ -11094,13 +13748,27 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 259,
     "caseStudyId": "AZ305-T15",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nLitware, Inc. is a medium-sized finance company that has a main office in Boston.\n\nExisting Environment -\n\nIdentity Environment -\n\nThe network contains an Active Directory forest named litware.com that is linked to an Azure Active Directory (Azure AD) tenant named\n\nlitware.com. All users have Azure Active Directory Premium P2 licenses.\n\nLitware has a second Azure AD tenant named dev.litware.com that is used as a development environment.\n\nThe litware.com tenant has a Conditional Access policy named Capolicy1. Capolicy1 requires that when users manage the Azure subscription for\n\na production environment by using the Azure portal, they must connect from a hybrid Azure AD-joined device.\n\nAzure Environment -\n\nLitware has 10 Azure subscriptions that are linked to the Litware.com tenant and five Azure subscriptions that are linked to the dev.litware.com\n\ntenant. All the subscriptions are in an Enterprise Agreement (EA).\n\nThe litware.com tenant contains a custom Azure role-based access control (Azure RBAC) role named Role1 that grants the DataActions read\n\npermission to the blobs and files in Azure Storage.\n\nOn-Premises Environment -\n\nThe on-premises network of Litware contains the resources shown in the following table.\n\nNetwork Environment -\n\nLitware has ExpressRoute connectivity to Azure.\n\nPlanned Changes and Requirements\n\nPlanned Changes -\n\nLitware plans to implement the following changes:\n\nMigrate DB1 and DB2 to Azure.\n\nMigrate App1 to Azure virtual machines.\n\nMigrate the external storage used by App1 to Azure Storage.\n\nDeploy the Azure virtual machines that will host App1 to Azure dedicated hosts.\n\nAuthentication and Authorization Requirements\n\nLitware identifies the following authentication and authorization requirements:\n\nOnly users that manage the production environment by using the Azure portal must connect from a hybrid Azure AD-joined device and\n\nauthenticate by using\n\nAzure Multi-Factor Authentication (MFA).\n\nThe Network Contributor built-in RBAC role must be used to grant permissions to the network administrators for all the virtual networks in all the\n\nAzure subscriptions.\n\nTo access the resources in Azure, App1 must use the managed identity of the virtual machines that will host the app.\n\nRBAC roles must be applied to management groups.\n\nResiliency Requirements -\n\nLitware identifies the following resiliency requirements:\n\nOnce migrated to Azure, DB1 and DB2 must meet the following requirements:\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\n- Fail over automatically.\n\n- Minimize I/O latency.\n\nApp1 must meet the following requirements:\n\n- Be hosted in an Azure region that supports availability zones.\n\n- Be hosted on Azure virtual machines that support automatic scaling.\n\n- Maintain availability if two availability zones in the local Azure region fail.\n\nSecurity and Compliance Requirements\n\nLitware identifies the following security and compliance requirements:\n\nOnce App1 is migrated to Azure, you must ensure that new data can be written to the app, and the modification of new and existing data is\n\nprevented for a period of three years.\n\nOn-premises users and services must be able to access the Azure Storage account that will host the data in App1.\n\nAccess to the public endpoint of the Azure Storage account that will host the App1 data must be prevented.\n\nAll Azure SQL databases in the production environment must have Transparent Data Encryption (TDE) enabled.\n\nApp1 must NOT share physical hardware with other workloads.\n\nBusiness Requirements -\n\nLitware identifies the following business requirements:\n\nMinimize administrative effort.\n\nMinimize costs.",
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Un elastic pool partage les ressources entre DB1 et DB2. Business Critical fournit la haute disponibilité et les réplicas requis par ce cas ; les paramètres du pool doivent aussi activer la redondance de zone demandée.",
+    "assetCrops": {
+      "assets/az305/AZ305-T15-Q1-p259-1-q.png": {
+        "x": 0,
+        "y": 0,
+        "width": 842,
+        "height": 394,
+        "sourceWidth": 842,
+        "sourceHeight": 394
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T15-Q1-p261-1-q.png"
+    ],
+    "nativeCorrection": true
   },
   {
     "id": "AZ305-T16-Q1",
@@ -11109,14 +13777,39 @@ window.AZ305_QUESTIONS = [
     "category": "HOTSPOT",
     "domain": "Études de cas",
     "prompt": "You design a solution for the web tier of WebApp1 as shown in the exhibit.\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\n\nNOTE: Each correct selection is worth one point.\n\nHot Area:",
-    "solutionAnswer": "Voir l’illustration de correction du document source.",
-    "explanation": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation.",
+    "solutionAnswer": "The design supports redundancy requirements : Yes · The design supports autoscaling : Yes · Manual configuration if an Azure region fails : No",
+    "explanation": "Le schéma répartit les instances entre les zones et régions et utilise des services de répartition capables de retirer les backends indisponibles. L’autoscale ajuste les instances ; un basculement régional peut donc se produire sans reconfiguration manuelle des clients.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "self",
-      "label": "Votre réponse"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "The design supports redundancy requirements",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "Yes"
+        },
+        {
+          "label": "The design supports autoscaling",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "Yes"
+        },
+        {
+          "label": "Manual configuration if an Azure region fails",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "No"
+        }
+      ]
     },
     "assets": [
       "assets/az305/AZ305-T16-Q1-p263-1-q.jpeg",
@@ -11131,12 +13824,26 @@ window.AZ305_QUESTIONS = [
     "originalAnswer": "Voir l’illustration de correction du document source.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null,
-    "autoScorable": false,
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
     "sourcePage": 262,
     "caseStudyId": "AZ305-T16",
     "caseContext": "Introductory Info\n\nCase Study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs. When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nFabrikam, Inc. is an engineering company that has offices throughout Europe. The company has a main office in London and three branch offices\n\nin Amsterdam,\n\nBerlin, and Rome.\n\nExisting Environment: Active Directory Environment\n\nThe network contains two Active Directory forests named corp.fabrikam.com and rd.fabrikam.com. There are no trust relationships between the\n\nforests.\n\nCorp.fabrikam.com is a production forest that contains identities used for internal user and computer authentication.\n\nRd.fabrikam.com is used by the research and development (R&D) department only. The R&D department is restricted to using on-premises\n\nresources only.\n\nExisting Environment: Network Infrastructure\n\nEach office contains at least one domain controller from the corp.fabrikam.com domain. The main office contains all the domain controllers for\n\nthe rd.fabrikam.com forest.\n\nAll the offices have a high-speed connection to the internet.\n\nAn existing application named WebApp1 is hosted in the data center of the London office. WebApp1 is used by customers to place and track\n\norders. WebApp1 has a web tier that uses Microsoft Internet Information Services (IIS) and a database tier that runs Microsoft SQL Server 2016.\n\nThe web tier and the database tier are deployed to virtual machines that run on Hyper-V.\n\nThe IT department currently uses a separate Hyper-V environment to test updates to WebApp1.\n\nFabrikam purchases all Microsoft licenses through a Microsoft Enterprise Agreement that includes Software Assurance.\n\nExisting Environment: Problem Statements\n\nThe use of WebApp1 is unpredictable. At peak times, users often report delays. At other times, many resources for WebApp1 are underutilized.\n\nRequirements: Planned Changes -\n\nFabrikam plans to move most of its production workloads to Azure during the next few years, including virtual machines that rely on Active\n\nDirectory for authentication.\n\nAs one of its first projects, the company plans to establish a hybrid identity model, facilitating an upcoming Microsoft 365 deployment.\n\nAll R&D operations will remain on-premises.\n\nFabrikam plans to migrate the production and test instances of WebApp1 to Azure.\n\nRequirements: Technical Requirements\n\nFabrikam identifies the following technical requirements:\n\nWebsite content must be easily updated from a single point.\n\nUser input must be minimized when provisioning new web app instances.\n\nWhenever possible, existing on-premises licenses must be used to reduce cost.\n\nUsers must always authenticate by using their corp.fabrikam.com UPN identity.\n\nAny new deployments to Azure must be redundant in case an Azure region fails.\n\nWhenever possible, solutions must be deployed to Azure by using the Standard pricing tier of Azure App Service.\n\nAn email distribution group named IT Support must be notified of any issues relating to the directory synchronization services.\n\nIn the event that a link fails between Azure and the on-premises network, ensure that the virtual machines hosted in Azure can authenticate to\n\nActive Directory.\n\nDirectory synchronization between Azure Active Directory (Azure AD) and corp.fabrikam.com must not be affected by a link failure between Azure\n\nand the on- premises network.\n\nRequirements: Database Requirements\n\nFabrikam identifies the following database requirements:\n\nDatabase metrics for the production instance of WebApp1 must be available for analysis so that database administrators can optimize the\n\nperformance settings.\n\nTo avoid disrupting customer access, database downtime must be minimized when databases are migrated.\n\nDatabase backups must be retained for a minimum of seven years to meet compliance requirements.\n\nRequirements: Security Requirements\n\nFabrikam identifies the following security requirements:\n\nCompany information including policies, templates, and data must be inaccessible to anyone outside the company.\n\nUsers on the on-premises network must be able to authenticate to corp.fabrikam.com if an internet link fails.\n\nAdministrators must be able authenticate to the Azure portal by using their corp.fabrikam.com credentials.\n\nAll administrative access to the Azure portal must be secured by using multi-factor authentication (MFA).\n\nThe testing of WebApp1 updates must not be visible to anyone outside the company.",
     "sourceExplanation": "",
-    "pedagogicalContext": "Cette question dépend d’un schéma, d’un tableau ou d’une zone interactive. Utilisez d’abord les contraintes visibles dans l’illustration, puis comparez vos choix avec la correction graphique révélée après validation."
+    "pedagogicalContext": "Le schéma répartit les instances entre les zones et régions et utilise des services de répartition capables de retirer les backends indisponibles. L’autoscale ajuste les instances ; un basculement régional peut donc se produire sans reconfiguration manuelle des clients.",
+    "assetCrops": {
+      "assets/az305/AZ305-T16-Q1-p263-1-q.jpeg": {
+        "x": 0,
+        "y": 0,
+        "width": 412,
+        "height": 299,
+        "sourceWidth": 412,
+        "sourceHeight": 299
+      }
+    },
+    "answerAreaAssets": [
+      "assets/az305/AZ305-T16-Q1-p263-2-q.png"
+    ],
+    "nativeCorrection": true
   }
 ];

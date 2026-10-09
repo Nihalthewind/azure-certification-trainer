@@ -10,6 +10,8 @@ const entries = [
   "docs/product.md",
   "docs/architecture.md",
   "docs/design-system.md",
+  "docs/source-content-audit.md",
+  "src/ui/patterns/document-reader/README.md",
   "docs/deployment.md",
   "docs/roadmap.md",
   "docs/branching.md",

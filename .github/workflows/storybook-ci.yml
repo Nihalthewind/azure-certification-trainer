@@ -39,6 +39,8 @@ jobs:
         run: npm run test:corrections
       - name: Test Cloud Interactive corrections
         run: npm run test:cloud
+      - name: Test source choices and document navigation
+        run: npm run test:content
       - name: Build production application
         run: npm run build:pages
       - name: Test application under Pages subpath

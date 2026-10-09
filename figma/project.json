@@ -6,7 +6,7 @@
   "branch": "storybook",
   "appVersion": "3.2.0",
   "source": {
-    "codeSha256": "b3165432c8b77163a8b2be1f051e0d4e2fee1dccba0f85adc12c849b29f3a6ca",
+    "codeSha256": "86b30bfde2391a0b6ef1b20048d490c38e37be7ea020b8645c821aadb5723532",
     "hashAlgorithm": "SHA-256 of sorted path + NUL + UTF-8 content normalized to LF + NUL",
     "files": [
       ".storybook/main.js",
@@ -16,15 +16,20 @@
       "assets/favicon.svg",
       "atelier.css",
       "atelier.js",
+      "az305_questions.js",
+      "docs/source-content-audit.md",
       "index.html",
       "package.json",
+      "questions.js",
       "scripts/export-figma-ui.mjs",
       "scripts/generate-app-icons.mjs",
       "scripts/verify-account-clarity.mjs",
       "scripts/verify-cloud-interactive.mjs",
+      "scripts/verify-docs.mjs",
       "scripts/verify-learning-workflow.mjs",
       "scripts/verify-pages.mjs",
       "scripts/verify-product-corrections.mjs",
+      "scripts/verify-source-content.mjs",
       "scripts/verify-training-flow.mjs",
       "scripts/verify-training-workspace.mjs",
       "scripts/verify-ui-integration.mjs",
@@ -100,6 +105,7 @@
       "src/ui/patterns/document-reader/README.md",
       "src/ui/patterns/document-reader/document-reader.css",
       "src/ui/patterns/document-reader/document-reader.js",
+      "src/ui/patterns/document-reader/source-illustration.js",
       "src/ui/patterns/exam-introduction/exam-introduction.css",
       "src/ui/patterns/exam-introduction/exam-introduction.js",
       "src/ui/patterns/first-run-experience/README.md",
@@ -298,10 +304,12 @@
     "documentReader": {
       "light": {
         "390": "305:352",
+        "768": "431:14347",
         "1440": "296:3219"
       },
       "dark": {
         "390": "305:571",
+        "768": "431:14660",
         "1440": "305:2"
       }
     }
@@ -939,5 +947,37 @@
       "light": "409:14129",
       "dark": "409:15148"
     }
+  },
+  "sourceContentRevision": {
+    "date": "2026-10-09",
+    "audit": "docs/source-content-audit.md",
+    "test": "npm run test:content",
+    "questions": 854,
+    "nativeChoiceRepairs": 165,
+    "explanationRepairs": 215,
+    "sourceViewports": 385,
+    "answerOnlyIllustrationsHidden": 108
+  },
+  "documentReader": {
+    "fixture": "T2-Q88",
+    "sourceBank": "questions.js",
+    "hand": "Pointer and touch drag; keyboard arrows; preserves question navigation",
+    "zoom": "0.5–4; preserves visible center; fit resets viewport",
+    "illustrations": "Same original raster and crop metadata in application and stories",
+    "stories": [
+      "Image",
+      "Dark",
+      "Mobile",
+      "MobileDark",
+      "Tablet",
+      "TabletDark",
+      "Zoomed",
+      "HandDisabled"
+    ],
+    "viewports": [
+      390,
+      768,
+      1440
+    ]
   }
 }

@@ -1,6 +1,6 @@
 # Design System
 
-Figma = source visuelle ; Storybook = code démontré ; repository = source technique. **Cloud Interactive / Study Workspace** : [Figma](https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT), [registre](../figma/project.json).
+Figma = source visuelle ; Storybook = code démontré ; repository = source technique. **Cloud Interactive / Study Workspace** : [Figma](https://www.figma.com/design/jKDnAtVtPXQvQ74xVNFUeT), [registre](../figma/project.json). Lecteur avec outil Main et supports recadrés : [audit du contenu source](source-content-audit.md).
 
 ## Tokens
 

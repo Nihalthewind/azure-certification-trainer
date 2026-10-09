@@ -17,7 +17,8 @@
     "check:docs": "node scripts/verify-docs.mjs",
     "test:corrections": "node scripts/verify-product-corrections.mjs",
     "test:cloud": "node scripts/verify-cloud-interactive.mjs",
-    "test:training": "node scripts/verify-training-flow.mjs"
+    "test:training": "node scripts/verify-training-flow.mjs",
+    "test:content": "node scripts/verify-source-content.mjs"
   },
   "repository": {
     "type": "git",

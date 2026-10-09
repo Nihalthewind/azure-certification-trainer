@@ -44,7 +44,7 @@ for(const [fr,en] of Object.entries({
 for(const [source,translation] of Object.entries({"Drapeau ajouté.":"Review mark added.","Drapeau mis à jour.":"Review mark updated.","Drapeau retiré.":"Review mark removed.","Ajoutée aux favoris.":"Added to favorites.","Retirée des favoris.":"Removed from favorites.","Note enregistrée.":"Note saved.","Note supprimée.":"Note deleted.","Progression importée avec succès.":"Progress imported successfully.","Sauvegarde complète restaurée.":"Full backup restored.","Aucune question dans cette sélection.":"No questions in this selection.","Azure Trainer est déjà installée.":"Azure Trainer is already installed.","Opération impossible.":"Operation unavailable."}))labels.set(source,translation);
 labels.set('Domaine de révision','Review domain');
 
-for(const [fr,en] of Object.entries({'Lecteur de support':'Support reader','Support source':'Source document','Fermer le lecteur':'Close reader','Zoom −':'Zoom −','Zoom +':'Zoom +','Ajuster':'Fit','Progression de la formation':'Course progress'}))labels.set(fr,en);
+for(const [fr,en] of Object.entries({'Lecteur de support':'Support reader','Support source':'Source document','Fermer le lecteur':'Close reader','Main':'Hand','Outil main : déplacer le document':'Hand tool: move the document','Document : glisser ou utiliser les flèches pour naviguer':'Document: drag or use arrow keys to navigate','Zoom −':'Zoom −','Zoom +':'Zoom +','Ajuster':'Fit','Progression de la formation':'Course progress'}))labels.set(fr,en);
 
 labels.set("Filtres de l’entraînement", "Training filters");
 

@@ -171,7 +171,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "Note: The question is included in a number of questions that depicts the identical set-up. However, every question has a distinctive result.\n\nEstablish if the solution satisfies the requirements.\n\nYour company makes use of Multi-Factor Authentication for when users are not in the office. The Per Authentication option has been configured\n\nas the usage model.\n\nAfter the acquisition of a smaller business and the addition of the new staff to Azure Active Directory (Azure AD) obtains a different company and\n\nadding the new employees to Azure Active Directory (Azure AD), you are informed that these employees should also make use of Multi-Factor\n\nAuthentication.\n\nTo achieve this, the Per Enabled User setting must be set for the usage model.\n\nSolution: You reconfigure the existing usage model via the Azure portal.\n\nDoes the solution meet the goal?",
     "solutionAnswer": "No",
-    "explanation": "Conditional Access évalue des signaux comme l’utilisateur, la localisation et l’état de l’appareil, puis applique des contrôles d’accès tels que MFA ou l’exigence d’un appareil conforme/joint. Modifier seulement un paramètre MFA ou un contrôle de session ne remplace pas cette logique.",
+    "explanation": "Ce scénario concerne les anciens fournisseurs MFA avec facturation Per Authentication ou Per Enabled User. Le modèle d’un fournisseur existant ne se modifiait pas dans le portail ni via la CLI : il fallait créer un nouveau fournisseur. Ce mécanisme historique ne doit pas être confondu avec une stratégie Conditional Access actuelle.",
     "options": [
       "Yes",
       "No"
@@ -193,7 +193,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T1-Q7",
@@ -203,7 +203,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "Note: The question is included in a number of questions that depicts the identical set-up. However, every question has a distinctive result.\n\nEstablish if the solution satisfies the requirements.\n\nYour company's Azure solution makes use of Multi-Factor Authentication for when users are not in the office. The Per Authentication option has\n\nbeen configured as the usage model.\n\nAfter the acquisition of a smaller business and the addition of the new staff to Azure Active Directory (Azure AD) obtains a different company and\n\nadding the new employees to Azure Active Directory (Azure AD), you are informed that these employees should also make use of Multi-Factor\n\nAuthentication.\n\nTo achieve this, the Per Enabled User setting must be set for the usage model.\n\nSolution: You reconfigure the existing usage model via the Azure CLI.\n\nDoes the solution meet the goal?",
     "solutionAnswer": "No",
-    "explanation": "Conditional Access évalue des signaux comme l’utilisateur, la localisation et l’état de l’appareil, puis applique des contrôles d’accès tels que MFA ou l’exigence d’un appareil conforme/joint. Modifier seulement un paramètre MFA ou un contrôle de session ne remplace pas cette logique.",
+    "explanation": "Ce scénario concerne les anciens fournisseurs MFA avec facturation Per Authentication ou Per Enabled User. Le modèle d’un fournisseur existant ne se modifiait pas dans le portail ni via la CLI : il fallait créer un nouveau fournisseur. Ce mécanisme historique ne doit pas être confondu avec une stratégie Conditional Access actuelle.",
     "options": [
       "Yes",
       "No"
@@ -225,7 +225,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T1-Q8",
@@ -563,7 +563,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "Your company has an Azure subscription.\n\nYou need to deploy a number of Azure virtual machines (VMs) using Azure Resource Manager (ARM) templates. You have been informed that the\n\nVMs will be included in a single availability set.\n\nYou are required to make sure that the ARM template you configure allows for as many VMs as possible to remain accessible in the event of fabric\n\nfailure or maintenance.\n\nWhich of the following is the value that you should configure for the platformFaultDomainCount property?",
     "solutionAnswer": "Max Value",
-    "explanation": "Conditional Access évalue des signaux comme l’utilisateur, la localisation et l’état de l’appareil, puis applique des contrôles d’accès tels que MFA ou l’exigence d’un appareil conforme/joint. Modifier seulement un paramètre MFA ou un contrôle de session ne remplace pas cette logique.",
+    "explanation": "Les fault domains séparent les VM sur des infrastructures physiques distinctes. Choisir le nombre maximal pris en charge par la région limite les VM affectées par une défaillance matérielle dans cet availability set.",
     "options": [
       "10",
       "30",
@@ -578,7 +578,7 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Availability sets overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview"
       }
     ],
@@ -587,7 +587,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Max Value",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T1-Q19",
@@ -597,7 +597,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "Your company has an Azure subscription.\n\nYou need to deploy a number of Azure virtual machines (VMs) using Azure Resource Manager (ARM) templates. You have been informed that the\n\nVMs will be included in a single availability set.\n\nYou are required to make sure that the ARM template you configure allows for as many VMs as possible to remain accessible in the event of fabric\n\nfailure or maintenance.\n\nWhich of the following is the value that you should configure for the platformUpdateDomainCount property?",
     "solutionAnswer": "20",
-    "explanation": "Les déploiements ARM sont enregistrés au niveau du scope de déploiement, ici le resource group. L’historique des deployments permet de revoir le template et les paramètres utilisés pour plusieurs ressources.",
+    "explanation": "Les update domains séparent les VM redémarrées lors de la maintenance planifiée. Un availability set accepte jusqu’à 20 update domains ; ce maximum répartit les interruptions entre davantage de groupes.",
     "options": [
       "10",
       "20",
@@ -612,7 +612,7 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Availability sets overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview"
       }
     ],
@@ -621,7 +621,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "20",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T1-Q20",
@@ -799,7 +799,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Coffre hébergeant la configuration Site Recovery : Azure Recovery Services vault · Source Hyper-V à inscrire : Hyper-V site · Paramètres de réplication : Replication policy",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T1-Q23-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1170,
+        "height": 205,
+        "sourceWidth": 1404,
+        "sourceHeight": 1019
+      }
+    }
   },
   {
     "id": "T1-Q24",
@@ -841,7 +851,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: The question is included in a number of questions that depicts the identical set-up. However, every question has a distinctive result.\n\nEstablish if the solution satisfies the requirements.\n\nYour company's Azure subscription includes two Azure networks named VirtualNetworkA and VirtualNetworkB.\n\nVirtualNetworkA includes a VPN gateway that is configured to make use of static routing. Also, a site-to-site VPN connection exists between your\n\ncompany's on- premises network and VirtualNetworkA.\n\nYou have configured a point-to-site VPN connection to VirtualNetworkA from a workstation running Windows 10. After configuring virtual network\n\npeering between\n\nVirtualNetworkA and VirtualNetworkB, you confirm that you are able to access VirtualNetworkB from the company's on-premises network.\n\nHowever, you find that you cannot establish a connection to VirtualNetworkB from the Windows 10 workstation.\n\nYou have to make sure that a connection to VirtualNetworkB can be established from the Windows 10 workstation.\n\nSolution: You choose the Allow gateway transit setting on VirtualNetworkB.\n\nDoes the solution meet the goal?",
     "solutionAnswer": "No",
-    "explanation": "Un VPN Point-to-Site connecte un poste client individuel au réseau virtuel Azure. C’est le modèle adapté aux utilisateurs distants, contrairement au Site-to-Site qui relie des réseaux entiers.",
+    "explanation": "Allow gateway transit doit être activé sur le réseau qui possède la passerelle, VirtualNetworkA. Le configurer sur VirtualNetworkB ne met pas à jour les routes du client Point-to-Site ; cette proposition ne résout donc pas le problème.",
     "options": [
       "Yes",
       "No"
@@ -863,7 +873,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T1-Q26",
@@ -873,7 +883,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: The question is included in a number of questions that depicts the identical set-up. However, every question has a distinctive result.\n\nEstablish if the solution satisfies the requirements.\n\nYour company's Azure subscription includes two Azure networks named VirtualNetworkA and VirtualNetworkB.\n\nVirtualNetworkA includes a VPN gateway that is configured to make use of static routing. Also, a site-to-site VPN connection exists between your\n\ncompany's on- premises network and VirtualNetworkA.\n\nYou have configured a point-to-site VPN connection to VirtualNetworkA from a workstation running Windows 10. After configuring virtual network\n\npeering between\n\nVirtualNetworkA and VirtualNetworkB, you confirm that you are able to access VirtualNetworkB from the company's on-premises network.\n\nHowever, you find that you cannot establish a connection to VirtualNetworkB from the Windows 10 workstation.\n\nYou have to make sure that a connection to VirtualNetworkB can be established from the Windows 10 workstation.\n\nSolution: You download and re-install the VPN client configuration package on the Windows 10 workstation.\n\nDoes the solution meet the goal?",
     "solutionAnswer": "Yes",
-    "explanation": "Un VPN Point-to-Site connecte un poste client individuel au réseau virtuel Azure. C’est le modèle adapté aux utilisateurs distants, contrairement au Site-to-Site qui relie des réseaux entiers.",
+    "explanation": "Après l’ajout du peering, télécharger puis réinstaller le package VPN client actualise les routes Point-to-Site, notamment vers le réseau pair. La connectivité Site-to-Site déjà fonctionnelle ne prouve pas que les routes du poste client sont à jour.",
     "options": [
       "Yes",
       "No"
@@ -895,7 +905,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Yes",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T1-Q27",
@@ -1418,7 +1428,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ajouter un backend pool à LB1 : Network Contributor on LB1 · Ajouter une health probe à LB2 : Network Contributor on LB2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T2-Q1-1.jpg": {
+        "x": 116,
+        "y": 112,
+        "width": 1114,
+        "height": 165,
+        "sourceWidth": 1404,
+        "sourceHeight": 1315
+      }
+    }
   },
   {
     "id": "T2-Q2",
@@ -1510,9 +1530,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "User3 can perform an access review of User1",
+        "User3 can perform an access review of UserA",
+        "User3 can perform an access review of UserB"
       ]
     },
     "assets": [
@@ -1530,7 +1550,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Non · Ligne 2 du tableau : Non · Ligne 3 du tableau : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q4-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1020,
+        "height": 1373,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T2-Q4-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 552
+      }
+    }
   },
   {
     "id": "T2-Q5",
@@ -1552,9 +1590,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "You can create a virtual network in Subscription1.",
+        "You can create a virtual machine in Subscription2.",
+        "You can add Subscription1 to ManagementGroup1."
       ]
     },
     "assets": [
@@ -1571,7 +1609,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Non · Ligne 2 du tableau : Non · Ligne 3 du tableau : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q5-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 945,
+        "height": 588,
+        "sourceWidth": 1404,
+        "sourceHeight": 1435
+      }
+    }
   },
   {
     "id": "T2-Q6",
@@ -1607,7 +1655,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "You can create Azure SQL servers in ContosoRG1 only.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T2-Q6-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1102,
+        "height": 970,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T2-Q7",
@@ -1660,7 +1718,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Balises de VNET1 sans tâche de remédiation : Department: D1 only · Balises de VNET2 créé après la règle : Label: Value1 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T2-Q7-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1013,
+        "height": 574,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T2-Q8",
@@ -1696,7 +1764,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "VM1, storage1, VNET1, and VM1Managed only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T2-Q8-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 833,
+        "height": 316,
+        "sourceWidth": 1404,
+        "sourceHeight": 670
+      }
+    }
   },
   {
     "id": "T2-Q9",
@@ -1706,7 +1784,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You recently created a new Azure subscription that contains a user named Admin1.\n\nAdmin1 attempts to deploy an Azure Marketplace resource by using an Azure Resource Manager template. Admin1 deploys the template by using\n\nAzure\n\nPowerShell and receives the following error message: `User failed validation to purchase resources. Error message: `Legal terms have not been\n\naccepted for this item on this subscription. To accept legal terms, please go to the Azure portal (http://go.microsoft.com/fwlink/?LinkId=534873)\n\nand configure programmatic deployment for the Marketplace item or create it there for the first time.`\n\nYou need to ensure that Admin1 can deploy the Marketplace resource successfully.\n\nWhat should you do?",
     "solutionAnswer": "From Azure PowerShell, run the Set-AzMarketplaceTerms cmdlet",
-    "explanation": "Les déploiements ARM sont enregistrés au niveau du scope de déploiement, ici le resource group. L’historique des deployments permet de revoir le template et les paramètres utilisés pour plusieurs ressources.",
+    "explanation": "L’erreur indique que les conditions légales de l’offre Marketplace n’ont pas été acceptées pour cet abonnement. Set-AzMarketplaceTerms accepte ces conditions avant le déploiement programmatique ; changer les permissions du template ne traite pas cette erreur.",
     "options": [
       "From Azure PowerShell, run the Set-AzApiManagementSubscription cmdlet",
       "From the Azure portal, register the Microsoft.Marketplace resource provider",
@@ -1721,8 +1799,8 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "ARM deployment modes",
-        "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deployment-modes"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/powershell/module/az.marketplaceordering/set-azmarketplaceterms"
       }
     ],
     "sourceScope": "theme",
@@ -1730,7 +1808,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "From Azure PowerShell, run the Set-AzMarketplaceTerms cmdlet",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T2-Q10",
@@ -1807,7 +1885,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription named Subscription1 and an on-premises deployment of Microsoft System Center Service Manager.\n\nSubscription1 contains a virtual machine named VM1.\n\nYou need to ensure that an alert is set in Service Manager when the amount of available memory on VM1 is below 10 percent.\n\nWhat should you do first?",
     "solutionAnswer": "Deploy the IT Service Management Connector (ITSM)",
-    "explanation": "Les déploiements ARM sont enregistrés au niveau du scope de déploiement, ici le resource group. L’historique des deployments permet de revoir le template et les paramètres utilisés pour plusieurs ressources.",
+    "explanation": "Le connecteur ITSM relie Azure Monitor à System Center Service Manager. Il faut d’abord établir cette intégration pour qu’une alerte sur la mémoire de VM1 puisse créer l’élément de travail attendu dans Service Manager.",
     "options": [
       "Create an automation runbook",
       "Deploy a function app",
@@ -1831,7 +1909,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Deploy the IT Service Management Connector (ITSM)",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T2-Q13",
@@ -1887,9 +1965,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "User1 can add Device2 to Group1",
+        "User2 can add Device1 to Group1",
+        "User2 can add Device2 to Group2"
       ]
     },
     "assets": [
@@ -1906,7 +1984,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Oui · Ligne 2 du tableau : Non · Ligne 3 du tableau : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q14-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 758,
+        "height": 628,
+        "sourceWidth": 1404,
+        "sourceHeight": 1096
+      }
+    }
   },
   {
     "id": "T2-Q15",
@@ -1942,7 +2030,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Stop the backup of SQLDB01",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T2-Q15-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1108,
+        "height": 432,
+        "sourceWidth": 1404,
+        "sourceHeight": 836
+      }
+    }
   },
   {
     "id": "T2-Q16",
@@ -2224,9 +2322,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "VM1 and VM2 can connect to VNET1",
+        "If an Azure datacenter becomes unavailable, VM1 or VM2 will be available.",
+        "If the East US 2 region becomes unavailable, VM1 or VM2 will be available."
       ]
     },
     "assets": [
@@ -2244,7 +2342,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Oui · Ligne 2 du tableau : Oui · Ligne 3 du tableau : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q23-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1113,
+        "height": 1595,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T2-Q23-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 562
+      }
+    }
   },
   {
     "id": "T2-Q24",
@@ -2280,7 +2396,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "The App Service plan for WebApp1 remains in West Europe. Policy2 applies to WebApp1.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T2-Q24-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 966,
+        "height": 254,
+        "sourceWidth": 1404,
+        "sourceHeight": 1425
+      }
+    }
   },
   {
     "id": "T2-Q25",
@@ -2289,7 +2415,7 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure subscription named Subscription1 that has a subscription ID of c276fc76-9cd4-44c9-99a7-4fd71546436e.\n\nYou need to create a custom RBAC role named CR1 that meets the following requirements:\n\n✑ Can be assigned only to the resource groups in Subscription1\n✑ Prevents the management of the access permissions for the resource groups\n✑ Allows the viewing, creating, modifying, and deleting of resources within the resource groups\nWhat should you specify in the assignable scopes and the permission elements of the definition of CR1? To answer, select the appropriate options\n\nin the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "/subscriptions/c276fc76-9cd4-44c9-99a7-4fd71546436e / Microsoft.Authorization/*",
+    "solutionAnswer": "assignableScopes : /subscriptions/c276fc76-9cd4-44c9-99a7-4fd71546436e · permissions.notActions : Microsoft.Authorization/*",
     "explanation": "Le rôle doit pouvoir être attribué aux groupes de ressources de la souscription sans autoriser la gestion des permissions. Un scope au niveau de la souscription permet l’attribution aux resource groups, tandis que Microsoft.Authorization/* doit être exclu via notActions.",
     "options": [],
     "answerIndices": [],
@@ -2298,24 +2424,22 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "/subscriptions/c276fc76-9cd4-44c9-99a7-4fd71546436e",
+          "label": "assignableScopes",
           "choices": [
             "/",
             "/subscriptions/c276fc76-9cd4-44c9-99a7-4fd71546436e",
             "/subscriptions/c276fc76-9cd4-44c9-99a7-4fd71546436e/resourceGroups"
           ],
-          "choiceSource": "source"
+          "expected": "/subscriptions/c276fc76-9cd4-44c9-99a7-4fd71546436e"
         },
         {
-          "label": "Sélection 2",
-          "expected": "Microsoft.Authorization/*",
+          "label": "permissions.notActions",
           "choices": [
             "Microsoft.Authorization/*",
             "Microsoft.Resources/*",
             "Microsoft.Security/*"
           ],
-          "choiceSource": "source"
+          "expected": "Microsoft.Authorization/*"
         }
       ]
     },
@@ -2333,17 +2457,28 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "/subscriptions/c276fc76-9cd4-44c9-99a7-4fd71546436e / Microsoft.Authorization/*",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T2-Q25-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1167,
+        "height": 263,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T2-Q26",
     "topic": 2,
     "number": 26,
     "category": "Networking",
-    "domain": "Déployer et gérer les ressources de calcul Azure",
+    "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure subscription.\n\nUsers access the resources in the subscription from either home or from customer sites. From home, users must establish a point-to-site VPN to\n\naccess the Azure resources. The users on the customer sites access the Azure resources by using site-to-site VPNs.\n\nYou have a line-of-business-app named App1 that runs on several Azure virtual machine. The virtual machines run Windows Server 2016.\n\nYou need to ensure that the connections to App1 are spread across all the virtual machines.\n\nWhat are two possible Azure services that you can use? Each correct answer presents a complete solution.\n\nNOTE: Each correct selection is worth one point.",
     "solutionAnswer": "an internal load balancer , an Azure Application Gateway",
-    "explanation": "Un VPN Point-to-Site connecte un poste client individuel au réseau virtuel Azure. C’est le modèle adapté aux utilisateurs distants, contrairement au Site-to-Site qui relie des réseaux entiers.",
+    "explanation": "Le besoin est de répartir les connexions à App1 entre les VM, pas de créer un VPN. Un Load Balancer interne distribue les flux TCP/UDP sur une adresse privée. Pour une application HTTP/HTTPS, Application Gateway peut aussi répartir les requêtes avec un frontend privé, accessible par les VPN existants.",
     "options": [
       "an internal load balancer",
       "a public load balancer",
@@ -2360,8 +2495,8 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Azure VPN Gateway overview",
-        "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/application-gateway/how-application-gateway-works"
       }
     ],
     "sourceScope": "theme",
@@ -2369,7 +2504,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "an internal load balancer , an Azure Application Gateway",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T2-Q27",
@@ -2379,7 +2514,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription.\n\nYou have 100 Azure virtual machines.\n\nYou need to quickly identify underutilized virtual machines that can have their service tier changed to a less expensive offering.\n\nWhich blade should you use?",
     "solutionAnswer": "Advisor",
-    "explanation": "Azure Advisor analyse l’utilisation et propose des recommandations de coût, notamment le redimensionnement des VM sous-utilisées. Il est conçu pour identifier rapidement ces optimisations.",
+    "explanation": "Azure Advisor repère les VM sous-utilisées et recommande un redimensionnement ou un arrêt pour réduire les coûts. Les métriques aident au diagnostic, mais Advisor rassemble directement les recommandations recherchées.",
     "options": [
       "Monitor",
       "Advisor",
@@ -2394,8 +2529,8 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Availability sets overview",
-        "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-cost-recommendations"
       }
     ],
     "sourceScope": "theme",
@@ -2403,7 +2538,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Advisor",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T2-Q28",
@@ -2538,8 +2673,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure Active Directory (Azure AD) tenant named adatum.com. Adatum.com contains the groups in the following table.\n\nYou create two user accounts that are configured as shown in the following table.\n\nOf which groups are User1 and User2 members? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Group 1 Only / Group 1 and 2 Only",
-    "explanation": "Group 1 Only / Group 1 and 2 Only est l’option qui correspond directement au mécanisme Identity / Entra ID demandé dans le scénario. Le point clé est : Of which groups are User1 and User2 members?",
+    "solutionAnswer": "User1 : Group1 only · User2 : Group1 and Group2 only",
+    "explanation": "Group1 sélectionne les utilisateurs dont city commence par m : Montreal et Melbourne. Group2 sélectionne ceux dont department n’est pas human resources : User2 (Marketing), mais pas User1. Group3 est à appartenance assignée et n’ajoute aucun utilisateur automatiquement. User1 appartient donc à Group1 seulement ; User2 à Group1 et Group2, même sans licence Office 365.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -2547,12 +2682,30 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "Group 1 Only"
+          "label": "User1",
+          "choices": [
+            "Group1 only",
+            "Group2 only",
+            "Group3 only",
+            "Group1 and Group2 only",
+            "Group1 and Group3 only",
+            "Group2 and Group3 only",
+            "Group1, Group2, and Group3"
+          ],
+          "expected": "Group1 only"
         },
         {
-          "label": "Sélection 2",
-          "expected": "Group 1 and 2 Only"
+          "label": "User2",
+          "choices": [
+            "Group1 only",
+            "Group2 only",
+            "Group3 only",
+            "Group1 and Group2 only",
+            "Group1 and Group3 only",
+            "Group2 and Group3 only",
+            "Group1, Group2, and Group3"
+          ],
+          "expected": "Group1 and Group2 only"
         }
       ]
     },
@@ -2570,7 +2723,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Group 1 Only / Group 1 and 2 Only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T2-Q31-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1060,
+        "height": 443,
+        "sourceWidth": 1404,
+        "sourceHeight": 1471
+      }
+    }
   },
   {
     "id": "T2-Q32",
@@ -2579,8 +2743,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have a hybrid deployment of Azure Active Directory (Azure AD) that contains the users shown in the following table.\n\nYou need to modify the JobTitle and UsageLocation attributes for the users.\n\nFor which users can you modify the attributes from Azure AD? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "User1 and User3 only / User1, User2, and User3",
-    "explanation": "Les déploiements ARM sont enregistrés au niveau du scope de déploiement, ici le resource group. L’historique des deployments permet de revoir le template et les paramètres utilisés pour plusieurs ressources.",
+    "solutionAnswer": "JobTitle : User1 and User3 only · UsageLocation : User1, User2, and User3",
+    "explanation": "JobTitle est maîtrisé sur site pour un utilisateur synchronisé : sa modification se fait dans AD DS. Il est modifiable dans Azure AD pour les comptes cloud du tableau, User1 et User3. UsageLocation reste une propriété cloud modifiable pour les trois utilisateurs.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -2588,25 +2752,24 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "User1 and User3 only",
+          "label": "JobTitle",
           "choices": [
             "User1 only",
-            "User’ and User2 only",
-            "User1 and User3 only",
-            "User2, and User3"
-          ],
-          "choiceSource": "source"
-        },
-        {
-          "label": "Sélection 2",
-          "expected": "User1, User2, and User3",
-          "choices": [
-            "User‘ only",
             "User1 and User2 only",
+            "User1 and User3 only",
             "User1, User2, and User3"
           ],
-          "choiceSource": "source"
+          "expected": "User1 and User3 only"
+        },
+        {
+          "label": "UsageLocation",
+          "choices": [
+            "User1 only",
+            "User1 and User2 only",
+            "User1 and User3 only",
+            "User1, User2, and User3"
+          ],
+          "expected": "User1, User2, and User3"
         }
       ]
     },
@@ -2624,7 +2787,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "User1 and User3 only / User1, User2, and User3",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T2-Q32-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 988,
+        "height": 248,
+        "sourceWidth": 1404,
+        "sourceHeight": 879
+      }
+    }
   },
   {
     "id": "T2-Q33",
@@ -2698,7 +2872,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou need to ensure that an Azure Active Directory (Azure AD) user named Admin1 is assigned the required role to enable Traffic Analytics for an\n\nAzure subscription.\n\nSolution: You assign the Reader role at the subscription level to Admin1.\n\nDoes this meet the goal?",
     "solutionAnswer": "No",
-    "explanation": "User Access Administrator permet de gérer les attributions de rôles Azure sans donner la gestion complète des ressources. C’est le rôle adapté lorsqu’un utilisateur doit déléguer des accès.",
+    "explanation": "Reader ne permet pas de configurer Traffic Analytics. Traffic Manager Contributor concerne le routage DNS Traffic Manager, un autre service. Les permissions doivent permettre la configuration Network Watcher, des flow logs et des ressources de collecte.",
     "options": [
       "Yes",
       "No"
@@ -2720,7 +2894,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T2-Q36",
@@ -2776,9 +2950,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "Admin1 can add Admin2 as an owner of the subscription.",
+        "Admin3 can add Admin2 as an owner of the subscription.",
+        "Admin2 can create a resource group in the subscription."
       ]
     },
     "assets": [
@@ -2796,7 +2970,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES YES NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q37-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1165,
+        "height": 1775,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T2-Q37-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 539
+      }
+    }
   },
   {
     "id": "T2-Q38",
@@ -2907,7 +3099,7 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure Active Directory (Azure AD) tenant that has the contoso.onmicrosoft.com domain name.\n\nYou have a domain name of contoso.com registered at a third-party registrar.\n\nYou need to ensure that you can create Azure AD users that have names containing a suffix of @contoso.com.\n\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and\n\narrange them in the correct order.",
-    "solutionAnswer": "Add a custom Name\nAdd a record to public dns Zone\nVerify the Domain",
+    "solutionAnswer": "Étape 1 : Add a custom name · Étape 2 : Add a record to the public contoso.com DNS zone · Étape 3 : Verify the domain",
     "explanation": "La vérification d’un domaine personnalisé repose sur un enregistrement DNS publié chez le registrar. Azure/Entra vérifie la valeur attendue avant d’autoriser l’utilisation du suffixe de domaine.",
     "options": [],
     "answerIndices": [],
@@ -2917,15 +3109,39 @@ window.AZ104_QUESTIONS = [
       "rows": [
         {
           "label": "Étape 1",
-          "expected": "Add a custom Name"
+          "choices": [
+            "Add a record to the public contoso.com DNS zone",
+            "Add an Azure AD tenant",
+            "Configure company branding",
+            "Create an Azure DNS zone",
+            "Add a custom name",
+            "Verify the domain"
+          ],
+          "expected": "Add a custom name"
         },
         {
           "label": "Étape 2",
-          "expected": "Add a record to public dns Zone"
+          "choices": [
+            "Add a record to the public contoso.com DNS zone",
+            "Add an Azure AD tenant",
+            "Configure company branding",
+            "Create an Azure DNS zone",
+            "Add a custom name",
+            "Verify the domain"
+          ],
+          "expected": "Add a record to the public contoso.com DNS zone"
         },
         {
           "label": "Étape 3",
-          "expected": "Verify the Domain"
+          "choices": [
+            "Add a record to the public contoso.com DNS zone",
+            "Add an Azure AD tenant",
+            "Configure company branding",
+            "Create an Azure DNS zone",
+            "Add a custom name",
+            "Verify the domain"
+          ],
+          "expected": "Verify the domain"
         }
       ]
     },
@@ -2943,7 +3159,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Add a custom Name\nAdd a record to public dns Zone\nVerify the Domain",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T2-Q41-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1131,
+        "height": 165,
+        "sourceWidth": 1404,
+        "sourceHeight": 859
+      }
+    }
   },
   {
     "id": "T2-Q42",
@@ -2953,7 +3180,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Surveiller et maintenir les ressources Azure",
     "prompt": "You have an Azure subscription named Subscription1 that contains an Azure Log Analytics workspace named Workspace1.\n\nYou need to view the error events from a table named Event.\n\nWhich query should you run in Workspace1?",
     "solutionAnswer": "Event | search \"error\"",
-    "explanation": "Azure Backup s’appuie sur un vault et une policy qui définissent la planification et la rétention. La bonne réponse est celle qui respecte à la fois le type de ressource protégé, la région et les paramètres de conservation.",
+    "explanation": "Event est la table à interroger. Le pipeline Event | search \"error\" recherche le terme error dans les colonnes de ses événements. Il s’agit d’une requête KQL sur Log Analytics, sans rapport avec Azure Backup.",
     "options": [
       "Get-Event Event | where {$_.EventType == \"error\"}",
       "Event | search \"error\"",
@@ -2968,8 +3195,8 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Azure Monitor log queries",
-        "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-query-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/kusto/query/search-operator"
       }
     ],
     "sourceScope": "theme",
@@ -2977,7 +3204,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Event | search \"error\"",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T2-Q43",
@@ -3033,9 +3260,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "You can assign the Storage File Data SMB Share Contributor role to User1 for sharel.",
+        "You can assign the Storage File Data SMB Share Reader role to Computerl for sharel.",
+        "You can assign the Storage File Data SMB Share Elevated Contributor role to User2 for sharel."
       ]
     },
     "assets": [
@@ -3052,7 +3279,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Oui · Ligne 2 du tableau : Non · Ligne 3 du tableau : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q44-1.jpg": {
+        "x": 116,
+        "y": 5,
+        "width": 1144,
+        "height": 771,
+        "sourceWidth": 1404,
+        "sourceHeight": 1438
+      }
+    }
   },
   {
     "id": "T2-Q45",
@@ -3061,8 +3298,8 @@ window.AZ104_QUESTIONS = [
     "category": "Networking",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure subscription named Subscription1 that contains a virtual network VNet1.\n\nYou add the users in the following table.\n\nWhich user can perform each configuration? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "USER 1 & User 3 Only / User 1 only",
-    "explanation": "USER 1 & User 3 Only / User 1 only est l’option qui correspond directement au mécanisme Networking demandé dans le scénario. Le point clé est : Which user can perform each configuration?",
+    "solutionAnswer": "Add a subnet to VNet1 : User1 and User3 only · Assign the Reader role to VNet1 : User1 only",
+    "explanation": "Network Contributor permet de gérer les réseaux virtuels sans pouvoir attribuer les rôles. Owner ajoute la délégation RBAC sur la portée choisie. Contributor gère les ressources mais ne donne pas cette délégation.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -3070,12 +3307,27 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "USER 1 & User 3 Only"
+          "label": "Add a subnet to VNet1",
+          "choices": [
+            "User1 only",
+            "User3 only",
+            "User1 and User3 only",
+            "User2 and User3 only",
+            "User1, User2, and User3"
+          ],
+          "expected": "User1 and User3 only"
         },
         {
-          "label": "Sélection 2",
-          "expected": "User 1 only"
+          "label": "Assign the Reader role to VNet1",
+          "choices": [
+            "User1 only",
+            "User2 only",
+            "User3 only",
+            "User1 and User2 only",
+            "User2 and User3 only",
+            "User1, User2, and User3"
+          ],
+          "expected": "User1 only"
         }
       ]
     },
@@ -3084,8 +3336,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Assign Azure roles",
-        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview"
       }
     ],
     "sourceScope": "theme",
@@ -3093,7 +3345,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "USER 1 & User 3 Only / User 1 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T2-Q45-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 849,
+        "height": 299,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T2-Q46",
@@ -3203,9 +3466,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "RG1 has the Tag2 : IT tag assigned only",
+        "Storage1 has the Tag1 : subscription, Tag2 : IT, Tag3 : value1, and Tag4 : value4 tags assigned.",
+        "VNET1 has the Tag2 : IT and Tag3 : value2 tags assigned only"
       ]
     },
     "assets": [
@@ -3222,7 +3485,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No\nNO\nNo",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q48-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 869,
+        "height": 739,
+        "sourceWidth": 1404,
+        "sourceHeight": 1352
+      }
+    }
   },
   {
     "id": "T2-Q49",
@@ -3232,7 +3505,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou need to ensure that an Azure Active Directory (Azure AD) user named Admin1 is assigned the required role to enable Traffic Analytics for an\n\nAzure subscription.\n\nSolution: You assign the Traffic Manager Contributor role at the subscription level to Admin1.\n\nDoes this meet the goal?",
     "solutionAnswer": "No",
-    "explanation": "Le rôle Contributor permet de créer, modifier et supprimer des ressources, mais ne permet pas de gérer les attributions de rôles. Il répond donc à un besoin d’administration des ressources sans délégation d’accès.",
+    "explanation": "Reader ne permet pas de configurer Traffic Analytics. Traffic Manager Contributor concerne le routage DNS Traffic Manager, un autre service. Les permissions doivent permettre la configuration Network Watcher, des flow logs et des ressources de collecte.",
     "options": [
       "Yes",
       "No"
@@ -3254,7 +3527,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T2-Q50",
@@ -3329,8 +3602,8 @@ window.AZ104_QUESTIONS = [
     "category": "Networking",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure Load Balancer named LB1.\n\nYou assign a user named User1 the roles shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "assign access to other users for / delete a virtual machine from",
-    "explanation": "Azure Load Balancer répartit des flux TCP/UDP entre plusieurs backends en fonction d’une règle et d’une sonde de santé. Il est adapté lorsque l’objectif principal est de répartir la charge réseau entre VM.",
+    "solutionAnswer": "User1 can … LB1 : assign access to other users for · User1 can … the resource group : delete a virtual machine from",
+    "explanation": "Les droits sont évalués par rôle et par portée, puis hérités vers les ressources enfants. Un droit sur le Load Balancer ou le NSG ne s’étend pas à une VM ou à sa carte réseau simplement parce qu’ils sont associés. La délégation d’accès nécessite aussi un rôle autorisant les role assignments.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -3338,24 +3611,22 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "assign access to other users for",
+          "label": "User1 can … LB1",
           "choices": [
             "delete",
             "create a NAT rule for",
             "assign access to other users for"
           ],
-          "choiceSource": "source"
+          "expected": "assign access to other users for"
         },
         {
-          "label": "Sélection 2",
-          "expected": "delete a virtual machine from",
+          "label": "User1 can … the resource group",
           "choices": [
             "delete a virtual machine from",
             "modify the load balancing rules in",
             "deploy an Azure Kubernetes Service (AKS) cluster to"
           ],
-          "choiceSource": "source"
+          "expected": "delete a virtual machine from"
         }
       ]
     },
@@ -3364,8 +3635,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure Load Balancer health probes",
-        "url": "https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-custom-probe-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview"
       }
     ],
     "sourceScope": "theme",
@@ -3373,7 +3644,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "assign access to other users for / delete a virtual machine from",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T2-Q52-clean.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1096,
+        "height": 673,
+        "sourceWidth": 1404,
+        "sourceHeight": 1305
+      }
+    }
   },
   {
     "id": "T2-Q53",
@@ -3467,7 +3749,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Section du rôle pour autoriser la connexion utilisateur à une VM : dataActions · Section limitant le lieu où ce rôle personnalisé peut être attribué : assignableScopes",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T2-Q54-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1096,
+        "height": 1163,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T2-Q54-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 820
+      }
+    }
   },
   {
     "id": "T2-Q55",
@@ -3477,7 +3777,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure subscription that contains a storage account named storage1. The storage1 account contains a file share named share1.\n\nThe subscription is linked to a hybrid Azure Active Directory (Azure AD) tenant that contains a security group named Group1.\n\nYou need to grant Group1 the Storage File Data SMB Share Elevated Contributor role for share1.\n\nWhat should you do first?",
     "solutionAnswer": "Enable Active Directory Domain Service (AD DS) authentication for storage1.",
-    "explanation": "Le rôle Contributor permet de créer, modifier et supprimer des ressources, mais ne permet pas de gérer les attributions de rôles. Il répond donc à un besoin d’administration des ressources sans délégation d’accès.",
+    "explanation": "L’accès SMB fondé sur une identité AD DS doit être activé sur le compte de stockage avant d’utiliser les rôles de partage Azure Files. Storage File Data SMB Share Elevated Contributor concerne les données du partage et leurs ACL, pas la gestion générale des ressources Azure.",
     "options": [
       "Enable Active Directory Domain Service (AD DS) authentication for storage1.",
       "Grant share-level permissions by using File Explorer.",
@@ -3501,7 +3801,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Enable Active Directory Domain Service (AD DS) authentication for storage1.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T2-Q56",
@@ -3588,7 +3888,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Portées où assigner Policy1 dans cette hiérarchie : Tenant Root Group, ManagementGroup1, Subscription1, and RG1 only · Portées qui peuvent être exclues d’une assignation à Tenant Root Group : ManagementGroup1, Subscription1, RG1, and VM1 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T2-Q57-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1144,
+        "height": 1066,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T2-Q58",
@@ -3756,7 +4066,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Upload blob data to storageacct1234.\nView blob data in storageacct1234",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T2-Q62-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1035,
+        "height": 654,
+        "sourceWidth": 1404,
+        "sourceHeight": 1051
+      }
+    }
   },
   {
     "id": "T2-Q63",
@@ -3766,7 +4086,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Surveiller et maintenir les ressources Azure",
     "prompt": "You have an Azure subscription named Subscription1 that contains an Azure Log Analytics workspace named Workspace1.\n\nYou need to view the error events from a table named Event.\n\nWhich query should you run in Workspace1?",
     "solutionAnswer": "Event | search \"error\"",
-    "explanation": "Azure Backup s’appuie sur un vault et une policy qui définissent la planification et la rétention. La bonne réponse est celle qui respecte à la fois le type de ressource protégé, la région et les paramètres de conservation.",
+    "explanation": "Event est la table à interroger. Le pipeline Event | search \"error\" recherche le terme error dans les colonnes de ses événements. Il s’agit d’une requête KQL sur Log Analytics, sans rapport avec Azure Backup.",
     "options": [
       "select * from Event where EventType == \"error\"",
       "Event | search \"error\"",
@@ -3781,8 +4101,8 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Azure Monitor log queries",
-        "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-query-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/kusto/query/search-operator"
       }
     ],
     "sourceScope": "theme",
@@ -3790,7 +4110,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Event | search \"error\"",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T2-Q64",
@@ -3800,7 +4120,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure App Services web app named App1.\n\nYou plan to deploy App1 by using Web Deploy.\n\nYou need to ensure that the developers of App1 can use their Azure AD credentials to deploy content to App1. The solution must use the principle\n\nof least privilege.\n\nWhat should you do?",
     "solutionAnswer": "Assign the Website Contributor role to the developers",
-    "explanation": "Le rôle Contributor permet de créer, modifier et supprimer des ressources, mais ne permet pas de gérer les attributions de rôles. Il répond donc à un besoin d’administration des ressources sans délégation d’accès.",
+    "explanation": "Website Contributor permet de gérer et publier le contenu des sites App Service sans donner la gestion complète de l’abonnement. C’est le rôle spécialisé proposé pour permettre le déploiement de contenu sur App1.",
     "options": [
       "Assign the Owner role to the developers",
       "Configure app-level credentials for FTPS",
@@ -3824,7 +4144,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Assign the Website Contributor role to the developers",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T2-Q65",
@@ -3913,7 +4233,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Base clonable pour le rôle Azure RBAC Role3 : Role1 and Azure built-in roles · Base clonable pour le rôle Entra Role4 : Role2 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T2-Q66-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1128,
+        "height": 446,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T2-Q67",
@@ -3922,8 +4252,8 @@ window.AZ104_QUESTIONS = [
     "category": "Governance / RBAC / Policy",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure subscription named Sub1 that contains two users named User1 and User2.\n\nYou need to assign role-based access control (RBAC) roles to User1 and User2. The users must be able to perform the following tasks in Sub1:\n\n• User1 must view the data in any storage account.\n\n• User2 must assign users the Contributor role for storage accounts.\n\nThe solution must use the principle of least privilege.\n\nWhich RBAC role should you assign to each user? To answer, drag the appropriate roles to the correct users. Each role may be used once, more\n\nthan once, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "READER + DATA ACCESS",
-    "explanation": "OWNER",
+    "solutionAnswer": "User1 : Reader and Data Access · User2 : Owner",
+    "explanation": "Reader and Data Access donne la lecture du compte et l’accès aux clés de stockage dans ce scénario. Pour que User2 puisse attribuer Owner à d’autres utilisateurs, il faut un rôle disposant de la délégation RBAC, ici Owner.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -3931,8 +4261,24 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Étape 1",
-          "expected": "READER + DATA ACCESS"
+          "label": "User1",
+          "choices": [
+            "Owner",
+            "Contributor",
+            "Reader and Data Access",
+            "Storage Account Contributor"
+          ],
+          "expected": "Reader and Data Access"
+        },
+        {
+          "label": "User2",
+          "choices": [
+            "Owner",
+            "Contributor",
+            "Reader and Data Access",
+            "Storage Account Contributor"
+          ],
+          "expected": "Owner"
         }
       ]
     },
@@ -3941,8 +4287,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Assign Azure roles",
-        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview"
       }
     ],
     "sourceScope": "theme",
@@ -3950,7 +4296,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "READER + DATA ACCESS",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T2-Q67-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1141,
+        "height": 432,
+        "sourceWidth": 1404,
+        "sourceHeight": 1032
+      }
+    }
   },
   {
     "id": "T2-Q68",
@@ -4019,7 +4376,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "User 1 and User 4 Only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T2-Q69-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 836,
+        "height": 588,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T2-Q70",
@@ -4041,9 +4408,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "Users in litwareinc.com can be assigned the Package1 access package.",
+        "After 365 days, users from fabrikam.com will be removed from Group1.",
+        "After 395 days, users from fabrikam.com will be removed from the contoso.com Azure AD tenant."
       ]
     },
     "assets": [
@@ -4061,7 +4428,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "n/y/y",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q70-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1153,
+        "height": 1408,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T2-Q70-2.jpg": {
+        "x": 117,
+        "y": 48,
+        "width": 1127,
+        "height": 665,
+        "sourceWidth": 1404,
+        "sourceHeight": 1071
+      }
+    }
   },
   {
     "id": "T2-Q71",
@@ -4117,9 +4502,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "You can assign User2 the Owner role for RG1 by adding Group2 as a member of Group1.",
+        "You can assign User3 the Owner role for RG1 by adding Group3 as a member of Group1.",
+        "You can assign User3 the Owner role for RG1 by assigning the Owner role to Group3 for RG1."
       ]
     },
     "assets": [
@@ -4137,7 +4522,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No / NO / YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q72-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1171,
+        "height": 1290,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T2-Q72-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 41,
+        "sourceWidth": 1404,
+        "sourceHeight": 482
+      }
+    }
   },
   {
     "id": "T2-Q73",
@@ -4215,7 +4618,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure subscription that contains a user named User1 and the resources shown in the following table.\n\nNSG1 is associated to networkinterface1.\n\nUser1 has role assignments for NSG1 as shown in the following table.\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\n\nNOTE: Each correct selection is worth one point.",
     "solutionAnswer": "YES / NO / YES",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Les droits sont évalués par rôle et par portée, puis hérités vers les ressources enfants. Un droit sur le Load Balancer ou le NSG ne s’étend pas à une VM ou à sa carte réseau simplement parce qu’ils sont associés. La délégation d’accès nécessite aussi un rôle autorisant les role assignments.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -4227,9 +4630,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "User1 can create a storage account in RG1.",
+        "User1 can modify the DNS settings of networkinterface1.",
+        "User1 can create an inbound security rule to filter inbound traffic to networkinterface1."
       ]
     },
     "assets": [
@@ -4237,8 +4640,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Assign Azure roles",
-        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview"
       }
     ],
     "sourceScope": "theme",
@@ -4246,7 +4649,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES / NO / YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q75-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 912,
+        "height": 612,
+        "sourceWidth": 1404,
+        "sourceHeight": 1169
+      }
+    }
   },
   {
     "id": "T2-Q76",
@@ -4302,9 +4715,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau de réponse (de haut en bas)",
-        "Ligne 2 du tableau de réponse (de haut en bas)",
-        "Ligne 3 du tableau de réponse (de haut en bas)"
+        "Members of Group1 can view the configurations of Azure Functions.",
+        "User1 can assign the Owner role for RG1.",
+        "User1 can create a new resource group and deploy a virtual machine to the new resource group."
       ]
     },
     "assets": [
@@ -4321,7 +4734,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Yes / yes / No",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q77-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1136,
+        "height": 400,
+        "sourceWidth": 1404,
+        "sourceHeight": 1092
+      }
+    }
   },
   {
     "id": "T2-Q78",
@@ -4357,7 +4780,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Enable identity-based data access for the file shares in storage1.",
     "answerRevision": false,
     "sourceConflict": true,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T2-Q78-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 717,
+        "height": 333,
+        "sourceWidth": 1404,
+        "sourceHeight": 840
+      }
+    }
   },
   {
     "id": "T2-Q79",
@@ -4413,9 +4846,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "You can assign a Microsoft Defender for Cloud Apps Discovery license to User1.",
+        "You can remove the Azure AD Premium P2 license from User1.",
+        "User2 is assigned an Azure AD Premium P2 license."
       ]
     },
     "assets": [
@@ -4433,7 +4866,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES / YES / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q80-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 836,
+        "height": 1397,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T2-Q80-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 41,
+        "sourceWidth": 1404,
+        "sourceHeight": 542
+      }
+    }
   },
   {
     "id": "T2-Q81",
@@ -4442,8 +4893,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have a hybrid deployment of Azure Active Directory (Azure AD) that contains the users shown in the following table.\n\nYou need to modify the JobTitle and UsageLocation attributes for the users.\n\nFor which users can you modify the attributes from Azure AD? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "User 1 & User 3 / User 1 , 2 & 3",
-    "explanation": "Les déploiements ARM sont enregistrés au niveau du scope de déploiement, ici le resource group. L’historique des deployments permet de revoir le template et les paramètres utilisés pour plusieurs ressources.",
+    "solutionAnswer": "JobTitle : User1 and User3 only · UsageLocation : User1, User2, and User3",
+    "explanation": "JobTitle est maîtrisé sur site pour un utilisateur synchronisé : sa modification se fait dans AD DS. Il est modifiable dans Azure AD pour les comptes cloud du tableau, User1 et User3. UsageLocation reste une propriété cloud modifiable pour les trois utilisateurs.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -4451,12 +4902,24 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "User 1 & User 3"
+          "label": "JobTitle",
+          "choices": [
+            "User1 only",
+            "User1 and User2 only",
+            "User1 and User3 only",
+            "User1, User2, and User3"
+          ],
+          "expected": "User1 and User3 only"
         },
         {
-          "label": "Sélection 2",
-          "expected": "User 1 , 2 & 3"
+          "label": "UsageLocation",
+          "choices": [
+            "User1 only",
+            "User1 and User2 only",
+            "User1 and User3 only",
+            "User1, User2, and User3"
+          ],
+          "expected": "User1, User2, and User3"
         }
       ]
     },
@@ -4474,7 +4937,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "User 1 & User 3 / User 1 , 2 & 3",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T2-Q81-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 988,
+        "height": 403,
+        "sourceWidth": 1404,
+        "sourceHeight": 1445
+      }
+    }
   },
   {
     "id": "T2-Q82",
@@ -4615,8 +5089,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure Storage account named storage1 that uses Azure Blob storage and Azure File storage.\n\nYou need to use AzCopy to copy data to the blob storage and file storage in storage1.\n\nWhich authentication method should you use for each type of storage? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Azure AD and shared access signatures (SAS) / Shared access signatures (SAS) only",
-    "explanation": "Azure Files expose des partages SMB/NFS managés. Il est adapté lorsqu’une application ou des utilisateurs doivent accéder à un partage de fichiers plutôt qu’à des objets blob.",
+    "solutionAnswer": "Blob storage : Azure AD and shared access signatures (SAS) · File storage : Shared access signatures (SAS) only",
+    "explanation": "Dans la version d’AzCopy du scénario source, les transferts Blob acceptent Azure AD ou un SAS, et les transferts Files utilisent un SAS. Cette distinction porte sur les méthodes d’authentification du transfert, pas sur le choix entre stockage objet et partage SMB.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -4624,24 +5098,22 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "Azure AD and shared access signatures (SAS)",
+          "label": "Blob storage",
           "choices": [
             "Azure AD only",
             "Shared access signatures (SAS) only",
             "Azure AD and shared access signatures (SAS)"
           ],
-          "choiceSource": "source"
+          "expected": "Azure AD and shared access signatures (SAS)"
         },
         {
-          "label": "Sélection 2",
-          "expected": "Shared access signatures (SAS) only",
+          "label": "File storage",
           "choices": [
             "Azure AD only",
             "Shared access signatures (SAS) only",
             "Azure AD and shared access signatures (SAS)"
           ],
-          "choiceSource": "source"
+          "expected": "Shared access signatures (SAS) only"
         }
       ]
     },
@@ -4659,7 +5131,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Azure AD and shared access signatures (SAS) / Shared access signatures (SAS) only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T2-Q86-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1056,
+        "height": 237,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T2-Q87",
@@ -4668,8 +5151,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure AD tenant that contains a user named External User.\n\nExternal User authenticates to the tenant by using external195@gmail.com.\n\nYou need to ensure that External User authenticates to the tenant by using contractor@gmail.com.\n\nWhich two settings should you configure from the Overview blade? To answer, select the appropriate settings in the answer area.\n\nNOTE: Each correct answer is worth one point.",
-    "solutionAnswer": "IDENTITIES / B2B COLLABORATION",
-    "explanation": "IDENTITIES / B2B COLLABORATION est l’option qui correspond directement au mécanisme Identity / Entra ID demandé dans le scénario. Le point clé est : Which two settings should you configure from the Overview blade?",
+    "solutionAnswer": "Authentication identity to update : Identities · Invitation state to reset : B2B collaboration: Reset redemption status",
+    "explanation": "Les identités et le statut d’invitation du tableau déterminent les utilisateurs pouvant accéder aux ressources et être ajoutés au groupe. Une invitation externe doit être acceptée pour utiliser les droits du tenant de ressources.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -4677,12 +5160,23 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "IDENTITIES"
+          "label": "Authentication identity to update",
+          "choices": [
+            "Identities",
+            "User principal name",
+            "User type",
+            "Assigned roles"
+          ],
+          "expected": "Identities"
         },
         {
-          "label": "Sélection 2",
-          "expected": "B2B COLLABORATION"
+          "label": "Invitation state to reset",
+          "choices": [
+            "Account status",
+            "Sign-ins",
+            "B2B collaboration: Reset redemption status"
+          ],
+          "expected": "B2B collaboration: Reset redemption status"
         }
       ]
     },
@@ -4700,7 +5194,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "IDENTITIES / B2B COLLABORATION",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T2-Q87-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1028,
+        "height": 302,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T2-Q88",
@@ -4710,7 +5215,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure subscription that contains the resources shown in the following table.\n\nYou need to assign Workspace1 a role to allow read, write, and delete operations for the data stored in the containers of storage1.\n\nWhich role should you assign?",
     "solutionAnswer": "Storage Blob Data Contributor",
-    "explanation": "Le rôle Contributor permet de créer, modifier et supprimer des ressources, mais ne permet pas de gérer les attributions de rôles. Il répond donc à un besoin d’administration des ressources sans délégation d’accès.",
+    "explanation": "Storage Blob Data Contributor donne les opérations de lecture, écriture et suppression sur les blobs. Le rôle Contributor de gestion ne donne pas directement ces permissions sur les données ; les deux plans d’accès sont distincts.",
     "options": [
       "Storage Account Contributor",
       "Contributor",
@@ -4727,8 +5232,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Assign Azure roles",
-        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview"
       }
     ],
     "sourceScope": "theme",
@@ -4736,7 +5241,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Storage Blob Data Contributor",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q88-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1039,
+        "height": 434,
+        "sourceWidth": 1404,
+        "sourceHeight": 789
+      }
+    }
   },
   {
     "id": "T2-Q89",
@@ -4807,7 +5322,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Group1, Group2, Group3, and Group4",
     "answerRevision": false,
     "sourceConflict": true,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T2-Q90-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 877,
+        "height": 534,
+        "sourceWidth": 1404,
+        "sourceHeight": 931
+      }
+    }
   },
   {
     "id": "T2-Q91",
@@ -4816,7 +5341,7 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure AD tenant.\n\nYou need to create a Microsoft 365 group that contains only members of a marketing department in France.\n\nHow should you complete the dynamic membership rule? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct answer is worth one point.",
-    "solutionAnswer": "user.department / and / -eq",
+    "solutionAnswer": "(… -eq \"Marketing\") : user.department · Opérateur entre les deux conditions : and · (user.country … \"France\") : -eq",
     "explanation": "La règle doit filtrer les utilisateurs dont le département est Marketing et dont le pays est France. Il faut donc utiliser user.department, combiner les deux conditions avec and, puis tester country avec l’opérateur -eq.",
     "options": [],
     "answerIndices": [],
@@ -4825,36 +5350,33 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "user.department",
+          "label": "(… -eq \"Marketing\")",
           "choices": [
             "device.managementType",
             "device.organizationalUnit",
             "user.department",
             "user.usageLocation"
           ],
-          "choiceSource": "source"
+          "expected": "user.department"
         },
         {
-          "label": "Sélection 2",
-          "expected": "and",
+          "label": "Opérateur entre les deux conditions",
           "choices": [
             "and",
             "or",
             "typeof"
           ],
-          "choiceSource": "source"
+          "expected": "and"
         },
         {
-          "label": "Sélection 3",
-          "expected": "-eq",
+          "label": "(user.country … \"France\")",
           "choices": [
             "-and",
             "-eq",
             "-in",
             "-match"
           ],
-          "choiceSource": "source"
+          "expected": "-eq"
         }
       ]
     },
@@ -4872,7 +5394,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "user.department / and / -eq",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T2-Q91-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 951,
+        "height": 237,
+        "sourceWidth": 1404,
+        "sourceHeight": 1001
+      }
+    }
   },
   {
     "id": "T2-Q92",
@@ -4881,8 +5414,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure AD tenant.\n\nYou need to modify the Default user role permissions settings for the tenant. The solution must meet the following requirements:\n\n• Standard users must be prevented from creating new service principals.\n\n• Standard users must only be able to use PowerShell or Microsoft Graph to manage their own Azure resources.\n\nWhich two settings should you modify? To answer, select the appropriate settings in the answer area.\n\nNOTE: Each correct answer is worth one point.",
-    "solutionAnswer": "User Can register the application = no /// Restrict access to azure ad dministrative portal = yes",
-    "explanation": "User Can register the application = no /// Restrict access to azure ad dministrative portal = yes est l’option qui correspond directement au mécanisme Identity / Entra ID demandé dans le scénario. Le point clé est : Which two settings should you modify?",
+    "solutionAnswer": "Users can register applications : No · Restrict access to Azure AD administration portal : Yes",
+    "explanation": "Pour empêcher les utilisateurs de créer eux-mêmes des app registrations, désactivez Users can register applications. Pour restreindre leur accès au portail d’administration Azure AD dans ce scénario, activez Restrict access to Azure AD administration portal.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -4890,12 +5423,20 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "User Can register the application = no"
+          "label": "Users can register applications",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "No"
         },
         {
-          "label": "Sélection 2",
-          "expected": "Restrict access to azure ad dministrative portal = yes"
+          "label": "Restrict access to Azure AD administration portal",
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "expected": "Yes"
         }
       ]
     },
@@ -4913,7 +5454,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "User Can register the application = no /// Restrict access to azure ad dministrative portal = yes",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T2-Q92-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1032,
+        "height": 334,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T2-Q93",
@@ -4923,7 +5475,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure subscription named Sub1 that contains the blob containers shown in the following table.\n\nSub1 contains two users named User1 and User2. Both users are assigned the Reader role at the Sub1 scope.\n\nYou have a condition named Condition1 as shown in the following exhibit.\n\nYou have a condition named Condition2 as shown in the following exhibit.\n\nYou assign roles to User1 and User2 as shown in the following table.\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\n\nNOTE: Each correct selection is worth one point.",
     "solutionAnswer": "No / No / YES",
-    "explanation": "User Access Administrator permet de gérer les attributions de rôles Azure sans donner la gestion complète des ressources. C’est le rôle adapté lorsqu’un utilisateur doit déléguer des accès.",
+    "explanation": "Reader donne accès au plan de gestion mais ne donne pas la lecture des blobs. Les rôles de données attribués et leurs conditions ABAC restreignent ensuite les opérations autorisées selon le conteneur, le chemin et les attributs montrés dans les captures.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -4935,9 +5487,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "User1 can read blob2.",
+        "User1 can read blob3.",
+        "User2 can read blobl."
       ]
     },
     "assets": [
@@ -4946,8 +5498,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Assign Azure roles",
-        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/conditions-overview"
       }
     ],
     "sourceScope": "theme",
@@ -4955,7 +5507,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No / No / YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q93-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1157,
+        "height": 1395,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T2-Q93-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 41,
+        "sourceWidth": 1404,
+        "sourceHeight": 576
+      }
+    }
   },
   {
     "id": "T2-Q94",
@@ -4996,18 +5566,22 @@ window.AZ104_QUESTIONS = [
     "category": "Azure administration",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You purchase a new Azure subscription.\n\nYou create an Azure Resource Manager (ARM) template named deploy.json as shown in the following exhibit.\n\nYou connect to the subscription and run the following command.\n\nNew-AzDeployment –Location westus –TemplateFile “deploy.json”\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "No",
-    "explanation": "Les déploiements ARM sont enregistrés au niveau du scope de déploiement, ici le resource group. L’historique des deployments permet de revoir le template et les paramètres utilisés pour plusieurs ressources.",
+    "solutionAnswer": "No · No · No",
+    "explanation": "La boucle copy crée RGS0 et RGS1. Le template crée aussi ResGrp8 et RGroup4, soit quatre resource groups. length(obj1) vaut quatre, pas cinq. La dernière valeur de var1 est westus : ResGrp8 est dans West US. Le paramètre de localisation du déploiement ne remplace pas les locations déclarées dans les ressources.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
       "kind": "yn",
       "expected": [
+        false,
+        false,
         false
       ],
       "labels": [
-        "Ligne 1 du tableau"
+        "Three resource groups are created when you run the script.",
+        "A resource group named RGroup5 is created.",
+        "All the resource groups are created in the East US Azure region."
       ]
     },
     "assets": [
@@ -5022,10 +5596,28 @@ window.AZ104_QUESTIONS = [
     ],
     "sourceScope": "theme",
     "format": "knowledge",
-    "originalAnswer": "No",
-    "answerRevision": false,
+    "originalAnswer": "Une seule proposition importée : No",
+    "answerRevision": true,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T2-Q95-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 877,
+        "height": 1661,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T2-Q95-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 757,
+        "height": 106,
+        "sourceWidth": 1404,
+        "sourceHeight": 524
+      }
+    }
   },
   {
     "id": "T2-Q96",
@@ -5061,7 +5653,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "private endpoints",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T2-Q96-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 864,
+        "height": 445,
+        "sourceWidth": 1404,
+        "sourceHeight": 1463
+      }
+    }
   },
   {
     "id": "T2-Q97",
@@ -5131,7 +5733,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "service endpoints",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T2-Q98-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 864,
+        "height": 445,
+        "sourceWidth": 1404,
+        "sourceHeight": 1133
+      }
+    }
   },
   {
     "id": "T2-Q99",
@@ -5167,7 +5779,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Sub1",
     "answerRevision": true,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T2-Q99-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 819,
+        "height": 345,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T2-Q100",
@@ -5224,7 +5846,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Utilisateurs pouvant être supprimés : User1, User2, User3, and User4 · Groupes pouvant être supprimés : Group1, Group2, Group3, and Group4",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T2-Q100-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 818,
+        "height": 621,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T2-Q101",
@@ -5260,7 +5892,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "a private endpoint",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T2-Q101-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 766,
+        "height": 377,
+        "sourceWidth": 1404,
+        "sourceHeight": 737
+      }
+    }
   },
   {
     "id": "T3-Q1",
@@ -5296,7 +5938,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Storage 4 - Blob Storage",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T3-Q1-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 947,
+        "height": 311,
+        "sourceWidth": 1404,
+        "sourceHeight": 1195
+      }
+    }
   },
   {
     "id": "T3-Q2",
@@ -5305,8 +5957,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have Azure Storage accounts as shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "You can use ___ for azure table storge -- General Purpose V1 ( storge ) & General Purpose V2 (\nGPV2 )\nYou can use ___ for azure blobe storge -- General Purpose V2 ( GPV2 ) & Blob Account",
-    "explanation": "Azure Blob Storage est optimisé pour les données objet non structurées. Les niveaux d’accès et les règles de cycle de vie permettent d’ajuster coût et disponibilité selon la fréquence d’accès.",
+    "solutionAnswer": "Azure Table Storage : storageaccount1 and storageaccount2 only · Azure Blob Storage : all the storage accounts",
+    "explanation": "Les comptes general-purpose v1 et StorageV2 prennent en charge Table Storage. Le compte BlobStorage ne prend en charge que les blobs. En revanche, les trois types de comptes du tableau prennent tous en charge Blob Storage.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -5314,16 +5966,25 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "You can use ___ for azure table storge -- General Purpose V1 ( storge ) & General Purpose V2 ("
+          "label": "Azure Table Storage",
+          "choices": [
+            "storageaccount1 only",
+            "storageaccount2 only",
+            "storageaccount3 only",
+            "storageaccount1 and storageaccount2 only",
+            "storageaccount2 and storageaccount3 only"
+          ],
+          "expected": "storageaccount1 and storageaccount2 only"
         },
         {
-          "label": "Sélection 2",
-          "expected": "GPV2 )"
-        },
-        {
-          "label": "Sélection 3",
-          "expected": "You can use ___ for azure blobe storge -- General Purpose V2 ( GPV2 ) & Blob Account"
+          "label": "Azure Blob Storage",
+          "choices": [
+            "storageaccount3 only",
+            "storageaccount2 and storageaccount3 only",
+            "storageaccount1 and storageaccount3 only",
+            "all the storage accounts"
+          ],
+          "expected": "all the storage accounts"
         }
       ]
     },
@@ -5332,7 +5993,7 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Storage account overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview"
       }
     ],
@@ -5341,7 +6002,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "You can use ___ for azure table storge -- General Purpose V1 ( storge ) & General Purpose V2 (\nGPV2 )\nYou can use ___ for azure blobe storge -- General Purpose V2 ( GPV2 ) & Blob Account",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T3-Q2-clean.jpg": {
+        "x": 149,
+        "y": 366,
+        "width": 1235,
+        "height": 126,
+        "sourceWidth": 1404,
+        "sourceHeight": 1151
+      }
+    }
   },
   {
     "id": "T3-Q3",
@@ -5432,7 +6104,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "App1 avec identité managée et accès permanent aux blobs : Access control (IAM) · App2 avec lecture des blobs limitée à 30 jours : Shared access signatures (SAS)",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T3-Q4-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1129,
+        "height": 263,
+        "sourceWidth": 1404,
+        "sourceHeight": 926
+      }
+    }
   },
   {
     "id": "T3-Q5",
@@ -5530,7 +6212,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "INSTALL AZURE SYNC AGENT ON SERVER1 || REGISTER SERVER 1 || CREATE A SYNC G\nROUP",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T3-Q6-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 827,
+        "height": 324,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q7",
@@ -5552,9 +6244,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "An administrator can move VNET1 to RG2",
+        "The state of VM1 changed to deallocated",
+        "An administrator can modify the address space of VNET2"
       ]
     },
     "assets": [
@@ -5572,7 +6264,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No / No / YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T3-Q7-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 758,
+        "height": 1388,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T3-Q7-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 537
+      }
+    }
   },
   {
     "id": "T3-Q8",
@@ -5581,8 +6291,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure subscription that contains a storage account.\n\nYou have an on-premises server named Server1 that runs Windows Server 2016. Server1 has 2 TB of data.\n\nYou need to transfer the data to the storage account by using the Azure Import/Export service.\n\nIn which order should you perform the actions? To answer, move all actions from the list of actions to the answer area and arrange them in the\n\ncorrect order.\n\nNOTE: More than one order of answer choices is correct. You will receive credit for any of the correct orders you select.",
-    "solutionAnswer": "i ) attach disk and run the waimportexport.exe || from portal update the import job || detach the di\nsk and ship the disk to azure || update the import job",
-    "explanation": "Un disque de données doit être détaché de sa VM actuelle avant d’être attaché à une autre VM. Cette opération cible le disque directement et évite des actions plus destructrices comme supprimer la VM.",
+    "solutionAnswer": "Étape 1 : Attach an external disk to Server1 and then run waimportexport.exe · Étape 2 : From the Azure portal, create an import job · Étape 3 : Detach the external disks from Server1 and ship the disks to an Azure data center · Étape 4 : From the Azure portal, update the import job",
+    "explanation": "Préparez et copiez les données sur le disque avec WAImportExport, créez le travail d’importation avec ses informations, expédiez les disques puis renseignez le suivi dans le travail. La deuxième étape est la création du travail, et non sa mise à jour.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -5591,19 +6301,43 @@ window.AZ104_QUESTIONS = [
       "rows": [
         {
           "label": "Étape 1",
-          "expected": "i ) attach disk and run the waimportexport.exe"
+          "choices": [
+            "From the Azure portal, update the import job",
+            "From the Azure portal, create an import job",
+            "Attach an external disk to Server1 and then run waimportexport.exe",
+            "Detach the external disks from Server1 and ship the disks to an Azure data center"
+          ],
+          "expected": "Attach an external disk to Server1 and then run waimportexport.exe"
         },
         {
           "label": "Étape 2",
-          "expected": "from portal update the import job"
+          "choices": [
+            "From the Azure portal, update the import job",
+            "From the Azure portal, create an import job",
+            "Attach an external disk to Server1 and then run waimportexport.exe",
+            "Detach the external disks from Server1 and ship the disks to an Azure data center"
+          ],
+          "expected": "From the Azure portal, create an import job"
         },
         {
           "label": "Étape 3",
-          "expected": "detach the di\nsk and ship the disk to azure"
+          "choices": [
+            "From the Azure portal, update the import job",
+            "From the Azure portal, create an import job",
+            "Attach an external disk to Server1 and then run waimportexport.exe",
+            "Detach the external disks from Server1 and ship the disks to an Azure data center"
+          ],
+          "expected": "Detach the external disks from Server1 and ship the disks to an Azure data center"
         },
         {
           "label": "Étape 4",
-          "expected": "update the import job"
+          "choices": [
+            "From the Azure portal, update the import job",
+            "From the Azure portal, create an import job",
+            "Attach an external disk to Server1 and then run waimportexport.exe",
+            "Detach the external disks from Server1 and ship the disks to an Azure data center"
+          ],
+          "expected": "From the Azure portal, update the import job"
         }
       ]
     },
@@ -5612,8 +6346,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Storage account overview",
-        "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/import-export/storage-import-export-data-to-blobs"
       }
     ],
     "sourceScope": "theme",
@@ -5621,7 +6355,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "i ) attach disk and run the waimportexport.exe || from portal update the import job || detach the di\nsk and ship the disk to azure || update the import job",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q8-1.jpg": {
+        "x": 116,
+        "y": 112,
+        "width": 1136,
+        "height": 197,
+        "sourceWidth": 1404,
+        "sourceHeight": 1450
+      }
+    }
   },
   {
     "id": "T3-Q9",
@@ -5643,9 +6388,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "share2 can be added as a cloud endpoint for Group1.",
+        "E:\\Folder2 on Server1 can be added as a server endpoint for Group1.",
+        "D:\\Data on Server2 can be added as a server endpoint for Group1."
       ]
     },
     "assets": [
@@ -5662,7 +6407,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No / No / YES\nA sync group contains one cloud endpoint, or Azure file share, and at least one server endpoint. || Azure\nFile Sync does not support more than one server endpoint from the same server in the same Sync Group.\n|| Multiple server endpoints can exist on the same volume if their namespaces are not overlapping (for ex\nample, F:\\sync1 and F:\\sync2) and each endpoint is syncing to a unique sync group.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T3-Q9-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1080,
+        "height": 383,
+        "sourceWidth": 1404,
+        "sourceHeight": 966
+      }
+    }
   },
   {
     "id": "T3-Q10",
@@ -5711,8 +6466,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription that contains an Azure Storage account.\n\nYou plan to copy an on-premises virtual machine image to a container named vmimages.\n\nYou need to create the container for the planned image.\n\nWhich command should you run? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "make / blob",
-    "explanation": "Azure Blob Storage est optimisé pour les données objet non structurées. Les niveaux d’accès et les règles de cycle de vie permettent d’ajuster coût et disponibilité selon la fréquence d’accès.",
+    "solutionAnswer": "azcopy command : make · Storage endpoint : blob",
+    "explanation": "La commande azcopy make crée un conteneur ou un partage. Pour un conteneur Blob Storage, l’URL cible utilise l’endpoint blob du compte ; sync et copy servent à transférer des données.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -5720,11 +6475,23 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "azcopy command",
+          "choices": [
+            "make",
+            "sync",
+            "copy"
+          ],
           "expected": "make"
         },
         {
-          "label": "Sélection 2",
+          "label": "Storage endpoint",
+          "choices": [
+            "blob",
+            "dfs",
+            "queue",
+            "table",
+            "file"
+          ],
           "expected": "blob"
         }
       ]
@@ -5743,7 +6510,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "make / blob",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q11-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 762,
+        "height": 271,
+        "sourceWidth": 1404,
+        "sourceHeight": 895
+      }
+    }
   },
   {
     "id": "T3-Q12",
@@ -5752,8 +6530,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure File sync group that has the endpoints shown in the following table.\n\nCloud tiering is enabled for Endpoint3.\n\nYou add a file named File1 to Endpoint1 and a file named File2 to Endpoint2.\n\nOn which endpoints will File1 and File2 be available within 24 hours of adding the files? To answer, select the appropriate options in the answer\n\narea.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "FILE1-> Endpoint1 Only\nFILE2-> Endpoint1 , 2 & 3",
-    "explanation": "Azure File Sync nécessite l’agent sur le serveur Windows, l’enregistrement du serveur auprès du Storage Sync Service et un sync group reliant le cloud endpoint aux server endpoints.",
+    "solutionAnswer": "File1 : Endpoint1 only · File2 : Endpoint1, Endpoint2, and Endpoint3",
+    "explanation": "Azure File Sync fusionne les fichiers des endpoints lors de la synchronisation initiale, puis propage les changements entre le partage cloud et les serveurs du sync group. Chaque endpoint reçoit les fichiers des autres endpoints, sans lien avec une sauvegarde de VM.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -5761,12 +6539,24 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "FILE1-> Endpoint1 Only"
+          "label": "File1",
+          "choices": [
+            "Endpoint1 only",
+            "Endpoint3 only",
+            "Endpoint2 and Endpoint3 only",
+            "Endpoint1, Endpoint2, and Endpoint3"
+          ],
+          "expected": "Endpoint1 only"
         },
         {
-          "label": "Sélection 2",
-          "expected": "FILE2-> Endpoint1 , 2 & 3"
+          "label": "File2",
+          "choices": [
+            "Endpoint2 only",
+            "Endpoint3 only",
+            "Endpoint2 and Endpoint3 only",
+            "Endpoint1, Endpoint2, and Endpoint3"
+          ],
+          "expected": "Endpoint1, Endpoint2, and Endpoint3"
         }
       ]
     },
@@ -5784,7 +6574,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "FILE1-> Endpoint1 Only\nFILE2-> Endpoint1 , 2 & 3",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q12-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1143,
+        "height": 320,
+        "sourceWidth": 1404,
+        "sourceHeight": 1037
+      }
+    }
   },
   {
     "id": "T3-Q13",
@@ -5793,8 +6594,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have several Azure virtual machines on a virtual network named VNet1.\n\nYou configure an Azure Storage account as shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "NEVER / NEVER",
-    "explanation": "NEVER / NEVER est l’option qui correspond directement au mécanisme Storage demandé dans le scénario.",
+    "solutionAnswer": "File share connectivity from 10.2.9.0/24 : never · Azure Backup access to unmanaged disks : never",
+    "explanation": "Le firewall du compte de stockage autorise seulement la plage 10.2.0.0/24 illustrée. Les autres réseaux ne sont pas autorisés et l’exception pour les services Microsoft approuvés est désactivée. Un rôle de gestion ne contourne pas ces restrictions réseau.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -5802,12 +6603,22 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "NEVER"
+          "label": "File share connectivity from 10.2.9.0/24",
+          "choices": [
+            "always",
+            "during a backup",
+            "never"
+          ],
+          "expected": "never"
         },
         {
-          "label": "Sélection 2",
-          "expected": "NEVER"
+          "label": "Azure Backup access to unmanaged disks",
+          "choices": [
+            "always",
+            "during a backup",
+            "never"
+          ],
+          "expected": "never"
         }
       ]
     },
@@ -5825,7 +6636,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NEVER / NEVER",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T3-Q13-clean.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1096,
+        "height": 991,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q14",
@@ -5847,9 +6669,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "On the cloud endpoint, File1.txt is overwritten by File1.txt from Share1.",
+        "On Server1, File1.txt is overwritten by File1.txt from the cloud endpoint.",
+        "File1.txt from Share1 replicates to Share2."
       ]
     },
     "assets": [
@@ -5866,7 +6688,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No / No / YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T3-Q14-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1072,
+        "height": 389,
+        "sourceWidth": 1404,
+        "sourceHeight": 862
+      }
+    }
   },
   {
     "id": "T3-Q15",
@@ -5902,7 +6734,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "storage2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T3-Q15-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1124,
+        "height": 427,
+        "sourceWidth": 1404,
+        "sourceHeight": 1070
+      }
+    }
   },
   {
     "id": "T3-Q16",
@@ -6005,8 +6847,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You plan to create an Azure Storage account in the Azure region of East US 2.\n\nYou need to create a storage account that meets the following requirements:\n\n✑ Replicates synchronously.\n✑ Remains available if a single data center in the region fails.\nHow should you configure the storage account? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "REPLICATION: ZRS || Account type: Storage V2",
-    "explanation": "REPLICATION: ZRS || Account type: Storage V2 est l’option qui correspond directement au mécanisme Storage demandé dans le scénario. Le point clé est : You need to create a storage account that meets the following requirements: ✑ Replicates synchronously.",
+    "solutionAnswer": "Replication : Zone-redundant storage (ZRS) · Account type : StorageV2 (general purpose v2)",
+    "explanation": "ZRS réplique de façon synchrone entre les zones de disponibilité de la région, ce qui couvre la panne d’un datacenter. Parmi les account types proposés, StorageV2 fournit cette combinaison ; GRS assure une réplication géographique asynchrone.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -6014,20 +6856,23 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "Replication",
           "choices": [
             "Geo-redundant storage (GRS)",
             "Locally-redundant storage (LRS)",
-            "Read-access geo-redundant storage (RA GRS)",
-            "Zone-redundant storage (ZRS)",
-            "Account type: \\Z",
-            "Blob storage",
-            "‘Storage (general purpose v1)",
-            "StorageV2 (general purpose v2)",
-            "ZRS || Account type: Storage V2"
+            "Read-access geo-redundant storage (RA-GRS)",
+            "Zone-redundant storage (ZRS)"
           ],
-          "expected": "ZRS || Account type: Storage V2",
-          "choiceSource": "source"
+          "expected": "Zone-redundant storage (ZRS)"
+        },
+        {
+          "label": "Account type",
+          "choices": [
+            "Blob storage",
+            "Storage (general purpose v1)",
+            "StorageV2 (general purpose v2)"
+          ],
+          "expected": "StorageV2 (general purpose v2)"
         }
       ]
     },
@@ -6045,7 +6890,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "REPLICATION: ZRS || Account type: Storage V2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q18-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 875,
+        "height": 303,
+        "sourceWidth": 1404,
+        "sourceHeight": 826
+      }
+    }
   },
   {
     "id": "T3-Q19",
@@ -6124,8 +6980,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure subscription named Subscription1 that contains the resources shown in the following table.\n\nIn storage1, you create a blob container named blob1 and a file share named share1.\n\nWhich resources can be backed up to Vault1 and Vault2? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Can Use Vault1 For Backup -> VM1 ONLY\nCan Use Vault2 For Backup -> SHARE1 ONLY",
-    "explanation": "Azure Backup s’appuie sur un vault et une policy qui définissent la planification et la rétention. La bonne réponse est celle qui respecte à la fois le type de ressource protégé, la région et les paramètres de conservation.",
+    "solutionAnswer": "Can use Vault1 for backups : VM1 only · Can use Vault2 for backups : share1 only",
+    "explanation": "Vault1 est dans Central US comme VM1 : il peut protéger cette VM. Vault2 est dans West US comme le partage share1 : il peut protéger Azure Files. La région du resource group n’impose pas celle de ses ressources, et SQL1 est une base SQL PaaS, pas SQL Server sur une VM à protéger par ce coffre.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -6133,29 +6989,26 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "Can use Vault1 for backups",
           "choices": [
-            "‘M1 only",
-            "M1 and share’ only",
-            "M1 and SQL1 only",
-            "M1, storage1, and SQL1 only",
-            "M1, blob1, share1, and SQL1"
+            "VM1 only",
+            "VM1 and share1 only",
+            "VM1 and SQL1 only",
+            "VM1, storage1, and SQL1 only",
+            "VM1, blob1, share1, and SQL1"
           ],
-          "expected": "Can Use Vault1 For Backup -> VM1 ONLY",
-          "choiceSource": "source"
+          "expected": "VM1 only"
         },
         {
-          "label": "Sélection 2",
+          "label": "Can use Vault2 for backups",
           "choices": [
-            "‘storage only",
-            "share’ only",
-            "'VM1 and share’ only",
-            "blob1 and share‘ only",
-            "storage1 and SQL1 oni",
-            "Can Use Vault2 For Backup -> SHARE1 ONLY"
+            "storage1 only",
+            "share1 only",
+            "VM1 and share1 only",
+            "blob1 and share1 only",
+            "storage1 and SQL1 only"
           ],
-          "expected": "Can Use Vault2 For Backup -> SHARE1 ONLY",
-          "choiceSource": "source"
+          "expected": "share1 only"
         }
       ]
     },
@@ -6173,7 +7026,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Can Use Vault1 For Backup -> VM1 ONLY\nCan Use Vault2 For Backup -> SHARE1 ONLY",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q21-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 947,
+        "height": 352,
+        "sourceWidth": 1404,
+        "sourceHeight": 1086
+      }
+    }
   },
   {
     "id": "T3-Q22",
@@ -6305,8 +7169,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure Storage account named storage1 that uses Azure Blob storage and Azure File storage.\n\nYou need to use AzCopy to copy data to the blob storage and file storage in storage1.\n\nWhich authentication method should you use for each type of storage? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "BLOB : AD & SAS\nFILES : SAS",
-    "explanation": "Azure Files expose des partages SMB/NFS managés. Il est adapté lorsqu’une application ou des utilisateurs doivent accéder à un partage de fichiers plutôt qu’à des objets blob.",
+    "solutionAnswer": "Blob storage : Azure Active Directory (Azure AD) and shared access signatures (SAS) only · File storage : Shared access signatures (SAS) only",
+    "explanation": "Dans la version d’AzCopy du scénario source, les transferts Blob acceptent Azure AD ou un SAS, et les transferts Files utilisent un SAS. Cette distinction porte sur les méthodes d’authentification du transfert, pas sur le choix entre stockage objet et partage SMB.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -6314,29 +7178,26 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "Blob storage",
           "choices": [
-            "‘Azure Active Directory (Azure AD) only",
+            "Azure Active Directory (Azure AD) only",
             "Shared access signatures (SAS) only",
             "Access keys and shared access signatures (SAS) only",
-            "‘Azure Active Directory (Azure AD) and shared access signatures (SAS) only",
-            "‘Azure Active Directory (Azure AD), access keys, and shared access signatures (SAS)",
-            "AD & SAS"
+            "Azure Active Directory (Azure AD) and shared access signatures (SAS) only",
+            "Azure Active Directory (Azure AD), access keys, and shared access signatures (SAS)"
           ],
-          "expected": "AD & SAS",
-          "choiceSource": "source"
+          "expected": "Azure Active Directory (Azure AD) and shared access signatures (SAS) only"
         },
         {
-          "label": "Sélection 2",
+          "label": "File storage",
           "choices": [
-            "‘Azure Active Directory (Azure AD) only",
+            "Azure Active Directory (Azure AD) only",
             "Shared access signatures (SAS) only",
-            "‘Access keys and shared access signatures (SAS) only",
-            "‘Azure Active Directory (Azure AD) and shared access signatures (SAS) only",
-            "‘Azure Active Directory (Azure AD), access keys, and shared access signatures (SAS)"
+            "Access keys and shared access signatures (SAS) only",
+            "Azure Active Directory (Azure AD) and shared access signatures (SAS) only",
+            "Azure Active Directory (Azure AD), access keys, and shared access signatures (SAS)"
           ],
-          "expected": "SAS",
-          "choiceSource": "source"
+          "expected": "Shared access signatures (SAS) only"
         }
       ]
     },
@@ -6354,7 +7215,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "BLOB : AD & SAS\nFILES : SAS",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q25-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1056,
+        "height": 133,
+        "sourceWidth": 1404,
+        "sourceHeight": 796
+      }
+    }
   },
   {
     "id": "T3-Q26",
@@ -6527,9 +7399,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "You can add share3 as an additional cloud endpoint for Sync1.",
+        "You can add data2 as an additional server endpoint for Sync1.",
+        "You can add data3 as an additional server endpoint for Sync1."
       ]
     },
     "assets": [
@@ -6546,7 +7418,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO / YES / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T3-Q30-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 758,
+        "height": 582,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q31",
@@ -6555,8 +7437,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Surveiller et maintenir les ressources Azure",
     "prompt": "You have an Azure subscription named Subscription1 that contains the resources shown in the following table:\n\nYou plan to configure Azure Backup reports for Vault1.\n\nYou are configuring the Diagnostics settings for the AzureBackupReports log.\n\nWhich storage accounts and which Log Analytics workspaces can you use for the Azure Backup reports of Vault1? To answer, select the\n\nappropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Storage Account : Storage 3 Only\nLog Analytic Worksapce : Analytics 1 , Analytics 2 , Analytics3",
-    "explanation": "Azure Backup s’appuie sur un vault et une policy qui définissent la planification et la rétention. La bonne réponse est celle qui respecte à la fois le type de ressource protégé, la région et les paramètres de conservation.",
+    "solutionAnswer": "Storage accounts : storage3 only · Log Analytics workspaces : Analytics1, Analytics2, and Analytics3",
+    "explanation": "La destination de stockage des diagnostics d’un coffre régional doit être compatible avec sa région : storage3 est le compte du tableau qui convient. Un workspace Log Analytics peut recevoir ces logs depuis une autre région, donc Analytics1, Analytics2 et Analytics3 conviennent.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -6564,12 +7446,24 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "Storage 3 Only"
+          "label": "Storage accounts",
+          "choices": [
+            "storage1 only",
+            "storage2 only",
+            "storage3 only",
+            "storage1, storage2, and storage3"
+          ],
+          "expected": "storage3 only"
         },
         {
-          "label": "Sélection 2",
-          "expected": "Analytics 1 , Analytics 2 , Analytics3"
+          "label": "Log Analytics workspaces",
+          "choices": [
+            "Analytics1 only",
+            "Analytics2 only",
+            "Analytics3 only",
+            "Analytics1, Analytics2, and Analytics3"
+          ],
+          "expected": "Analytics1, Analytics2, and Analytics3"
         }
       ]
     },
@@ -6587,7 +7481,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Storage Account : Storage 3 Only\nLog Analytic Worksapce : Analytics 1 , Analytics 2 , Analytics3",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q31-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1087,
+        "height": 509,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q32",
@@ -6596,8 +7501,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure subscription that contains the storage accounts shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "You can create the premium file share in : Contoso 104 Only\nYou can create the Archieve Access tier in : Contoso 101 Or Contoso 103 Only",
-    "explanation": "Azure Files expose des partages SMB/NFS managés. Il est adapté lorsqu’une application ou des utilisateurs doivent accéder à un partage de fichiers plutôt qu’à des objets blob.",
+    "solutionAnswer": "Premium file share : contoso104 only · Archive access tier : contoso101 or contoso103 only",
+    "explanation": "Un partage de fichiers Premium nécessite un compte FileStorage Premium : contoso104 est le seul compte correspondant dans le tableau. Le tier Archive nécessite un type de compte et une redondance compatibles, ce qui laisse contoso101 et contoso103.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -6605,12 +7510,26 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "Contoso 104 Only"
+          "label": "Premium file share",
+          "choices": [
+            "contoso101 only",
+            "contoso104 only",
+            "contoso101 or contoso104 only",
+            "contoso101, contoso102, or contoso104 only",
+            "contoso101, contoso102, contoso103, or contoso104"
+          ],
+          "expected": "contoso104 only"
         },
         {
-          "label": "Sélection 2",
-          "expected": "Contoso 101 Or Contoso 103 Only"
+          "label": "Archive access tier",
+          "choices": [
+            "contoso101 only",
+            "contoso101 or contoso103 only",
+            "contoso101, contoso102, and contoso103 only",
+            "contoso101, contoso102, and contoso104 only",
+            "contoso101, contoso102, contoso103, and contoso104"
+          ],
+          "expected": "contoso101 or contoso103 only"
         }
       ]
     },
@@ -6628,7 +7547,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "You can create the premium file share in : Contoso 104 Only\nYou can create the Archieve Access tier in : Contoso 101 Or Contoso 103 Only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T3-Q32-clean.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 789,
+        "height": 112,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q33",
@@ -6681,7 +7611,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Azure Storage Explorer hors plage IP autorisée : will have no access · Commande SMB net use avec un jeton SAS comme mot de passe : will have no access",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T3-Q33-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 866,
+        "height": 1071,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q34",
@@ -6790,7 +7730,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "storage1, storage2, and storage3 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T3-Q36-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 776,
+        "height": 316,
+        "sourceWidth": 1404,
+        "sourceHeight": 978
+      }
+    }
   },
   {
     "id": "T3-Q37",
@@ -6880,9 +7830,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "A server that has a public IP address of 131.107.103.10 can access storageaccount1",
+        "Indivirtual blobs in storageaccount1 can be set to use the archive tier",
+        "Global administrators in Azure Active Directory (Azure AD) can access a file share hosted in storageaccount1 by using their Azure AD credentials"
       ]
     },
     "assets": [
@@ -6899,7 +7849,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES / YES / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T3-Q39-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 933,
+        "height": 1109,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q40",
@@ -6935,7 +7895,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Device1, Device2 and Device3\nWINDOWS 10 , LINUXOS , MACOS",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T3-Q40-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 657,
+        "height": 339,
+        "sourceWidth": 1404,
+        "sourceHeight": 694
+      }
+    }
   },
   {
     "id": "T3-Q41",
@@ -6991,9 +7961,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "On October 10, you can read Dep1File1.docx.",
+        "On October 10, you can read File2.docx.",
+        "On October 10, you can read File3.docx."
       ]
     },
     "assets": [
@@ -7010,7 +7980,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO / YES / YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T3-Q42-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1155,
+        "height": 711,
+        "sourceWidth": 1404,
+        "sourceHeight": 1205
+      }
+    }
   },
   {
     "id": "T3-Q43",
@@ -7055,7 +8035,7 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure Storage account named storage1 that stores images.\n\nYou need to create a new storage account and replicate the images in storage1 to the new account by using object replication.\n\nHow should you configure the new account? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Account type : Storage V2 Only\nObject type to create in the new account : container",
+    "solutionAnswer": "Account type : StorageV2 only · Object type to create in the new account : Container",
     "explanation": "Account type : Storage V2 Only\nObject type to create in the new account : container est l’option qui correspond directement au mécanisme Storage demandé dans le scénario. Le point clé est : You need to create a new storage account and replicate the images in storage1 to the new account by using object replication.",
     "options": [],
     "answerIndices": [],
@@ -7064,27 +8044,24 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "Account type",
           "choices": [
             "StorageV2 only",
             "StorageV2 or FileStorage only",
             "StorageV2 or BlobStorage only",
-            "StorageV2, BlobStorage, or FileStorage",
-            "Storage V2 Only"
+            "StorageV2, BlobStorage, or FileStorage"
           ],
-          "expected": "Storage V2 Only",
-          "choiceSource": "source"
+          "expected": "StorageV2 only"
         },
         {
-          "label": "Sélection 2",
+          "label": "Object type to create in the new account",
           "choices": [
             "Container",
             "File share",
             "Table",
             "Queue"
           ],
-          "expected": "container",
-          "choiceSource": "source"
+          "expected": "Container"
         }
       ]
     },
@@ -7102,7 +8079,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Account type : Storage V2 Only\nObject type to create in the new account : container",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q44-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1011,
+        "height": 238,
+        "sourceWidth": 1404,
+        "sourceHeight": 909
+      }
+    }
   },
   {
     "id": "T3-Q45",
@@ -7179,8 +8167,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure subscription that contains the storage accounts shown in the following table.\n\nYou plan to use AzCopy to copy a blob from container1 directly to share1.\n\nYou need to identify which authentication method to use when you use AzCopy.\n\nWhat should you identify for each account? To answer, drag the appropriate authentication methods to the correct accounts. Each method may be\n\nused once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "SAS / SAS",
-    "explanation": "Azure Blob Storage est optimisé pour les données objet non structurées. Les niveaux d’accès et les règles de cycle de vie permettent d’ajuster coût et disponibilité selon la fréquence d’accès.",
+    "solutionAnswer": "storage1 : A shared access signature (SAS) token · storage2 : A shared access signature (SAS) token",
+    "explanation": "Un SAS limite les permissions, la durée et les ressources exposées pour chaque compte. Il convient ici à une autorisation déléguée de copie entre les deux comptes, sans partager les clés de compte.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -7188,12 +8176,24 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Étape 1",
-          "expected": "SAS"
+          "label": "storage1",
+          "choices": [
+            "OAuth",
+            "Anonymous",
+            "A storage account access key",
+            "A shared access signature (SAS) token"
+          ],
+          "expected": "A shared access signature (SAS) token"
         },
         {
-          "label": "Étape 2",
-          "expected": "SAS"
+          "label": "storage2",
+          "choices": [
+            "OAuth",
+            "Anonymous",
+            "A storage account access key",
+            "A shared access signature (SAS) token"
+          ],
+          "expected": "A shared access signature (SAS) token"
         }
       ]
     },
@@ -7211,7 +8211,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "SAS / SAS",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q47-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1165,
+        "height": 417,
+        "sourceWidth": 1404,
+        "sourceHeight": 1308
+      }
+    }
   },
   {
     "id": "T3-Q48",
@@ -7267,9 +8278,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "On June 6, File1 will be stored in the Cool access tier.",
+        "On June 1, File2 will be stored in the Cool access tier.",
+        "On June 16, File2 will be stored in the Archive access tier."
       ]
     },
     "assets": [
@@ -7286,7 +8297,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO / NO / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T3-Q49-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1152,
+        "height": 566,
+        "sourceWidth": 1404,
+        "sourceHeight": 1438
+      }
+    }
   },
   {
     "id": "T3-Q50",
@@ -7331,7 +8352,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Une modification de blob est récupérable sept jours après l’opération. : Non · Seuls les utilisateurs situés dans la région East US peuvent se connecter. : Non · LRS maintient trois copies des données dans la région primaire. : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T3-Q50-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 955,
+        "height": 1540,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q51",
@@ -7423,8 +8454,8 @@ window.AZ104_QUESTIONS = [
     "category": "Compute / VM",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription that contains a virtual machine named VM1.\n\nYou need to back up VM1. The solution must ensure that backups are stored across three availability zones in the primary region.\n\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and\n\narrange them in the correct order.",
-    "solutionAnswer": "CREATE A ECOVERY SERVICE VAULT\nSET REPLICATION TO ZRS\nFOR VM1 CREATE A REPLICATION POLICY AND CONFIGURE THE BACKUP",
-    "explanation": "Azure Site Recovery s’appuie sur un Recovery Services vault, une configuration du site/source Hyper-V et une stratégie de réplication. Ces éléments définissent où et comment la VM on-premises est répliquée vers Azure.",
+    "solutionAnswer": "Étape 1 : Create a Recovery Services vault · Étape 2 : Set Replication to Zone-redundant storage (ZRS) · Étape 3 : For VM1, create a backup policy and configure the backup",
+    "explanation": "La redondance du coffre de sauvegarde doit être configurée avant de protéger les ressources. Sélectionnez la réplication zone-redundant demandée dans le coffre approprié ; une fois les sauvegardes activées, ce réglage ne se modifie pas de la même manière.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -7433,15 +8464,36 @@ window.AZ104_QUESTIONS = [
       "rows": [
         {
           "label": "Étape 1",
-          "expected": "CREATE A ECOVERY SERVICE VAULT"
+          "choices": [
+            "Configure a replication policy",
+            "Set Replication to Zone-redundant storage (ZRS)",
+            "For VM1, create a backup policy and configure the backup",
+            "Set Replication to Locally-redundant storage (LRS)",
+            "Create a Recovery Services vault"
+          ],
+          "expected": "Create a Recovery Services vault"
         },
         {
           "label": "Étape 2",
-          "expected": "SET REPLICATION TO ZRS"
+          "choices": [
+            "Configure a replication policy",
+            "Set Replication to Zone-redundant storage (ZRS)",
+            "For VM1, create a backup policy and configure the backup",
+            "Set Replication to Locally-redundant storage (LRS)",
+            "Create a Recovery Services vault"
+          ],
+          "expected": "Set Replication to Zone-redundant storage (ZRS)"
         },
         {
           "label": "Étape 3",
-          "expected": "FOR VM1 CREATE A REPLICATION POLICY AND CONFIGURE THE BACKUP"
+          "choices": [
+            "Configure a replication policy",
+            "Set Replication to Zone-redundant storage (ZRS)",
+            "For VM1, create a backup policy and configure the backup",
+            "Set Replication to Locally-redundant storage (LRS)",
+            "Create a Recovery Services vault"
+          ],
+          "expected": "For VM1, create a backup policy and configure the backup"
         }
       ]
     },
@@ -7450,8 +8502,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Restore Azure VMs",
-        "url": "https://learn.microsoft.com/en-us/azure/backup/backup-azure-arm-restore-vms"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/backup/backup-create-recovery-services-vault"
       }
     ],
     "sourceScope": "theme",
@@ -7459,7 +8511,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "CREATE A ECOVERY SERVICE VAULT\nSET REPLICATION TO ZRS\nFOR VM1 CREATE A REPLICATION POLICY AND CONFIGURE THE BACKUP",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q53-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1131,
+        "height": 205,
+        "sourceWidth": 1404,
+        "sourceHeight": 704
+      }
+    }
   },
   {
     "id": "T3-Q54",
@@ -7530,7 +8593,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Task2, Task3, and Task4 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T3-Q55-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 717,
+        "height": 494,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q56",
@@ -7539,8 +8612,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure AD user named User1 and a read-access geo-redundant storage (RA-GRS) account named contoso2023.\n\nYou need to meet the following requirements:\n\n• User1 must be able to write blob data to contoso2023.\n\n• The contoso2023 account must fail over to its secondary endpoint.\n\nWhich two settings should you configure? To answer, select the appropriate settings in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "ACCESS CONTROL ( IAM ) / GEO-REPLICATION",
-    "explanation": "La réplication géographique copie les données dans une région secondaire. L’option avec accès en lecture au secondaire ajoute précisément la possibilité demandée de lire les données depuis les deux emplacements.",
+    "solutionAnswer": "Allow User1 to write blobs : Access control (IAM) · Fail over to the secondary endpoint : Geo-replication",
+    "explanation": "Les permissions IAM sur les données contrôlent l’écriture dans les blobs. Le basculement du compte se déclenche depuis Geo-replication pour rendre la région secondaire principale ; il ne se fait pas en modifiant une stratégie de lifecycle.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -7548,12 +8621,24 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "ACCESS CONTROL ( IAM )"
+          "label": "Allow User1 to write blobs",
+          "choices": [
+            "Access control (IAM)",
+            "Access keys",
+            "Networking",
+            "Data protection"
+          ],
+          "expected": "Access control (IAM)"
         },
         {
-          "label": "Sélection 2",
-          "expected": "GEO-REPLICATION"
+          "label": "Fail over to the secondary endpoint",
+          "choices": [
+            "Data protection",
+            "Object replication",
+            "Geo-replication",
+            "Lifecycle management"
+          ],
+          "expected": "Geo-replication"
         }
       ]
     },
@@ -7572,7 +8657,26 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "ACCESS CONTROL ( IAM ) / GEO-REPLICATION",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q56-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 985,
+        "height": 270,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T3-Q56-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 1431,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T3-Q57",
@@ -7620,8 +8724,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure subscription that contains a user named User1 and a storage account named storage1. The storage1 account contains the\n\nresources shown in the following table.\n\nUser1 is assigned the following roles for storage1:\n\n• Storage Blob Data Reader\n\n• Storage Table Data Contributor\n\n• Storage File Data SMB Share Contributor\n\nFor storage1, you create a shared access signature (SAS) named SAS1 that has the settings shown in the following exhibit. (Click the Exhibit tab.)\n\nTo which resources can User1 write by using SAS1 and key1? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "KEY1 -> Table folder and container\nSAS1 -> TABLE1",
-    "explanation": "Le rôle Contributor permet de créer, modifier et supprimer des ressources, mais ne permet pas de gérer les attributions de rôles. Il répond donc à un besoin d’administration des ressources sans délégation d’accès.",
+    "solutionAnswer": "key1 : Table1, folder1, and container1 · SAS1 : Table1 only",
+    "explanation": "La clé key1 donne accès aux services du compte indépendamment des rôles de données de User1. SAS1 limite cet accès aux services et permissions de son propre périmètre : dans la capture, l’écriture est autorisée pour Table1 uniquement.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -7629,12 +8733,26 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "KEY1 -> Table folder and container"
+          "label": "key1",
+          "choices": [
+            "Table1 only",
+            "Table1 and container1 only",
+            "folder1 and Table1 only",
+            "folder1 and container1 only",
+            "Table1, folder1, and container1"
+          ],
+          "expected": "Table1, folder1, and container1"
         },
         {
-          "label": "Sélection 2",
-          "expected": "SAS1 -> TABLE1"
+          "label": "SAS1",
+          "choices": [
+            "Table1 only",
+            "Table1 and container1 only",
+            "folder1 and Table1 only",
+            "folder1 and container1 only",
+            "Table1, folder1, and container1"
+          ],
+          "expected": "Table1 only"
         }
       ]
     },
@@ -7644,8 +8762,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Create a service SAS",
-        "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview"
       }
     ],
     "sourceScope": "theme",
@@ -7653,7 +8771,26 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "KEY1 -> Table folder and container\nSAS1 -> TABLE1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q58-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1164,
+        "height": 1621,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T3-Q58-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 41,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T3-Q59",
@@ -7712,7 +8849,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Nombre de nouvelles stored access policies pour container1 : 3 · Nombre de nouvelles politiques immuables de type différent : 1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T3-Q59-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1147,
+        "height": 749,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q60",
@@ -7782,7 +8929,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "DELETED",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T3-Q61-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1152,
+        "height": 389,
+        "sourceWidth": 1404,
+        "sourceHeight": 1341
+      }
+    }
   },
   {
     "id": "T3-Q62",
@@ -7791,8 +8948,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure subscription that contains the storage accounts shown in the following table.\n\nYou need to identify which storage accounts support lifecycle management, and which storage accounts support moving data to the Archive\n\naccess tier.\n\nWhich storage accounts should you use? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Lifecycle Management : Storage 1, Storage2 & Storage 3\nThe Archieve tier Access : Storage 2 Only",
-    "explanation": "Lifecycle Management : Storage 1, Storage2 & Storage 3\nThe Archieve tier Access : Storage 2 Only est l’option qui correspond directement au mécanisme Storage demandé dans le scénario. Le point clé est : Which storage accounts should you use?",
+    "solutionAnswer": "Lifecycle management : storage1, storage2, and storage3 · Archive access tier : storage2 only",
+    "explanation": "Le type du compte détermine les services et les tiers disponibles. L’archivage et les règles de lifecycle pour les block blobs ne s’appliquent pas à tous les comptes Premium ni à tous les types de blobs.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -7800,12 +8957,26 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "Storage 1, Storage2 & Storage 3"
+          "label": "Lifecycle management",
+          "choices": [
+            "storage1 only",
+            "storage2 only",
+            "storage1 and storage3 only",
+            "storage2 and storage3 only",
+            "storage1, storage2, and storage3"
+          ],
+          "expected": "storage1, storage2, and storage3"
         },
         {
-          "label": "Sélection 2",
-          "expected": "Storage 2 Only"
+          "label": "Archive access tier",
+          "choices": [
+            "storage1 only",
+            "storage2 only",
+            "storage1 and storage3 only",
+            "storage2 and storage3 only",
+            "storage1, storage2, and storage3"
+          ],
+          "expected": "storage2 only"
         }
       ]
     },
@@ -7814,7 +8985,7 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Storage account overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview"
       }
     ],
@@ -7823,7 +8994,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Lifecycle Management : Storage 1, Storage2 & Storage 3\nThe Archieve tier Access : Storage 2 Only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q62-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1121,
+        "height": 433,
+        "sourceWidth": 1404,
+        "sourceHeight": 1201
+      }
+    }
   },
   {
     "id": "T3-Q63",
@@ -8018,7 +9200,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure subscription that contains a storage account named storage1.\n\nYou plan to use conditions when assigning role-based access control (RBAC) roles to storage1.\n\nWhich storage1 services support conditions when assigning roles?",
     "solutionAnswer": "containers and queues only",
-    "explanation": "Azure Policy évalue la conformité des ressources à une règle et peut refuser, auditer ou modifier des déploiements. Son effet dépend du scope d’assignation, des exclusions et du mode de remédiation.",
+    "explanation": "Les conditions RBAC affinent une attribution de rôle selon les attributs de la ressource et de la requête. Il s’agit d’Azure ABAC pour les services de stockage pris en charge, pas d’Azure Policy qui évalue la conformité des ressources.",
     "options": [
       "containers only",
       "file shares only",
@@ -8035,8 +9217,8 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Assign Azure roles",
-        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/conditions-overview"
       }
     ],
     "sourceScope": "theme",
@@ -8044,7 +9226,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "containers and queues only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T3-Q69",
@@ -8066,9 +9248,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "You can deploy AKS1 to VNet2.",
+        "You can deploy AKS2 to VNet1.",
+        "You can deploy AKS3 to VNet3."
       ]
     },
     "assets": [
@@ -8085,7 +9267,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No , YES , YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T3-Q69-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1146,
+        "height": 1031,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q70",
@@ -8128,7 +9320,7 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure subscription that has offices in the East US and West US Azure regions.\n\nYou plan to create the storage account shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Default Routing Tier / Encryption type",
+    "solutionAnswer": "To minimize the network costs of accessing adatum22, modify… : Default routing tier · After adatum22 is created, you can modify… : Encryption type",
     "explanation": "Default Routing Tier / Encryption type est l’option qui correspond directement au mécanisme Storage demandé dans le scénario. Le point clé est : You plan to create the storage account shown in the following exhibit.",
     "options": [],
     "answerIndices": [],
@@ -8137,7 +9329,7 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "To minimize the network costs of accessing adatum22, modify…",
           "choices": [
             "Default routing tier",
             "Endpoint type",
@@ -8145,19 +9337,17 @@ window.AZ104_QUESTIONS = [
             "Network connectivity",
             "Performance"
           ],
-          "expected": "Default Routing Tier",
-          "choiceSource": "source"
+          "expected": "Default routing tier"
         },
         {
-          "label": "Sélection 2",
+          "label": "After adatum22 is created, you can modify…",
           "choices": [
             "Enable infrastructure encryption",
             "Enable support for customer-managed keys",
             "Encryption type",
             "Premium account type"
           ],
-          "expected": "Encryption type",
-          "choiceSource": "source"
+          "expected": "Encryption type"
         }
       ]
     },
@@ -8177,7 +9367,34 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Default Routing Tier / Encryption type",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T3-Q71-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 728,
+        "height": 107,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T3-Q71-2.jpg": {
+        "x": 138,
+        "y": 54,
+        "width": 918,
+        "height": 1793,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      },
+      "assets/source/T3-Q71-3.jpg": {
+        "x": 117,
+        "y": 36,
+        "width": 1096,
+        "height": 692,
+        "sourceWidth": 1404,
+        "sourceHeight": 847
+      }
+    }
   },
   {
     "id": "T3-Q72",
@@ -8229,7 +9446,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Type de clé asymétrique : RSA · Taille maximale parmi les valeurs proposées : 4096",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T3-Q72-1.jpg": {
+        "x": 116,
+        "y": 177,
+        "width": 934,
+        "height": 399,
+        "sourceWidth": 1404,
+        "sourceHeight": 1140
+      }
+    }
   },
   {
     "id": "T3-Q73",
@@ -8350,7 +9577,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Action RBAC sur tous les réseaux virtuels : Microsoft.Network/virtualNetworks/* · Action RBAC de lecture de la configuration du compte Storage : Microsoft.Storage/storageAccounts/read",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T3-Q75-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1032,
+        "height": 367,
+        "sourceWidth": 1404,
+        "sourceHeight": 1120
+      }
+    }
   },
   {
     "id": "T3-Q76",
@@ -8436,7 +9673,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Disque résistant à la panne d’une zone et offrant la meilleure performance proposée : Premium SSD ZRS · Cache de l’hôte évitant des écritures non persistées : Read-only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T3-Q77-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 797,
+        "height": 302,
+        "sourceWidth": 1404,
+        "sourceHeight": 1097
+      }
+    }
   },
   {
     "id": "T3-Q78",
@@ -8566,7 +9813,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer le stockage",
     "prompt": "You have an Azure subscription that contains a storage account named storage1. The storage1 account contains a container named container1.\n\nYou need to configure access to container1. The solution must meet the following requirements:\n\n• Only allow read access.\n\n• Allow both HTTP and HTTPS protocols.\n\n• Apply access permissions to all the content in the container.\n\nWhat should you use?",
     "solutionAnswer": "SAS ( SHARED ACCESS SIGNATURE )",
-    "explanation": "Azure Policy évalue la conformité des ressources à une règle et peut refuser, auditer ou modifier des déploiements. Son effet dépend du scope d’assignation, des exclusions et du mode de remédiation.",
+    "explanation": "Un SAS de conteneur peut autoriser uniquement la lecture, viser tous les blobs du conteneur et permettre HTTP et HTTPS. Une stratégie Azure Policy ou un verrou de ressource ne définit pas cette autorisation de lecture sur les données.",
     "options": [
       "an access policy",
       "a shared access signature (SAS)",
@@ -8581,8 +9828,8 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Azure Storage redundancy",
-        "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview"
       }
     ],
     "sourceScope": "theme",
@@ -8590,7 +9837,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "SAS ( SHARED ACCESS SIGNATURE )",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T3-Q82",
@@ -8649,9 +9896,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "Blob versions in container1 are automatically moved to the Cool tier after 15 days.",
+        "Blob versions in container2 are automatically moved to the Archive tier after 30 days.",
+        "Rehydrated blob versions are automatically moved to the Archive tier after 30 days."
       ]
     },
     "assets": [
@@ -8669,7 +9916,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES / NO / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T3-Q83-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1145,
+        "height": 1288,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T3-Q83-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 41,
+        "sourceWidth": 1404,
+        "sourceHeight": 550
+      }
+    }
   },
   {
     "id": "T3-Q84",
@@ -8705,7 +9970,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "storage2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T3-Q84-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 776,
+        "height": 505,
+        "sourceWidth": 1404,
+        "sourceHeight": 1437
+      }
+    }
   },
   {
     "id": "T3-Q85",
@@ -8742,7 +10017,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Device1, Device2, and Device3 only\nUbuntu , MacOS, Linux",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T3-Q85-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 699,
+        "height": 285,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q86",
@@ -8909,9 +10194,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "On June 6, File1 will be stored in the Cool access tier.",
+        "On June 7, File2 will be stored in the Cool access tier.",
+        "On June 16, File2 will be stored in the Archive access tier."
       ]
     },
     "assets": [
@@ -8928,7 +10213,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO / YES / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T3-Q89-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1152,
+        "height": 567,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T3-Q90",
@@ -8950,9 +10245,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "User1 can read File1.",
+        "User2 can read File2.",
+        "User3 can read File1 and File2."
       ]
     },
     "assets": [
@@ -8970,7 +10265,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Non · Ligne 2 du tableau : Non · Ligne 3 du tableau : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T3-Q90-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1156,
+        "height": 1653,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T3-Q90-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 41,
+        "sourceWidth": 1404,
+        "sourceHeight": 507
+      }
+    }
   },
   {
     "id": "T4-Q1",
@@ -9190,8 +10503,8 @@ window.AZ104_QUESTIONS = [
     "category": "App Service / Containers",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have the App Service plans shown in the following table.\n\nYou plan to create the Azure web apps shown in the following table.\n\nYou need to identify which App Service plans can be used for the web apps.\n\nWhat should you identify? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "WebApp1 : ASP1 & ASP3 Only ( WINDOWS & LINUX )\nWebApp2 : ASP1 ONLY ( Windows )",
-    "explanation": "L’autoscale ajuste automatiquement le nombre d’instances selon des métriques et des règles. Le plan App Service choisi doit supporter le nombre maximal d’instances requis et les fonctionnalités demandées.",
+    "solutionAnswer": "WebApp1 : ASP1 and ASP3 only · WebApp2 : ASP1 only",
+    "explanation": "Les applications partageant un App Service plan doivent utiliser un système d’exploitation compatible avec ce plan. Le runtime demandé et le système du plan déterminent donc les regroupements possibles, indépendamment du nom des applications.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -9199,12 +10512,26 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "ASP1 & ASP3 Only ( WINDOWS & LINUX )"
+          "label": "WebApp1",
+          "choices": [
+            "ASP1 only",
+            "ASP3 only",
+            "ASP1 and ASP2 only",
+            "ASP1 and ASP3 only",
+            "ASP1, ASP2, and ASP3"
+          ],
+          "expected": "ASP1 and ASP3 only"
         },
         {
-          "label": "Sélection 2",
-          "expected": "ASP1 ONLY ( Windows )"
+          "label": "WebApp2",
+          "choices": [
+            "ASP1 only",
+            "ASP3 only",
+            "ASP1 and ASP2 only",
+            "ASP1 and ASP3 only",
+            "ASP1, ASP2, and ASP3"
+          ],
+          "expected": "ASP1 only"
         }
       ]
     },
@@ -9213,7 +10540,7 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure App Service plan overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/app-service/overview-hosting-plans"
       }
     ],
@@ -9222,7 +10549,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "WebApp1 : ASP1 & ASP3 Only ( WINDOWS & LINUX )\nWebApp2 : ASP1 ONLY ( Windows )",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T4-Q7-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 786,
+        "height": 387,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q8",
@@ -9231,7 +10569,7 @@ window.AZ104_QUESTIONS = [
     "category": "Compute / VM",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You create a virtual machine scale set named Scale1. Scale1 is configured as shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "6 VM / 2 VM\nBox 1: 6 virtual machines -\nThe Autoscale scale out rule increases the number of VMs by 2 if the CPU threshold is 80% or higher. Th\ne initial instance count is 4 and rises to 6 when the 2 extra instances of VMs are added.",
+    "solutionAnswer": "CPU at 85% for six minutes : 6 virtual machines · CPU at 25% then 50%, six minutes each : 2 virtual machines",
     "explanation": "Box 2: 2 virtual machnes - The Autoscale scale in rule decreases the number of VMs by 4 if the CPU threshold is 30% or lower. The initial instance count is 4 and thus cannot be reduced to 0 as the minimum instances is set to 2. Instances are only added when the CPU threshold reaches 80%.",
     "options": [],
     "answerIndices": [],
@@ -9240,8 +10578,26 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "6 virtual machines -"
+          "label": "CPU at 85% for six minutes",
+          "choices": [
+            "2 virtual machines",
+            "4 virtual machines",
+            "6 virtual machines",
+            "10 virtual machines",
+            "20 virtual machines"
+          ],
+          "expected": "6 virtual machines"
+        },
+        {
+          "label": "CPU at 25% then 50%, six minutes each",
+          "choices": [
+            "2 virtual machines",
+            "4 virtual machines",
+            "6 virtual machines",
+            "8 virtual machines",
+            "10 virtual machines"
+          ],
+          "expected": "2 virtual machines"
         }
       ]
     },
@@ -9259,7 +10615,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "6 VM / 2 VM\nBox 1: 6 virtual machines -\nThe Autoscale scale out rule increases the number of VMs by 2 if the CPU threshold is 80% or higher. Th\ne initial instance count is 4 and rises to 6 when the 2 extra instances of VMs are added.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T4-Q8-clean.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 871,
+        "height": 369,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q9",
@@ -9269,7 +10636,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You plan to automate the deployment of a virtual machine scale set that uses the Windows Server 2016 Datacenter image.\n\nYou need to ensure that when the scale set virtual machines are provisioned, they have web server components installed.\n\nWhich two actions should you perform? Each correct answer presents part of the solution.\n\nNOTE: Each correct selection is worth one point.",
     "solutionAnswer": "Upload a configuration script / Modify the extensionProfile section of the Azure Resource Manag\ner template",
-    "explanation": "Les déploiements ARM sont enregistrés au niveau du scope de déploiement, ici le resource group. L’historique des deployments permet de revoir le template et les paramètres utilisés pour plusieurs ressources.",
+    "explanation": "Le script installe les composants web et extensionProfile déclare l’extension qui l’exécutera sur les instances du scale set. Le template ARM doit référencer ce script pour que l’installation fasse partie du provisionnement.",
     "options": [
       "Upload a configuration script",
       "Create an automation account",
@@ -9295,7 +10662,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Upload a configuration script / Modify the extensionProfile section of the Azure Resource Manag\ner template",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T4-Q10",
@@ -9348,7 +10715,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Premier mot de la commande : az · Groupe de commande : aks",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q10-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1153,
+        "height": 271,
+        "sourceWidth": 1404,
+        "sourceHeight": 1396
+      }
+    }
   },
   {
     "id": "T4-Q11",
@@ -9357,8 +10734,8 @@ window.AZ104_QUESTIONS = [
     "category": "Compute / VM",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You onboard 10 Azure virtual machines to Azure Automation State Configuration.\n\nYou need to use Azure Automation State Configuration to manage the ongoing consistency of the virtual machine configurations.\n\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and\n\narrange them in the correct order.\n\nNOTE: More than one order of answer choices is correct. You will receive credit for any of the correct orders you select.",
-    "solutionAnswer": "1. Upload a configuration to Azure Automation State Configuration\n2. Compile a configuration into a node configuration\n3. Check the compliance status of the node.",
-    "explanation": "1. Upload a configuration to Azure Automation State Configuration\n2. Compile a configuration into a node configuration\n3. Check the compliance status of the node. est l’option qui correspond directement au mécanisme Compute / VM demandé dans le scénario. Le point clé est : Which three actions should you perform in sequence?",
+    "solutionAnswer": "Étape 1 : Upload a configuration to Azure Automation State Configuration · Étape 2 : Compile a configuration into a node configuration · Étape 3 : Check the compliance status of the node",
+    "explanation": "Chargez la configuration DSC, compilez-la pour produire la node configuration, puis vérifiez le résultat de compilation avant d’enregistrer les machines. Une configuration non compilée ne fournit pas le document que le nœud doit appliquer.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -9367,15 +10744,36 @@ window.AZ104_QUESTIONS = [
       "rows": [
         {
           "label": "Étape 1",
-          "expected": "1. Upload a configuration to Azure Automation State Configuration"
+          "choices": [
+            "Assign tags to the virtual machines",
+            "Check the compliance status of the node",
+            "Compile a configuration into a node configuration",
+            "Upload a configuration to Azure Automation State Configuration",
+            "Create a management group"
+          ],
+          "expected": "Upload a configuration to Azure Automation State Configuration"
         },
         {
           "label": "Étape 2",
-          "expected": "2. Compile a configuration into a node configuration"
+          "choices": [
+            "Assign tags to the virtual machines",
+            "Check the compliance status of the node",
+            "Compile a configuration into a node configuration",
+            "Upload a configuration to Azure Automation State Configuration",
+            "Create a management group"
+          ],
+          "expected": "Compile a configuration into a node configuration"
         },
         {
           "label": "Étape 3",
-          "expected": "3. Check the compliance status of the node."
+          "choices": [
+            "Assign tags to the virtual machines",
+            "Check the compliance status of the node",
+            "Compile a configuration into a node configuration",
+            "Upload a configuration to Azure Automation State Configuration",
+            "Create a management group"
+          ],
+          "expected": "Check the compliance status of the node"
         }
       ]
     },
@@ -9393,7 +10791,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "1. Upload a configuration to Azure Automation State Configuration\n2. Compile a configuration into a node configuration\n3. Check the compliance status of the node.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T4-Q11-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1131,
+        "height": 165,
+        "sourceWidth": 1404,
+        "sourceHeight": 797
+      }
+    }
   },
   {
     "id": "T4-Q12",
@@ -9690,7 +11099,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q20-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1144,
+        "height": 503,
+        "sourceWidth": 1404,
+        "sourceHeight": 1471
+      }
+    }
   },
   {
     "id": "T4-Q21",
@@ -9724,7 +11143,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q21-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1144,
+        "height": 562,
+        "sourceWidth": 1404,
+        "sourceHeight": 831
+      }
+    }
   },
   {
     "id": "T4-Q22",
@@ -9758,7 +11187,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q22-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1144,
+        "height": 562,
+        "sourceWidth": 1404,
+        "sourceHeight": 1101
+      }
+    }
   },
   {
     "id": "T4-Q23",
@@ -9780,9 +11219,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "You can deploy VM3 to West US.",
+        "You can deploy VM4 to West US.",
+        "You can deploy VM5 to West US."
       ]
     },
     "assets": [
@@ -9799,7 +11238,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES / NO / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T4-Q23-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 865,
+        "height": 591,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q24",
@@ -9808,8 +11257,8 @@ window.AZ104_QUESTIONS = [
     "category": "Compute / VM",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription that contains an Azure Availability Set named WEBPROD-AS-USE2 as shown in the following exhibit.\n\nYou add 14 virtual machines to WEBPROD-AS-USE2.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Max unavailable Vm in Planned maintenance-> 2 / Max unavailable Vm in Power Failure -> 7",
-    "explanation": "Les VM d’un availability set peuvent partager des contraintes d’allocation sur le cluster. Lors d’un resize impossible, désallouer toutes les VM de l’ensemble permet à Azure de les réallouer avec la capacité nécessaire.",
+    "solutionAnswer": "Maximum unavailable VMs during planned maintenance : 2 · Maximum unavailable VMs during rack failure : 7",
+    "explanation": "Les 14 VM sont réparties entre sept update domains : la maintenance d’un groupe affecte au maximum deux VM. Deux fault domains répartissent les VM sur deux ensembles physiques : la panne d’un domaine peut affecter sept VM.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -9817,12 +11266,26 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "Max unavailable Vm in Planned maintenance-> 2"
+          "label": "Maximum unavailable VMs during planned maintenance",
+          "choices": [
+            "1",
+            "2",
+            "7",
+            "10",
+            "14"
+          ],
+          "expected": "2"
         },
         {
-          "label": "Sélection 2",
-          "expected": "Max unavailable Vm in Power Failure -> 7"
+          "label": "Maximum unavailable VMs during rack failure",
+          "choices": [
+            "1",
+            "2",
+            "7",
+            "10",
+            "14"
+          ],
+          "expected": "7"
         }
       ]
     },
@@ -9831,7 +11294,7 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Availability sets overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview"
       }
     ],
@@ -9840,7 +11303,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Max unavailable Vm in Planned maintenance-> 2 / Max unavailable Vm in Power Failure -> 7",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T4-Q24-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1096,
+        "height": 847,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q25",
@@ -9876,7 +11350,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "131.107.2.1 => LOAD Balancer Front end ip",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q25-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1017,
+        "height": 291,
+        "sourceWidth": 1404,
+        "sourceHeight": 645
+      }
+    }
   },
   {
     "id": "T4-Q26",
@@ -9920,8 +11404,8 @@ window.AZ104_QUESTIONS = [
     "category": "App Service / Containers",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You plan to deploy an Azure container instance by using the following Azure Resource Manager template.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the template.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Internet User : Can Connect to the container from any devices\nif container in iis fails : the container will restart automatically",
-    "explanation": "Internet User : Can Connect to the container from any devices\nif container in iis fails : the container will restart automatically est l’option qui correspond directement au mécanisme App Service / Containers demandé dans le scénario. Le point clé est : HOTSPOT - You plan to deploy an Azure container instance by using the following Azure Resource Manager template.",
+    "solutionAnswer": "Internet users : can connect to the container from any device · If IIS fails : the container will restart automatically",
+    "explanation": "Une adresse IP publique rend le container group accessible depuis Internet. La restart policy Always redémarre le conteneur lorsqu’il s’arrête, y compris après une exécution réussie ; OnFailure ne redémarre que les sorties en erreur.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -9929,11 +11413,21 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "Can Connect to the container from any devices"
+          "label": "Internet users",
+          "choices": [
+            "can connect to the container from any device",
+            "cannot connect to the container",
+            "can only connect to the container from devices that run Windows"
+          ],
+          "expected": "can connect to the container from any device"
         },
         {
-          "label": "Sélection 2",
+          "label": "If IIS fails",
+          "choices": [
+            "the container will restart automatically",
+            "the container will only restart manually",
+            "the container must be redeployed"
+          ],
           "expected": "the container will restart automatically"
         }
       ]
@@ -9952,7 +11446,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Internet User : Can Connect to the container from any devices\nif container in iis fails : the container will restart automatically",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T4-Q27-clean.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1107,
+        "height": 1003,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q28",
@@ -10024,7 +11529,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Deploy the App1 update to webapp1-test, and then test the update\nSwap the slots",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q29-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 770,
+        "height": 328,
+        "sourceWidth": 1404,
+        "sourceHeight": 1308
+      }
+    }
   },
   {
     "id": "T4-Q30",
@@ -10110,7 +11625,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You plan to create the Azure web apps shown in the following table.\n\nWhat is the minimum number of App Service plans you should create for the web apps?",
     "solutionAnswer": "2",
-    "explanation": "L’autoscale ajuste automatiquement le nombre d’instances selon des métriques et des règles. Le plan App Service choisi doit supporter le nombre maximal d’instances requis et les fonctionnalités demandées.",
+    "explanation": "Les applications partageant un App Service plan doivent utiliser un système d’exploitation compatible avec ce plan. Le runtime demandé et le système du plan déterminent donc les regroupements possibles, indépendamment du nom des applications.",
     "options": [
       "1",
       "2",
@@ -10127,7 +11642,7 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure App Service plan overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/app-service/overview-hosting-plans"
       }
     ],
@@ -10136,7 +11651,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T4-Q32-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 706,
+        "height": 260,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q33",
@@ -10145,8 +11670,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have a pay-as-you-go Azure subscription that contains the virtual machines shown in the following table.\n\nYou create the budget shown in the following exhibit.\n\nThe AG1 action group contains a user named admin@contoso.com only.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.",
-    "solutionAnswer": "VM1 and VM2 continue to run / one email notification will be sent each month.",
-    "explanation": "Un Action Group centralise les destinataires et actions déclenchés par les alertes Azure Monitor. Plusieurs règles d’alerte peuvent réutiliser le même groupe afin de limiter l’administration.",
+    "solutionAnswer": "When the budget amount is reached : VM1 and VM2 continue to run · Email notifications per month : one email notification",
+    "explanation": "Un budget suit les dépenses et déclenche ses notifications aux seuils configurés. Il n’arrête pas automatiquement les VM et ne bloque pas les nouvelles dépenses. Il faut une automatisation distincte pour agir sur les ressources.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10154,12 +11679,23 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "When the budget amount is reached",
+          "choices": [
+            "VM1 and VM2 are turned off",
+            "VM1 and VM2 continue to run",
+            "VM1 is turned off, and VM2 continues to run"
+          ],
           "expected": "VM1 and VM2 continue to run"
         },
         {
-          "label": "Sélection 2",
-          "expected": "one email notification will be sent each month."
+          "label": "Email notifications per month",
+          "choices": [
+            "no email notifications",
+            "one email notification",
+            "two email notifications",
+            "three email notifications"
+          ],
+          "expected": "one email notification"
         }
       ]
     },
@@ -10177,7 +11713,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "VM1 and VM2 continue to run / one email notification will be sent each month.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T4-Q33-clean.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1096,
+        "height": 1204,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q34",
@@ -10243,7 +11790,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q35-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1144,
+        "height": 503,
+        "sourceWidth": 1404,
+        "sourceHeight": 1393
+      }
+    }
   },
   {
     "id": "T4-Q36",
@@ -10280,7 +11837,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": ". User1 and User2 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q36-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1016,
+        "height": 389,
+        "sourceWidth": 1404,
+        "sourceHeight": 785
+      }
+    }
   },
   {
     "id": "T4-Q37",
@@ -10302,9 +11869,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "App1 can be moved to RG2",
+        "App1 can be moved to RG3",
+        "App1 can be moved to RG4"
       ]
     },
     "assets": [
@@ -10321,7 +11888,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO / NO / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T4-Q37-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 758,
+        "height": 382,
+        "sourceWidth": 1404,
+        "sourceHeight": 1147
+      }
+    }
   },
   {
     "id": "T4-Q38",
@@ -10330,8 +11907,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure subscription named Subscription1 that contains the following resource group:\n\n✑ Name: RG1\n✑ Region: West US\n✑ Tag: `tag1`: `value1`\nYou assign an Azure policy named Policy1 to Subscription1 by using the following configurations:\n\n✑ Exclusions: None\n✑ Policy definition: Append a tag and its value to resources\n✑ Assignment name: Policy1\n✑ Parameters:\n✑ Tag name: tag2\n\nTag value: value2 -\n\nAfter Policy1 is assigned, you create a storage account that has the following configuration:\n\n✑ Name: storage1\n✑ Location: West US\n✑ Resource group: RG1\n✑ Tags: `tag3`: `value3`\nYou need to identify which tags are assigned to each resource.\n\nWhat should you identify? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Tag Assigned to RG : \"tag1\": \"value1\" only -\nTag Assigned to Storage1: \"tag2\": \"value2\" and \"tag3\": \"value3\" only",
-    "explanation": "Le groupe RG1 conserve son tag tag1/value1. La stratégie Append appliquée à la souscription ajoute tag2/value2 aux nouvelles ressources concernées ; storage1 garde aussi son propre tag tag3/value3. Les tags du groupe ne sont pas copiés implicitement sur storage1.",
+    "solutionAnswer": "Tags assigned to RG1 : \"tag1\": \"value1\" only · Tags assigned to storage1 : \"tag2\": \"value2\" and \"tag3\": \"value3\" only",
+    "explanation": "Append ajoute le tag au moment d’une création ou mise à jour conforme à la policy. Les tags du resource group ne sont pas hérités automatiquement par les ressources, et une policy Append ne rétro-applique pas seule le tag à toutes les ressources existantes.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10339,11 +11916,22 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "\"tag1\": \"value1\" only -"
+          "label": "Tags assigned to RG1",
+          "choices": [
+            "\"tag1\": \"value1\" only",
+            "\"tag2\": \"value2\" only",
+            "\"tag1\": \"value1\" and \"tag2\": \"value2\""
+          ],
+          "expected": "\"tag1\": \"value1\" only"
         },
         {
-          "label": "Sélection 2",
+          "label": "Tags assigned to storage1",
+          "choices": [
+            "\"tag3\": \"value3\" only",
+            "\"tag1\": \"value1\" and \"tag3\": \"value3\" only",
+            "\"tag2\": \"value2\" and \"tag3\": \"value3\" only",
+            "\"tag1\": \"value1\", \"tag2\": \"value2\", and \"tag3\": \"value3\""
+          ],
           "expected": "\"tag2\": \"value2\" and \"tag3\": \"value3\" only"
         }
       ]
@@ -10366,7 +11954,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Tag Assigned to RG : \"tag1\": \"value1\" only -\nTag Assigned to Storage1: \"tag2\": \"value2\" and \"tag3\": \"value3\" only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T4-Q38-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 784,
+        "height": 686,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q39",
@@ -10375,8 +11974,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Surveiller et maintenir les ressources Azure",
     "prompt": "You have an Azure subscription named Subscription1.\n\nIn Subscription1, you create an alert rule named Alert1.\n\nThe Alert1 action group is configured as shown in the following exhibit.\n\nAlert1 alert criteria triggered every minute.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Number of email that Alert1 will send in an hour : 60\nNumber of SMS that Alert2 will send in an hour : 0 ( HERE ONLY ALERT1 IS MENTIONED SO ALERT\n2 IS NOT MENTIONED )",
-    "explanation": "SMS: No more than 1 SMS every 5 minutes. Voice: No more than 1 Voice call every 5 minutes. Email: No more than 100 emails in an hour.",
+    "solutionAnswer": "Emails sent by Alert1 per hour : 60 · SMS sent by Alert2 per hour : 0",
+    "explanation": "Alert1 produit un email chaque minute, soit 60 par heure, sous la limite de 100 emails par heure. L’énoncé ne crée aucune règle Alert2 : elle ne produit donc aucun SMS. Les SMS d’une action group sont limités à un par cinq minutes, mais cette limite ne crée pas une alerte absente.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10384,12 +11983,26 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "Emails sent by Alert1 per hour",
+          "choices": [
+            "0",
+            "4",
+            "6",
+            "12",
+            "60"
+          ],
           "expected": "60"
         },
         {
-          "label": "Sélection 2",
-          "expected": "0 ( HERE ONLY ALERT1 IS MENTIONED SO ALERT"
+          "label": "SMS sent by Alert2 per hour",
+          "choices": [
+            "0",
+            "4",
+            "6",
+            "12",
+            "60"
+          ],
+          "expected": "0"
         }
       ]
     },
@@ -10398,8 +12011,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure Monitor action groups",
-        "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/action-groups"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/service-limits"
       }
     ],
     "sourceScope": "theme",
@@ -10407,7 +12020,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Number of email that Alert1 will send in an hour : 60\nNumber of SMS that Alert2 will send in an hour : 0 ( HERE ONLY ALERT1 IS MENTIONED SO ALERT\n2 IS NOT MENTIONED )",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T4-Q39-clean.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1096,
+        "height": 538,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q40",
@@ -10444,7 +12068,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "VM1, VM3, VMA, and VMC only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q40-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 889,
+        "height": 461,
+        "sourceWidth": 1404,
+        "sourceHeight": 859
+      }
+    }
   },
   {
     "id": "T4-Q41",
@@ -10454,7 +12088,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure Kubernetes Service (AKS) cluster named AKS1.\n\nYou need to configure cluster autoscaler for AKS1.\n\nWhich two tools should you use? Each correct answer presents a complete solution.\n\nNOTE: Each correct selection is worth one point.",
     "solutionAnswer": "the kubectl command / the az aks command",
-    "explanation": "L’autoscale ajuste automatiquement le nombre d’instances selon des métriques et des règles. Le plan App Service choisi doit supporter le nombre maximal d’instances requis et les fonctionnalités demandées.",
+    "explanation": "Le cluster autoscaler ajuste le nombre de nœuds AKS. Azure CLI (az aks) et le portail Azure permettent de le configurer sur le node pool avec les limites minimum et maximum. kubectl configure notamment le horizontal pod autoscaler, qui ajuste les pods : ce n’est pas la configuration du cluster autoscaler géré par AKS.",
     "options": [
       "the kubectl command",
       "the az aks command",
@@ -10463,24 +12097,24 @@ window.AZ104_QUESTIONS = [
       "the Set-AzAks cmdlet"
     ],
     "answerIndices": [
-      0,
-      1
+      1,
+      3
     ],
     "multi": true,
     "visualSpec": null,
     "assets": [],
     "sources": [
       {
-        "title": "Scale an App Service plan",
-        "url": "https://learn.microsoft.com/en-us/azure/app-service/manage-scale-up"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/cluster-autoscaler"
       }
     ],
     "sourceScope": "theme",
     "format": "knowledge",
-    "originalAnswer": "the kubectl command / the az aks command",
-    "answerRevision": false,
+    "originalAnswer": "kubectl et az aks",
+    "answerRevision": true,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T4-Q42",
@@ -10550,7 +12184,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Proximity2 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q43-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 740,
+        "height": 300,
+        "sourceWidth": 1404,
+        "sourceHeight": 653
+      }
+    }
   },
   {
     "id": "T4-Q44",
@@ -10689,8 +12333,8 @@ window.AZ104_QUESTIONS = [
     "category": "Networking",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription named Subscription1. Subscription1 contains a virtual machine named VM1.\n\nYou install and configure a web server and a DNS server on VM1.\n\nVM1 has the effective network security rules shown in the following exhibit:\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Internet User : Can Connect Only Web Server on VM1\nIF you delete rule 2 internet users : can connect dns server and Webserver",
-    "explanation": "Internet User : Can Connect Only Web Server on VM1\nIF you delete rule 2 internet users : can connect dns server and Webserver est l’option qui correspond directement au mécanisme Networking demandé dans le scénario.",
+    "solutionAnswer": "Internet users : can connect to only the web server on VM1 · Internet users after deleting Rule2 : can connect to the web server and the DNS server on VM1",
+    "explanation": "Les règles NSG sont évaluées par priorité. La règle autorisant le trafic web doit rester avant le deny ; pour autoriser aussi le DNS, modifiez la règle qui bloque son port dans la configuration illustrée.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10698,12 +12342,24 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "Can Connect Only Web Server on VM1"
+          "label": "Internet users",
+          "choices": [
+            "can connect to only the DNS server on VM1",
+            "can connect to only the web server on VM1",
+            "can connect to the web server and the DNS server on VM1",
+            "cannot connect to the web server and the DNS server on VM1"
+          ],
+          "expected": "can connect to only the web server on VM1"
         },
         {
-          "label": "Sélection 2",
-          "expected": "can connect dns server and Webserver"
+          "label": "Internet users after deleting Rule2",
+          "choices": [
+            "can connect to only the DNS server on VM1",
+            "can connect to only the web server on VM1",
+            "can connect to the web server and the DNS server on VM1",
+            "cannot connect to the web server and the DNS server on VM1"
+          ],
+          "expected": "can connect to the web server and the DNS server on VM1"
         }
       ]
     },
@@ -10712,8 +12368,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure DNS delegation",
-        "url": "https://learn.microsoft.com/en-us/azure/dns/dns-domain-delegation"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
     "sourceScope": "theme",
@@ -10721,7 +12377,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Internet User : Can Connect Only Web Server on VM1\nIF you delete rule 2 internet users : can connect dns server and Webserver",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T4-Q48-clean.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1096,
+        "height": 631,
+        "sourceWidth": 1404,
+        "sourceHeight": 1286
+      }
+    }
   },
   {
     "id": "T4-Q49",
@@ -10867,8 +12534,8 @@ window.AZ104_QUESTIONS = [
     "category": "App Service / Containers",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You deploy an Azure Kubernetes Service (AKS) cluster that has the network profile shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "CONTAINER WILL ASSIGN IP IN SUBNET : POD CIDR\nSERVICE IN AKS WILL ASSIGN IP OF : SERVICE CIDR",
-    "explanation": "CONTAINER WILL ASSIGN IP IN SUBNET : POD CIDR\nSERVICE IN AKS WILL ASSIGN IP OF : SERVICE CIDR est l’option qui correspond directement au mécanisme App Service / Containers demandé dans le scénario.",
+    "solutionAnswer": "Container IP address subnet : 10.244.0.0/16 · Service IP address subnet : 10.0.0.0/16",
+    "explanation": "Le Pod CIDR attribue les adresses aux pods, ici 10.244.0.0/16. Le Service CIDR attribue les adresses virtuelles aux services Kubernetes, ici 10.0.0.0/16. Ces plages jouent des rôles distincts et ne doivent pas se chevaucher.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -10876,12 +12543,22 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "POD CIDR"
+          "label": "Container IP address subnet",
+          "choices": [
+            "10.244.0.0/16",
+            "10.0.0.0/16",
+            "172.17.0.1/16"
+          ],
+          "expected": "10.244.0.0/16"
         },
         {
-          "label": "Sélection 2",
-          "expected": "SERVICE CIDR"
+          "label": "Service IP address subnet",
+          "choices": [
+            "10.244.0.0/16",
+            "10.0.0.0/16",
+            "172.17.0.1/16"
+          ],
+          "expected": "10.0.0.0/16"
         }
       ]
     },
@@ -10899,7 +12576,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "CONTAINER WILL ASSIGN IP IN SUBNET : POD CIDR\nSERVICE IN AKS WILL ASSIGN IP OF : SERVICE CIDR",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T4-Q53-clean.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1096,
+        "height": 523,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q54",
@@ -10908,7 +12596,7 @@ window.AZ104_QUESTIONS = [
     "category": "App Service / Containers",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have the App Service plan shown in the following exhibit.\n\nThe scale-in settings for the App Service plan are configured as shown in the following exhibit.\n\nThe scale out rule is configured with the same duration and cool down tile as the scale in rule.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "2 / 4",
+    "solutionAnswer": "70% for one hour then 90% for five minutes : 2 · 90% for one hour then below 25% for nine minutes : 4",
     "explanation": "Box 1: 2 70% for 1h, and then 90% for 5 minutes. So, from the default of 1 it will scale out out 1 more. So, 2 in tota l. Box 2: 4 90% for 1h and then 25% for 9minutes. So, from the default of 1 it will it scale in to the max 5 (60/5 = 12, which means 6 times scale out, because we have 5 minutes period of cool down). Then when it drops to 25% for 9 minutes and it will scale in once after 5 mins (since the average …",
     "options": [],
     "answerIndices": [],
@@ -10917,11 +12605,25 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "70% for one hour then 90% for five minutes",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
           "expected": "2"
         },
         {
-          "label": "Sélection 2",
+          "label": "90% for one hour then below 25% for nine minutes",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
           "expected": "4"
         }
       ]
@@ -10941,7 +12643,26 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "2 / 4",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T4-Q54-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1096,
+        "height": 1238,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T4-Q54-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 769
+      }
+    }
   },
   {
     "id": "T4-Q55",
@@ -11012,7 +12733,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "the hard drive",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q56-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 991,
+        "height": 1102,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q57",
@@ -11021,7 +12752,7 @@ window.AZ104_QUESTIONS = [
     "category": "Compute / VM",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription that contains a virtual machine scale set. The scale set contains four instances that have the following\n\nconfigurations:\n\n✑ Operating system: Windows Server 2016\n✑ Size: Standard_D1_v2\nYou run the get-azvmss cmdlet as shown in the following exhibit:\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "4 / 1",
+    "solutionAnswer": "VMs resized simultaneously : 4 · VMs receiving a new OS image simultaneously : 1",
     "explanation": "Box 1: 4 If you resize the Scale Set all the VMs get resized at once, thus 4 is the correct answer. Box 2: 1 Automatic OS updates update 20% of the VMs at once, with a minimum of 1 VM instance at a time. Also 20% of 4 = 0.8.",
     "options": [],
     "answerIndices": [],
@@ -11030,11 +12761,21 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "VMs resized simultaneously",
+          "choices": [
+            "1",
+            "2",
+            "4"
+          ],
           "expected": "4"
         },
         {
-          "label": "Sélection 2",
+          "label": "VMs receiving a new OS image simultaneously",
+          "choices": [
+            "1",
+            "2",
+            "4"
+          ],
           "expected": "1"
         }
       ]
@@ -11053,7 +12794,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "4 / 1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T4-Q57-clean.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1148,
+        "height": 662,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q58",
@@ -11089,7 +12841,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "RG1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q58-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1160,
+        "height": 397,
+        "sourceWidth": 1404,
+        "sourceHeight": 751
+      }
+    }
   },
   {
     "id": "T4-Q59",
@@ -11125,7 +12887,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "SWAP THE slot",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q59-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 826,
+        "height": 324,
+        "sourceWidth": 1404,
+        "sourceHeight": 1181
+      }
+    }
   },
   {
     "id": "T4-Q60",
@@ -11134,8 +12906,8 @@ window.AZ104_QUESTIONS = [
     "category": "Compute / VM",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription named Subscription1. Subscription1 contains two Azure virtual machines VM1 and VM2. VM1 and VM2 run\n\nWindows Server\n\n2016.\n\nVM1 is backed up daily by Azure Backup without using the Azure Backup agent.\n\nVM1 is affected by ransomware that encrypts data.\n\nYou need to restore the latest backup of VM1.\n\nTo which location can you restore the backup? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "VM1 or a new Azure virtual machine only / VM1 or a new Azure virtual machine only",
-    "explanation": "Azure Backup s’appuie sur un vault et une policy qui définissent la planification et la rétention. La bonne réponse est celle qui respecte à la fois le type de ressource protégé, la région et les paramètres de conservation.",
+    "solutionAnswer": "You can perform a file recovery of VM1 to… : Any Windows computer that has Internet connectivity · You can restore VM1 to… : VM1 or a new Azure virtual machine only",
+    "explanation": "La récupération de fichiers monte le point de restauration sur un ordinateur Windows disposant du réseau et d’un système compatible (Windows Server 2016 ou Windows 10 ici) ; elle n’est pas limitée aux VM Azure. La restauration de la VM complète peut remplacer les disques de VM1 ou créer une nouvelle VM, sans écraser directement VM2.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -11143,27 +12915,25 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "You can perform a file recovery of VM1 to…",
           "choices": [
-            "VM1 to: M1 only",
+            "VM1 only",
             "VM1 or a new Azure virtual machine only",
             "VM1 and VM2 only",
-            "Anew Azure virtual machine only",
+            "A new Azure virtual machine only",
             "Any Windows computer that has Internet connectivity"
           ],
-          "expected": "VM1 or a new Azure virtual machine only",
-          "choiceSource": "source"
+          "expected": "Any Windows computer that has Internet connectivity"
         },
         {
-          "label": "Sélection 2",
+          "label": "You can restore VM1 to…",
           "choices": [
-            "1VM1 only",
-            "1VM1 or a new Azure virtual machine only",
-            "1VM1 and VM2 only",
+            "VM1 only",
+            "VM1 or a new Azure virtual machine only",
+            "VM1 and VM2 only",
             "Any Windows computer that has Internet connectivity"
           ],
-          "expected": "VM1 or a new Azure virtual machine only",
-          "choiceSource": "source"
+          "expected": "VM1 or a new Azure virtual machine only"
         }
       ]
     },
@@ -11172,16 +12942,27 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Restore Azure VMs",
-        "url": "https://learn.microsoft.com/en-us/azure/backup/backup-azure-arm-restore-vms"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/backup/backup-azure-restore-files-from-vm"
       }
     ],
     "sourceScope": "theme",
     "format": "knowledge",
-    "originalAnswer": "VM1 or a new Azure virtual machine only / VM1 or a new Azure virtual machine only",
-    "answerRevision": false,
+    "originalAnswer": "Récupération de fichiers limitée à VM1 ou une nouvelle VM Azure.",
+    "answerRevision": true,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T4-Q60-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1114,
+        "height": 263,
+        "sourceWidth": 1404,
+        "sourceHeight": 1004
+      }
+    }
   },
   {
     "id": "T4-Q61",
@@ -11340,8 +13121,8 @@ window.AZ104_QUESTIONS = [
     "category": "Compute / VM",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription.\n\nYou deploy a virtual machine scale set that is configured as shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that answers each question based on the information presented in the graphic\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "3 / 1",
-    "explanation": "3 / 1 est l’option qui correspond directement au mécanisme Compute / VM demandé dans le scénario.",
+    "solutionAnswer": "Instances at 09:15 after 90% CPU : 3 · Instances at 11:00 after low CPU : 1",
+    "explanation": "Appliquez la règle autoscale correspondant à chaque intervalle horaire, en respectant le minimum, le maximum et le cooldown indiqués. Une deuxième action de scaling ne se déclenche pas avant la fin de son cooldown, même si le seuil est encore dépassé.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -11349,11 +13130,23 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "Instances at 09:15 after 90% CPU",
+          "choices": [
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
           "expected": "3"
         },
         {
-          "label": "Sélection 2",
+          "label": "Instances at 11:00 after low CPU",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
           "expected": "1"
         }
       ]
@@ -11373,7 +13166,26 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "3 / 1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T4-Q65-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 764,
+        "height": 393,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T4-Q65-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 920
+      }
+    }
   },
   {
     "id": "T4-Q66",
@@ -11383,7 +13195,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have web apps in the West US, Central US and East US Azure regions.\n\nYou have the App Service plans shown in the following table.\n\nYou plan to create an additional App Service plan named ASP5 that will use the Linux operating system.\n\nYou need to identify in which of the currently used locations you can deploy ASP5.\n\nWhat should you recommend?",
     "solutionAnswer": "West US, Central US, or East US",
-    "explanation": "L’autoscale ajuste automatiquement le nombre d’instances selon des métriques et des règles. Le plan App Service choisi doit supporter le nombre maximal d’instances requis et les fonctionnalités demandées.",
+    "explanation": "Un App Service plan possède sa propre région et son système d’exploitation. La présence d’autres plans dans West US, Central US ou East US n’empêche pas de créer un nouveau plan Linux dans ces régions.",
     "options": [
       "West US, Central US, or East US",
       "Central US only",
@@ -11409,7 +13221,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "West US, Central US, or East US",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T4-Q66-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 832,
+        "height": 383,
+        "sourceWidth": 1404,
+        "sourceHeight": 1067
+      }
+    }
   },
   {
     "id": "T4-Q67",
@@ -11496,7 +13318,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Cmdlet de déploiement dans le groupe : New-AzResourceGroupDeployment · Paramètre désignant le groupe RG1 : -ResourceGroupName RG1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q68-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 900,
+        "height": 326,
+        "sourceWidth": 1404,
+        "sourceHeight": 773
+      }
+    }
   },
   {
     "id": "T4-Q69",
@@ -11628,7 +13460,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "From VM2, install the Microsoft Azure Recovery Services Agent",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q72-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 926,
+        "height": 850,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q73",
@@ -11711,7 +13553,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Yes",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q74-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1144,
+        "height": 623,
+        "sourceWidth": 1404,
+        "sourceHeight": 820
+      }
+    }
   },
   {
     "id": "T4-Q75",
@@ -11745,7 +13597,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q75-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1144,
+        "height": 551,
+        "sourceWidth": 1404,
+        "sourceHeight": 1112
+      }
+    }
   },
   {
     "id": "T4-Q76",
@@ -11779,7 +13641,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Yes",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q76-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1144,
+        "height": 550,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q77",
@@ -11866,7 +13738,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Créer pour héberger le backup App Service planifié : An Azure Storage account · Fichier à placer dans wwwroot pour exclure Folder2 : A _backup.filter file",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q78-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1083,
+        "height": 133,
+        "sourceWidth": 1404,
+        "sourceHeight": 939
+      }
+    }
   },
   {
     "id": "T4-Q79",
@@ -11951,7 +13833,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Type de ressource ARM de l’extension de jonction : Microsoft.Compute/virtualMachines/extensions · Propriété contenant le mot de passe sensible : protectedSettings",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q80-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1074,
+        "height": 133,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q82",
@@ -11960,8 +13852,8 @@ window.AZ104_QUESTIONS = [
     "category": "App Service / Containers",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You are creating an Azure Kubernetes Services (AKS) cluster as shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "add / --max-surge 2",
-    "explanation": "add / --max-surge 2 est l’option qui correspond directement au mécanisme App Service / Containers demandé dans le scénario.",
+    "solutionAnswer": "To create Windows containers in AKS1, you must… : modify the Network configuration setting · To integrate AKS1 with an Azure container registry, modify… : Authentication method",
+    "explanation": "La capture utilise kubenet, qui ne prend pas en charge les node pools Windows : changez Network configuration pour Azure CNI. L’intégration au registre nécessite l’identité appropriée et ses droits de lecture ; dans l’assistant historique illustré, ce choix se configure dans Authentication method. Les paramètres add et max-surge importés auparavant provenaient de la question suivante.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -11969,28 +13861,25 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "To create Windows containers in AKS1, you must…",
           "choices": [
+            "enable virtual nodes",
             "increase the number of node pools",
             "modify the Kubernetes version setting",
-            "modify the Network configuration setting",
-            "To ensure that you can integrate AKS1with an Azurecontainer [ —“‘S™SCCC*dé*Y",
-            "add"
+            "modify the Network configuration setting"
           ],
-          "expected": "add",
-          "choiceSource": "source"
+          "expected": "modify the Network configuration setting"
         },
         {
-          "label": "Sélection 2",
+          "label": "To integrate AKS1 with an Azure container registry, modify…",
           "choices": [
+            "AKS-managed Azure Active Directory",
             "Authentication method",
             "Authorized IP ranges",
             "Kubernetes version",
-            "Network configuration",
-            "max-surge 2"
+            "Network configuration"
           ],
-          "expected": "max-surge 2",
-          "choiceSource": "source"
+          "expected": "Authentication method"
         }
       ]
     },
@@ -12000,16 +13889,35 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure App Service plan overview",
-        "url": "https://learn.microsoft.com/en-us/azure/app-service/overview-hosting-plans"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/configure-kubenet"
       }
     ],
     "sourceScope": "theme",
     "format": "knowledge",
-    "originalAnswer": "add / --max-surge 2",
-    "answerRevision": false,
+    "originalAnswer": "add; max-surge 2 (réponse de T4-Q83 importée sur T4-Q82).",
+    "answerRevision": true,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T4-Q82-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1096,
+        "height": 1446,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T4-Q82-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 41,
+        "sourceWidth": 1404,
+        "sourceHeight": 665
+      }
+    }
   },
   {
     "id": "T4-Q83",
@@ -12018,22 +13926,34 @@ window.AZ104_QUESTIONS = [
     "category": "App Service / Containers",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription that contains an Azure Kubernetes Service (AKS) cluster named Cluster1. Cluster1 hosts a node pool named\n\nPool1 that has four nodes.\n\nYou need to perform a coordinated upgrade of Cluster1. The solution must meet the following requirements:\n\n• Deploy two new nodes to perform the upgrade.\n\n• Minimize costs.\n\nHow should you complete the command? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "yes / no / yes",
-    "explanation": "NOTE : RESOURCE GROUP IS ALSO A RESOURCE",
+    "solutionAnswer": "az aks nodepool … -n pool1 -g RG1 --cluster-name cluster1 : update · Paramètre de mise à niveau : --max-surge 2",
+    "explanation": "az aks nodepool update configure le node pool existant. --max-surge 2 autorise deux nœuds temporaires supplémentaires pendant la mise à niveau ; --node-count et --max-count règlent la taille du pool ou son autoscaler, pas le surge. Cette commande configure la stratégie avant de lancer la mise à niveau.",
     "options": [],
     "answerIndices": [],
     "multi": false,
     "visualSpec": {
-      "kind": "yn",
-      "expected": [
-        true,
-        false,
-        true
-      ],
-      "labels": [
-        "Ligne 1 du tableau de réponse (de haut en bas)",
-        "Ligne 2 du tableau de réponse (de haut en bas)",
-        "Ligne 3 du tableau de réponse (de haut en bas)"
+      "kind": "rows",
+      "rows": [
+        {
+          "label": "az aks nodepool … -n pool1 -g RG1 --cluster-name cluster1",
+          "choices": [
+            "add",
+            "get-upgrades",
+            "scale",
+            "update"
+          ],
+          "expected": "update"
+        },
+        {
+          "label": "Paramètre de mise à niveau",
+          "choices": [
+            "--max-count 2",
+            "--max-pods 2",
+            "--max-surge 2",
+            "--node-count 2"
+          ],
+          "expected": "--max-surge 2"
+        }
       ]
     },
     "assets": [
@@ -12041,16 +13961,27 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure App Service plan overview",
-        "url": "https://learn.microsoft.com/en-us/azure/app-service/overview-hosting-plans"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster"
       }
     ],
     "sourceScope": "theme",
     "format": "knowledge",
-    "originalAnswer": "yes / no / yes",
-    "answerRevision": false,
+    "originalAnswer": "Tableau Oui/Non importé à tort ; la source contient deux champs de commande.",
+    "answerRevision": true,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T4-Q83-1.jpg": {
+        "x": 116,
+        "y": 175,
+        "width": 1121,
+        "height": 435,
+        "sourceWidth": 1404,
+        "sourceHeight": 1322
+      }
+    }
   },
   {
     "id": "T4-Q84",
@@ -12095,7 +14026,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "La création du groupe RG1 et des trois comptes de stockage donne quatre nouvelles ressources. : Oui · Les comptes de stockage sont créés dans West US. : Non · Le premier compte de stockage a un nom qui commence par 0. : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q84-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1137,
+        "height": 1321,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q85",
@@ -12181,7 +14122,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Paramètre du groupe cible : -ResourceGroupName RG1 · Mode qui retire les ressources absentes du modèle : Complete",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q86-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1099,
+        "height": 366,
+        "sourceWidth": 1404,
+        "sourceHeight": 1373
+      }
+    }
   },
   {
     "id": "T4-Q87",
@@ -12269,7 +14220,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Instance3 and Instance4 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q88-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 634,
+        "height": 329,
+        "sourceWidth": 1404,
+        "sourceHeight": 684
+      }
+    }
   },
   {
     "id": "T4-Q89",
@@ -12393,7 +14354,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Fonction ARM dans dependsOn pour l’ID de la NIC : resourceId · Propriété de storageProfile pour publisher/offer/sku/version : imageReference",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q91-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 817,
+        "height": 237,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q92",
@@ -12446,7 +14417,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "App Service plan pour les domaines personnalisés : Standard · Enregistrement pour vérifier un sous-domaine : TXT",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q92-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1159,
+        "height": 334,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q93",
@@ -12488,7 +14469,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Le disque système de VM1 (Gen2, West Europe) peut servir de source à Image1 (Gen1). : Non · Le disque système de VM2 (Gen1, East US) peut servir de source à Image1. : Oui · Le disque système de VM3 (Gen1, West US) peut servir directement de source à une version de Image1 créée en East US. : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q93-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1150,
+        "height": 1655,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T4-Q93-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 757,
+        "height": 106,
+        "sourceWidth": 1404,
+        "sourceHeight": 626
+      }
+    }
   },
   {
     "id": "T4-Q94",
@@ -12567,7 +14566,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Le modèle crée RG0 dans East US. : Oui · Le modèle crée quatre nouveaux groupes de ressources. : Non · Le modèle crée RG3 dans West US. : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q95-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1161,
+        "height": 1164,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q96",
@@ -12603,7 +14612,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Image 1 : CONTAINER INSTANCE , App Service Only\nImage 2 : CONTAINER INSTANCE , App Service Only , Container Apps",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q96-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 691,
+        "height": 1082,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q97",
@@ -12666,7 +14685,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Image1 (Windows Server) : Azure Container Instances and App Services only · Image2 (Linux) : Azure Container Instances, Azure Container Apps, and App Services",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q97-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 776,
+        "height": 577,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q98",
@@ -12736,7 +14765,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NIC1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q99-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 890,
+        "height": 419,
+        "sourceWidth": 1404,
+        "sourceHeight": 1243
+      }
+    }
   },
   {
     "id": "T4-Q100",
@@ -12851,7 +14890,33 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Une VM peut être déployée dans RG1 (verrou CanNotDelete). : Oui · Une VM peut être déployée dans RG2 (verrou ReadOnly). : Non · RG3, absent de la boucle RG0 à RG2, peut être créé manuellement. : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T4-Q102-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 566,
+        "height": 107,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T4-Q102-2.jpg": {
+        "x": 121,
+        "y": 45,
+        "width": 1146,
+        "height": 1829,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      },
+      "assets/source/T4-Q102-3.jpg": {
+        "x": 116,
+        "y": 44,
+        "width": 758,
+        "height": 236,
+        "sourceWidth": 1404,
+        "sourceHeight": 785
+      }
+    }
   },
   {
     "id": "T4-Q103",
@@ -12887,7 +14952,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "A. Proximity2 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q103-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 740,
+        "height": 400,
+        "sourceWidth": 1404,
+        "sourceHeight": 1202
+      }
+    }
   },
   {
     "id": "T4-Q104",
@@ -12932,7 +15007,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "WebApp1 peut communiquer avec VM2 via le peering. : Oui · NSG1 régit le trafic entrant public vers WebApp1 multitenant. : Non · WebApp2 en environnement isolé peut communiquer avec VM1 via le peering. : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q104-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1060,
+        "height": 821,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T4-Q105",
@@ -12969,7 +15054,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "D. VM1, VM3, VMA, and VMC only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T4-Q105-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 889,
+        "height": 653,
+        "sourceWidth": 1404,
+        "sourceHeight": 1050
+      }
+    }
   },
   {
     "id": "T4-Q106",
@@ -13012,7 +15107,7 @@ window.AZ104_QUESTIONS = [
     "category": "Compute / VM",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription named Sub1.\n\nYou plan to deploy a multi-tiered application that will contain the tiers shown in the following table.\n\nYou need to recommend a networking solution to meet the following requirements:\n\n✑ Ensure that communication between the web servers and the business logic tier spreads equally across the virtual machines.\n✑ Protect the web servers from SQL injection attacks.\nWhich Azure resource should you recommend for each requirement? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "an internal load balancer / an application gateway that uses the waf tier",
+    "solutionAnswer": "Spread communication equally between web servers and the business logic tier : an internal load balancer · Protect web servers from SQL injection attacks : an application gateway that uses the WAF tier",
     "explanation": "Azure Application Gateway distribue le trafic HTTP/HTTPS au niveau applicatif et peut appliquer des fonctions L7. Un Load Balancer interne travaille au niveau réseau pour répartir des flux privés entre VM.",
     "options": [],
     "answerIndices": [],
@@ -13021,29 +15116,26 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "Spread communication equally between web servers and the business logic tier",
           "choices": [
-            "servers and the business logic tier spreads 9",
-            "equally across the virtual machines: an application gateway that uses the Standard tier",
-            "an application gateway that uses the WAF tier",
-            "an internal load balancer",
-            "a network security group (NSG)",
-            "‘@ public load balancer"
-          ],
-          "expected": "an internal load balancer",
-          "choiceSource": "source"
-        },
-        {
-          "label": "Sélection 2",
-          "choices": [
-            "attacks: an application gateway that uses the Standard tier",
+            "an application gateway that uses the Standard tier",
             "an application gateway that uses the WAF tier",
             "an internal load balancer",
             "a network security group (NSG)",
             "a public load balancer"
           ],
-          "expected": "an application gateway that uses the waf tier",
-          "choiceSource": "source"
+          "expected": "an internal load balancer"
+        },
+        {
+          "label": "Protect web servers from SQL injection attacks",
+          "choices": [
+            "an application gateway that uses the Standard tier",
+            "an application gateway that uses the WAF tier",
+            "an internal load balancer",
+            "a network security group (NSG)",
+            "a public load balancer"
+          ],
+          "expected": "an application gateway that uses the WAF tier"
         }
       ]
     },
@@ -13061,7 +15153,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "an internal load balancer / an application gateway that uses the waf tier",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q1-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1039,
+        "height": 368,
+        "sourceWidth": 1404,
+        "sourceHeight": 1108
+      }
+    }
   },
   {
     "id": "T5-Q2",
@@ -13104,8 +15207,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You plan to deploy five virtual machines to a virtual network subnet.\n\nEach virtual machine will have a public IP address and a private IP address.\n\nEach virtual machine requires the same inbound and outbound security rules.\n\nWhat is the minimum number of network interfaces and network security groups that you require? To answer, select the appropriate options in the\n\nanswer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "5 / 1",
-    "explanation": "Une adresse IP privée statique doit être réservée au niveau de la configuration réseau Azure, pas seulement configurée dans Windows. Cela garantit qu’Azure réattribue la même IP à la NIC.",
+    "solutionAnswer": "Minimum network interfaces : 5 · Minimum network security groups : 1",
+    "explanation": "Chaque VM a besoin d’au moins une NIC : cinq VM nécessitent donc cinq NIC. Un même NSG peut être associé à plusieurs NIC ou à leur subnet ; il n’en faut pas obligatoirement un par VM.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -13113,11 +15216,23 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "Minimum network interfaces",
+          "choices": [
+            "5",
+            "10",
+            "15",
+            "20"
+          ],
           "expected": "5"
         },
         {
-          "label": "Sélection 2",
+          "label": "Minimum network security groups",
+          "choices": [
+            "1",
+            "2",
+            "5",
+            "10"
+          ],
           "expected": "1"
         }
       ]
@@ -13127,7 +15242,7 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Network security groups overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
@@ -13136,7 +15251,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "5 / 1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q3-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1164,
+        "height": 137,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q4",
@@ -13172,7 +15298,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "a frontend IP address",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q4-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1080,
+        "height": 812,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q5",
@@ -13181,7 +15317,7 @@ window.AZ104_QUESTIONS = [
     "category": "Networking",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have Azure virtual machines that run Windows Server 2019 and are configured as shown in the following table.\n\nYou create a private Azure DNS zone named adatum.com. You configure the adatum.com zone to allow auto registration from VNET1.\n\nWhich A records will be added to the adatum.com zone for each virtual machine? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Private Ip addresses Only / Private Ip addresses Only",
+    "solutionAnswer": "A records for VM1 : Private IP address only · A records for VM2 : Private IP address only",
     "explanation": "L’inscription automatique d’une zone DNS privée liée au réseau virtuel publie un enregistrement A pour l’adresse IP de l’interface réseau principale de chaque VM du réseau. Les autres interfaces doivent, si nécessaire, être inscrites manuellement.",
     "options": [],
     "answerIndices": [],
@@ -13190,12 +15326,24 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "Private Ip addresses Only"
+          "label": "A records for VM1",
+          "choices": [
+            "None",
+            "Private IP address only",
+            "Public IP address only",
+            "Private IP address and public IP address"
+          ],
+          "expected": "Private IP address only"
         },
         {
-          "label": "Sélection 2",
-          "expected": "Private Ip addresses Only"
+          "label": "A records for VM2",
+          "choices": [
+            "None",
+            "Private IP address only",
+            "Public IP address only",
+            "Private IP address and public IP address"
+          ],
+          "expected": "Private IP address only"
         }
       ]
     },
@@ -13213,7 +15361,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Private Ip addresses Only / Private Ip addresses Only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q5-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1139,
+        "height": 243,
+        "sourceWidth": 1404,
+        "sourceHeight": 901
+      }
+    }
   },
   {
     "id": "T5-Q6",
@@ -13222,8 +15381,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure virtual network named VNet1 that connects to your on-premises network by using a site-to-site VPN. VNet1 contains one\n\nsubnet named\n\nSunet1.\n\nSubnet1 is associated to a network security group (NSG) named NSG1. Subnet1 contains a basic internal load balancer named ILB1. ILB1 has\n\nthree Azure virtual machines in the backend pool.\n\nYou need to collect data about the IP addresses that connects to ILB1. You must be able to run interactive queries from the Azure portal against\n\nthe collected data.\n\nWhat should you do? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Log Analytic Worksapce / NSG1",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "solutionAnswer": "Resource to create : An Azure Log Analytics workspace · Resource on which to enable diagnostics : NSG1",
+    "explanation": "Les données recherchées sont les flux réseau au niveau de NSG1. Traffic Analytics les analyse dans un workspace Log Analytics, où KQL permet des requêtes interactives sur les IP. Le load balancer seul ne fournit pas ce journal. Ce scénario historique utilise les NSG flow logs ; les nouveaux déploiements utilisent désormais les virtual network flow logs.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -13231,11 +15390,21 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "Log Analytic Worksapce"
+          "label": "Resource to create",
+          "choices": [
+            "An Azure Event Grid",
+            "An Azure Log Analytics workspace",
+            "An Azure Storage account"
+          ],
+          "expected": "An Azure Log Analytics workspace"
         },
         {
-          "label": "Sélection 2",
+          "label": "Resource on which to enable diagnostics",
+          "choices": [
+            "LB1",
+            "NSG1",
+            "The Azure virtual machines"
+          ],
           "expected": "NSG1"
         }
       ]
@@ -13245,8 +15414,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Network security groups overview",
-        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/network-watcher/traffic-analytics"
       }
     ],
     "sourceScope": "theme",
@@ -13254,7 +15423,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Log Analytic Worksapce / NSG1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q6-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1150,
+        "height": 296,
+        "sourceWidth": 1404,
+        "sourceHeight": 1031
+      }
+    }
   },
   {
     "id": "T5-Q7",
@@ -13290,7 +15470,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "VNet3 and VNet4 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q7-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1055,
+        "height": 273,
+        "sourceWidth": 1404,
+        "sourceHeight": 627
+      }
+    }
   },
   {
     "id": "T5-Q8",
@@ -13338,7 +15528,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure subscription named Subscription1 that contains two Azure virtual networks named VNet1 and VNet2. VNet1 contains a VPN\n\ngateway named\n\nVPNGW1 that uses static routing. There is a site-to-site VPN connection between your on-premises network and VNet1.\n\nOn a computer named Client1 that runs Windows 10, you configure a point-to-site VPN connection to VNet1.\n\nYou configure virtual network peering between VNet1 and VNet2. You verify that you can connect to VNet2 from the on-premises network. Client1\n\nis unable to connect to VNet2.\n\nYou need to ensure that you can connect Client1 to VNet2.\n\nWhat should you do?",
     "solutionAnswer": ". Download and re-install the VPN client configuration package on Client1.",
-    "explanation": "Un VPN Point-to-Site connecte un poste client individuel au réseau virtuel Azure. C’est le modèle adapté aux utilisateurs distants, contrairement au Site-to-Site qui relie des réseaux entiers.",
+    "explanation": "Après l’ajout du peering, télécharger puis réinstaller le package VPN client actualise les routes Point-to-Site, notamment vers le réseau pair. La connectivité Site-to-Site déjà fonctionnelle ne prouve pas que les routes du poste client sont à jour.",
     "options": [
       "Download and re-install the VPN client configuration package on Client1.",
       "Select Allow gateway transit on VNet1.",
@@ -13362,7 +15552,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": ". Download and re-install the VPN client configuration package on Client1.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q10",
@@ -13384,9 +15574,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "When VM1 starts, a record for VM1 is added to the contoso.com DNS zone.",
+        "When VM2 starts, a record for VM2 is added to the contoso.com DNS zone.",
+        "When VM3 starts, a record for VM3 is added to the adatum.com DNS zone."
       ]
     },
     "assets": [
@@ -13403,7 +15593,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "yes / yes / no",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q10-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1135,
+        "height": 1127,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q11",
@@ -13413,7 +15613,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure subscription that contains the resources in the following table.\n\nTo which subnets can you apply NSG1?",
     "solutionAnswer": "the subnets on VNet3 only",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour chaque connexion, vérifiez les NSG du subnet et de la NIC : ils doivent tous autoriser le flux. Dans chaque NSG, la règle correspondante au plus petit numéro de priorité l’emporte. Les règles par défaut autorisent le trafic VirtualNetwork mais refusent les connexions Internet entrantes non explicitement autorisées.",
     "options": [
       "the subnets on VNet1 only",
       "the subnets on VNet2 and VNet3 only",
@@ -13431,8 +15631,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Assign Azure roles",
-        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
     "sourceScope": "theme",
@@ -13440,7 +15640,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "the subnets on VNet3 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q11-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1029,
+        "height": 321,
+        "sourceWidth": 1404,
+        "sourceHeight": 645
+      }
+    }
   },
   {
     "id": "T5-Q12",
@@ -13449,8 +15659,8 @@ window.AZ104_QUESTIONS = [
     "category": "Networking",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure subscription that contains two virtual networks named VNet1 and VNet2. Virtual machines connect to the virtual networks.\n\nThe virtual networks have the address spaces and the subnets configured as shown in the following table.\n\nYou need to add the address space of 10.33.0.0/16 to VNet1. The solution must ensure that the hosts on VNet1 and VNet2 can communicate.\n\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and\n\narrange them in the correct order.",
-    "solutionAnswer": "REMOVE PEERING BETWEEN VNET1AND VNET2 / ADD NEW address RANGE / recreate T\nHE PEERING BETWEEN VNET1 AND VNET2",
-    "explanation": "REMOVE PEERING BETWEEN VNET1AND VNET2 / ADD NEW address RANGE / recreate T\nHE PEERING BETWEEN VNET1 AND VNET2 est l’option qui correspond directement au mécanisme Networking demandé dans le scénario. Le point clé est : Which three actions should you perform in sequence?",
+    "solutionAnswer": "Étape 1 : Remove peering between VNet1 and VNet2 · Étape 2 : Add the 10.33.0.0/16 address space to VNet1 · Étape 3 : Recreate peering between VNet1 and VNet2",
+    "explanation": "La procédure historique de la source consiste à supprimer le peering, modifier l’espace d’adresses et recréer le peering. Azure permet aujourd’hui aussi de synchroniser les peerings après une modification compatible de l’espace d’adresses.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -13459,15 +15669,42 @@ window.AZ104_QUESTIONS = [
       "rows": [
         {
           "label": "Étape 1",
-          "expected": "REMOVE PEERING BETWEEN VNET1AND VNET2"
+          "choices": [
+            "Remove VNet1",
+            "Add the 10.33.0.0/16 address space to VNet1",
+            "Create a new virtual network named VNet1",
+            "On the peering connection in VNet2, allow gateway transit",
+            "Recreate peering between VNet1 and VNet2",
+            "On the peering connection in VNet1, allow gateway transit",
+            "Remove peering between VNet1 and VNet2"
+          ],
+          "expected": "Remove peering between VNet1 and VNet2"
         },
         {
           "label": "Étape 2",
-          "expected": "ADD NEW address RANGE"
+          "choices": [
+            "Remove VNet1",
+            "Add the 10.33.0.0/16 address space to VNet1",
+            "Create a new virtual network named VNet1",
+            "On the peering connection in VNet2, allow gateway transit",
+            "Recreate peering between VNet1 and VNet2",
+            "On the peering connection in VNet1, allow gateway transit",
+            "Remove peering between VNet1 and VNet2"
+          ],
+          "expected": "Add the 10.33.0.0/16 address space to VNet1"
         },
         {
           "label": "Étape 3",
-          "expected": "recreate T\nHE PEERING BETWEEN VNET1 AND VNET2"
+          "choices": [
+            "Remove VNet1",
+            "Add the 10.33.0.0/16 address space to VNet1",
+            "Create a new virtual network named VNet1",
+            "On the peering connection in VNet2, allow gateway transit",
+            "Recreate peering between VNet1 and VNet2",
+            "On the peering connection in VNet1, allow gateway transit",
+            "Remove peering between VNet1 and VNet2"
+          ],
+          "expected": "Recreate peering between VNet1 and VNet2"
         }
       ]
     },
@@ -13485,7 +15722,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "REMOVE PEERING BETWEEN VNET1AND VNET2 / ADD NEW address RANGE / recreate T\nHE PEERING BETWEEN VNET1 AND VNET2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q12-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1134,
+        "height": 316,
+        "sourceWidth": 1404,
+        "sourceHeight": 1287
+      }
+    }
   },
   {
     "id": "T5-Q13",
@@ -13507,9 +15755,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "You can move storage1 to RG2.",
+        "You can move NIC1 to RG2.",
+        "If you move IP2 to RG1, the location of IP2 will change."
       ]
     },
     "assets": [
@@ -13526,7 +15774,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES / YES / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q13-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 929,
+        "height": 543,
+        "sourceWidth": 1404,
+        "sourceHeight": 1115
+      }
+    }
   },
   {
     "id": "T5-Q14",
@@ -13596,7 +15854,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Start VM1.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q15-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1119,
+        "height": 1172,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q16",
@@ -13640,7 +15908,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have an Azure subscription that contains the following resources:\n\n✑ A virtual network that has a subnet named Subnet1\n✑ Two network security groups (NSGs) named NSG-VM1 and NSG-Subnet1\n✑ A virtual machine named VM1 that has the required Windows Server configurations to allow Remote Desktop connections\nNSG-Subnet1 has the default inbound security rules only.\n\nNSG-VM1 has the default inbound security rules and the following custom inbound security rule:\n\n✑ Priority: 100\n✑ Source: Any\n✑ Source port range: *\n✑ Destination: *\n✑ Destination port range: 3389\n✑ Protocol: UDP\n✑ Action: Allow\nVM1 has a public IP address and is connected to Subnet1. NSG-VM1 is associated to the network interface of VM1. NSG-Subnet1 is associated to\n\nSubnet1.\n\nYou need to be able to establish Remote Desktop connections from the internet to VM1.\n\nSolution: You add an inbound security rule to NSG-Subnet1 that allows connections from the Any source to the *destination for port range 3389\n\nand uses the TCP protocol. You remove NSG-VM1 from the network interface of VM1.\n\nDoes this meet the goal?",
     "solutionAnswer": "NO",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour chaque connexion, vérifiez les NSG du subnet et de la NIC : ils doivent tous autoriser le flux. Dans chaque NSG, la règle correspondante au plus petit numéro de priorité l’emporte. Les règles par défaut autorisent le trafic VirtualNetwork mais refusent les connexions Internet entrantes non explicitement autorisées.",
     "options": [
       "Yes",
       "No"
@@ -13653,7 +15921,7 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Network security groups overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
@@ -13662,7 +15930,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q18",
@@ -13672,7 +15940,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have an Azure subscription that contains the following resources:\n\n✑ A virtual network that has a subnet named Subnet1\n✑ Two network security groups (NSGs) named NSG-VM1 and NSG-Subnet1\n✑ A virtual machine named VM1 that has the required Windows Server configurations to allow Remote Desktop connections\nNSG-Subnet1 has the default inbound security rules only.\n\nNSG-VM1 has the default inbound security rules and the following custom inbound security rule:\n\n✑ Priority: 100\n✑ Source: Any\n✑ Source port range: *\n✑ Destination: *\n✑ Destination port range: 3389\n\nProtocol: UDP -\n\n✑ Action: Allow\nVM1 has a public IP address and is connected to Subnet1. NSG-VM1 is associated to the network interface of VM1. NSG-Subnet1 is associated to\n\nSubnet1.\n\nYou need to be able to establish Remote Desktop connections from the internet to VM1.\n\nSolution: You add an inbound security rule to NSG-Subnet1 that allows connections from the internet source to the VirtualNetwork destination for\n\nport range 3389 and uses the UDP protocol.\n\nDoes this meet the goal?",
     "solutionAnswer": "YES",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour chaque connexion, vérifiez les NSG du subnet et de la NIC : ils doivent tous autoriser le flux. Dans chaque NSG, la règle correspondante au plus petit numéro de priorité l’emporte. Les règles par défaut autorisent le trafic VirtualNetwork mais refusent les connexions Internet entrantes non explicitement autorisées.",
     "options": [
       "Yes",
       "No"
@@ -13685,7 +15953,7 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Network security groups overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
@@ -13694,7 +15962,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q19",
@@ -13704,7 +15972,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have an Azure subscription that contains the following resources:\n\n✑ A virtual network that has a subnet named Subnet1\n✑ Two network security groups (NSGs) named NSG-VM1 and NSG-Subnet1\n✑ A virtual machine named VM1 that has the required Windows Server configurations to allow Remote Desktop connections\nNSG-Subnet1 has the default inbound security rules only.\n\nNSG-VM1 has the default inbound security rules and the following custom inbound security rule:\n\n✑ Priority: 100\n✑ Source: Any\n✑ Source port range: *\n✑ Destination: *\n✑ Destination port range: 3389\n✑ Protocol: UDP\n✑ Action: Allow\nVM1 has a public IP address and is connected to Subnet1. NSG-VM1 is associated to the network interface of VM1. NSG-Subnet1 is associated to\n\nSubnet1.\n\nYou need to be able to establish Remote Desktop connections from the internet to VM1.\n\nSolution: You add an inbound security rule to NSG-Subnet1 and NSG-VM1 that allows connections from the internet source to the VirtualNetwork\n\ndestination for port range 3389 and uses the TCP protocol.\n\nDoes this meet the goal?",
     "solutionAnswer": "YES",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour chaque connexion, vérifiez les NSG du subnet et de la NIC : ils doivent tous autoriser le flux. Dans chaque NSG, la règle correspondante au plus petit numéro de priorité l’emporte. Les règles par défaut autorisent le trafic VirtualNetwork mais refusent les connexions Internet entrantes non explicitement autorisées.",
     "options": [
       "Yes",
       "No"
@@ -13717,7 +15985,7 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Network security groups overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
@@ -13726,7 +15994,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q20",
@@ -13735,8 +16003,8 @@ window.AZ104_QUESTIONS = [
     "category": "Networking",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have a virtual network named VNet1 that has the configuration shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "ADD AN ADDRESS SPACE / ADD AN NIC",
-    "explanation": "ADD AN ADDRESS SPACE / ADD AN NIC est l’option qui correspond directement au mécanisme Networking demandé dans le scénario.",
+    "solutionAnswer": "Before assigning 192.168.1.0/24 : add an address space · Before assigning 10.2.1.0/24 : add a subnet",
+    "explanation": "192.168.1.0/24 n’appartient pas à l’espace 10.2.0.0/16 : ajoutez d’abord un address space compatible. 10.2.1.0/24 appartient déjà au VNet mais pas au subnet existant 10.2.0.0/24 : créez un subnet dans cette plage avant d’y déployer la VM.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -13744,12 +16012,26 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "ADD AN ADDRESS SPACE"
+          "label": "Before assigning 192.168.1.0/24",
+          "choices": [
+            "add a network interface",
+            "add a subnet",
+            "add an address space",
+            "delete a subnet",
+            "delete an address space"
+          ],
+          "expected": "add an address space"
         },
         {
-          "label": "Sélection 2",
-          "expected": "ADD AN NIC"
+          "label": "Before assigning 10.2.1.0/24",
+          "choices": [
+            "add a network interface",
+            "add a subnet",
+            "add an address space",
+            "delete a subnet",
+            "delete an address space"
+          ],
+          "expected": "add a subnet"
         }
       ]
     },
@@ -13768,10 +16050,21 @@ window.AZ104_QUESTIONS = [
     ],
     "sourceScope": "theme",
     "format": "knowledge",
-    "originalAnswer": "ADD AN ADDRESS SPACE / ADD AN NIC",
-    "answerRevision": false,
+    "originalAnswer": "Add a network interface pour la seconde ligne.",
+    "answerRevision": true,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T5-Q20-clean.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1149,
+        "height": 916,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q21",
@@ -13807,7 +16100,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q21-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1091,
+        "height": 394,
+        "sourceWidth": 1404,
+        "sourceHeight": 749
+      }
+    }
   },
   {
     "id": "T5-Q22",
@@ -13843,7 +16146,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Remove Microsoft.Compute/virtualMachines from the policy",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q22-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1093,
+        "height": 297,
+        "sourceWidth": 1404,
+        "sourceHeight": 1183
+      }
+    }
   },
   {
     "id": "T5-Q23",
@@ -13933,9 +16246,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "LB1 can balance the traffic between VM1 and VM2.",
+        "LB1 can balance the traffic between VM3 and VM4.",
+        "LB1 can balance the traffic between VM5 and VM6"
       ]
     },
     "assets": [
@@ -13952,7 +16265,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES / NO / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q25-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 881,
+        "height": 629,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q26",
@@ -14073,7 +16396,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure subscription that contains the resources in the following table.\n\nVM1 and VM2 are deployed from the same template and host line-of-business applications.\n\nYou configure the network security group (NSG) shown in the exhibit. (Click the Exhibit tab.)\n\nYou need to prevent users of VM1 and VM2 from accessing websites on the Internet over TCP port 80.\n\nWhat should you do?",
     "solutionAnswer": "Associate the NSG to Subnet1.",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour imposer une règle TCP 8080 aux nouveaux NSG, une définition Azure Policy personnalisée doit exprimer cette configuration et être assignée à l’abonnement. Changer les resource providers ou réutiliser un NSG ne configure pas automatiquement les futurs NSG. Une policy intégrée générique ne définit pas cette règle spécifique.",
     "options": [
       "Disassociate the NSG from a network interface",
       "Change the Port_80 inbound security rule.",
@@ -14099,7 +16422,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Associate the NSG to Subnet1.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q28-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1032,
+        "height": 902,
+        "sourceWidth": 1404,
+        "sourceHeight": 1256
+      }
+    }
   },
   {
     "id": "T5-Q29",
@@ -14172,7 +16505,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Availability options / Use managed disks",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q30-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1034,
+        "height": 1044,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T5-Q30-2.jpg": {
+        "x": 139,
+        "y": 52,
+        "width": 951,
+        "height": 282,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T5-Q31",
@@ -14181,8 +16532,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription that contains the resources shown in the following table.\n\nVMSS1 is set to VM (virtual machines) orchestration mode.\n\nYou need to deploy a new Azure virtual machine named VM1, and then add VM1 to VMSS1.\n\nWhich resource group and location should you use to deploy VM1? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "RG1 , RG2 & RG 3 ONLY / WEST US ONLY",
-    "explanation": "RG1 , RG2 & RG 3 ONLY / WEST US ONLY est l’option qui correspond directement au mécanisme Identity / Entra ID demandé dans le scénario. Le point clé est : Which resource group and location should you use to deploy VM1?",
+    "solutionAnswer": "Resource group : RG1, RG2, or RG3 · Location : West US only",
+    "explanation": "Le scale set doit être dans la région du réseau virtuel utilisé, ici West US. La région de métadonnées du resource group ne contraint pas la région de ses ressources ; RG1 et RG2 peuvent donc le contenir.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -14190,12 +16541,23 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "RG1 , RG2 & RG 3 ONLY"
+          "label": "Resource group",
+          "choices": [
+            "RG2 only",
+            "RG1 or RG2 only",
+            "RG1, RG2, or RG3"
+          ],
+          "expected": "RG1, RG2, or RG3"
         },
         {
-          "label": "Sélection 2",
-          "expected": "WEST US ONLY"
+          "label": "Location",
+          "choices": [
+            "West US only",
+            "Central US only",
+            "Central US or West US only",
+            "East US, Central US, or West US"
+          ],
+          "expected": "West US only"
         }
       ]
     },
@@ -14213,7 +16575,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "RG1 , RG2 & RG 3 ONLY / WEST US ONLY",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q31-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1024,
+        "height": 312,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q32",
@@ -14222,8 +16595,8 @@ window.AZ104_QUESTIONS = [
     "category": "Networking",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure subscription that contains three virtual networks named VNET1, VNET2, and VNET3.\n\nPeering for VNET1 is configured as shown in the following exhibit.\n\nPeering for VNET2 is configured as shown in the following exhibit.\n\nPeering for VNET3 is configured as shown in the following exhibit.\n\nHow can packets be routed between the virtual networks? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "VNET2 AND VNET 3 ONLY / VNET 1 ONLY",
-    "explanation": "VNET2 AND VNET 3 ONLY / VNET 1 ONLY est l’option qui correspond directement au mécanisme Networking demandé dans le scénario.",
+    "solutionAnswer": "Packets from VNET1 : VNET2 and VNET3 · Packets from VNET2 : VNET1 only",
+    "explanation": "Le peering n’est pas transitif. Chaque paire de réseaux devant communiquer directement doit avoir son propre peering compatible ; un réseau intermédiaire pairé aux deux autres ne relaie pas automatiquement leur trafic.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -14231,12 +16604,22 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "VNET2 AND VNET 3 ONLY"
+          "label": "Packets from VNET1",
+          "choices": [
+            "VNET2 only",
+            "VNET3 only",
+            "VNET2 and VNET3"
+          ],
+          "expected": "VNET2 and VNET3"
         },
         {
-          "label": "Sélection 2",
-          "expected": "VNET 1 ONLY"
+          "label": "Packets from VNET2",
+          "choices": [
+            "VNET1 only",
+            "VNET3 only",
+            "VNET1 and VNET3"
+          ],
+          "expected": "VNET1 only"
         }
       ]
     },
@@ -14254,7 +16637,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "VNET2 AND VNET 3 ONLY / VNET 1 ONLY",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q32-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1052,
+        "height": 1379,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q33",
@@ -14264,7 +16658,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have a computer named Computer1 that has a point-to-site VPN connection to an Azure virtual network named VNet1. The point-to-site\n\nconnection uses a self-signed certificate.\n\nFrom Azure, you download and install the VPN client configuration package on a computer named Computer2.\n\nYou need to ensure that you can establish a point-to-site VPN connection to VNet1 from Computer2.\n\nSolution: You modify the Azure Active Directory (Azure AD) authentication policies.\n\nDoes this meet the goal?",
     "solutionAnswer": "NO",
-    "explanation": "Un VPN Point-to-Site connecte un poste client individuel au réseau virtuel Azure. C’est le modèle adapté aux utilisateurs distants, contrairement au Site-to-Site qui relie des réseaux entiers.",
+    "explanation": "Ce VPN Point-to-Site utilise des certificats. Computer2 doit posséder un certificat client valide avec sa clé privée, approuvé par le certificat racine de la passerelle. Le package de configuration seul, une jointure Azure AD ou une modification des stratégies Azure AD ne fournit pas ce certificat.",
     "options": [
       "Yes",
       "No"
@@ -14286,7 +16680,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q34",
@@ -14296,7 +16690,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have a computer named Computer1 that has a point-to-site VPN connection to an Azure virtual network named VNet1. The point-to-site\n\nconnection uses a self-signed certificate.\n\nFrom Azure, you download and install the VPN client configuration package on a computer named Computer2.\n\nYou need to ensure that you can establish a point-to-site VPN connection to VNet1 from Computer2.\n\nSolution: You join Computer2 to Azure Active Directory (Azure AD).\n\nDoes this meet the goal?",
     "solutionAnswer": "NO",
-    "explanation": "Un VPN Point-to-Site connecte un poste client individuel au réseau virtuel Azure. C’est le modèle adapté aux utilisateurs distants, contrairement au Site-to-Site qui relie des réseaux entiers.",
+    "explanation": "Ce VPN Point-to-Site utilise des certificats. Computer2 doit posséder un certificat client valide avec sa clé privée, approuvé par le certificat racine de la passerelle. Le package de configuration seul, une jointure Azure AD ou une modification des stratégies Azure AD ne fournit pas ce certificat.",
     "options": [
       "Yes",
       "No"
@@ -14318,7 +16712,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q35",
@@ -14328,7 +16722,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have an Azure subscription that contains 10 virtual networks. The virtual networks are hosted in separate resource groups.\n\nAnother administrator plans to create several network security groups (NSGs) in the subscription.\n\nYou need to ensure that when an NSG is created, it automatically blocks TCP port 8080 between the virtual networks.\n\nSolution: You create a resource lock, and then you assign the lock to the subscription.\n\nDoes this meet the goal?",
     "solutionAnswer": "NO",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour chaque connexion, vérifiez les NSG du subnet et de la NIC : ils doivent tous autoriser le flux. Dans chaque NSG, la règle correspondante au plus petit numéro de priorité l’emporte. Les règles par défaut autorisent le trafic VirtualNetwork mais refusent les connexions Internet entrantes non explicitement autorisées.",
     "options": [
       "Yes",
       "No"
@@ -14341,7 +16735,7 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Network security groups overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
@@ -14350,7 +16744,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q36",
@@ -14386,7 +16780,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Start Vm1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q36-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 996,
+        "height": 792,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q37",
@@ -14422,7 +16826,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Configure peering between VNET1, VNET2, and VNET3",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q37-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 784,
+        "height": 354,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q38",
@@ -14432,7 +16846,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure subscription that contains the Azure virtual machines shown in the following table.\n\nYou add inbound security rules to a network security group (NSG) named NSG1 as shown in the following table.\n\nYou run Azure Network Watcher as shown in the following exhibit.\n\nYou run Network Watcher again as shown in the following exhibit.\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\n\nNOTE: Each correct selection is worth one point.",
     "solutionAnswer": "NO / YES / YES",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour chaque connexion, vérifiez les NSG du subnet et de la NIC : ils doivent tous autoriser le flux. Dans chaque NSG, la règle correspondante au plus petit numéro de priorité l’emporte. Les règles par défaut autorisent le trafic VirtualNetwork mais refusent les connexions Internet entrantes non explicitement autorisées.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -14444,9 +16858,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "NSG1 limits VM1 traffic",
+        "NSG1 applies to VM2",
+        "VM1 and VM2 connect to the same virtual network"
       ]
     },
     "assets": [
@@ -14455,7 +16869,7 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Network security groups overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
@@ -14464,7 +16878,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO / YES / YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q38-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 893,
+        "height": 1230,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T5-Q38-2.jpg": {
+        "x": 134,
+        "y": 48,
+        "width": 171,
+        "height": 210,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T5-Q39",
@@ -14474,7 +16906,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have the Azure virtual network named VNet1 that contains a subnet named Subnet1. Subnet1 contains three Azure virtual machines. Each\n\nvirtual machine has a public IP address.\n\nThe virtual machines host several applications that are accessible over port 443 to users on the Internet.\n\nYour on-premises network has a site-to-site VPN connection to VNet1.\n\nYou discover that the virtual machines can be accessed by using the Remote Desktop Protocol (RDP) from the Internet and from the on-premises\n\nnetwork.\n\nYou need to prevent RDP access to the virtual machines from the Internet, unless the RDP connection is established from the on-premises\n\nnetwork. The solution must ensure that all the applications can still be accessed by the Internet users.\n\nWhat should you do?",
     "solutionAnswer": "Create a deny rule in a network security group (NSG) that is linked to Subnet1",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour chaque connexion, vérifiez les NSG du subnet et de la NIC : ils doivent tous autoriser le flux. Dans chaque NSG, la règle correspondante au plus petit numéro de priorité l’emporte. Les règles par défaut autorisent le trafic VirtualNetwork mais refusent les connexions Internet entrantes non explicitement autorisées.",
     "options": [
       "Modify the address space of the local network gateway",
       "Create a deny rule in a network security group (NSG) that is linked to Subnet1",
@@ -14489,8 +16921,8 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Azure VPN Gateway overview",
-        "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
     "sourceScope": "theme",
@@ -14498,7 +16930,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Create a deny rule in a network security group (NSG) that is linked to Subnet1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q40",
@@ -14533,7 +16965,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Associate NIC1 to ASG1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q40-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 661,
+        "height": 345,
+        "sourceWidth": 1404,
+        "sourceHeight": 1276
+      }
+    }
   },
   {
     "id": "T5-Q41",
@@ -14579,8 +17021,8 @@ window.AZ104_QUESTIONS = [
     "category": "Networking",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have peering configured as shown in the following exhibit.\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "VNET6 Only / Delete Peerig1",
-    "explanation": "VNET6 Only / Delete Peerig1 est l’option qui correspond directement au mécanisme Networking demandé dans le scénario.",
+    "solutionAnswer": "Hosts reachable from vNET6 : vNET6 only · First action for the disconnected peering : delete peering1",
+    "explanation": "L’état Disconnected indique que la relation de peering correspondante a été supprimée. Supprimez le peering restant puis recréez la paire : changer la région ou la passerelle ne restaure pas la relation manquante.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -14588,12 +17030,24 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "VNET6 Only"
+          "label": "Hosts reachable from vNET6",
+          "choices": [
+            "vNET6 only",
+            "vNET6 and vNET1 only",
+            "vNET6, vNET1, and vNET2 only",
+            "all the virtual networks in the subscription"
+          ],
+          "expected": "vNET6 only"
         },
         {
-          "label": "Sélection 2",
-          "expected": "Delete Peerig1"
+          "label": "First action for the disconnected peering",
+          "choices": [
+            "add a service endpoint",
+            "add a subnet",
+            "delete peering1",
+            "modify the address space"
+          ],
+          "expected": "delete peering1"
         }
       ]
     },
@@ -14611,7 +17065,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "VNET6 Only / Delete Peerig1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source_clean/T5-Q42-clean.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1130,
+        "height": 535,
+        "sourceWidth": 1404,
+        "sourceHeight": 1298
+      }
+    }
   },
   {
     "id": "T5-Q43",
@@ -14633,9 +17098,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "VM1 is in the same availability set as VM2.",
+        "If Probe1.htm is present on VM1 and VM2, LB1 will balance TCP port 80 between VM1 and VM2.",
+        "If you delete Rule1, LB1 will balance all the requests between VM1 and VM2 for all the ports"
       ]
     },
     "assets": [
@@ -14653,7 +17118,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES / YES / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q43-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 775,
+        "height": 673,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T5-Q43-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 605
+      }
+    }
   },
   {
     "id": "T5-Q44",
@@ -14662,8 +17145,8 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure virtual machine named VM1 that connects to a virtual network named VNet1. VM1 has the following configurations:\n\n✑ Subnet: 10.0.0.0/24\n✑ Availability set: AVSet\n✑ Network security group (NSG): None\n✑ Private IP address: 10.0.0.4 (dynamic)\n✑ Public IP address: 40.90.219.6 (dynamic)\nYou deploy a standard, Internet-facing load balancer named slb1.\n\nYou need to configure slb1 to allow connectivity to VM1.\n\nWhich changes should you apply to VM1 as you configure slb1? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Remove Public IP from VM / Create and Configure NSG",
-    "explanation": "Les VM d’un availability set peuvent partager des contraintes d’allocation sur le cluster. Lors d’un resize impossible, désallouer toutes les VM de l’ensemble permet à Azure de les réallouer avec la capacité nécessaire.",
+    "solutionAnswer": "Before creating the backend pool : Remove the public IP address from VM1 · Before connecting to VM1 : Create and configure an NSG",
+    "explanation": "Un frontend public Standard nécessite une IP publique Standard compatible : l’IP Basic dynamique actuelle doit être retirée. Standard est sécurisé par défaut ; un NSG doit autoriser le trafic vers les backends.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -14671,12 +17154,22 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "Remove Public IP from VM"
+          "label": "Before creating the backend pool",
+          "choices": [
+            "Create and assign an NSG to VM1",
+            "Remove the public IP address from VM1",
+            "Change the private IP address of VM1 to static"
+          ],
+          "expected": "Remove the public IP address from VM1"
         },
         {
-          "label": "Sélection 2",
-          "expected": "Create and Configure NSG"
+          "label": "Before connecting to VM1",
+          "choices": [
+            "Create and configure an NSG",
+            "Remove the public IP address from VM1",
+            "Change the private IP address of VM1 to static"
+          ],
+          "expected": "Create and configure an NSG"
         }
       ]
     },
@@ -14685,8 +17178,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Availability sets overview",
-        "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/load-balancer/skus"
       }
     ],
     "sourceScope": "theme",
@@ -14694,7 +17187,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Remove Public IP from VM / Create and Configure NSG",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q44-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1077,
+        "height": 328,
+        "sourceWidth": 1404,
+        "sourceHeight": 1382
+      }
+    }
   },
   {
     "id": "T5-Q45",
@@ -14730,7 +17234,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "EastUS only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q45-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 717,
+        "height": 268,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q46",
@@ -14766,7 +17280,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Configure the name servers for adatum.com at the domain registrar",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q46-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1165,
+        "height": 983,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q47",
@@ -14824,7 +17348,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Identifier la règle NSG qui bloque un paquet : IP flow verify · Tester la connectivité sortante vers un hôte externe : Connection troubleshoot",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q47-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 849,
+        "height": 166,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q48",
@@ -14846,9 +17380,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "VM1 connects to 193.77.134.10 for DNS queries.",
+        "VM2 connects to 193.77.134.10 for DNS queries.",
+        "VM3 connects to 192.168.10.15 for DNS queries."
       ]
     },
     "assets": [
@@ -14865,7 +17399,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES / NO / YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q48-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1119,
+        "height": 864,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q49",
@@ -14937,7 +17481,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q50-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1144,
+        "height": 510,
+        "sourceWidth": 1404,
+        "sourceHeight": 780
+      }
+    }
   },
   {
     "id": "T5-Q51",
@@ -14971,7 +17525,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q51-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1144,
+        "height": 511,
+        "sourceWidth": 1404,
+        "sourceHeight": 1152
+      }
+    }
   },
   {
     "id": "T5-Q52",
@@ -15005,7 +17569,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q52-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1144,
+        "height": 570,
+        "sourceWidth": 1404,
+        "sourceHeight": 840
+      }
+    }
   },
   {
     "id": "T5-Q53",
@@ -15015,7 +17589,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have a computer named Computer1 that has a point-to-site VPN connection to an Azure virtual network named VNet1. The point-to-site\n\nconnection uses a self-signed certificate.\n\nFrom Azure, you download and install the VPN client configuration package on a computer named Computer2.\n\nYou need to ensure that you can establish a point-to-site VPN connection to VNet1 from Computer2.\n\nSolution: You export the client certificate from Computer1 and install the certificate on Computer2.\n\nDoes this meet the goal?",
     "solutionAnswer": "YES",
-    "explanation": "Un VPN Point-to-Site connecte un poste client individuel au réseau virtuel Azure. C’est le modèle adapté aux utilisateurs distants, contrairement au Site-to-Site qui relie des réseaux entiers.",
+    "explanation": "Ce VPN Point-to-Site utilise des certificats. Computer2 doit posséder un certificat client valide avec sa clé privée, approuvé par le certificat racine de la passerelle. Le package de configuration seul, une jointure Azure AD ou une modification des stratégies Azure AD ne fournit pas ce certificat.",
     "options": [
       "Yes",
       "No"
@@ -15037,7 +17611,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q54",
@@ -15073,7 +17647,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "For Rule5, change the Action to Allow and change the priority to 401",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q54-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1150,
+        "height": 877,
+        "sourceWidth": 1404,
+        "sourceHeight": 1231
+      }
+    }
   },
   {
     "id": "T5-Q55",
@@ -15083,7 +17667,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have an Azure subscription that contains 10 virtual networks. The virtual networks are hosted in separate resource groups.\n\nAnother administrator plans to create several network security groups (NSGs) in the subscription.\n\nYou need to ensure that when an NSG is created, it automatically blocks TCP port 8080 between the virtual networks.\n\nSolution: From the Resource providers blade, you unregister the Microsoft.ClassicNetwork provider.\n\nDoes this meet the goal?",
     "solutionAnswer": "NO",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour imposer une règle TCP 8080 aux nouveaux NSG, une définition Azure Policy personnalisée doit exprimer cette configuration et être assignée à l’abonnement. Changer les resource providers ou réutiliser un NSG ne configure pas automatiquement les futurs NSG. Une policy intégrée générique ne définit pas cette règle spécifique.",
     "options": [
       "Yes",
       "No"
@@ -15105,7 +17689,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q56",
@@ -15127,9 +17711,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "A Site-to-Site connection can be established between VNET1 and VNET2",
+        "VNET1 and VNET2 can be peered.",
+        "VNET1 and VNETA can be peered."
       ]
     },
     "assets": [
@@ -15146,7 +17730,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES / YES / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q56-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 758,
+        "height": 633,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q57",
@@ -15156,7 +17750,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have an app named App1 that is installed on two Azure virtual machines named VM1 and VM2. Connections to App1 are managed by using\n\nan Azure Load\n\nBalancer.\n\nThe effective network security configurations for VM2 are shown in the following exhibit.\n\nYou discover that connections to App1 from 131.107.100.50 over TCP port 443 fail.\n\nYou verify that the Load Balancer rules are configured correctly.\n\nYou need to ensure that connections to App1 can be established successfully from 131.107.100.50 over TCP port 443.\n\nSolution: You create an inbound security rule that denies all traffic from the 131.107.100.50 source and has a cost of 64999.\n\nDoes this meet the goal?",
     "solutionAnswer": "NO",
-    "explanation": "Azure Load Balancer répartit des flux TCP/UDP entre plusieurs backends en fonction d’une règle et d’une sonde de santé. Il est adapté lorsque l’objectif principal est de répartir la charge réseau entre VM.",
+    "explanation": "Une règle Deny supplémentaire ne peut pas autoriser la connexion. De plus, 64999 est une priorité de règle système, hors de la plage 100–4096 des règles NSG personnalisées. Il faut traiter la règle qui bloque effectivement le flux.",
     "options": [
       "Yes",
       "No"
@@ -15171,8 +17765,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure Load Balancer health probes",
-        "url": "https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-custom-probe-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
     "sourceScope": "theme",
@@ -15180,7 +17774,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q57-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1146,
+        "height": 873,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q58",
@@ -15190,7 +17794,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have an app named App1 that is installed on two Azure virtual machines named VM1 and VM2. Connections to App1 are managed by using\n\nan Azure Load\n\nBalancer.\n\nThe effective network security configurations for VM2 are shown in the following exhibit.\n\nYou discover that connections to App1 from 131.107.100.50 over TCP port 443 fail.\n\nYou verify that the Load Balancer rules are configured correctly.\n\nYou need to ensure that connections to App1 can be established successfully from 131.107.100.50 over TCP port 443.\n\nSolution: You delete the BlockAllOther443 inbound security rule.\n\nDoes this meet the goal?",
     "solutionAnswer": "YES",
-    "explanation": "Azure Load Balancer répartit des flux TCP/UDP entre plusieurs backends en fonction d’une règle et d’une sonde de santé. Il est adapté lorsque l’objectif principal est de répartir la charge réseau entre VM.",
+    "explanation": "BlockAllOther443 bloque le trafic HTTPS dans cette configuration. La supprimer permet à la règle autorisant le client de s’appliquer, sous réserve que les autres NSG autorisent aussi le flux. Le problème est le filtrage réseau, pas la règle de répartition du load balancer.",
     "options": [
       "Yes",
       "No"
@@ -15205,8 +17809,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure Load Balancer health probes",
-        "url": "https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-custom-probe-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
     "sourceScope": "theme",
@@ -15214,7 +17818,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q58-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1146,
+        "height": 873,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q59",
@@ -15224,7 +17838,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have an app named App1 that is installed on two Azure virtual machines named VM1 and VM2. Connections to App1 are managed by using\n\nan Azure Load\n\nBalancer.\n\nThe effective network security configurations for VM2 are shown in the following exhibit.\n\nYou discover that connections to App1 from 131.107.100.50 over TCP port 443 fail.\n\nYou verify that the Load Balancer rules are configured correctly.\n\nYou need to ensure that connections to App1 can be established successfully from 131.107.100.50 over TCP port 443.\n\nSolution: You modify the priority of the Allow_131.107.100.50 inbound security rule.\n\nDoes this meet the goal?",
     "solutionAnswer": "NO",
-    "explanation": "Azure Load Balancer répartit des flux TCP/UDP entre plusieurs backends en fonction d’une règle et d’une sonde de santé. Il est adapté lorsque l’objectif principal est de répartir la charge réseau entre VM.",
+    "explanation": "Une sonde de santé bloquée peut rendre les backends indisponibles même lorsque la règle autorisant le client est correcte. Modifier seulement la priorité de Allow_131.107.100.50 ne traite pas nécessairement ce blocage ; vérifiez aussi la règle AzureLoadBalancer et son ordre.",
     "options": [
       "Yes",
       "No"
@@ -15239,8 +17853,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure Load Balancer health probes",
-        "url": "https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-custom-probe-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
     "sourceScope": "theme",
@@ -15248,7 +17862,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q59-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1146,
+        "height": 873,
+        "sourceWidth": 1404,
+        "sourceHeight": 1142
+      }
+    }
   },
   {
     "id": "T5-Q60",
@@ -15258,7 +17882,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have an Azure subscription that contains 10 virtual networks. The virtual networks are hosted in separate resource groups.\n\nAnother administrator plans to create several network security groups (NSGs) in the subscription.\n\nYou need to ensure that when an NSG is created, it automatically blocks TCP port 8080 between the virtual networks.\n\nSolution: You assign a built-in policy definition to the subscription.\n\nDoes this meet the goal?",
     "solutionAnswer": "NO",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour imposer une règle TCP 8080 aux nouveaux NSG, une définition Azure Policy personnalisée doit exprimer cette configuration et être assignée à l’abonnement. Changer les resource providers ou réutiliser un NSG ne configure pas automatiquement les futurs NSG. Une policy intégrée générique ne définit pas cette règle spécifique.",
     "options": [
       "Yes",
       "No"
@@ -15280,7 +17904,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q61",
@@ -15348,7 +17972,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q62-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1144,
+        "height": 510,
+        "sourceWidth": 1404,
+        "sourceHeight": 780
+      }
+    }
   },
   {
     "id": "T5-Q63",
@@ -15358,7 +17992,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have an Azure subscription that contains 10 virtual networks. The virtual networks are hosted in separate resource groups.\n\nAnother administrator plans to create several network security groups (NSGs) in the subscription.\n\nYou need to ensure that when an NSG is created, it automatically blocks TCP port 8080 between the virtual networks.\n\nSolution: You configure a custom policy definition, and then you assign the policy to the subscription.\n\nDoes this meet the goal?",
     "solutionAnswer": "YES",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour imposer une règle TCP 8080 aux nouveaux NSG, une définition Azure Policy personnalisée doit exprimer cette configuration et être assignée à l’abonnement. Changer les resource providers ou réutiliser un NSG ne configure pas automatiquement les futurs NSG. Une policy intégrée générique ne définit pas cette règle spécifique.",
     "options": [
       "Yes",
       "No"
@@ -15380,7 +18014,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q64",
@@ -15423,8 +18057,8 @@ window.AZ104_QUESTIONS = [
     "category": "Networking",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription that contains the public load balancers shown in the following table.\n\nYou plan to create six virtual machines and to load balance requests to the virtual machines. Each load balancer will load balance three virtual\n\nmachines.\n\nYou need to create the virtual machines for the planned solution.\n\nHow should you create the virtual machines? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "LOAD BALANCED BY VM1 : BE CREATE IN SAME AVAILABALITY OR SAME VMSS\nLOAD BALANCED BY VM2 : BE CREATE IN SAME VNET",
-    "explanation": "Azure Load Balancer répartit des flux TCP/UDP entre plusieurs backends en fonction d’une règle et d’une sonde de santé. Il est adapté lorsque l’objectif principal est de répartir la charge réseau entre VM.",
+    "solutionAnswer": "VMs load balanced by LB1 (Basic) : be created in the same availability set or virtual machine scale set · VMs load balanced by LB2 (Standard) : be connected to the same virtual network",
+    "explanation": "Dans le scénario historique, Basic impose des backends dans le même availability set ou scale set. Standard permet des VM du même réseau virtuel sans cette contrainte. Basic Load Balancer est désormais retiré ; cette question décrit les SKU de la source, pas une recommandation de nouveau déploiement.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -15432,12 +18066,24 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
-          "expected": "BE CREATE IN SAME AVAILABALITY OR SAME VMSS"
+          "label": "VMs load balanced by LB1 (Basic)",
+          "choices": [
+            "be connected to the same virtual network",
+            "be created in the same resource group",
+            "be created in the same availability set or virtual machine scale set",
+            "run the same operating system"
+          ],
+          "expected": "be created in the same availability set or virtual machine scale set"
         },
         {
-          "label": "Sélection 2",
-          "expected": "BE CREATE IN SAME VNET"
+          "label": "VMs load balanced by LB2 (Standard)",
+          "choices": [
+            "be connected to the same virtual network",
+            "be created in the same resource group",
+            "be created in the same availability set or virtual machine scale set",
+            "run the same operating system"
+          ],
+          "expected": "be connected to the same virtual network"
         }
       ]
     },
@@ -15446,8 +18092,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure Load Balancer health probes",
-        "url": "https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-custom-probe-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/load-balancer/skus"
       }
     ],
     "sourceScope": "theme",
@@ -15455,7 +18101,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "LOAD BALANCED BY VM1 : BE CREATE IN SAME AVAILABALITY OR SAME VMSS\nLOAD BALANCED BY VM2 : BE CREATE IN SAME VNET",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q65-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1136,
+        "height": 329,
+        "sourceWidth": 1404,
+        "sourceHeight": 1373
+      }
+    }
   },
   {
     "id": "T5-Q66",
@@ -15464,8 +18121,8 @@ window.AZ104_QUESTIONS = [
     "category": "Networking",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an on-premises data center and an Azure subscription. The data center contains two VPN devices. The subscription contains an Azure\n\nvirtual network named VNet1. VNet1 contains a gateway subnet.\n\nYou need to create a site-to-site VPN. The solution must ensure that if a single instance of an Azure VPN gateway fails, or a single on-premises\n\nVPN device fails, the failure will not cause an interruption that is longer than two minutes.\n\nWhat is the minimum number of public IP addresses, virtual network gateways, and local network gateways required in Azure? To answer, select\n\nthe appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "2 / 2 / 2",
-    "explanation": "2 / 2 / 2 est l’option qui correspond directement au mécanisme Networking demandé dans le scénario. Le point clé est : What is the minimum number of public IP addresses, virtual network gateways, and local network gateways required in Azure?",
+    "solutionAnswer": "Public IP addresses : 2 · Virtual network gateways : 1 · Local network gateways : 2",
+    "explanation": "Une seule ressource VPN gateway active-active contient deux instances, chacune avec une IP publique. Les deux équipements VPN sur site sont représentés par deux local network gateways. Il faut donc deux IP publiques, une virtual network gateway et deux local network gateways.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -15473,15 +18130,33 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "Public IP addresses",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
           "expected": "2"
         },
         {
-          "label": "Sélection 2",
-          "expected": "2"
+          "label": "Virtual network gateways",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "expected": "1"
         },
         {
-          "label": "Sélection 3",
+          "label": "Local network gateways",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
           "expected": "2"
         }
       ]
@@ -15491,8 +18166,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure VPN Gateway overview",
-        "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/about-active-active-gateways"
       }
     ],
     "sourceScope": "theme",
@@ -15500,7 +18175,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "2 / 2 / 2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q66-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1150,
+        "height": 231,
+        "sourceWidth": 1404,
+        "sourceHeight": 1032
+      }
+    }
   },
   {
     "id": "T5-Q67",
@@ -15536,7 +18222,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "vm1.internal.cloudapp.net",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q67-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 889,
+        "height": 211,
+        "sourceWidth": 1404,
+        "sourceHeight": 900
+      }
+    }
   },
   {
     "id": "T5-Q68",
@@ -15546,7 +18242,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have an app named App1 that is installed on two Azure virtual machines named VM1 and VM2. Connections to App1 are managed by using\n\nan Azure Load\n\nBalancer.\n\nThe effective network security configurations for VM2 are shown in the following exhibit.\n\nYou discover that connections to App1 from 131.107.100.50 over TCP port 443 fail.\n\nYou verify that the Load Balancer rules are configured correctly.\n\nYou need to ensure that connections to App1 can be established successfully from 131.107.100.50 over TCP port 443.\n\nSolution: You create an inbound security rule that allows any traffic from the AzureLoadBalancer source and has a cost of 150.\n\nDoes this meet the goal?",
     "solutionAnswer": "YES",
-    "explanation": "Azure Load Balancer répartit des flux TCP/UDP entre plusieurs backends en fonction d’une règle et d’une sonde de santé. Il est adapté lorsque l’objectif principal est de répartir la charge réseau entre VM.",
+    "explanation": "Le service tag AzureLoadBalancer identifie les sondes de santé, pas les adresses de tous les clients. L’autorisation proposée à la priorité 150 rétablit ces sondes dans la configuration illustrée et rend les backends utilisables ; l’accès HTTPS du client doit aussi être autorisé.",
     "options": [
       "Yes",
       "No"
@@ -15561,8 +18257,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure Load Balancer health probes",
-        "url": "https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-custom-probe-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
     "sourceScope": "theme",
@@ -15570,7 +18266,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q68-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1146,
+        "height": 873,
+        "sourceWidth": 1404,
+        "sourceHeight": 1142
+      }
+    }
   },
   {
     "id": "T5-Q69",
@@ -15580,7 +18286,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure subscription that contains a policy-based virtual network gateway named GW1 and a virtual network named VNet1.\n\nYou need to ensure that you can configure a point-to-site connection from an on-premises computer to VNet1.\n\nWhich two actions should you perform? Each correct answer presents part of the solution.\n\nNOTE: Each correct selection is worth one point.",
     "solutionAnswer": "Create a route-based virtual network gateway\nDelete GW1",
-    "explanation": "Un VPN Point-to-Site connecte un poste client individuel au réseau virtuel Azure. C’est le modèle adapté aux utilisateurs distants, contrairement au Site-to-Site qui relie des réseaux entiers.",
+    "explanation": "Une connexion Point-to-Site nécessite une passerelle route-based. GW1 est policy-based : il faut la supprimer puis créer une passerelle route-based ; les deux types ne se convertissent pas en place.",
     "options": [
       "Add a service endpoint to VNet1",
       "Reset GW1",
@@ -15598,7 +18304,7 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Azure VPN Gateway overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways"
       }
     ],
@@ -15607,7 +18313,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Create a route-based virtual network gateway\nDelete GW1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q70",
@@ -15629,9 +18335,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "The A record for VM5 will be registered automatically in the adatum.com zone.",
+        "VM5 can resolve VM9.adatum.com.",
+        "VM6 can resolve VM9.adatum.com."
       ]
     },
     "assets": [
@@ -15648,7 +18354,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO / NO / YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q70-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1082,
+        "height": 1161,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q71",
@@ -15689,7 +18405,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Activer l’enregistrement automatique pour Link2 (VNET2/Zone2). : Oui · Ajouter un lien de résolution VNET1 vers Zone3. : Oui · Lier VNET2 à Zone1 avec enregistrement automatique. : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q71-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 781,
+        "height": 708,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q72",
@@ -15845,8 +18571,8 @@ window.AZ104_QUESTIONS = [
     "category": "Azure administration",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription that contains the resources shown in the following table.\n\nYou need to load balance HTTPS connections to vm1 and vm2 by using lb1.\n\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and\n\narrange them in the correct order.",
-    "solutionAnswer": "REMOVE THE PUBLIC IP ADDRESS / CREATE THE HEALTH PROBE AND BACKEND POOL\nON LB1 / CREATE LOAD BALANCING RULE ON LB1",
-    "explanation": "Pour un listener SQL Server Always On derrière un Azure Load Balancer, le mode Floating IP (Direct Server Return) permet au même port/IP de listener d’être utilisé sur les nœuds backend. La sonde doit tester un endpoint pertinent pour la disponibilité SQL.",
+    "solutionAnswer": "Étape 1 : Remove the public IP addresses from vm1 and vm2 · Étape 2 : Create a health probe and backend pool on lb1 · Étape 3 : Create a load balancing rule on lb1",
+    "explanation": "Créez la sonde de santé, associez les VM au backend pool, puis configurez la règle de load balancing qui utilise ces ressources. La sonde vérifie la disponibilité du service avant que le backend reçoive les flux.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -15855,15 +18581,36 @@ window.AZ104_QUESTIONS = [
       "rows": [
         {
           "label": "Étape 1",
-          "expected": "REMOVE THE PUBLIC IP ADDRESS"
+          "choices": [
+            "Remove nsg1",
+            "Remove the public IP addresses from vm1 and vm2",
+            "Create a health probe and backend pool on lb1",
+            "Create an availability set",
+            "Create a load balancing rule on lb1"
+          ],
+          "expected": "Remove the public IP addresses from vm1 and vm2"
         },
         {
           "label": "Étape 2",
-          "expected": "CREATE THE HEALTH PROBE AND BACKEND POOL\nON LB1"
+          "choices": [
+            "Remove nsg1",
+            "Remove the public IP addresses from vm1 and vm2",
+            "Create a health probe and backend pool on lb1",
+            "Create an availability set",
+            "Create a load balancing rule on lb1"
+          ],
+          "expected": "Create a health probe and backend pool on lb1"
         },
         {
           "label": "Étape 3",
-          "expected": "CREATE LOAD BALANCING RULE ON LB1"
+          "choices": [
+            "Remove nsg1",
+            "Remove the public IP addresses from vm1 and vm2",
+            "Create a health probe and backend pool on lb1",
+            "Create an availability set",
+            "Create a load balancing rule on lb1"
+          ],
+          "expected": "Create a load balancing rule on lb1"
         }
       ]
     },
@@ -15881,7 +18628,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "REMOVE THE PUBLIC IP ADDRESS / CREATE THE HEALTH PROBE AND BACKEND POOL\nON LB1 / CREATE LOAD BALANCING RULE ON LB1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q76-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1131,
+        "height": 307,
+        "sourceWidth": 1404,
+        "sourceHeight": 1030
+      }
+    }
   },
   {
     "id": "T5-Q77",
@@ -15891,7 +18649,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou manage a virtual network named VNet1 that is hosted in the West US Azure region.\n\nVNet1 hosts two virtual machines named VM1 and VM2 that run Windows Server.\n\nYou need to inspect all the network traffic from VM1 to VM2 for a period of three hours.\n\nSolution: From Azure Monitor, you create a metric on Network In and Network Out.\n\nDoes this meet the goal?",
     "solutionAnswer": "NO",
-    "explanation": "Azure Monitor centralise les métriques, logs et alertes des ressources Azure. C’est le service prévu pour diagnostiquer un problème de performance à partir des métriques de l’infrastructure.",
+    "explanation": "Network In et Network Out sont des métriques de volume agrégées. Elles ne montrent pas le contenu de tous les paquets échangés entre VM1 et VM2 pendant trois heures ; une capture de paquets Network Watcher est nécessaire.",
     "options": [
       "Yes",
       "No"
@@ -15904,8 +18662,8 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Azure Monitor log queries",
-        "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-query-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/network-watcher/packet-capture-overview"
       }
     ],
     "sourceScope": "theme",
@@ -15913,7 +18671,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q78",
@@ -15923,7 +18681,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have an app named App1 that is installed on two Azure virtual machines named VM1 and VM2. Connections to App1 are managed by using\n\nan Azure Load\n\nBalancer.\n\nThe effective network security configurations for VM2 are shown in the following exhibit.\n\nYou discover that connections to App1 from 131.107.100.50 over TCP port 443 fail.\n\nYou verify that the Load Balancer rules are configured correctly.\n\nYou need to ensure that connections to App1 can be established successfully from 131.107.100.50 over TCP port 443.\n\nSolution: You create an inbound security rule that denies all traffic from the 131.107.100.50 source and has a priority of 64999.\n\nDoes this meet the goal?",
     "solutionAnswer": "NO",
-    "explanation": "Azure Load Balancer répartit des flux TCP/UDP entre plusieurs backends en fonction d’une règle et d’une sonde de santé. Il est adapté lorsque l’objectif principal est de répartir la charge réseau entre VM.",
+    "explanation": "Une règle Deny supplémentaire ne peut pas autoriser la connexion. De plus, 64999 est une priorité de règle système, hors de la plage 100–4096 des règles NSG personnalisées. Il faut traiter la règle qui bloque effectivement le flux.",
     "options": [
       "Yes",
       "No"
@@ -15938,8 +18696,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure Load Balancer health probes",
-        "url": "https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-custom-probe-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
     "sourceScope": "theme",
@@ -15947,7 +18705,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q78-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1146,
+        "height": 895,
+        "sourceWidth": 1404,
+        "sourceHeight": 1165
+      }
+    }
   },
   {
     "id": "T5-Q79",
@@ -16040,9 +18808,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "Server2 resolves host2.contoso.com to 131.107.50.50.",
+        "Server2 resolves host1.contoso.com to 131.107.10.15.",
+        "Server3 resolves host2.contoso.com to 131.107.50.50."
       ]
     },
     "assets": [
@@ -16059,7 +18827,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO / YES / NO",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q80-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1144,
+        "height": 878,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q81",
@@ -16095,7 +18873,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Modify the address space of VNet1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q81-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 876,
+        "height": 769,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q82",
@@ -16132,7 +18920,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "comp2.contoso.com only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q82-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 916,
+        "height": 442,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q83",
@@ -16203,7 +19001,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Direction de la règle de VM1 : Outbound · Adresse source de VM1 : 10.1.0.10 · Adresse destination de VM2 : 10.1.0.11 · Priorité inférieure à la règle DENY_PING (111) : 110",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q83-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1110,
+        "height": 1015,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T5-Q83-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 980
+      }
+    }
   },
   {
     "id": "T5-Q84",
@@ -16213,7 +19029,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that\n\nmight meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.\n\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.\n\nYou have a computer named Computer1 that has a point-to-site VPN connection to an Azure virtual network named VNet1. The point-to-site\n\nconnection uses a self-signed certificate.\n\nFrom Azure, you download and install the VPN client configuration package on a computer named Computer2.\n\nYou need to ensure that you can establish a point-to-site VPN connection to VNet1 from Computer2.\n\nSolution: On Computer2, you set the Startup type for the IPSec Policy Agent service to Automatic.\n\nDoes this meet the goal?",
     "solutionAnswer": "No",
-    "explanation": "Un VPN Point-to-Site connecte un poste client individuel au réseau virtuel Azure. C’est le modèle adapté aux utilisateurs distants, contrairement au Site-to-Site qui relie des réseaux entiers.",
+    "explanation": "Ce VPN Point-to-Site utilise des certificats. Computer2 doit posséder un certificat client valide avec sa clé privée, approuvé par le certificat racine de la passerelle. Le package de configuration seul, une jointure Azure AD ou une modification des stratégies Azure AD ne fournit pas ce certificat.",
     "options": [
       "Yes",
       "No"
@@ -16235,7 +19051,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q85",
@@ -16279,7 +19095,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure subscription that uses the public IP addresses shown in the following table.\n\nYou need to create a public Azure Standard Load Balancer.\n\nWhich public IP addresses can you use?",
     "solutionAnswer": "IP3 only",
-    "explanation": "Azure Load Balancer répartit des flux TCP/UDP entre plusieurs backends en fonction d’une règle et d’une sonde de santé. Il est adapté lorsque l’objectif principal est de répartir la charge réseau entre VM.",
+    "explanation": "Un load balancer public Standard nécessite une IP publique de SKU Standard compatible. Dans le tableau, IP3 est la seule adresse qui respecte ce SKU ; une IP Basic ne peut pas servir de frontend Standard.",
     "options": [
       "IP1, IP2, and IP3",
       "IP2 only",
@@ -16296,8 +19112,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Azure Load Balancer health probes",
-        "url": "https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-custom-probe-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/load-balancer/skus"
       }
     ],
     "sourceScope": "theme",
@@ -16305,7 +19121,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "IP3 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q86-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 763,
+        "height": 292,
+        "sourceWidth": 1404,
+        "sourceHeight": 646
+      }
+    }
   },
   {
     "id": "T5-Q87",
@@ -16315,7 +19141,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription.\n\nYou are deploying an Azure Kubernetes Service (AKS) cluster that will contain multiple pods. The pods will use kubernet networking.\n\nYou need to restrict network traffic between the pods.\n\nWhat should you configure on the AKS cluster?",
     "solutionAnswer": "the Calico network policy",
-    "explanation": "Azure Policy évalue la conformité des ressources à une règle et peut refuser, auditer ou modifier des déploiements. Son effet dépend du scope d’assignation, des exclusions et du mode de remédiation.",
+    "explanation": "Calico applique des network policies Kubernetes aux communications entre pods. Un NSG filtre les interfaces ou sous-réseaux Azure et ne remplace pas ce contrôle fin du trafic entre pods avec kubenet.",
     "options": [
       "the Azure network policy",
       "the Calico network policy",
@@ -16330,8 +19156,8 @@ window.AZ104_QUESTIONS = [
     "assets": [],
     "sources": [
       {
-        "title": "Enable Microsoft Entra authentication on AKS",
-        "url": "https://learn.microsoft.com/en-us/azure/aks/enable-authentication-microsoft-entra-id"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/use-network-policies"
       }
     ],
     "sourceScope": "theme",
@@ -16339,7 +19165,7 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "the Calico network policy",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08"
   },
   {
     "id": "T5-Q88",
@@ -16399,7 +19225,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Préfixe de destination dans VNet1 : 10.0.0.0/16 · Type du saut suivant : Virtual appliance · Sous-réseau auquel associer RT1 : GatewaySubnet",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q88-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1140,
+        "height": 399,
+        "sourceWidth": 1404,
+        "sourceHeight": 1195
+      }
+    }
   },
   {
     "id": "T5-Q89",
@@ -16443,7 +19279,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure subscription that contains the virtual machines shown in the following table:\n\nVM1 and VM2 use public IP addresses. From Windows Server 2019 on VM1 and VM2, you allow inbound Remote Desktop connections.\n\nSubnet1 and Subnet2 are in a virtual network named VNET1.\n\nThe subscription contains two network security groups (NSGs) named NSG1 and NSG2. NSG1 uses only the default rules.\n\nNSG2 uses the default rules and the following custom incoming rule:\n\n✑ Priority: 100\n✑ Name: Rule1\n✑ Port: 3389\n✑ Protocol: TCP\n✑ Source: Any\n✑ Destination: Any\n✑ Action: Allow\nNSG1 is associated to Subnet1. NSG2 is associated to the network interface of VM2.\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\n\nNOTE: Each correct selection is worth one point.",
     "solutionAnswer": "NO / YES / YES",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour chaque connexion, vérifiez les NSG du subnet et de la NIC : ils doivent tous autoriser le flux. Dans chaque NSG, la règle correspondante au plus petit numéro de priorité l’emporte. Les règles par défaut autorisent le trafic VirtualNetwork mais refusent les connexions Internet entrantes non explicitement autorisées.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -16455,9 +19291,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "From the internet, you can connect to VM1 by using Remote Desktop.",
+        "From the internet, you can connect to VM2 by using Remote Desktop.",
+        "From VM1, you can connect to VM2 by using Remote Desktop."
       ]
     },
     "assets": [
@@ -16465,7 +19301,7 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Network security groups overview",
+        "title": "Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
@@ -16474,7 +19310,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO / YES / YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/page-272.jpg": {
+        "x": 95,
+        "y": 106,
+        "width": 860,
+        "height": 487,
+        "sourceWidth": 1053,
+        "sourceHeight": 1489
+      }
+    }
   },
   {
     "id": "T5-Q91",
@@ -16565,9 +19411,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "From VM1, server1.contoso.com resolves to 131.107.3.3.",
+        "From VM2, server1.contoso.com resolves to 131.107.3.3.",
+        "From VM3, server2.contoso.com resolves to 131.107.2.4."
       ]
     },
     "assets": [
@@ -16584,7 +19430,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES NO YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q93-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1079,
+        "height": 721,
+        "sourceWidth": 1404,
+        "sourceHeight": 1448
+      }
+    }
   },
   {
     "id": "T5-Q94",
@@ -16606,9 +19462,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "A DNS A record for vm1 is added to contoso.com with the IP address 131.107.50.20.",
+        "A DNS A record for vm1 is added to fabrikam.com with the IP address 10.0.1.4.",
+        "A DNS A record for vm2 is added to fabrikam.com with the IP address 10.0.1.5."
       ]
     },
     "assets": [
@@ -16625,7 +19481,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "No / yes / yes",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q94-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1152,
+        "height": 618,
+        "sourceWidth": 1404,
+        "sourceHeight": 1127
+      }
+    }
   },
   {
     "id": "T5-Q95",
@@ -16669,7 +19535,7 @@ window.AZ104_QUESTIONS = [
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have a virtual network named VNET1 that contains the subnets shown in the following table:\n\nYou have Azure virtual machines that have the network configurations shown in the following table:\n\nFor NSG1, you create the inbound security rule shown in the following table:\n\nFor NSG2, you create the inbound security rule shown in the following table:\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\n\nNOTE: Each correct selection is worth one point.",
     "solutionAnswer": "NO / YES / YES",
-    "explanation": "Un même NSG peut être associé à plusieurs NIC ou à un subnet et appliquer les mêmes règles à plusieurs VM. Si les règles sont identiques, un seul NSG suffit au minimum.",
+    "explanation": "Pour chaque connexion, vérifiez les NSG du subnet et de la NIC : ils doivent tous autoriser le flux. Dans chaque NSG, la règle correspondante au plus petit numéro de priorité l’emporte. Les règles par défaut autorisent le trafic VirtualNetwork mais refusent les connexions Internet entrantes non explicitement autorisées.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -16681,9 +19547,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "VM2 can connect to the TCP port 1433 services on VM1.",
+        "VM1 can connect to the TCP port 1433 services on VM2.",
+        "VM2 can connect to the TCP port 1433 services on VM3."
       ]
     },
     "assets": [
@@ -16691,8 +19557,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Availability sets overview",
-        "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
       }
     ],
     "sourceScope": "theme",
@@ -16700,7 +19566,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "NO / YES / YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q96-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1031,
+        "height": 626,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q97",
@@ -16722,9 +19598,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "VM3 can establish a network connection to VM1.",
+        "If VM3 is turned off, VM2 can establish a network connection to VM1.",
+        "VM1 can establish a network connection to VM2."
       ]
     },
     "assets": [
@@ -16741,7 +19617,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "YES / NO / YES",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q97-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1121,
+        "height": 686,
+        "sourceWidth": 1404,
+        "sourceHeight": 1259
+      }
+    }
   },
   {
     "id": "T5-Q98",
@@ -16848,7 +19734,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "service endpoints",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q100-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1075,
+        "height": 365,
+        "sourceWidth": 1404,
+        "sourceHeight": 718
+      }
+    }
   },
   {
     "id": "T5-Q101",
@@ -16918,7 +19814,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "DemoSubnet1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q102-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 773,
+        "height": 651,
+        "sourceWidth": 1404,
+        "sourceHeight": 1007
+      }
+    }
   },
   {
     "id": "T5-Q103",
@@ -17063,7 +19969,7 @@ window.AZ104_QUESTIONS = [
     "category": "Networking",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "Your network contains an on-premises Active Directory Domain Services (AD DS) domain named contoso.com. The domain contains the servers\n\nshown in the following table.\n\nYou plan to migrate contoso.com to Azure.\n\nYou create an Azure virtual network named VNET1 that has the following settings:\n\n• Address space: 10.0.0.0/16\n\n• Subnet:\n\no Name: Subnet1\n\no IPv4: 10.0.1.0/24\n\nYou need to move DC1 to VNET1. The solution must ensure that the member servers in contoso.com can resolve AD DS DNS names.\n\nHow should you configure DC1? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Sélection 1 : Obtain an IP address automatically · Sélection 2 : Configure VNET1 to use a custom DNS server",
+    "solutionAnswer": "DC1 IP address : Obtain an IP address automatically · Name resolution : Configure VNET1 to use a custom DNS server",
     "explanation": "Dans Azure, l’IP privée statique se réserve sur la NIC ; l’OS peut rester en DHCP. Pour que les membres du domaine résolvent les enregistrements AD DS, VNET1 doit utiliser le contrôleur de domaine comme serveur DNS personnalisé.",
     "options": [],
     "answerIndices": [],
@@ -17072,11 +19978,23 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "DC1 IP address",
+          "choices": [
+            "Obtain an IP address automatically",
+            "Use 10.0.1.3",
+            "Use 10.0.2.1",
+            "Use 192.168.2.1"
+          ],
           "expected": "Obtain an IP address automatically"
         },
         {
-          "label": "Sélection 2",
+          "label": "Name resolution",
+          "choices": [
+            "Configure VNET1 to use a custom DNS server",
+            "Configure VNET1 to use the default Azure-provided DNS server",
+            "Create an Azure Private DNS zone named contoso.com",
+            "Create an Azure public DNS zone named contoso.com"
+          ],
           "expected": "Configure VNET1 to use a custom DNS server"
         }
       ]
@@ -17095,7 +20013,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Sélection 1 : Obtain an IP address automatically · Sélection 2 : Configure VNET1 to use a custom DNS server",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q107-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1149,
+        "height": 732,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q108",
@@ -17166,7 +20095,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "VNET1 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q109-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 765,
+        "height": 333,
+        "sourceWidth": 1404,
+        "sourceHeight": 1341
+      }
+    }
   },
   {
     "id": "T5-Q110",
@@ -17202,7 +20141,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": ". 2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q110-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1120,
+        "height": 433,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q111",
@@ -17224,9 +20173,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "LB1 will be connected to a subnet named VNET1/netname",
+        "LB1 can be deployed only to the resource group that contains VNET1",
+        "The value of the sku variable can be provided as a parameter when the template is deployed from a command prompt"
       ]
     },
     "assets": [
@@ -17245,7 +20194,33 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "no / yes / no",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q111-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 606,
+        "height": 212,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T5-Q111-2.jpg": {
+        "x": 117,
+        "y": 68,
+        "width": 1148,
+        "height": 1720,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      },
+      "assets/source/T5-Q111-3.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 41,
+        "sourceWidth": 1404,
+        "sourceHeight": 626
+      }
+    }
   },
   {
     "id": "T5-Q112",
@@ -17349,7 +20324,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Create a route table",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q114-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 906,
+        "height": 392,
+        "sourceWidth": 1404,
+        "sourceHeight": 746
+      }
+    }
   },
   {
     "id": "T5-Q115",
@@ -17386,7 +20371,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "VM1 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q115-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 717,
+        "height": 388,
+        "sourceWidth": 1404,
+        "sourceHeight": 1186
+      }
+    }
   },
   {
     "id": "T5-Q116",
@@ -17490,7 +20485,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Upgrade Bastion1 to the Standard SKU",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q118-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 986,
+        "height": 308,
+        "sourceWidth": 1404,
+        "sourceHeight": 751
+      }
+    }
   },
   {
     "id": "T5-Q119",
@@ -17653,7 +20658,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "IP1 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q122-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 756,
+        "height": 403,
+        "sourceWidth": 1404,
+        "sourceHeight": 1341
+      }
+    }
   },
   {
     "id": "T5-Q123",
@@ -17757,7 +20772,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "D. VM1, Disk1, NetInt1, and VNet1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q125-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 687,
+        "height": 527,
+        "sourceWidth": 1404,
+        "sourceHeight": 809
+      }
+    }
   },
   {
     "id": "T5-Q126",
@@ -18029,7 +21054,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "service endpoints",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q133-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 864,
+        "height": 517,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q134",
@@ -18065,7 +21100,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "B. Start VM1.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q134-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1160,
+        "height": 819,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q135",
@@ -18074,7 +21119,7 @@ window.AZ104_QUESTIONS = [
     "category": "Networking",
     "domain": "Implémenter et gérer les réseaux virtuels",
     "prompt": "You have an Azure subscription that contains the virtual networks shown in the following table.\n\nThe subnets have the IP address spaces shown in the following table.\n\nYou plan to create a container app named contapp1 in the East US Azure region.\n\nYou need to create a container app environment named con-env1 that meets the following requirements:\n\n• Uses its own virtual network.\n\n• Uses its own subnet.\n\n• Is connected to the smallest possible subnet.\n\nTo which virtual networks can you connect con-env1, and which subnet mask should you use? To answer, select the appropriate options in the\n\nanswer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Sélection 1 : VNet3 only · Sélection 2 : /23",
+    "solutionAnswer": "Virtual network : VNet3 only · Subnet mask : /23",
     "explanation": "Dans le modèle Container Apps visé par cette ancienne question, l’environnement doit être injecté dans un VNet de la même région que l’environnement et disposer d’un subnet dédié suffisamment grand. Parmi les choix, VNet3 et /23 constituent la combinaison attendue.",
     "options": [],
     "answerIndices": [],
@@ -18083,11 +21128,27 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "Virtual network",
+          "choices": [
+            "VNet1 only",
+            "VNet2 only",
+            "VNet3 only",
+            "VNet1 or VNet2 only",
+            "VNet2 or VNet3 only",
+            "VNet1 or VNet3 only",
+            "VNet1, VNet2, or VNet3"
+          ],
           "expected": "VNet3 only"
         },
         {
-          "label": "Sélection 2",
+          "label": "Subnet mask",
+          "choices": [
+            "/16",
+            "/23",
+            "/24",
+            "/26",
+            "/28"
+          ],
           "expected": "/23"
         }
       ]
@@ -18107,7 +21168,26 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Sélection 1 : VNet3 only · Sélection 2 : /23",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T5-Q135-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1132,
+        "height": 1077,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T5-Q135-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 41,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T5-Q136",
@@ -18143,7 +21223,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "1",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q136-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 765,
+        "height": 877,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q137",
@@ -18165,9 +21255,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "The Remote Desktop Connection client (mstsc.exe) can be used to connect to VM1 through Bastion1.",
+        "The Azure portal can use SSH to connect to VM2 through Bastion1.",
+        "The Azure portal can be used to connect to VM3 through Bastion1."
       ]
     },
     "assets": [
@@ -18185,7 +21275,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Non · Ligne 2 du tableau : Oui · Ligne 3 du tableau : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q137-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 765,
+        "height": 711,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T5-Q137-2.jpg": {
+        "x": 216,
+        "y": 102,
+        "width": 669,
+        "height": 737,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T5-Q138",
@@ -18207,9 +21315,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "Policy1 can be applied to Subnet3.",
+        "Only storage1 and storage2 can be accessed from VNet2.",
+        "Only storage2 can be accessed from VNet3."
       ]
     },
     "assets": [
@@ -18226,7 +21334,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Oui · Ligne 2 du tableau : Non · Ligne 3 du tableau : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q138-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1143,
+        "height": 1151,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q139",
@@ -18316,9 +21434,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "From VM1, server1.contoso.com resolves to 131.107.3.3.",
+        "From VM2, server1.contoso.com resolves to 131.107.3.3.",
+        "From VM3, server2.contoso.com resolves to 131.107.2.4."
       ]
     },
     "assets": [
@@ -18335,7 +21453,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Non · Ligne 2 du tableau : Oui · Ligne 3 du tableau : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T5-Q141-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1033,
+        "height": 1010,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T5-Q142",
@@ -18476,7 +21604,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "B. VM1 and VM2 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T5-Q144-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 765,
+        "height": 932,
+        "sourceWidth": 1404,
+        "sourceHeight": 1286
+      }
+    }
   },
   {
     "id": "T5-Q145",
@@ -18639,7 +21777,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "peering",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q148-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 861,
+        "height": 307,
+        "sourceWidth": 1404,
+        "sourceHeight": 661
+      }
+    }
   },
   {
     "id": "T5-Q149",
@@ -18675,7 +21823,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "VNet3 and VNet4 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T5-Q149-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 803,
+        "height": 329,
+        "sourceWidth": 1404,
+        "sourceHeight": 1271
+      }
+    }
   },
   {
     "id": "T5-Q150",
@@ -18746,7 +21904,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "B. VM1, VM2, VM3 and VM4",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T6-Q1-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1136,
+        "height": 325,
+        "sourceWidth": 1404,
+        "sourceHeight": 927
+      }
+    }
   },
   {
     "id": "T6-Q2",
@@ -18816,7 +21984,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Create a new Recovery Services vault",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T6-Q3-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 628,
+        "height": 324,
+        "sourceWidth": 1404,
+        "sourceHeight": 1341
+      }
+    }
   },
   {
     "id": "T6-Q4",
@@ -18873,7 +22051,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Règles d’alerte : 4 · Groupes d’actions : 3",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T6-Q4-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1055,
+        "height": 421,
+        "sourceWidth": 1404,
+        "sourceHeight": 1139
+      }
+    }
   },
   {
     "id": "T6-Q5",
@@ -18909,7 +22097,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "User1 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T6-Q5-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1150,
+        "height": 355,
+        "sourceWidth": 1404,
+        "sourceHeight": 793
+      }
+    }
   },
   {
     "id": "T6-Q6",
@@ -18963,7 +22161,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Points disponibles le 8 janvier à 14 h : 6 · Points disponibles le 15 janvier à 14 h : 8",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T6-Q6-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1054,
+        "height": 1251,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T6-Q6-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 626
+      }
+    }
   },
   {
     "id": "T6-Q7",
@@ -19016,7 +22232,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "App1 : IIS sur serveur physique Windows : Install the Application Insights Agent · App2 : IIS sur VM Windows Server Core : Install the Application Insights Agent",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T6-Q7-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1164,
+        "height": 451,
+        "sourceWidth": 1404,
+        "sourceHeight": 1361
+      }
+    }
   },
   {
     "id": "T6-Q8",
@@ -19096,7 +22322,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "User2 peut réinitialiser immédiatement son mot de passe avec les seules trois réponses de sécurité. : Non · User1 peut employer une notification d’application mobile pour réinitialiser son mot de passe. : Non · User3 (User Administrator) peut ajouter les questions de sécurité proposées aux méthodes SSPR. : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T6-Q9-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1158,
+        "height": 1482,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T6-Q9-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 630
+      }
+    }
   },
   {
     "id": "T6-Q10",
@@ -19152,9 +22396,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "On January 15, 2021, App1 will have only one backup in storage.",
+        "On February 6, 2021, you can access the backup of the App2 test slot from January 15, 2021.",
+        "On January 15, 2021, you can restore the App2 production slot backup from January 6 to the App2 test slot."
       ]
     },
     "assets": [
@@ -19171,7 +22415,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Non · Ligne 2 du tableau : Non · Ligne 3 du tableau : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T6-Q11-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1063,
+        "height": 403,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T6-Q12",
@@ -19212,7 +22466,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "SecAdmin1 doit répondre à la question sur sa première ville de travail. : Non · BillAdmin1 doit répondre à la question sur son plat préféré. : Non · User1 (Reports Reader) doit répondre à la question sur son premier animal. : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T6-Q12-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1141,
+        "height": 627,
+        "sourceWidth": 1404,
+        "sourceHeight": 1201
+      }
+    }
   },
   {
     "id": "T6-Q13",
@@ -19330,7 +22594,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Fréquence de calcul de la moyenne par jour : four times · Action sur ASP1 pour absorber les pics de CPU : scaled out",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T6-Q15-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1131,
+        "height": 1043,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T6-Q16",
@@ -19403,7 +22677,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Étape 1 : Select File Recovery in the Recovery Services vault · Étape 2 : Select the restore point · Étape 3 : Download and run the mount script · Étape 4 : Copy the files using File Explorer",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T6-Q16-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1123,
+        "height": 270,
+        "sourceWidth": 1404,
+        "sourceHeight": 1056
+      }
+    }
   },
   {
     "id": "T6-Q17",
@@ -19454,7 +22738,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Conteneur des sauvegardes de VM Azure : Recovery Services vault · Définition de 01 h et 30 jours : Backup policy",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T6-Q17-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 861,
+        "height": 166,
+        "sourceWidth": 1404,
+        "sourceHeight": 876
+      }
+    }
   },
   {
     "id": "T6-Q18",
@@ -19651,7 +22945,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Table KQL : AzureActivity · Opérateur de sélection des trois colonnes : project",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T6-Q22-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1034,
+        "height": 166,
+        "sourceWidth": 1404,
+        "sourceHeight": 1471
+      }
+    }
   },
   {
     "id": "T6-Q23",
@@ -19742,7 +23046,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Source pour les journaux invités via Azure Monitor Agent : VM1 only · Destination de ces journaux : Workspace1 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T6-Q24-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1077,
+        "height": 376,
+        "sourceWidth": 1404,
+        "sourceHeight": 1406
+      }
+    }
   },
   {
     "id": "T6-Q25",
@@ -19797,7 +23111,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Propriétaires effectifs de VM1 : User1 and User3 are · Utilisateurs pouvant créer une VM dans RG1 : User1 and User4",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source_clean/T6-Q25-clean.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1096,
+        "height": 913,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T6-Q26",
@@ -19842,7 +23166,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Role1 permet à son titulaire d’attribuer Role1 à un autre utilisateur. : Non · Role1 permet de déployer une nouvelle VM. : Oui · Role1 permet d’attribuer une adresse IP privée statique à la carte réseau de la VM. : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T6-Q26-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1047,
+        "height": 1109,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T6-Q27",
@@ -19883,7 +23217,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "VM1 peut accéder à storage1 en HTTPS. : Oui · VM2 peut se connecter en HTTPS à VM1. : Oui · NSG1 s’applique à toutes les VM de VNET1. : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T6-Q27-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1144,
+        "height": 1103,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T6-Q28",
@@ -19939,9 +23283,9 @@ window.AZ104_QUESTIONS = [
         false
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "User1 can sign in to VM1.",
+        "User2 can manage disks and disk snapshots of VM1.",
+        "User2 can manage disks and disk snapshots of VM3."
       ]
     },
     "assets": [
@@ -19958,7 +23302,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Non · Ligne 2 du tableau : Non · Ligne 3 du tableau : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T6-Q29-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1141,
+        "height": 719,
+        "sourceWidth": 1404,
+        "sourceHeight": 1374
+      }
+    }
   },
   {
     "id": "T6-Q30",
@@ -20001,8 +23355,8 @@ window.AZ104_QUESTIONS = [
     "category": "Storage",
     "domain": "Déployer et gérer les ressources de calcul Azure",
     "prompt": "You have an Azure subscription that contains a virtual machine name VM1.\n\nVM1 has an operating system disk named Disk1 and a data disk named Disk2.\n\nYou need to back up Disk2 by using Azure Backup.\n\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and\n\narrange them in the correct order.",
-    "solutionAnswer": "Étape 1 : Create an Azure Backup vault · Étape 2 : Create a backup policy and configure the backup · Étape 3 : Configure a managed identity",
-    "explanation": "Azure Disk Backup protège un managed disk dans un Backup vault, pas via une sauvegarde complète de VM. Il faut ensuite une policy de sauvegarde et l’identité gérée utilisée par le service pour accéder au disque/snapshots.",
+    "solutionAnswer": "Étape 1 : Create an Azure Backup vault · Étape 2 : Delegate permissions for the vault · Étape 3 : Create a backup policy and configure the backup",
+    "explanation": "Créez le Backup vault, déléguez à son identité managée les permissions nécessaires sur le disque et le groupe de snapshots, puis configurez la policy et la sauvegarde. Un Recovery Services vault n’est pas le coffre utilisé pour Azure Disk Backup.",
     "options": [],
     "answerIndices": [],
     "multi": false,
@@ -20011,15 +23365,36 @@ window.AZ104_QUESTIONS = [
       "rows": [
         {
           "label": "Étape 1",
+          "choices": [
+            "Configure a managed identity",
+            "Create an Azure Backup vault",
+            "Create a Recovery Services vault",
+            "Delegate permissions for the vault",
+            "Create a backup policy and configure the backup"
+          ],
           "expected": "Create an Azure Backup vault"
         },
         {
           "label": "Étape 2",
-          "expected": "Create a backup policy and configure the backup"
+          "choices": [
+            "Configure a managed identity",
+            "Create an Azure Backup vault",
+            "Create a Recovery Services vault",
+            "Delegate permissions for the vault",
+            "Create a backup policy and configure the backup"
+          ],
+          "expected": "Delegate permissions for the vault"
         },
         {
           "label": "Étape 3",
-          "expected": "Configure a managed identity"
+          "choices": [
+            "Configure a managed identity",
+            "Create an Azure Backup vault",
+            "Create a Recovery Services vault",
+            "Delegate permissions for the vault",
+            "Create a backup policy and configure the backup"
+          ],
+          "expected": "Create a backup policy and configure the backup"
         }
       ]
     },
@@ -20028,8 +23403,8 @@ window.AZ104_QUESTIONS = [
     ],
     "sources": [
       {
-        "title": "Restore Azure VMs",
-        "url": "https://learn.microsoft.com/en-us/azure/backup/backup-azure-arm-restore-vms"
+        "title": "Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/backup/backup-managed-disks"
       }
     ],
     "sourceScope": "theme",
@@ -20037,7 +23412,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Étape 1 : Create an Azure Backup vault · Étape 2 : Create a backup policy and configure the backup · Étape 3 : Configure a managed identity",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T6-Q31-1.jpg": {
+        "x": 116,
+        "y": 111,
+        "width": 1131,
+        "height": 165,
+        "sourceWidth": 1404,
+        "sourceHeight": 766
+      }
+    }
   },
   {
     "id": "T6-Q32",
@@ -20175,7 +23561,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "B. storage2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T6-Q35-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 776,
+        "height": 442,
+        "sourceWidth": 1404,
+        "sourceHeight": 1471
+      }
+    }
   },
   {
     "id": "T6-Q36",
@@ -20184,7 +23580,7 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "You have an Azure subscription that is linked to an Azure AD tenant. The tenant contains two users named User1 and User2.\n\nThe subscription contains the resources shown in the following table.\n\nThe subscription contains the alert rules shown in the following table.\n\nThe users perform the following action:\n\n• User1 creates a new virtual disk and attaches the disk to VM1\n\n• User2 creates a new resource tag and assigns the tag to RG1 and VM1\n\nWhich alert rules are triggered by each user? To answer, select the appropriate options in the answer area.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Sélection 1 : Only Alert2 is triggered · Sélection 2 : Alert1 and Alert2 are triggered",
+    "solutionAnswer": "User1 : Only Alert2 is triggered · User2 : Alert1 and Alert2 are triggered",
     "explanation": "Attacher le disque modifie VM1 : l’alerte scoped sur VM1 se déclenche. User2 modifie à la fois RG1 et VM1 avec des tags, ce qui produit des opérations administratives dans les deux scopes et déclenche les deux règles.",
     "options": [],
     "answerIndices": [],
@@ -20193,11 +23589,23 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "User1",
+          "choices": [
+            "No alert is triggered",
+            "Only Alert1 is triggered",
+            "Only Alert2 is triggered",
+            "Alert1 and Alert2 are triggered"
+          ],
           "expected": "Only Alert2 is triggered"
         },
         {
-          "label": "Sélection 2",
+          "label": "User2",
+          "choices": [
+            "No alert is triggered",
+            "Only Alert1 is triggered",
+            "Only Alert2 is triggered",
+            "Alert1 and Alert2 are triggered"
+          ],
           "expected": "Alert1 and Alert2 are triggered"
         }
       ]
@@ -20216,7 +23624,18 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Sélection 1 : Only Alert2 is triggered · Sélection 2 : Alert1 and Alert2 are triggered",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T6-Q36-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 993,
+        "height": 656,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T6-Q37",
@@ -20286,7 +23705,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "B. 2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T6-Q38-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1148,
+        "height": 546,
+        "sourceWidth": 1404,
+        "sourceHeight": 1373
+      }
+    }
   },
   {
     "id": "T6-Q39",
@@ -20376,9 +23805,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "If you create a resource group in Sub1 on August 11, 2022, Alert1 is listed in the Azure portal.",
+        "If you create a resource group in Sub1 on August 12, 2022, an email message is sent to admin1@contoso.com.",
+        "If you add a tag to RG1 on August 15, 2022, an email message is sent to admin1@contoso.com."
       ]
     },
     "assets": [
@@ -20395,7 +23824,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Oui · Ligne 2 du tableau : Non · Ligne 3 du tableau : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T6-Q41-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 820,
+        "height": 854,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T6-Q42",
@@ -20661,7 +24100,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "État « User response » de Alert1 actuellement Closed : can be changed to New or Acknowledged · État « User response » de Alert2 actuellement New : can be changed to Acknowledged or Closed",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T6-Q48-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1096,
+        "height": 718,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T6-Q49",
@@ -20670,7 +24119,7 @@ window.AZ104_QUESTIONS = [
     "category": "Governance / RBAC / Policy",
     "domain": "Surveiller et maintenir les ressources Azure",
     "prompt": "You create a Recovery Services vault backup policy named Policy1 as shown in the following exhibit:\n\nUse the drop-down menus to select the answer choice that completes each statement based on the information presented in the graphic.\n\nNOTE: Each correct selection is worth one point.",
-    "solutionAnswer": "Sélection 1 : 10 years · Sélection 2 : 36 months",
+    "solutionAnswer": "Backup on Sunday, March 1 : 10 years · Backup on Sunday, November 1 : 36 months",
     "explanation": "Lorsqu’un point de restauration correspond à plusieurs règles de rétention, la durée la plus longue s’applique. Le 1er mars correspond à la rétention annuelle de 10 ans ; le 1er novembre à la rétention mensuelle de 36 mois.",
     "options": [],
     "answerIndices": [],
@@ -20679,11 +24128,23 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "Backup on Sunday, March 1",
+          "choices": [
+            "30 days",
+            "10 weeks",
+            "36 months",
+            "10 years"
+          ],
           "expected": "10 years"
         },
         {
-          "label": "Sélection 2",
+          "label": "Backup on Sunday, November 1",
+          "choices": [
+            "30 days",
+            "10 weeks",
+            "36 months",
+            "10 years"
+          ],
           "expected": "36 months"
         }
       ]
@@ -20703,7 +24164,26 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Sélection 1 : 10 years · Sélection 2 : 36 months",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T6-Q49-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 812,
+        "height": 1661,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T6-Q49-2.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 1095,
+        "height": 106,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T6-Q50",
@@ -20725,9 +24205,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "VM1 can be backed up by using Policy1.",
+        "VM2 can be backed up by using Policy3.",
+        "VM2 can be backed up by using Policy2."
       ]
     },
     "assets": [
@@ -20744,7 +24224,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Oui · Ligne 2 du tableau : Non · Ligne 3 du tableau : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T6-Q50-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 785,
+        "height": 947,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T6-Q51",
@@ -20833,7 +24323,17 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Protection du conteneur cont1 : Backup1 only · Protection du partage share1 : Recovery1 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T6-Q52-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 896,
+        "height": 781,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    }
   },
   {
     "id": "T6-Q53",
@@ -21058,9 +24558,9 @@ window.AZ104_QUESTIONS = [
         true
       ],
       "labels": [
-        "Ligne 1 du tableau",
-        "Ligne 2 du tableau",
-        "Ligne 3 du tableau"
+        "VM1 can access contoso102.",
+        "VM2 can access contoso101.",
+        "VM2 can use a private IP address to access Azure Active Directory (Azure AD)."
       ]
     },
     "assets": [
@@ -21078,7 +24578,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Ligne 1 du tableau : Non · Ligne 2 du tableau : Oui · Ligne 3 du tableau : Oui",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "assetCrops": {
+      "assets/source/T6-Q59-1.jpg": {
+        "x": 116,
+        "y": 176,
+        "width": 1160,
+        "height": 953,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T6-Q59-2.jpg": {
+        "x": 117,
+        "y": 42,
+        "width": 1120,
+        "height": 1016,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T6-Q60",
@@ -21123,7 +24641,7 @@ window.AZ104_QUESTIONS = [
     "category": "Identity / Entra ID",
     "domain": "Gérer les identités et la gouvernance Azure",
     "prompt": "Introductory Info\nCase study -\n\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to complete each case. However,\n\nthere may be additional case studies and sections on this exam. You must manage your time to ensure that you are able to complete all questions\n\nincluded on this exam in the time provided.\n\nTo answer the questions included in a case study, you will need to reference information that is provided in the case study. Case studies might\n\ncontain exhibits and other resources that provide more information about the scenario that is described in the case study. Each question is\n\nindependent of the other questions in this case study.\n\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to make changes before you move to\n\nthe next section of the exam. After you begin a new section, you cannot return to this section.\n\nTo start the case study -\n\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore the content of the case study\n\nbefore you answer the questions. Clicking these buttons displays information such as business requirements, existing environment, and problem\n\nstatements. If the case study has an All Information tab, note that the information displayed is identical to the information displayed on the\n\nsubsequent tabs. When you are ready to answer a question, click the Question button to return to the question.\n\nOverview -\n\nContoso, Ltd. is a manufacturing company that has offices worldwide. Contoso works with partner organizations to bring products to market.\n\nContoso products are manufactured by using blueprint files that the company authors and maintains.\n\nExisting Environment -\n\nCurrently, Contoso uses multiple types of servers for business operations, including the following:\n\nFile servers\n\nDomain controllers\n\nMicrosoft SQL Server servers\n\nYour network contains an Active Directory forest named contoso.com. All servers and client computers are joined to Active Directory.\n\nYou have a public-facing application named App1. App1 is comprised of the following three tiers:\n\nA SQL database\n\nA web front end\n\nA processing middle tier -\n\nEach tier is comprised of five virtual machines. Users access the web front end by using HTTPS only.\n\nRequirements -\n\nPlanned Changes -\n\nContoso plans to implement the following changes to the infrastructure:\n\nMove all the tiers of App1 to Azure.\n\nMove the existing product blueprint files to Azure Blob storage.\n\nCreate a hybrid directory to support an upcoming Microsoft 365 migration project.\n\nTechnical Requirements -\n\nContoso must meet the following technical requirements:\n\nMove all the virtual machines for App1 to Azure.\n\nMinimize the number of open ports between the App1 tiers.\n\nEnsure that all the virtual machines for App1 are protected by backups.\n\nCopy the blueprint files to Azure over the Internet.\n\nEnsure that the blueprint files are stored in the archive storage tier.\n\nEnsure that partner access to the blueprint files is secured and temporary.\n\nPrevent user passwords or hashes of passwords from being stored in Azure.\n\nUse unmanaged standard storage for the hard disks of the virtual machines.\n\nEnsure that when users join devices to Azure Active Directory (Azure AD), the users use a mobile phone to verify their identity.\n\nMinimize administrative effort whenever possible.\n\nUser Requirements -\n\nContoso identifies the following requirements for users:\n\nEnsure that only users who are part of a group named Pilot can join devices to Azure AD.\n\nDesignate a new user named Admin1 as the service admin for the Azure subscription.\n\nAdmin1 must receive email alerts regarding service outages.\n\nEnsure that a new user named User3 can create network objects for the Azure subscription.\n\nQuestion\nHOTSPOT -\n\nYou need to configure the Device settings to meet the technical requirements and the user requirements.\n\nWhich two settings should you modify? To answer, select the appropriate settings in the answer area.",
-    "solutionAnswer": "Sélection 1 : Selected - Pilot group · Sélection 2 : Yes",
+    "solutionAnswer": "Users may join devices to Azure AD : Selected - Pilot group · Require MFA to join devices : Yes",
     "explanation": "Le besoin limite l’inscription Azure AD au groupe Pilot : « Users may join devices » doit donc être réglé sur Selected avec Pilot. L’exigence de vérification par téléphone lors du join est satisfaite en activant MFA pour l’opération de jonction.",
     "options": [],
     "answerIndices": [],
@@ -21132,11 +24650,20 @@ window.AZ104_QUESTIONS = [
       "kind": "rows",
       "rows": [
         {
-          "label": "Sélection 1",
+          "label": "Users may join devices to Azure AD",
+          "choices": [
+            "All",
+            "Selected - Pilot group",
+            "None"
+          ],
           "expected": "Selected - Pilot group"
         },
         {
-          "label": "Sélection 2",
+          "label": "Require MFA to join devices",
+          "choices": [
+            "Yes",
+            "No"
+          ],
           "expected": "Yes"
         }
       ]
@@ -21156,7 +24683,26 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Sélection 1 : Selected - Pilot group · Sélection 2 : Yes",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": "2026-10-08",
+    "autoScorable": true,
+    "assetCrops": {
+      "assets/source/T7-Q1-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1166,
+        "height": 1700,
+        "sourceWidth": 1404,
+        "sourceHeight": 1853
+      },
+      "assets/source/T7-Q1-2.jpg": {
+        "x": 116,
+        "y": 44,
+        "width": 1005,
+        "height": 478,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T7-Q2",
@@ -21198,7 +24744,28 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "D. From the Subscriptions blade, select the subscription, and then modify the Properties",
     "answerRevision": true,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T7-Q2-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1166,
+        "height": 1796,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T7-Q2-2.jpg": {
+        "x": 116,
+        "y": 77,
+        "width": 738,
+        "height": 321,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    },
+    "answerAreaAssets": [
+      "assets/source/T7-Q2-3.jpg"
+    ]
   },
   {
     "id": "T8-Q1",
@@ -21264,7 +24831,33 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Coffres Recovery Services (trois régions) : 3 · Stratégies (une VM et une Azure Files par coffre) : 6",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T8-Q1-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1166,
+        "height": 1592,
+        "sourceWidth": 1404,
+        "sourceHeight": 1853
+      },
+      "assets/source/T8-Q1-2.jpg": {
+        "x": 116,
+        "y": 59,
+        "width": 1162,
+        "height": 1475,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      },
+      "assets/source/T8-Q1-3.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T8-Q2",
@@ -21387,7 +24980,33 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Rôle de User1 pour définir une initiative : Resource Policy Contributor for Sub1 · Rôle de User4 pour assigner une initiative à RG2 : Resource Policy Contributor for RG2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T9-Q1-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1166,
+        "height": 1592,
+        "sourceWidth": 1404,
+        "sourceHeight": 1853
+      },
+      "assets/source/T9-Q1-2.jpg": {
+        "x": 116,
+        "y": 59,
+        "width": 1119,
+        "height": 1510,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      },
+      "assets/source/T9-Q1-3.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T9-Q2",
@@ -21425,7 +25044,28 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "A. On storage2, enable identity-based access for the file shares.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T9-Q2-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1166,
+        "height": 1592,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T9-Q2-2.jpg": {
+        "x": 116,
+        "y": 47,
+        "width": 1016,
+        "height": 1457,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    },
+    "answerAreaAssets": [
+      "assets/source/T9-Q2-3.jpg"
+    ]
   },
   {
     "id": "T10-Q1",
@@ -21462,7 +25102,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "D. a Recovery Services vault",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T10-Q1-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1166,
+        "height": 1700,
+        "sourceWidth": 1404,
+        "sourceHeight": 1853
+      },
+      "assets/source/T10-Q1-2.jpg": {
+        "x": 116,
+        "y": 44,
+        "width": 1005,
+        "height": 452,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T10-Q2",
@@ -21499,7 +25157,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "B. Use Azure Storage Explorer to copy the files.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T10-Q2-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1172,
+        "height": 1869,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T10-Q2-2.jpg": {
+        "x": 116,
+        "y": 77,
+        "width": 738,
+        "height": 321,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T10-Q3",
@@ -21542,7 +25218,28 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Un compte prenant en charge Azure Blob est nécessaire pour archiver les plans. : Oui · Un compte prenant en charge Azure Table est imposé par les exigences. : Non · Un compte prenant en charge Azure Files est imposé par les exigences. : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T10-Q3-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1172,
+        "height": 1869,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T10-Q3-2.jpg": {
+        "x": 116,
+        "y": 77,
+        "width": 758,
+        "height": 380,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    },
+    "answerAreaAssets": [
+      "assets/source/T10-Q3-3.jpg"
+    ]
   },
   {
     "id": "T11-Q1",
@@ -21607,7 +25304,33 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Comptes où créer container1 avec niveau Cool : storage2 and storage3 only · Comptes où créer share1 avec niveau Cool : storage2 only",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T11-Q1-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1166,
+        "height": 1592,
+        "sourceWidth": 1404,
+        "sourceHeight": 1853
+      },
+      "assets/source/T11-Q1-2.jpg": {
+        "x": 116,
+        "y": 59,
+        "width": 1016,
+        "height": 1478,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      },
+      "assets/source/T11-Q1-3.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T11-Q2",
@@ -21662,7 +25385,33 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Type du nouveau compte source storage5 : StorageV2 (general purpose v2) · Compte cible pour la réplication d’objets : Storage2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T11-Q2-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1170,
+        "height": 1665,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T11-Q2-2.jpg": {
+        "x": 116,
+        "y": 59,
+        "width": 1162,
+        "height": 1510,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      },
+      "assets/source/T11-Q2-3.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T11-Q3",
@@ -21700,7 +25449,28 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "storage2",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T11-Q3-1.jpg": {
+        "x": 116,
+        "y": 6,
+        "width": 1170,
+        "height": 1665,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T11-Q3-2.jpg": {
+        "x": 116,
+        "y": 59,
+        "width": 1157,
+        "height": 1445,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    },
+    "answerAreaAssets": [
+      "assets/source/T11-Q3-3.jpg"
+    ]
   },
   {
     "id": "T12-Q1",
@@ -21739,7 +25509,28 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "E. IP flow verify in Azure Network Watcher",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T12-Q1-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1166,
+        "height": 1725,
+        "sourceWidth": 1404,
+        "sourceHeight": 1853
+      },
+      "assets/source/T12-Q1-2.jpg": {
+        "x": 116,
+        "y": 44,
+        "width": 1002,
+        "height": 614,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    },
+    "answerAreaAssets": [
+      "assets/source/T12-Q1-3.jpg"
+    ]
   },
   {
     "id": "T13-Q1",
@@ -21776,7 +25567,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "B. Establish peering between VNET1 and VNET3.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T13-Q1-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1166,
+        "height": 1725,
+        "sourceWidth": 1404,
+        "sourceHeight": 1853
+      },
+      "assets/source/T13-Q1-2.jpg": {
+        "x": 116,
+        "y": 44,
+        "width": 1002,
+        "height": 582,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T13-Q2",
@@ -21832,7 +25641,28 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Depuis Azure : Create a virtual network gateway and a local network gateway · Dans le bureau de New York : Configure a site-to-site VPN connection",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T13-Q2-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1166,
+        "height": 1757,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T13-Q2-2.jpg": {
+        "x": 116,
+        "y": 44,
+        "width": 1002,
+        "height": 575,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    },
+    "answerAreaAssets": [
+      "assets/source/T13-Q2-3.jpg"
+    ]
   },
   {
     "id": "T14-Q1",
@@ -21884,7 +25714,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Nombre de réseaux virtuels : 1 · Nombre de sous-réseaux par réseau : 3",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T14-Q1-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1166,
+        "height": 1700,
+        "sourceWidth": 1404,
+        "sourceHeight": 1853
+      },
+      "assets/source/T14-Q1-2.jpg": {
+        "x": 116,
+        "y": 44,
+        "width": 1005,
+        "height": 510,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T14-Q2",
@@ -21922,7 +25770,28 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "A. Create an incoming security rule for port 443 from the Internet. Associate the NSG to the subnet that contains the web servers.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T14-Q2-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1166,
+        "height": 1796,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T14-Q2-2.jpg": {
+        "x": 116,
+        "y": 77,
+        "width": 738,
+        "height": 386,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    },
+    "answerAreaAssets": [
+      "assets/source/T14-Q2-3.jpg"
+    ]
   },
   {
     "id": "T15-Q1",
@@ -21965,7 +25834,33 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "VM1 peut ouvrir une session RDP vers VM2. : Oui · VM2 peut envoyer un ping à VM3. : Oui · VM2 peut ouvrir une session RDP vers VM3. : Non",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T15-Q1-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1166,
+        "height": 1592,
+        "sourceWidth": 1404,
+        "sourceHeight": 1853
+      },
+      "assets/source/T15-Q1-2.jpg": {
+        "x": 116,
+        "y": 59,
+        "width": 1016,
+        "height": 1478,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      },
+      "assets/source/T15-Q1-3.jpg": {
+        "x": 117,
+        "y": 44,
+        "width": 398,
+        "height": 35,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T15-Q3",
@@ -22002,7 +25897,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "A. Connect VM2 to VNET1/Subnet1.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T15-Q3-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1166,
+        "height": 1592,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T15-Q3-2.jpg": {
+        "x": 116,
+        "y": 59,
+        "width": 1016,
+        "height": 1445,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T15-Q4",
@@ -22039,7 +25952,20 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "D. Establish peering between VNET1 and VNET3.",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T15-Q4-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 868,
+        "height": 107,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      }
+    },
+    "answerAreaAssets": [
+      "assets/source/T15-Q4-2.jpg"
+    ]
   },
   {
     "id": "T16-Q1",
@@ -22097,7 +26023,25 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "Cmdlet PowerShell : Get-AzRoleDefinition · Conversion pour réutiliser la définition : ConvertTo-Json",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": "2026-09-24"
+    "reviewedAt": "2026-09-24",
+    "assetCrops": {
+      "assets/source/T16-Q1-1.jpg": {
+        "x": 116,
+        "y": 78,
+        "width": 1166,
+        "height": 1725,
+        "sourceWidth": 1404,
+        "sourceHeight": 1853
+      },
+      "assets/source/T16-Q1-2.jpg": {
+        "x": 116,
+        "y": 44,
+        "width": 1002,
+        "height": 640,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   },
   {
     "id": "T16-Q2",
@@ -22134,6 +26078,24 @@ window.AZ104_QUESTIONS = [
     "originalAnswer": "B. dynamic groups and conditional access policies",
     "answerRevision": false,
     "sourceConflict": false,
-    "reviewedAt": null
+    "reviewedAt": null,
+    "assetCrops": {
+      "assets/source/T16-Q2-1.jpg": {
+        "x": 116,
+        "y": 79,
+        "width": 1166,
+        "height": 1757,
+        "sourceWidth": 1404,
+        "sourceHeight": 1931
+      },
+      "assets/source/T16-Q2-2.jpg": {
+        "x": 116,
+        "y": 44,
+        "width": 1095,
+        "height": 549,
+        "sourceWidth": 1404,
+        "sourceHeight": 1986
+      }
+    }
   }
 ];

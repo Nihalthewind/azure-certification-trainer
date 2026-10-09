@@ -9,6 +9,7 @@
   const {questionTransition,reveal,focusTransition}=await import('./src/ui/integration/motion.js');
   const {installDocumentReader}=await import('./src/ui/patterns/document-reader/document-reader.js');
   const documentReader=installDocumentReader();
+  const {createSourceIllustration,questionIllustrations}=await import('./src/ui/patterns/document-reader/source-illustration.js');
   const clean=x=>String(x??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const norm=x=>String(x??'').toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
   const normAnswer=x=>norm(x).replace(/[.,;:()\[\]{}'"`]/g,'').replace(/\s+/g,' ').trim();
@@ -641,9 +642,9 @@
         title:q.solutionAnswer||'Comparez avec la correction source.',
         context,
         takeaway:q.takeaway||q.keyPoint||'',
-        sourceDetail:q.sourceExplanation||'',
+        sourceDetail:q.sourceExplanation===context?'':q.sourceExplanation||'',
         provenanceNotes,
-        images:q.solutionAssets||[],
+        images:q.nativeCorrection?[]:q.solutionAssets||[],
         sources:docs,
         pdfSource,
         selfGrade:reference,
@@ -656,7 +657,7 @@
       return;
     }
 
-    const docs=(q.sources||[]).map(s=>`<a href="${clean(s.url)}" target="_blank" rel="noopener noreferrer">${clean(s.title||s.url)} <span>↗</span></a>`).join('');const solutionPics=imageGrid(q.solutionAssets,'ILLUSTRATION DE CORRECTION');const pdfLink=sourceLink(q,true);const sourceBlock=(docs||pdfLink)?`<div class="source-list"><div class="source-heading">DOCUMENTATION / SOURCE</div>${docs}${pdfLink}</div>`:'';const context=q.pedagogicalContext||q.explanation||'';const notes=UI.mergeLearningNotes?UI.mergeLearningNotes(context,q.takeaway||q.keyPoint||''):[context,q.takeaway||q.keyPoint||''].filter(Boolean);const contextBlock=notes.length?`<div class="answer-context"><div class="answer-context-title">Pourquoi</div>${notes.map(value=>'<p>'+clean(value)+'</p>').join('')}</div>`:'';const sourceDetail=q.sourceExplanation?`<details class="source-detail"><summary>Détail du support source</summary><p>${clean(q.sourceExplanation)}</p></details>`:'';
+    const docs=(q.sources||[]).map(s=>`<a href="${clean(s.url)}" target="_blank" rel="noopener noreferrer">${clean(s.title||s.url)} <span>↗</span></a>`).join('');const solutionPics=imageGrid(q.nativeCorrection?[]:q.solutionAssets,'ILLUSTRATION DE CORRECTION');const pdfLink=sourceLink(q,true);const sourceBlock=(docs||pdfLink)?`<div class="source-list"><div class="source-heading">DOCUMENTATION / SOURCE</div>${docs}${pdfLink}</div>`:'';const context=q.pedagogicalContext||q.explanation||'';const notes=UI.mergeLearningNotes?UI.mergeLearningNotes(context,q.takeaway||q.keyPoint||''):[context,q.takeaway||q.keyPoint||''].filter(Boolean);const contextBlock=notes.length?`<div class="answer-context"><div class="answer-context-title">Pourquoi</div>${notes.map(value=>'<p>'+clean(value)+'</p>').join('')}</div>`:'';const sourceDetail=q.sourceExplanation&&q.sourceExplanation!==context?`<details class="source-detail"><summary>Détail du support source</summary><p>${clean(q.sourceExplanation)}</p></details>`:'';
     if(typeof r.correct!=='boolean'){
       el.className='feedback is-reference';el.innerHTML=`<div class="feedback-kicker">◎ AUTO-ÉVALUATION</div><h3>${clean(q.solutionAnswer||'Comparez avec la correction source.')}</h3>${contextBlock}${sourceDetail}${solutionPics}${sourceBlock}<div class="self-grade"><span>Votre réponse correspond-elle à la correction ?</span><div><button id="gradeGood" class="soft-button">✓ Oui, juste</button><button id="gradeBad" class="soft-button">✕ Non, à revoir</button></div></div><button id="tryAgain" class="soft-button">Refaire cette question</button>`;
       $('#gradeGood').onclick=()=>{scheduleRecord(q,r,true);render()};$('#gradeBad').onclick=()=>{scheduleRecord(q,r,false);render()};$('#tryAgain').onclick=retry;return;
@@ -740,7 +741,8 @@
     $('#questionIndex').textContent=`Question ${cursor+1} / ${n} · `+(isCase?`ÉTUDE DE CAS ${caseIndex+1}/${state.exam.caseStudyIds.length}`:isMultiContext?'CONTEXTES MULTIPLES':(q.category||'QUESTION'));
     $('#questionTitle').textContent=q.options?.length?(q.multi?'Choisissez les bonnes réponses':'Choisissez la bonne réponse'):(q.visualSpec?.kind==='yn'?'Évaluez les propositions':q.visualSpec?.kind==='self'?'Formulez votre réponse':'Complétez les sélections');
     $('#caseContext').innerHTML=q.caseContext?`<details class="case-context" ${isCase?'open':''}><summary>Contexte de l’étude de cas</summary><div>${clean(q.caseContext)}</div></details>`:'';$('#questionPrompt').textContent=q.prompt;updateContentLanguageNotice();
-    const hasAssets=q.assets?.length,openAsset=hasAssets&&(!q.options?.length||['HOTSPOT','DRAG DROP'].includes(q.category));$('#figures').innerHTML=hasAssets?`<details class="exhibit" ${openAsset?'open':''}><summary>Voir l’illustration source (${q.assets.length})</summary><div class="figure-grid">${q.assets.map((path,i)=>`<a href="${clean(path)}" data-reader><img src="${clean(path)}" alt="Illustration ${i+1} de ${clean(q.id)}" loading="lazy"></a>`).join('')}</div></details>`:sourceLink(q,false);
+    const illustrations=questionIllustrations(q),hasAssets=illustrations.length,openAsset=hasAssets&&(!q.options?.length||['HOTSPOT','DRAG DROP'].includes(q.category));$('#figures').innerHTML=hasAssets?`<details class="exhibit" ${openAsset?'open':''}><summary>Voir l’illustration source (${hasAssets})</summary><div class="figure-grid"></div></details>`:sourceLink(q,false);
+    if(hasAssets)illustrations.forEach(({url,crop},i)=>{const link=document.createElement('a');link.href=url;link.setAttribute('data-reader','');if(crop)link.dataset.readerCrop=JSON.stringify(crop);link.append(createSourceIllustration({url,crop,label:`Illustration source · ${q.id}${hasAssets>1?` (${i+1}/${hasAssets})`:''}`}));$('#figures .figure-grid').append(link);});
     answerChoices(q,r,d);feedback(q,r);$('#submit').disabled=!!r||!answerComplete(q,d);$('#submit').textContent=mode==='exam'?'Enregistrer et avancer':'Valider ma réponse';$('#prev').disabled=cursor===0;$('#next').disabled=cursor===n-1&&(mode!=='quick'||!r);$('#next').textContent=mode==='quick'&&cursor===n-1?'Terminer la session':'Question suivante';$('#submit').hidden=!!r;$('#prev').hidden=!r&&mode!=='exam';$('#next').hidden=!r&&mode!=='exam';$('#next').classList.toggle('ui-button--primary',!!r);$('#next').classList.toggle('ui-button--secondary',!r);$('#questionCard').dataset.phase=r?'validated':'answering';updateMobileActions();if(mode==='exam'){state.exam.index=cursor;save();updateClock()}else $('#sessionClock').textContent='';
   }
   function submit(skipped=false){const q=list[cursor];if(!q||record(q))return;const d=skipped?{}:draft(q);if(!skipped&&!answerComplete(q,d))return;const scored=skipped?false:score(q,d),result={done:true,correct:scored,selected:d.selected||[],values:d.values||{},text:d.text||'',skipped,ts:now(),pendingSelfGrade:scored===null};if(mode==='exam'){state.exam.answers[q.id]=result;save();if(cursor<list.length-1){cursor++;render();focusCurrentQuestion()}else finishExam();return}if(scored===null){state.answers[q.id]=result;delete state.drafts[q.id];if(state.retrying)delete state.retrying[q.id];save();render();UI.scrollFeedbackAfterRender?.();toast('Comparez maintenant votre réponse avec la correction puis auto-évaluez-vous.')}else{scheduleRecord(q,result,scored);render();UI.scrollFeedbackAfterRender?.();if(skipped)toast('La réponse et sa documentation sont affichées sous la question.')}}
